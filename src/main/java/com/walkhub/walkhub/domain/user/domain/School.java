@@ -1,6 +1,7 @@
-package com.walkhub.walkhub.domain.user.entity;
+package com.walkhub.walkhub.domain.user.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +23,11 @@ public class School {
 
     @Column
     private String logoImage;
+
+    @Builder
+    public School(String agencyCode, String name, String logoImage) {
+        this.agencyCode = agencyCode;
+        this.name = name;
+        this.logoImage = logoImage;
+    }
 }
