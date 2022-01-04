@@ -16,7 +16,7 @@ public class School {
 
     @Id
     @Column(length = 7, nullable = false)
-    private Character agency_Code;
+    private String agencyCode;
 
     @Column(length = 20, nullable = false)
     private String name;
@@ -25,8 +25,8 @@ public class School {
     private String logoImage;
 
     @Builder
-    public School(Character agency_Code, String name, String logoImage) {
-        this.agency_Code = agency_Code;
+    public School(String agencyCode, String name, String logoImage) {
+        this.agencyCode = agencyCode;
         this.name = name;
         this.logoImage = logoImage;
     }
