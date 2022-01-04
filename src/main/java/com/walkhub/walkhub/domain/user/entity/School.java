@@ -20,6 +20,6 @@ public class School {
     @Column(length = 20, nullable = false)
     private String name;
 
-    @Column()
+    @Column
     private String logoImage;
 }
