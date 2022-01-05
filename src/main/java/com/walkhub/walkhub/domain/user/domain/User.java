@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 
+import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
 import com.walkhub.walkhub.domain.user.domain.type.Sex;
 import com.walkhub.walkhub.global.enums.Authority;
 import lombok.AccessLevel;
@@ -54,11 +55,8 @@ public class User {
 	@Column(nullable = false)
 	private boolean isMeasuring;
 
-	@Column(columnDefinition = "TINYINT unsigned")
-	private Integer weight;
-
-	@Digits(integer = 3, fraction = 1)
-	private BigDecimal height;
+	@Embedded
+	private HealthInfo healthInfo;
 
 	@Column(columnDefinition = "char(1)")
 	@Enumerated(EnumType.STRING)
@@ -90,8 +88,7 @@ public class User {
 		this.group = group;
 		this.school = school;
 		this.isMeasuring = isMeasuring;
-		this.weight = weight;
-		this.height = height;
+		this.healthInfo = new HealthInfo(weight, height);
 		this.sex = sex;
 		this.birthday = birthday;
 		this.badge = badge;
