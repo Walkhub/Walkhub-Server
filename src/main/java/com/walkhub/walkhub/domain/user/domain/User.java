@@ -53,7 +53,7 @@ public class User {
 
 	@ColumnDefault("0")
 	@Column(nullable = false)
-	private boolean isMeasuring;
+	private Boolean isMeasuring;
 
 	@Embedded
 	private HealthInfo healthInfo;

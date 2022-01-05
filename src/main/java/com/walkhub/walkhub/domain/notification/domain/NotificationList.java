@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -24,7 +25,9 @@ public class NotificationList {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private boolean isRead;
+    @ColumnDefault("0")
+    @Column(nullable = false)
+    private Boolean isRead;
 
     @Builder
     public NotificationList(Notification notificationId, User userId) {
