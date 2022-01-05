@@ -54,12 +54,12 @@ public class Exercise extends BaseTimeEntity {
         this.goalType = goalType;
     }
 
-    @Builder
-    public Exercise(Integer walkCount, Integer distance, Integer calorie) {
+    public Exercise closeExercise(Integer walkCount, Integer distance, Integer calorie) {
         this.walkCount = walkCount;
         this.distance = distance;
         this.calorie = calorie;
         this.endAt = LocalDateTime.now();
+        return this;
     }
 
 }
