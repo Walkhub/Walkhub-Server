@@ -26,7 +26,7 @@ public class Exercise extends BaseTimeEntity {
     private Integer walkCount;
 
     @Column(nullable = false)
-    private LocalDateTime endTime;
+    private LocalDateTime endAt;
 
     @ColumnDefault("0")
     @Column(nullable = false)
@@ -55,11 +55,11 @@ public class Exercise extends BaseTimeEntity {
     }
 
     @Builder
-    public Exercise(Integer walkCount, Integer distance, Integer calorie, LocalDateTime endTime) {
+    public Exercise(Integer walkCount, Integer distance, Integer calorie) {
         this.walkCount = walkCount;
         this.distance = distance;
         this.calorie = calorie;
-        this.endTime = endTime;
+        this.endAt = LocalDateTime.now();
     }
 
 }
