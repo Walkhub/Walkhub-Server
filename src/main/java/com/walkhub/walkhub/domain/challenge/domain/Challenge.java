@@ -47,7 +47,7 @@ public class Challenge {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Builder()
+    @Builder
     public Challenge(String name, String content, Long goal, String award,
                      LocalDateTime createAt, LocalDateTime endAt, Scope scope, User user) {
         this.name = name;
