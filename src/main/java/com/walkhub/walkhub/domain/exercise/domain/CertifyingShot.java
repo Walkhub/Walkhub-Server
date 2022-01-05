@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.domain.exercise.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,5 +22,11 @@ public class CertifyingShot {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exercise_id", nullable = false)
     private Exercise exercise;
+
+    @Builder
+    public CertifyingShot(String photo, Exercise exercise) {
+        this.photo = photo;
+        this.exercise = exercise;
+    }
 
 }
