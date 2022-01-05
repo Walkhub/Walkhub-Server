@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,15 +14,19 @@ import javax.persistence.IdClass;
 public class NotificationList {
 
     @Id
-    private Integer notificationId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "notification_id")
+    private Notification notificationId;
 
     @Id
-    private Integer userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User userId;
 
     private boolean isRead;
 
     @Builder
-    public NotificationList(Integer notificationId, Integer userId) {
+    public NotificationList(Notification notificationId, User userId) {
         this.notificationId = notificationId;
         this.userId = userId;
         this.isRead = false;
