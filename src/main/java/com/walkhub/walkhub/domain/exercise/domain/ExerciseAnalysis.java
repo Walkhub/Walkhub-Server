@@ -36,12 +36,13 @@ public class ExerciseAnalysis {
 
     @Builder
     public ExerciseAnalysis(Integer calorie, Integer walkCount,
-                            Integer distance, LocalDateTime date) {
+                            Integer distance, LocalDateTime date, User user) {
 
         this.calorie = calorie;
         this.walkCount = walkCount;
         this.distance = distance;
         this.date = date;
+        this.user = user;
     }
 
 }
