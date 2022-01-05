@@ -22,11 +22,11 @@ public class Badge {
 	@Column(length = 20, nullable = false)
 	private String name;
 
-	private String Image;
+	private String image;
 
 	@Builder
 	public Badge(String name, String image) {
 		this.name = name;
-		this.Image = image;
+		this.image = image;
 	}
 }
