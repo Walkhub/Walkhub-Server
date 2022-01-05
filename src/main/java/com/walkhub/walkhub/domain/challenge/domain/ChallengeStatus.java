@@ -16,19 +16,26 @@ public class ChallengeStatus {
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "challenge_id", nullable = false)
+    @JoinColumn(name = "challenge_id")
     private Challenge challenge;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(columnDefinition = "BIT(1)")
+    @Column(columnDefinition = "BIT(1)", nullable = false)
     private Boolean isSuccess;
 
     @Builder
-    public ChallengeStatus(Boolean isSuccess) {
-        this.isSuccess = isSuccess;
+    public ChallengeStatus(Challenge challenge, User user) {
+        this.challenge = challenge;
+        this.user = user;
+        this.isSuccess = false;
     }
+
+    public void isSuccess() {
+        this.isSuccess = true;
+    }
+
 }
