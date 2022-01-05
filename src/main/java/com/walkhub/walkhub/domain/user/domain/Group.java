@@ -20,7 +20,7 @@ public class Group {
     private Integer classNum;
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "agency_code")
     private School school;
 
