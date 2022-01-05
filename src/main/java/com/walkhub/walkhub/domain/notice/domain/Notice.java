@@ -1,8 +1,8 @@
 package com.walkhub.walkhub.domain.notice.domain;
 
+import com.walkhub.walkhub.domain.notice.domain.type.Scope;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
-import com.walkhub.walkhub.global.enums.Scope;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
