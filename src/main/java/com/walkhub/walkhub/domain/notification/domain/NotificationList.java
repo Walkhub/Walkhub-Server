@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.notification.domain;
 
+import com.walkhub.walkhub.domain.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
