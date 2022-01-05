@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.domain.exercise.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,5 +30,12 @@ public class Location {
     @Column(nullable = false)
     @Digits(integer = 3, fraction = 8)
     private BigDecimal longitude;
+
+    @Builder
+    public Location(Exercise exercise, BigDecimal latitude, BigDecimal longitude) {
+        this.exercise = exercise;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
 }
