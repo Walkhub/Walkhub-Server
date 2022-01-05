@@ -1,17 +1,11 @@
 package com.walkhub.walkhub.domain.user.domain;
 
 import java.math.BigDecimal;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
+
+import com.walkhub.walkhub.domain.user.domain.type.Sex;
+import com.walkhub.walkhub.global.enums.Authority;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,7 +36,8 @@ public class User {
 	private String profileImage;
 
 	@Column(columnDefinition = "char(4)", nullable = false)
-	private String authority;
+	@Enumerated(EnumType.STRING)
+	private Authority authority;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({
@@ -66,7 +61,8 @@ public class User {
 	private BigDecimal height;
 
 	@Column(columnDefinition = "char(1)")
-	private String sex;
+	@Enumerated(EnumType.STRING)
+	private Sex sex;
 
 	@Column(columnDefinition = "char(8)")
 	private String birthday;
@@ -81,9 +77,9 @@ public class User {
 
 	@Builder
 	public User(Long id, String accountId, String password, String phoneNumber, String name,
-		String profileImage, String authority, Group group, School school, boolean isMeasuring,
-		Integer weight, BigDecimal height, String sex, String birthday, Badge badge,
-		String webDeviceToken, String appDeviceToken) {
+				String profileImage, Authority authority, Group group, School school, boolean isMeasuring,
+				Integer weight, BigDecimal height, Sex sex, String birthday, Badge badge,
+				String webDeviceToken, String appDeviceToken) {
 		this.id = id;
 		this.accountId = accountId;
 		this.password = password;
