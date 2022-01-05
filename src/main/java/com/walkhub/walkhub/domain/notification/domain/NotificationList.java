@@ -16,19 +16,19 @@ public class NotificationList {
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "notification_id")
-    private Notification notificationId;
+    private Notification notification;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     private boolean isRead;
 
     @Builder
     public NotificationList(Notification notificationId, User userId) {
-        this.notificationId = notificationId;
-        this.userId = userId;
+        this.notification = notificationId;
+        this.user = userId;
         this.isRead = false;
     }
 
