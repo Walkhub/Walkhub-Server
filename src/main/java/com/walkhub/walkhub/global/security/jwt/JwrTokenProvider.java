@@ -1,5 +1,7 @@
 package com.walkhub.walkhub.global.security.jwt;
 
+import com.walkhub.walkhub.global.exception.ExpiredJwtException;
+import com.walkhub.walkhub.global.exception.InvalidJwtException;
 import com.walkhub.walkhub.global.security.auth.AuthDetailsService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -11,9 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -24,7 +24,7 @@ public class JwrTokenProvider {
 
     public String generateAccessToken(String id) {
         return Jwts.builder()
-                .signWith(SignatureAlgorithm.HS256, getSecretKey())
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .setHeaderParam("typ", "JWT")
                 .setSubject(id)
                 .claim("type", "access_token")
@@ -36,7 +36,7 @@ public class JwrTokenProvider {
 
     public String generateRefreshToken(String id) {
         return Jwts.builder()
-                .signWith(SignatureAlgorithm.HS256, getSecretKey())
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .setHeaderParam("typ", "JWT")
                 .setSubject(id)
                 .claim("type", "refresh_token")
@@ -65,18 +65,21 @@ public class JwrTokenProvider {
     }
 
     private Claims getTokenBody(String token) {
-        return Jwts.parser().setSigningKey(getSecretKey())
-                .parseClaimsJws(token).getBody();
+
+        try {
+            return Jwts.parser().setSigningKey(jwtProperties.getSecretKey())
+                    .parseClaimsJws(token).getBody();
+        }catch (ExpiredJwtException e) {
+            throw ExpiredJwtException.EXCEPTION;
+        }catch (Exception e) {
+            throw InvalidJwtException.EXCEPTION;
+        }
     }
 
     private String getTokenSubject(String token) {
         return getTokenBody(token).getSubject();
     }
 
-    private String getSecretKey() {
-        return Base64.getEncoder().encodeToString(jwtProperties.getSecretKey()
-                .getBytes());
-    }
 }
 
 
