@@ -1,9 +1,19 @@
 package com.walkhub.walkhub.global.security.jwt;
 
 import com.walkhub.walkhub.global.security.auth.AuthDetailsService;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Base64;
+import java.util.Date;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -14,5 +24,59 @@ public class JwrTokenProvider {
 
     public String generateAccessToken(String id) {
         return Jwts.builder()
+                .signWith(SignatureAlgorithm.HS256, getSecretKey())
+                .setHeaderParam("typ", "JWT")
+                .setSubject(id)
+                .claim("type", "access_token")
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getAccessExp() * 1000))
+                .compact();
+
+    }
+
+    public String generateRefreshToken(String id) {
+        return Jwts.builder()
+                .signWith(SignatureAlgorithm.HS256, getSecretKey())
+                .setHeaderParam("typ", "JWT")
+                .setSubject(id)
+                .claim("type", "refresh_token")
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getRefreshExp() * 1000))
+                .compact();
+    }
+
+    public String resolveToken(HttpServletRequest request) {
+        String bearer = request.getHeader(jwtProperties.getHeader());
+        if(bearer != null && bearer.startsWith(jwtProperties.getPrefix())
+                && bearer.length() > jwtProperties.getPrefix().length() + 1)
+            return bearer.substring(jwtProperties.getPrefix().length() + 1);
+        return null;
+    }
+
+    public boolean validateToken(String token) {
+        return getTokenBody(token)
+                .getExpiration().after(new Date());
+    }
+
+    public Authentication authentication(String token) {
+        UserDetails userDetails = authDetailsService
+                .loadUserByUsername(getTokenSubject(token));
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+
+    private Claims getTokenBody(String token) {
+        return Jwts.parser().setSigningKey(getSecretKey())
+                .parseClaimsJws(token).getBody();
+    }
+
+    private String getTokenSubject(String token) {
+        return getTokenBody(token).getSubject();
+    }
+
+    private String getSecretKey() {
+        return Base64.getEncoder().encodeToString(jwtProperties.getSecretKey()
+                .getBytes());
     }
 }
+
+
