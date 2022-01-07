@@ -5,7 +5,7 @@ import com.walkhub.walkhub.global.error.exception.WalkhubException;
 
 public class InvalidJwtException extends WalkhubException {
 
-    public static WalkhubException EXCEPTION =
+    public static final WalkhubException EXCEPTION =
             new InvalidJwtException();
 
     private InvalidJwtException() {
