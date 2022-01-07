@@ -22,32 +22,28 @@ public class JwtTokenProvider {
     private final JwtProperties jwtProperties;
     private final AuthDetailsService authDetailsService;
 
-    public String generateAccessToken(String id) {
-        return Jwts.builder()
-                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
-                .setHeaderParam("typ", "JWT")
-                .setSubject(id)
-                .claim("type", "access_token")
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getAccessExp() * 1000))
-                .compact();
-
+    public String generateAccessToken(String id, String type) {
+        return generateToken(id, type, jwtProperties.getAccessExp());
     }
 
-    public String generateRefreshToken(String id) {
+    public String generateRefreshToken(String id, String type) {
+        return generateToken(id, type, jwtProperties.getRefreshExp());
+    }
+
+    public String generateToken(String id, String type, Long exp) {
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .setHeaderParam("typ", "JWT")
                 .setSubject(id)
-                .claim("type", "refresh_token")
+                .claim("type", type)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getRefreshExp() * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + exp))
                 .compact();
     }
 
     public String resolveToken(HttpServletRequest request) {
         String bearer = request.getHeader(jwtProperties.getHeader());
-        if(bearer != null && bearer.startsWith(jwtProperties.getPrefix())
+        if (bearer != null && bearer.startsWith(jwtProperties.getPrefix())
                 && bearer.length() > jwtProperties.getPrefix().length() + 1)
             return bearer.substring(jwtProperties.getPrefix().length() + 1);
         return null;
@@ -69,9 +65,9 @@ public class JwtTokenProvider {
         try {
             return Jwts.parser().setSigningKey(jwtProperties.getSecretKey())
                     .parseClaimsJws(token).getBody();
-        }catch (ExpiredJwtException e) {
+        } catch (ExpiredJwtException e) {
             throw ExpiredJwtException.EXCEPTION;
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw InvalidJwtException.EXCEPTION;
         }
     }
