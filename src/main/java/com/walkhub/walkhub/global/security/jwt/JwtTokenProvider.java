@@ -30,7 +30,7 @@ public class JwtTokenProvider {
         return generateToken(id, type, jwtProperties.getRefreshExp());
     }
 
-    public String generateToken(String id, String type, Long exp) {
+    private String generateToken(String id, String type, Long exp) {
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .setHeaderParam("typ", "JWT")
