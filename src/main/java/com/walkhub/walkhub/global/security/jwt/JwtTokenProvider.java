@@ -42,15 +42,10 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest request) {
         String bearer = request.getHeader(jwtProperties.getHeader());
-        if (bearer != null && bearer.startsWith(jwtProperties.getPrefix())
-                && bearer.length() > jwtProperties.getPrefix().length() + 1)
-            return bearer.substring(jwtProperties.getPrefix().length() + 1);
-        return null;
-    }
+        if (bearer != null && bearer.startsWith(jwtProperties.getPrefix()))
+            return bearer.replace(jwtProperties.getPrefix(), "");
 
-    public boolean validateToken(String token) {
-        return getTokenBody(token)
-                .getExpiration().after(new Date());
+        return null;
     }
 
     public Authentication authentication(String token) {
