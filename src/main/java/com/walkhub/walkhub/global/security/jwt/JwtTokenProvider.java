@@ -33,7 +33,6 @@ public class JwtTokenProvider {
     private String generateToken(String id, String type, Long exp) {
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
-                .setHeaderParam("typ", "JWT")
                 .setSubject(id)
                 .claim("type", type)
                 .setIssuedAt(new Date())
