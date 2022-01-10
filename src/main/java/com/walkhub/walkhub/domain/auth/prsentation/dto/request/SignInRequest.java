@@ -9,13 +9,13 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class SignInRequest {
 
-    @NotBlank
+    @NotBlank(message = "account_id는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
     private String accountId;
 
-    @NotBlank
+    @NotBlank(message = "password는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
     private String password;
 
-    @NotBlank
+    @NotBlank(message = "device_token은 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
     private String deviceToken;
 
 }
