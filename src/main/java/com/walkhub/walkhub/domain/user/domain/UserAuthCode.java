@@ -23,13 +23,13 @@ public class UserAuthCode {
     private String code;
 
     @TimeToLive
-    private Long expired_at;
+    private Long expiredAt;
 
     @Builder
     public UserAuthCode(String phoneNumber, String code) {
         this.phoneNumber = phoneNumber;
         this.code = code;
-        this.expired_at = 300L;
+        this.expiredAt = 300L;
     }
 
     public void updateCode(String code) {
