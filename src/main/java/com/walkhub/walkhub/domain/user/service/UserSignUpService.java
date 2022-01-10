@@ -32,7 +32,7 @@ public class UserSignUpService {
                 .filter(code -> code.getCode().equals(request.getAuthCode()))
                 .orElseThrow(() -> UserAuthCodeNotFoundException.EXCEPTION);
 
-        userFacade.userExists(request.getAccountId());
+        userFacade.checkUserExists(request.getAccountId());
 
         userRepository.save(User.builder()
                 .accountId(request.getAccountId())
