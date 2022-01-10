@@ -14,6 +14,6 @@ public class UserTokenResponse {
 
     private final String refreshToken;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd`T`hh:mm:SS")
+    @DateTimeFormat(pattern = "yyyy-MM-ddThh:mm:SS")
     private final LocalDateTime expiredAt;
 }
