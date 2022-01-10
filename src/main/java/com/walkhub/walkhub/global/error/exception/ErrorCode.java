@@ -14,7 +14,9 @@ public enum ErrorCode {
     CREDENTIALS_NOT_FOUND(401, "USER-401-1", "Credentials not found."),
 
     EXPIRED_JWT(401,"COMMON-401-1","Expired jwt" ),
-    INVALID_JWT(401,"COMMON-401-2", "Invalid jwt");
+    INVALID_JWT(401,"COMMON-401-2", "Invalid jwt"),
+
+    PASSWORD_NOT_MATCH(400,"AUTH-400-1", "Password Not Match");
 
     private final int status;
     private final String code;

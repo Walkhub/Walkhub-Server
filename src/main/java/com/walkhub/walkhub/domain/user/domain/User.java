@@ -69,15 +69,13 @@ public class User {
 	@JoinColumn(name = "title_badge_id",  nullable = false)
 	private Badge badge;
 
-	private String webDeviceToken;
-
-	private String appDeviceToken;
+	private String deviceToken;
 
 	@Builder
 	public User(Long id, String accountId, String password, String phoneNumber, String name,
 				String profileImage, Authority authority, Group group, School school, boolean isMeasuring,
 				Integer weight, BigDecimal height, Sex sex, String birthday, Badge badge,
-				String webDeviceToken, String appDeviceToken) {
+				String deviceToken) {
 		this.id = id;
 		this.accountId = accountId;
 		this.password = password;
@@ -92,8 +90,11 @@ public class User {
 		this.sex = sex;
 		this.birthday = birthday;
 		this.badge = badge;
-		this.webDeviceToken = webDeviceToken;
-		this.appDeviceToken = appDeviceToken;
+		this.deviceToken = deviceToken;
+	}
+
+	public void setDeviceToken(String deviceToken) {
+		this.deviceToken = deviceToken;
 	}
 
 }
