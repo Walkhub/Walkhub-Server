@@ -28,6 +28,8 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+	compileOnly group: 'net.nurigo', name: 'javaSDK', version: '2.2'
+
 	runtimeOnly 'mysql:mysql-connector-java'
 }
 

@@ -19,6 +19,11 @@ spring:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
 
+coolsms:
+  key: ${SMS_KEY}
+  secret: ${SMS_SECRET}
+  phone-number: ${SENDER_PHONE_NUMBER}
+
 jwt:
   secret-key: ${JWT_SECRET}
   access-exp: ${JWT_ACCESS_EXP}
