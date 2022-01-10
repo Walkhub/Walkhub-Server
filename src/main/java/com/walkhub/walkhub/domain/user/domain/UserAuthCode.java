@@ -1,4 +1,4 @@
-package com.walkhub.walkhub.domain.teacher.domain;
+package com.walkhub.walkhub.domain.user.domain;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -13,23 +13,27 @@ import javax.persistence.Column;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RedisHash
-public class AuthCode {
+public class UserAuthCode {
 
     @Id
-    @Column(name = "agency_code", columnDefinition = "char(7)")
-    private String school;
+    @Column(columnDefinition = "char(11)")
+    private String phoneNumber;
 
-    @Column(columnDefinition = "char(7)")
-    private String authCode;
+    @Column(columnDefinition = "char(5)")
+    private String code;
 
     @TimeToLive
     private Long expiredAt;
 
     @Builder
-    public AuthCode(String school, String authCode) {
-        this.school = school;
-        this.authCode = authCode;
+    public UserAuthCode(String phoneNumber, String code) {
+        this.phoneNumber = phoneNumber;
+        this.code = code;
         this.expiredAt = 300L;
+    }
+
+    public void updateCode(String code) {
+        this.code = code;
     }
 
 }
