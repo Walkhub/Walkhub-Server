@@ -11,6 +11,7 @@ import com.walkhub.walkhub.global.security.jwt.JwtProperties;
 import com.walkhub.walkhub.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -23,9 +24,12 @@ public class UserSignInService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
+    @Transactional
     public UserTokenResponse execute(SignInRequest request) {
         User user = userRepository.findByAccountId(request.getAccountId())
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+
+        user.setDeviceToken(request.getDeviceToken());
 
         String accessToken = jwtTokenProvider.generateAccessToken(user.getAccountId());
         String refreshToken = jwtTokenProvider.generateRefreshToken(user.getAccountId());
