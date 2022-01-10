@@ -4,10 +4,12 @@ import com.walkhub.walkhub.infrastructure.sms.SmsUtil;
 import lombok.RequiredArgsConstructor;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 
 @RequiredArgsConstructor
+@Component
 public class CoolSms implements SmsUtil {
 
     private final CoolSmsProperties coolSmsProperties;
