@@ -41,7 +41,7 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public UserTokenResponse UserSignUp(@RequestBody @Valid UserSignUpRequest request) {
+    public UserTokenResponse userSignUp(@RequestBody @Valid UserSignUpRequest request) {
         return userSignUpService.execute(request);
     }
 
