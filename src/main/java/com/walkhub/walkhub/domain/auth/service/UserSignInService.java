@@ -10,8 +10,9 @@ import com.walkhub.walkhub.domain.user.exception.UserNotFoundException;
 import com.walkhub.walkhub.global.security.jwt.JwtProperties;
 import com.walkhub.walkhub.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Service
@@ -33,13 +34,13 @@ public class UserSignInService {
         refreshTokenRepository.save(
                 RefreshToken.builder()
                         .accountId(user.getAccountId())
-                        .refreshToken(refreshToken)
+                        .token(refreshToken)
                         .build()
         );
 
         return UserTokenResponse.builder()
                 .accessToken(accessToken)
-                .expiredAt(jwtProperties.getAccessExp())
+                .expiredAt(LocalDateTime.now().plusSeconds(jwtProperties.getAccessExp()))
                 .refreshToken(refreshToken)
                 .build();
     }
