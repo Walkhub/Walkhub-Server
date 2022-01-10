@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
-@RestController("/users/token")
+@RestController("/users/tokens")
 public class AuthController {
 
     private final UserSignInService userSignInService;
@@ -23,7 +23,7 @@ public class AuthController {
     }
 
     @PatchMapping
-    public UserAccessTokenResponse userSignIn(@RequestHeader("Refresh-Token") String refreshToken) {
+    public UserAccessTokenResponse userRefreshToken(@RequestHeader("Refresh-Token") String refreshToken) {
         return tokenRefreshService.execute(refreshToken);
     }
 }
