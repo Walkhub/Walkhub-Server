@@ -13,6 +13,7 @@ public enum ErrorCode {
 
     EXPIRED_JWT(401, "COMMON-401-1", "Expired jwt"),
     INVALID_JWT(401, "COMMON-401-2", "Invalid jwt"),
+    UNAUTHORIZED_USER_AUTH_CODE(401, "USER-401-1", "Unauthorized User authCode"),
 
     USER_NOT_FOUND(404, "USER-404-1", "User Not Found"),
     USER_AUTH_CODE_NOT_FOUND(404, "USER-404-2", "User authCode Not Found"),
