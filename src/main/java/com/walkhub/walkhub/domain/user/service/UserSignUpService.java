@@ -2,8 +2,10 @@ package com.walkhub.walkhub.domain.user.service;
 
 import com.walkhub.walkhub.domain.auth.prsentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.domain.user.domain.UserAuthCode;
 import com.walkhub.walkhub.domain.user.domain.repository.UserAuthCodeRepository;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
+import com.walkhub.walkhub.domain.user.exception.UnauthorizedUserAuthCodeException;
 import com.walkhub.walkhub.domain.user.exception.UserAuthCodeNotFoundException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
@@ -28,9 +30,11 @@ public class UserSignUpService {
     private final JwtProperties jwtProperties;
 
     public UserTokenResponse execute(UserSignUpRequest request) {
-        userAuthCodeRepository.findById(request.getPhoneNumber())
-                .filter(code -> code.getCode().equals(request.getAuthCode()))
+        UserAuthCode code = userAuthCodeRepository.findById(request.getPhoneNumber())
                 .orElseThrow(() -> UserAuthCodeNotFoundException.EXCEPTION);
+
+        if(!code.getCode().equals(request.getAuthCode())) {
+            throw UnauthorizedUserAuthCodeException.EXCEPTION;
 
         userFacade.checkUserExists(request.getAccountId());
 
