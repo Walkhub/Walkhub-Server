@@ -10,10 +10,10 @@ import java.time.LocalDateTime;
 @Builder
 public class UserTokenResponse {
 
-    private String accessToken;
+    private final String accessToken;
 
-    private String refreshToken;
+    private final String refreshToken;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd`T`hh:mm:SS")
-    private LocalDateTime expiredAt;
+    private final LocalDateTime expiredAt;
 }
