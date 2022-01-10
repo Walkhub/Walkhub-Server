@@ -1,6 +1,8 @@
 package com.walkhub.walkhub.domain.user.presentation;
 
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
+import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
 import com.walkhub.walkhub.domain.user.service.UserAuthCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,11 +16,17 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserAuthCodeService userAuthCodeService;
+    private final QueryUserProfileService queryUserProfileService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
     public void sendAuthCode(@RequestBody @Valid UserAuthCodeRequest request) {
         userAuthCodeService.execute(request);
+    }
+
+    @GetMapping("/{user-id}")
+    public QueryUserProfileResponse queryUserProfile(@PathVariable("user-id") Long userId) {
+        return queryUserProfileService.execute(userId);
     }
 
 }
