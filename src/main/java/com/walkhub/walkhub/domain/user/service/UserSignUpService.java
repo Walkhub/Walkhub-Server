@@ -33,28 +33,27 @@ public class UserSignUpService {
         UserAuthCode code = userAuthCodeRepository.findById(request.getPhoneNumber())
                 .orElseThrow(() -> UserAuthCodeNotFoundException.EXCEPTION);
 
-        if (!code.getCode().equals(request.getAuthCode())) {
+        if (!code.getCode().equals(request.getAuthCode()))
             throw UnauthorizedUserAuthCodeException.EXCEPTION;
 
-            userFacade.checkUserExists(request.getAccountId());
+        userFacade.checkUserExists(request.getAccountId());
 
-            userRepository.save(User.builder()
-                    .accountId(request.getAccountId())
-                    .password(passwordEncoder.encode(request.getPassword()))
-                    .phoneNumber(request.getPhoneNumber())
-                    .authority(Authority.USER)
-                    .name(request.getName())
-                    .isMeasuring(false)
-                    .build());
+        userRepository.save(User.builder()
+                .accountId(request.getAccountId())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .phoneNumber(request.getPhoneNumber())
+                .authority(Authority.USER)
+                .name(request.getName())
+                .isMeasuring(false)
+                .build());
 
-            String accessToken = jwtTokenProvider.generateAccessToken(request.getAccountId());
-            String refreshToken = jwtTokenProvider.generateRefreshToken(request.getAccountId());
+        String accessToken = jwtTokenProvider.generateAccessToken(request.getAccountId());
+        String refreshToken = jwtTokenProvider.generateRefreshToken(request.getAccountId());
 
-            return UserTokenResponse.builder()
-                    .accessToken(accessToken)
-                    .expiredAt(LocalDateTime.now().plusSeconds(jwtProperties.getAccessExp()))
-                    .refreshToken(refreshToken)
-                    .build();
-        }
+        return UserTokenResponse.builder()
+                .accessToken(accessToken)
+                .expiredAt(LocalDateTime.now().plusSeconds(jwtProperties.getAccessExp()))
+                .refreshToken(refreshToken)
+                .build();
     }
 }
