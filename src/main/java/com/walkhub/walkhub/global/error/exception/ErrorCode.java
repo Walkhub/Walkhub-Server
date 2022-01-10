@@ -14,7 +14,8 @@ public enum ErrorCode {
     EXPIRED_JWT(401,"COMMON-401-1","Expired jwt" ),
     INVALID_JWT(401,"COMMON-401-2", "Invalid jwt"),
 
-    PASSWORD_NOT_MATCH(400,"AUTH-400-1", "Password Not Match");
+    PASSWORD_NOT_MATCH(400,"AUTH-400-1", "Password Not Match"),
+    REFRESH_TOKEN_NOT_FOUND(404,"AUTH-404-1", "Refresh Token Not Found");
 
     private final int status;
     private final String code;
