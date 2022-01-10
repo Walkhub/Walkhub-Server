@@ -13,7 +13,7 @@ import javax.persistence.Column;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RedisHash
-public class AuthCode {
+public class TeacherAuthCode {
 
     @Id
     @Column(name = "agency_code", columnDefinition = "char(7)")
@@ -26,7 +26,7 @@ public class AuthCode {
     private Long expiredAt;
 
     @Builder
-    public AuthCode(String school, String authCode) {
+    public TeacherAuthCode(String school, String authCode) {
         this.school = school;
         this.authCode = authCode;
         this.expiredAt = 300L;
