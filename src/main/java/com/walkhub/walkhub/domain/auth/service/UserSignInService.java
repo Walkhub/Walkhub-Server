@@ -2,6 +2,7 @@ package com.walkhub.walkhub.domain.auth.service;
 
 import com.walkhub.walkhub.domain.auth.domain.RefreshToken;
 import com.walkhub.walkhub.domain.auth.domain.repository.RefreshTokenRepository;
+import com.walkhub.walkhub.domain.auth.exception.PasswordNotMatchException;
 import com.walkhub.walkhub.domain.auth.prsentation.dto.request.SignInRequest;
 import com.walkhub.walkhub.domain.auth.prsentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
@@ -10,6 +11,7 @@ import com.walkhub.walkhub.domain.user.exception.UserNotFoundException;
 import com.walkhub.walkhub.global.security.jwt.JwtProperties;
 import com.walkhub.walkhub.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,11 +25,16 @@ public class UserSignInService {
     private final JwtProperties jwtProperties;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public UserTokenResponse execute(SignInRequest request) {
         User user = userRepository.findByAccountId(request.getAccountId())
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw PasswordNotMatchException.EXCEPTION;
+        }
 
         user.setDeviceToken(request.getDeviceToken());
 

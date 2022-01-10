@@ -12,7 +12,9 @@ public enum ErrorCode {
     USER_NOT_FOUND(404, "USER-404-1", "User Not Found"),
 
     EXPIRED_JWT(401,"COMMON-401-1","Expired jwt" ),
-    INVALID_JWT(401,"COMMON-401-2", "Invalid jwt");
+    INVALID_JWT(401,"COMMON-401-2", "Invalid jwt"),
+
+    PASSWORD_NOT_MATCH(400,"AUTH-400-1", "Password Not Match");
 
     private final int status;
     private final String code;
