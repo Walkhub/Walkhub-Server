@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.global.security.auth;
 
 import com.walkhub.walkhub.domain.user.domain.User;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Getter
 @RequiredArgsConstructor
 public class AuthDetails implements UserDetails {
 
