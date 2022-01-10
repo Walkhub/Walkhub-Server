@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.auth.domain;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -12,8 +13,9 @@ import org.springframework.data.redis.core.RedisHash;
 public class RefreshToken {
 
     @Id
-    private String token;
-
     private String accountId;
+
+    @Indexed
+    private String token;
 
 }
