@@ -2,6 +2,7 @@ package com.walkhub.walkhub.domain.user.facade;
 
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
+import com.walkhub.walkhub.domain.user.exception.UserExistsException;
 import com.walkhub.walkhub.domain.user.exception.UserNotFoundException;
 import com.walkhub.walkhub.global.exception.CredentialsNotFoundException;
 import com.walkhub.walkhub.global.security.auth.AuthDetails;
@@ -27,4 +28,11 @@ public class UserFacade {
 		return userRepository.findById(userId)
 			.orElseThrow(() -> UserNotFoundException.EXCEPTION);
 	}
+
+	public void checkUserExists(String accountId) {
+		if (userRepository.findByAccountId(accountId).isPresent()) {
+			throw UserExistsException.EXCEPTION;
+		}
+	}
+
 }
