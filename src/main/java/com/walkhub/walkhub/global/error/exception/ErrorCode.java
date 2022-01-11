@@ -18,6 +18,10 @@ public enum ErrorCode {
     USER_NOT_FOUND(404, "USER-404-1", "User Not Found"),
     USER_AUTH_CODE_NOT_FOUND(404, "USER-404-2", "User authCode Not Found"),
 
+    CREDENTIALS_NOT_FOUND(401, "USER-401-1", "Credentials not found."),
+
+    EXPIRED_JWT(401,"COMMON-401-1","Expired jwt" ),
+    INVALID_JWT(401,"COMMON-401-2", "Invalid jwt"),
     USER_EXISTS(409, "USER-409-1", "User Exists");
 
 

@@ -2,6 +2,8 @@ package com.walkhub.walkhub.domain.user.presentation;
 
 import com.walkhub.walkhub.domain.auth.prsentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryMyPageResponse;
+import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
@@ -25,6 +27,7 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserAuthCodeService userAuthCodeService;
+    private final QueryMyPageService queryMyPageService;
     private final QueryUserProfileService queryUserProfileService;
     private final UserSignUpService userSignUpService;
 
@@ -32,6 +35,11 @@ public class UserController {
     @PostMapping("/verification-codes")
     public void sendAuthCode(@RequestBody @Valid UserAuthCodeRequest request) {
         userAuthCodeService.execute(request);
+    }
+  
+    @GetMapping
+    public QueryMyPageResponse queryMyPage() {
+        return queryMyPageService.execute();
     }
 
     @GetMapping("/{user-id}")
