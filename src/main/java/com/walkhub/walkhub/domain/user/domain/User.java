@@ -34,7 +34,7 @@ public class User {
 	@Column(length = 10, nullable = false)
 	private String name;
 
-	private String profileImage;
+	private String profileImageUrl;
 
 	@Column(columnDefinition = "char(4)", nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -73,7 +73,7 @@ public class User {
 
 	@Builder
 	public User(Long id, String accountId, String password, String phoneNumber, String name,
-				String profileImage, Authority authority, Group group, School school, boolean isMeasuring,
+				String profileImageUrl, Authority authority, Group group, School school, boolean isMeasuring,
 				Integer weight, BigDecimal height, Sex sex, String birthday, Badge badge,
 				String deviceToken) {
 		this.id = id;
@@ -81,7 +81,7 @@ public class User {
 		this.password = password;
 		this.phoneNumber = phoneNumber;
 		this.name = name;
-		this.profileImage = profileImage;
+		this.profileImageUrl = profileImageUrl;
 		this.authority = authority;
 		this.group = group;
 		this.school = school;
@@ -99,7 +99,7 @@ public class User {
 
 	public void updateUser(UpdateUserInfoRequest request) {
 		this.name = request.getName();
-		this.profileImage = request.getProfileUrl();
+		this.profileImageUrl = request.getProfileUrl();
 		this.birthday = request.getBirthday();
 		this.sex = request.getSex();
 	}

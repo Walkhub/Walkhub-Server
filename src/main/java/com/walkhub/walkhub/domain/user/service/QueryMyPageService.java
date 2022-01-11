@@ -20,7 +20,7 @@ public class QueryMyPageService {
 		return QueryMyPageResponse.builder()
 			.id(user.getId())
 			.name(user.getName())
-			.profileImage(user.getProfileImage())
+			.profileImage(user.getProfileImageUrl())
 			.schoolName(user.getSchool().getName())
 			.grade(user.getGroup().getGrade())
 			.titleBadge(TitleBadge.builder()
