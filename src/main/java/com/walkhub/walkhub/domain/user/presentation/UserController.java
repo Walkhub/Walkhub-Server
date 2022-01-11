@@ -1,14 +1,12 @@
 package com.walkhub.walkhub.domain.user.presentation;
 
 import com.walkhub.walkhub.domain.auth.prsentation.dto.response.UserTokenResponse;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.InputHealthInformationRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryMyPageResponse;
-import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
+import com.walkhub.walkhub.domain.user.service.*;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
-import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
-import com.walkhub.walkhub.domain.user.service.UserAuthCodeService;
-import com.walkhub.walkhub.domain.user.service.UserSignUpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +28,7 @@ public class UserController {
     private final QueryMyPageService queryMyPageService;
     private final QueryUserProfileService queryUserProfileService;
     private final UserSignUpService userSignUpService;
+    private final InputHealthInformationService inputHealthInformationService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
@@ -53,4 +52,9 @@ public class UserController {
         return userSignUpService.execute(request);
     }
 
+    @PostMapping("/health")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inputHealthInformationRequest(@RequestBody @Valid InputHealthInformationRequest request) {
+        inputHealthInformationService.execute(request);
+    }
 }
