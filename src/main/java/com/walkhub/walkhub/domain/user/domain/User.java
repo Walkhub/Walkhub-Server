@@ -1,17 +1,17 @@
 package com.walkhub.walkhub.domain.user.domain;
 
-import java.math.BigDecimal;
-import javax.persistence.*;
-import javax.validation.constraints.Digits;
-
 import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
 import com.walkhub.walkhub.domain.user.domain.type.Sex;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.global.enums.Authority;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -95,6 +95,13 @@ public class User {
 
 	public void setDeviceToken(String deviceToken) {
 		this.deviceToken = deviceToken;
+	}
+
+	public void updateUser(UpdateUserInfoRequest request) {
+		this.name = request.getName();
+		this.profileImage = request.getProfileUrl();
+		this.birthday = request.getBirthday();
+		this.sex = request.getSex();
 	}
 
 }
