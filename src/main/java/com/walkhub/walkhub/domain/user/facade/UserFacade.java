@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @RequiredArgsConstructor
 @Component
 public class UserFacade {
@@ -17,13 +15,13 @@ public class UserFacade {
     private final UserRepository userRepository;
 
     public User getCurrentUser() {
-        String id = SecurityContextHolder.getContext().getAuthentication().getName();
-        return getUserByAccountId(id)
-                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+        String accountId = SecurityContextHolder.getContext().getAuthentication().getName();
+        return getUserByAccountId(accountId);
     }
 
-    public Optional<User> getUserByAccountId(String id) {
-        return userRepository.findByAccountId(id);
+    public User getUserByAccountId(String id) {
+        return userRepository.findByAccountId(id)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
     }
 
     public User getUserById(Long userId) {
