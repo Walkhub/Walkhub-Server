@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.auth.domain;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.data.redis.core.index.Indexed;
 
 @Getter
@@ -17,5 +18,12 @@ public class RefreshToken {
 
     @Indexed
     private String token;
+
+    @TimeToLive
+    private Long timeToLive;
+
+    public void updateExp(Long timeToLive) {
+        this.timeToLive = timeToLive;
+    }
 
 }
