@@ -15,8 +15,9 @@ public class QueryMyPageService {
 	private final UserFacade userFacade;
 
 	public QueryMyPageResponse execute() {
-		User user = userFacade.getCurrentUser();
+		User user = userFacade.getUserById(userFacade.getCurrentUser().getId());
 		Badge titleBadge = user.getBadge();
+
 		return QueryMyPageResponse.builder()
 			.id(user.getId())
 			.name(user.getName())

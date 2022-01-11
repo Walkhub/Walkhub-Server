@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class QueryUserProfileService {
 
-	private final UserRepository userRepository;
 	private final UserFacade userFacade;
 
 	public QueryUserProfileResponse execute(Long userId) {
