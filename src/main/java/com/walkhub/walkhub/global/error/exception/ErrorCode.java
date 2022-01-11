@@ -9,12 +9,17 @@ import lombok.Getter;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ErrorCode {
 
+    PASSWORD_NOT_MATCH(400, "AUTH-400-1", "Password Not Match"),
+
+    EXPIRED_JWT(401, "COMMON-401-1", "Expired jwt"),
+    INVALID_JWT(401, "COMMON-401-2", "Invalid jwt"),
+    UNAUTHORIZED_USER_AUTH_CODE(401, "USER-401-1", "Unauthorized User authCode"),
+
     USER_NOT_FOUND(404, "USER-404-1", "User Not Found"),
+    USER_AUTH_CODE_NOT_FOUND(404, "USER-404-2", "User authCode Not Found"),
 
-    EXPIRED_JWT(401,"COMMON-401-1","Expired jwt" ),
-    INVALID_JWT(401,"COMMON-401-2", "Invalid jwt"),
+    USER_EXISTS(409, "USER-409-1", "User Exists");
 
-    PASSWORD_NOT_MATCH(400,"AUTH-400-1", "Password Not Match");
 
     private final int status;
     private final String code;
