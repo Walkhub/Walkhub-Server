@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Getter
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 public class CreateChallengeRequest {
 
     @NotBlank(message = "name은 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
+    @Size(min = 1, max = 200, message = "name은 200글자 미만이어야 합니다.")
     private String name;
 
     @NotBlank(message = "content는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
@@ -27,6 +29,7 @@ public class CreateChallengeRequest {
     private Long goal;
 
     @NotBlank(message = "award는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
+    @Size(min = 1, max = 200, message = "award는 200글자 미만이여야 합니다.")
     private String award;
 
     @NotBlank(message = "scope는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
