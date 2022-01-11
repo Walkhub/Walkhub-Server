@@ -99,7 +99,7 @@ public class User {
 
 	public void updateUser(UpdateUserInfoRequest request) {
 		this.name = request.getName();
-		this.profileImageUrl = request.getProfileUrl();
+		this.profileImageUrl = request.getProfileImageUrl();
 		this.birthday = request.getBirthday();
 		this.sex = request.getSex();
 	}
