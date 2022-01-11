@@ -26,6 +26,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+	implementation 'com.google.firebase:firebase-admin:7.3.0'
+
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	compileOnly group: 'net.nurigo', name: 'javaSDK', version: '2.2'
