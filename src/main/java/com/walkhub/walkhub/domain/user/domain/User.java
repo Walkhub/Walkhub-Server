@@ -97,4 +97,9 @@ public class User {
 		this.deviceToken = deviceToken;
 	}
 
+
+	public boolean haveDeviceToken() {
+		return deviceToken != null;
+	}
+
 }

@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Notification {
+public class NotificationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,7 @@ public class Notification {
     private Scope scope;
 
     @Builder
-    public Notification(String title, String content, Type type, Long value, Scope scope) {
+    public NotificationEntity(String title, String content, Type type, Long value, Scope scope) {
         this.title = title;
         this.content = content;
         this.type = type;
