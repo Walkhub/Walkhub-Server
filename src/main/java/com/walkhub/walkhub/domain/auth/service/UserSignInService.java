@@ -46,6 +46,7 @@ public class UserSignInService {
                 RefreshToken.builder()
                         .accountId(user.getAccountId())
                         .token(refreshToken)
+                        .timeToLive(jwtProperties.getRefreshExp())
                         .build()
         );
 
