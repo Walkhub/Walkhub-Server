@@ -18,9 +18,8 @@ public enum ErrorCode {
     USER_NOT_FOUND(404, "USER-404-1", "User Not Found"),
     USER_AUTH_CODE_NOT_FOUND(404, "USER-404-2", "User authCode Not Found"),
 
-    USER_EXISTS(409, "USER-409-1", "User Exists");
+    USER_EXISTS(409, "USER-409-1", "User Exists"),
 
-    PASSWORD_NOT_MATCH(400,"AUTH-400-1", "Password Not Match"),
     REFRESH_TOKEN_NOT_FOUND(404,"AUTH-404-1", "Refresh Token Not Found");
 
     private final int status;
