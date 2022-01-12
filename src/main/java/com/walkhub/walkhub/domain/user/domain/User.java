@@ -97,11 +97,6 @@ public class User {
 		this.deviceToken = deviceToken;
 	}
 
-
-	public boolean isHaveDeviceToken() {
-		return deviceToken != null;
-	}
-
 	public void updateUser (UpdateUserInfoRequest request){
 		this.name = request.getName();
 		this.profileImageUrl = request.getProfileImageUrl();
