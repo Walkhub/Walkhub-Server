@@ -1,7 +1,7 @@
-package com.walkhub.walkhub.domain.auth.prsentation;
+package com.walkhub.walkhub.domain.auth.presentation;
 
-import com.walkhub.walkhub.domain.auth.prsentation.dto.request.SignInRequest;
-import com.walkhub.walkhub.domain.auth.prsentation.dto.response.UserTokenResponse;
+import com.walkhub.walkhub.domain.auth.presentation.dto.request.SignInRequest;
+import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.auth.service.UserSignInService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

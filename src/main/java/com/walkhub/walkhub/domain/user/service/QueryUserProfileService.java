@@ -23,7 +23,7 @@ public class QueryUserProfileService {
 
 		return QueryUserProfileResponse.builder()
 			.name(user.getName())
-			.profileImage(user.getProfileImage())
+			.profileImage(user.getProfileImageUrl())
 			.schoolName(user.getSchool().getName())
 			.grade(user.getGroup().getGrade())
 			.classNum(user.getGroup().getClassNum())

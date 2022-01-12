@@ -42,16 +42,19 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest request) {
         String bearer = request.getHeader(jwtProperties.getHeader());
-        if (bearer != null && bearer.startsWith(jwtProperties.getPrefix()))
-            return bearer.replace(jwtProperties.getPrefix(), "");
-
-        return null;
+        return parseToken(bearer);
     }
 
     public Authentication authentication(String token) {
         UserDetails userDetails = authDetailsService
                 .loadUserByUsername(getTokenSubject(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+
+    public String parseToken(String bearerToken) {
+        if (bearerToken != null && bearerToken.startsWith(jwtProperties.getPrefix()))
+            return bearerToken.replace(jwtProperties.getPrefix(), "");
+        return null;
     }
 
     private Claims getTokenBody(String token) {

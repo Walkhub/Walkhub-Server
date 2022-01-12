@@ -1,4 +1,4 @@
-package com.walkhub.walkhub.domain.auth.prsentation.dto.request;
+package com.walkhub.walkhub.domain.auth.presentation.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

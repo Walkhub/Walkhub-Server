@@ -3,8 +3,8 @@ package com.walkhub.walkhub.domain.auth.service;
 import com.walkhub.walkhub.domain.auth.domain.RefreshToken;
 import com.walkhub.walkhub.domain.auth.domain.repository.RefreshTokenRepository;
 import com.walkhub.walkhub.domain.auth.exception.PasswordNotMatchException;
-import com.walkhub.walkhub.domain.auth.prsentation.dto.request.SignInRequest;
-import com.walkhub.walkhub.domain.auth.prsentation.dto.response.UserTokenResponse;
+import com.walkhub.walkhub.domain.auth.presentation.dto.request.SignInRequest;
+import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.exception.UserNotFoundException;
@@ -46,6 +46,7 @@ public class UserSignInService {
                 RefreshToken.builder()
                         .accountId(user.getAccountId())
                         .token(refreshToken)
+                        .timeToLive(jwtProperties.getRefreshExp())
                         .build()
         );
 

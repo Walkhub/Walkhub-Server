@@ -4,8 +4,6 @@ import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.exception.UserExistsException;
 import com.walkhub.walkhub.domain.user.exception.UserNotFoundException;
-import com.walkhub.walkhub.global.exception.CredentialsNotFoundException;
-import com.walkhub.walkhub.global.security.auth.AuthDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -14,25 +12,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserFacade {
 
-	private final UserRepository userRepository;
-  
-	public User getCurrentUser() {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (!(principal instanceof AuthDetails)) {
-			throw CredentialsNotFoundException.EXCEPTION;
-		}
-		return ((AuthDetails) principal).getUser();
-  }
+    private final UserRepository userRepository;
 
-	public User getUserById(Long userId) {
-		return userRepository.findById(userId)
-			.orElseThrow(() -> UserNotFoundException.EXCEPTION);
-	}
+    public User getCurrentUser() {
+        String accountId = SecurityContextHolder.getContext().getAuthentication().getName();
+        return getUserByAccountId(accountId);
+    }
 
-	public void checkUserExists(String accountId) {
-		if (userRepository.findByAccountId(accountId).isPresent()) {
-			throw UserExistsException.EXCEPTION;
-		}
-	}
+    public User getUserByAccountId(String id) {
+        return userRepository.findByAccountId(id)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+    }
+
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+    }
+
+    public void checkUserExists(String accountId) {
+        if (userRepository.findByAccountId(accountId).isPresent()) {
+            throw UserExistsException.EXCEPTION;
+        }
+    }
 
 }

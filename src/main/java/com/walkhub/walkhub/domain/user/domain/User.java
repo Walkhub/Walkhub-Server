@@ -1,14 +1,14 @@
 package com.walkhub.walkhub.domain.user.domain;
 
-import java.math.BigDecimal;
-import javax.persistence.*;
-import javax.validation.constraints.Digits;
-
 import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
 import com.walkhub.walkhub.domain.user.domain.type.Sex;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.global.enums.Authority;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -31,7 +31,7 @@ public class User {
 	@Column(length = 10, nullable = false)
 	private String name;
 
-	private String profileImage;
+	private String profileImageUrl;
 
 	@Column(columnDefinition = "char(4)", nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -71,7 +71,7 @@ public class User {
 
 	@Builder
 	public User(Long id, String accountId, String password, String phoneNumber, String name,
-				String profileImage, Authority authority, Group group, School school, boolean isMeasuring,
+				String profileImageUrl, Authority authority, Group group, School school, boolean isMeasuring,
 				Integer weight, BigDecimal height, Sex sex, String birthday, Badge badge,
 				String deviceToken) {
 		this.id = id;
@@ -79,7 +79,7 @@ public class User {
 		this.password = password;
 		this.phoneNumber = phoneNumber;
 		this.name = name;
-		this.profileImage = profileImage;
+		this.profileImageUrl = profileImageUrl;
 		this.authority = authority;
 		this.group = group;
 		this.school = school;
@@ -93,6 +93,13 @@ public class User {
 
 	public void setDeviceToken(String deviceToken) {
 		this.deviceToken = deviceToken;
+	}
+
+	public void updateUser(UpdateUserInfoRequest request) {
+		this.name = request.getName();
+		this.profileImageUrl = request.getProfileImageUrl();
+		this.birthday = request.getBirthday();
+		this.sex = request.getSex();
 	}
 
 }
