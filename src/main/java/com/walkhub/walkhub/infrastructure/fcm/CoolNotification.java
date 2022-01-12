@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
-public class CoolNotification implements FcmUtil{
+public class CoolNotification implements FcmUtil {
 
     private final NotificationRepository notificationRepository;
 
@@ -27,12 +27,12 @@ public class CoolNotification implements FcmUtil{
         ).getId();
 
         List<String> deviceTokens = sendDto.getUsers()
-                                .stream().map(User::getDeviceToken)
-                                .collect(Collectors.toList());
+                .stream().map(User::getDeviceToken)
+                .collect(Collectors.toList());
 
         MulticastMessage message = MulticastMessage.builder()
                 .putData("notification_id", notificationId.toString())
-                .putData("click_action",sendDto.getClickAction())
+                .putData("click_action", sendDto.getClickAction())
                 .putData("value", sendDto.getValue())
                 .setNotification(
                         Notification.builder()
