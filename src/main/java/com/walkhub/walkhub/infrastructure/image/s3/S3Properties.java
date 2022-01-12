@@ -1,22 +1,16 @@
 package com.walkhub.walkhub.infrastructure.image.s3;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConstructorBinding;
 
 @Getter
-@Component
+@AllArgsConstructor
+@ConstructorBinding
+@ConfigurationProperties(prefix = "cloud.aws.s3")
 public class S3Properties {
 
-    @Value("${cloud.aws.credentials.accessKey}")
-    private String accessKey;
-
-    @Value("${cloud.aws.credentials.secretKey}")
-    private String secretKey;
-
-    @Value("${cloud.aws.region.static}")
-    private String region;
-
-    @Value("${cloud.aws.s3.bucket")
     private String bucket;
+
 }
