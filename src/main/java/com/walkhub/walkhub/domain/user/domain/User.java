@@ -53,6 +53,7 @@ public class User {
     private Boolean isMeasuring;
 
     @Embedded
+    @Setter
     private HealthInfo healthInfo;
 
     @Column(columnDefinition = "char(1)")
