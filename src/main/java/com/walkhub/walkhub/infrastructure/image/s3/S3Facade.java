@@ -21,7 +21,7 @@ public class S3Facade implements ImageUtil {
 
     @Override
     public String uploadImage(MultipartFile image) {
-        String fileName = "walkhub/" + UUID.randomUUID() + image.getOriginalFilename();
+        String fileName = s3Properties.getBucket() + "/" + UUID.randomUUID() + image.getOriginalFilename();
 
         try {
             amazonS3Client.putObject(new PutObjectRequest(s3Properties.getBucket(), fileName, image.getInputStream(), null)
