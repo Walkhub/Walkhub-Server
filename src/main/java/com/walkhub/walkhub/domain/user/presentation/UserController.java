@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.user.presentation;
 
-import com.walkhub.walkhub.domain.auth.prsentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.InputHealthInformationRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
