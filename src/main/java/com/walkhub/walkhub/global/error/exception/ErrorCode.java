@@ -21,7 +21,8 @@ public enum ErrorCode {
     USER_EXISTS(409, "USER-409-1", "User Exists"),
     CREDENTIALS_NOT_FOUND(401, "USER-401-1", "Credentials not found."),
 
-    REFRESH_TOKEN_NOT_FOUND(404,"AUTH-404-1", "Refresh Token Not Found");
+    REFRESH_TOKEN_NOT_FOUND(404, "AUTH-404-1", "Refresh Token Not Found"),
+    IMAGE_NOT_FOUND(404, "COMMON-404-1", "Image Not Found");
 
     private final int status;
     private final String code;
