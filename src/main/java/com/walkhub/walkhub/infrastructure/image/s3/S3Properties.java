@@ -1,16 +1,16 @@
 package com.walkhub.walkhub.infrastructure.image.s3;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 @ConstructorBinding
 @ConfigurationProperties(prefix = "cloud.aws.s3")
 public class S3Properties {
 
-    private String bucket;
+    private final String bucket;
 
 }
