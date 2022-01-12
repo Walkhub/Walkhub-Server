@@ -26,7 +26,9 @@ public class CoolNotification implements FcmUtil{
                         .build()
         ).getId();
 
-        List<String> deviceTokens = sendDto.getUsers().stream().map(User::getDeviceToken).collect(Collectors.toList());
+        List<String> deviceTokens = sendDto.getUsers()
+                                .stream().map(User::getDeviceToken)
+                                .collect(Collectors.toList());
 
         MulticastMessage message = MulticastMessage.builder()
                 .putData("notification_id", notificationId.toString())
