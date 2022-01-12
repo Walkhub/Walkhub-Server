@@ -1,4 +1,4 @@
-package com.walkhub.walkhub.domain.auth.prsentation.dto.response;
+package com.walkhub.walkhub.domain.auth.presentation.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,11 +8,9 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-public class UserTokenResponse {
+public class UserAccessTokenResponse {
 
     private final String accessToken;
-
-    private final String refreshToken;
 
     @DateTimeFormat(pattern = "yyyy-MM-ddThh:mm:SS")
     private final LocalDateTime expiredAt;
