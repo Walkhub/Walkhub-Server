@@ -42,8 +42,8 @@ cloud:
       accessKey: ${S3_ACCESS_KEY}
       secretKey: ${S3_SECRET_KEY}
     s3:
-      bucket: walkhub
+      bucket: ${S3_BUCKET}
     region:
-      static: ap-northeast-2
+      static: ${S3_REGION}
     stack:
       auto: false
