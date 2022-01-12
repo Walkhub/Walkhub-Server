@@ -18,6 +18,5 @@ public class InputHealthInformationService {
     public void execute(InputHealthInformationRequest request) {
         User user = userFacade.getCurrentUser();
         user.setHealthInfo(new HealthInfo(request.getWeight(), request.getHeight()));
-        userRepository.save(user);
     }
 }
