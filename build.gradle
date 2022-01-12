@@ -33,6 +33,7 @@ dependencies {
 	compileOnly group: 'net.nurigo', name: 'javaSDK', version: '2.2'
 
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	implementation 'org.springframework.cloud:spring-cloud-aws-autoconfigure:2.2.6.RELEASE'
 
 	runtimeOnly 'mysql:mysql-connector-java'
 }
