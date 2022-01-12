@@ -6,13 +6,16 @@ import com.walkhub.walkhub.global.enums.Scope;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 @Builder
 public class SendDto {
-    private final User user;
+    private final List<User> users;
     private final String title;
     private final String content;
-    private final Long value;
+    private final String value;
     private final Type type;
     private final Scope scope;
+    private final String clickAction;
 }
