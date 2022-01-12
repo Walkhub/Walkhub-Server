@@ -1,6 +1,6 @@
 package com.walkhub.walkhub.domain.user.service;
 
-import com.walkhub.walkhub.domain.auth.prsentation.dto.response.UserTokenResponse;
+import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.UserAuthCode;
 import com.walkhub.walkhub.domain.user.domain.repository.UserAuthCodeRepository;
