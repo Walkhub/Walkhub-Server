@@ -10,6 +10,7 @@ import lombok.Getter;
 public enum ErrorCode {
 
     PASSWORD_NOT_MATCH(400, "AUTH-400-1", "Password Not Match"),
+    SAVE_IMAGE_FALSE(400, "COMMON-404-1", "Save Image False"),
 
     EXPIRED_JWT(401, "COMMON-401-1", "Expired jwt"),
     INVALID_JWT(401, "COMMON-401-2", "Invalid jwt"),
@@ -17,12 +18,10 @@ public enum ErrorCode {
 
     USER_NOT_FOUND(404, "USER-404-1", "User Not Found"),
     USER_AUTH_CODE_NOT_FOUND(404, "USER-404-2", "User authCode Not Found"),
+    REFRESH_TOKEN_NOT_FOUND(404, "AUTH-404-3", "Refresh Token Not Found"),
 
     USER_EXISTS(409, "USER-409-1", "User Exists"),
-    CREDENTIALS_NOT_FOUND(401, "USER-401-1", "Credentials not found."),
-
-    REFRESH_TOKEN_NOT_FOUND(404, "AUTH-404-1", "Refresh Token Not Found"),
-    IMAGE_NOT_FOUND(404, "COMMON-404-1", "Image Not Found");
+    CREDENTIALS_NOT_FOUND(401, "USER-401-1", "Credentials not found.");
 
     private final int status;
     private final String code;
