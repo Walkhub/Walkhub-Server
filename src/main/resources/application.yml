@@ -36,6 +36,9 @@ jwt:
   header: ${JWT_HEADER}
   prefix: ${JWT_PREFIX}
 
+firebase:
+  path: $(FIREBASE_PATH}
+
 cloud:
   aws:
     credentials:
