@@ -3,7 +3,7 @@ package com.walkhub.walkhub.domain.auth.service;
 import com.walkhub.walkhub.domain.auth.domain.RefreshToken;
 import com.walkhub.walkhub.domain.auth.domain.repository.RefreshTokenRepository;
 import com.walkhub.walkhub.domain.auth.exception.RefreshTokenNotFoundException;
-import com.walkhub.walkhub.domain.auth.prsentation.dto.response.UserAccessTokenResponse;
+import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserAccessTokenResponse;
 import com.walkhub.walkhub.global.security.jwt.JwtProperties;
 import com.walkhub.walkhub.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
