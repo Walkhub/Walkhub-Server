@@ -1,19 +1,26 @@
 package com.walkhub.walkhub.domain.user.presentation;
 
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
-import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
-import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryMyPageResponse;
-import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
-import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryMyPageResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
+import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
 import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
+import com.walkhub.walkhub.domain.user.service.UpdateUserInfoService;
 import com.walkhub.walkhub.domain.user.service.UserAuthCodeService;
 import com.walkhub.walkhub.domain.user.service.UserSignUpService;
-import com.walkhub.walkhub.domain.user.service.UpdateUserInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -33,7 +40,7 @@ public class UserController {
     public void sendAuthCode(@RequestBody @Valid UserAuthCodeRequest request) {
         userAuthCodeService.execute(request);
     }
-  
+
     @GetMapping
     public QueryMyPageResponse queryMyPage() {
         return queryMyPageService.execute();
