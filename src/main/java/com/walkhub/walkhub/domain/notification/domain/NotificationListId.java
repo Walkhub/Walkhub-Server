@@ -12,7 +12,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class NotificationListId implements Serializable {
 
-    private Long notification;
+    private Long notificationEntity;
 
     private Long user;
 
