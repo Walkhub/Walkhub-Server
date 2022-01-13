@@ -9,6 +9,6 @@ public class SaveImageFalseException extends WalkhubException {
             new SaveImageFalseException();
 
     private SaveImageFalseException() {
-        super(ErrorCode.IMAGE_NOT_FOUND);
+        super(ErrorCode.SAVE_IMAGE_FALSE);
     }
 }
