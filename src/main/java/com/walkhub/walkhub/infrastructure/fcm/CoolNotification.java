@@ -69,6 +69,11 @@ public class CoolNotification implements FcmUtil {
                                 .setBody(sendDto.getContent())
                                 .build()
                 )
+                .setApnsConfig(ApnsConfig.builder()
+                        .setAps(Aps.builder()
+                                .setSound("default")
+                                .build())
+                        .build())
                 .addAllTokens(deviceTokens)
                 .build();
         FirebaseMessaging.getInstance().sendMulticastAsync(message);
