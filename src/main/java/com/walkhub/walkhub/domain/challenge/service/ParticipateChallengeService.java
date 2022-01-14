@@ -26,8 +26,13 @@ public class ParticipateChallengeService {
         User user = userFacade.getCurrentUser();
         Challenge challenge = challengeFacade.getById(id);
 
-        isAlreadyParticipated(user, challenge);
-        verifyScope(user, challenge);
+        if (isAlreadyParticipated(user, challenge)) {
+            throw AlreadyParticipatedException.EXCEPTION;
+        }
+
+        if (verifyScope(user, challenge)) {
+            throw InvalidScopeException.EXCEPTION;
+        }
 
         ChallengeStatus challengeStatus = ChallengeStatus.builder()
                 .user(user)
@@ -37,27 +42,21 @@ public class ParticipateChallengeService {
         challengeStatusRepository.save(challengeStatus);
     }
 
-    private void isAlreadyParticipated(User user, Challenge challenge) {
-        if (challengeStatusRepository.findByUserAndChallenge(user, challenge).isPresent()) {
-            throw AlreadyParticipatedException.EXCEPTION;
-        }
+    private boolean isAlreadyParticipated(User user, Challenge challenge) {
+        return challengeStatusRepository.findByUserAndChallenge(user, challenge).isPresent();
     }
 
-    private void verifyScope(User user, Challenge challenge) {
+    private boolean verifyScope(User user, Challenge challenge) {
         Scope scope = challenge.getScope();
         User writer = challenge.getUser();
 
-        if (
-                (scope == Scope.SCH
-                        && !user.getSchool().equals(writer.getSchool())
-                )
-                || (scope == Scope.CLS
+        return (scope == Scope.SCH
+                && !user.getSchool().equals(writer.getSchool())
+        )
+                ||
+                (scope == Scope.CLS
                         && !user.getGroup().getClassNum().equals(writer.getGroup().getClassNum())
-                )
-        ) {
-            throw InvalidScopeException.EXCEPTION;
-        }
-
+        );
     }
 
 }
