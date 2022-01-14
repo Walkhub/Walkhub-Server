@@ -5,14 +5,10 @@ import com.walkhub.walkhub.domain.user.presentation.dto.request.InputHealthInfor
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.response.ListOfBadgesOwnResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryMyPageResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
-import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
-import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
-import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
-import com.walkhub.walkhub.domain.user.service.UpdateUserInfoService;
-import com.walkhub.walkhub.domain.user.service.UserAuthCodeService;
-import com.walkhub.walkhub.domain.user.service.UserSignUpService;
+import com.walkhub.walkhub.domain.user.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +33,7 @@ public class UserController {
     private final UserSignUpService userSignUpService;
     private final InputHealthInformationService inputHealthInformationService;
     private final UpdateUserInfoService updateUserInfoService;
+    private final ListOfBadgesOwnService listOfBadgesOwnService;
 
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -71,5 +68,10 @@ public class UserController {
     @PatchMapping
     public void updateUserInfo(@RequestBody @Valid UpdateUserInfoRequest request) {
         updateUserInfoService.execute(request);
+    }
+
+    @GetMapping("/{user-id}/badges")
+    public ListOfBadgesOwnResponse getBadgeList(@PathVariable("user-id") Long userId) {
+        return listOfBadgesOwnService.execute(userId);
     }
 }
