@@ -36,4 +36,10 @@ public class NotificationList {
         this.isRead = false;
     }
 
+    public void updateNotificationList(NotificationEntity notificationEntity, User userId) {
+        this.notificationEntity = notificationEntity;
+        this.user = userId;
+        this.isRead = true;
+    }
+
 }
