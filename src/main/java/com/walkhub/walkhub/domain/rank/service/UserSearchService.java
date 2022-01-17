@@ -7,6 +7,7 @@ import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserSearchRespo
 import com.walkhub.walkhub.global.enums.Scope;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,10 +18,11 @@ public class UserSearchService {
 
     private final UserRankRepository userRankRepository;
 
+    @Transactional(readOnly = true)
     public UserListResponse execute(String name, Scope scope, String agencyCode, Integer grade, Integer classNum) {
         List<UserRank> userRankList;
 
-        if (scope == Scope.CLS) {
+        if (Scope.CLS.equals(scope)) {
             userRankList = userRankRepository.findTop100ByNameContainsAndAgencyCodeAndClassNumAndGrade(name, agencyCode, grade, classNum);
         } else {
             userRankList = userRankRepository.findTop100ByNameContainsAndAgencyCode(name, agencyCode);
