@@ -33,7 +33,7 @@ public class QueryChallengeParticipantsListService {
                     return ChallengeParticipantsElement.builder()
                             .id(participant.getId())
                             .name(participant.getName())
-                            .gcn(participant.)
+                            // 학번 대신 추가
                             .profileImageUrl(participant.getProfileImageUrl())
                             .build();
                 })
