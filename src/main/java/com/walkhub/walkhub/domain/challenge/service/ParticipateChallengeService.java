@@ -55,7 +55,7 @@ public class ParticipateChallengeService {
         )
                 ||
                 (scope == Scope.CLS
-                        && !user.getGroup().getClassNum().equals(writer.getGroup().getClassNum())
+                        && !user.getGroup().getClassCode().equals(writer.getGroup().getClassCode())
         );
     }
 
