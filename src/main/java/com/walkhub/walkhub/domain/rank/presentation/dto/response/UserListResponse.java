@@ -9,5 +9,5 @@ import java.util.List;
 @Builder
 public class UserListResponse {
 
-    List<UserSearchResponse> userList;
+    private final List<UserSearchResponse> userList;
 }
