@@ -22,11 +22,15 @@ public class UserRank {
     private String name;
 
     private Integer grade;
+
     private Integer classNum;
+
     private String profileImageUrl;
 
     private Long walkCount;
+
     private Long userRank;
+
     private String agencyCode;
 
 }
