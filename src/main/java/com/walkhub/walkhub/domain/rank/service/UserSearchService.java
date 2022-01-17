@@ -31,9 +31,10 @@ public class UserSearchService {
         List<UserSearchResponse> userList = userRankList.stream().map(userRank ->
                 UserSearchResponse.builder()
                         .accountId(userRank.getAccountId())
-                        .classNum(userRank.getClassNum())
-                        .grade(userRank.getGrade())
                         .name(userRank.getName())
+                        .rank(userRank.getRank())
+                        .grade(userRank.getGrade())
+                        .classNum(userRank.getClassNum())
                         .profileImageUrl(userRank.getProfileImageUrl())
                         .walkCount(userRank.getClassNum())
                         .build()
