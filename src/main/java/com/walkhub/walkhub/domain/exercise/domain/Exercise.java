@@ -51,7 +51,7 @@ public class Exercise extends BaseTimeEntity {
     public Exercise(User user, Integer goal, GoalType goalType) {
         this.user = user;
         this.goalType = goalType;
-        if(goal != null) this.goal = goal;
+        this.goal = goal;
     }
 
     public void closeExercise(Integer walkCount, Integer distance, Integer calorie) {
