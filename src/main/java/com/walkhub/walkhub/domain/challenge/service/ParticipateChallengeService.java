@@ -52,7 +52,7 @@ public class ParticipateChallengeService {
 
         switch (scope) {
             case SCH:
-                return !user.getSchool().equals(writer.getSchool());
+                return !user.getRealSchoolAgencyCode().equals(writer.getRealSchoolAgencyCode());
             case CLS:
                 return !user.getClassCode().equals(writer.getClassCode());
             default:
