@@ -2,8 +2,10 @@ package com.walkhub.walkhub.domain.challenge.presentation;
 
 import com.walkhub.walkhub.domain.challenge.presentation.dto.request.CreateChallengeRequest;
 import com.walkhub.walkhub.domain.challenge.service.CreateChallengeService;
+import com.walkhub.walkhub.domain.challenge.service.ParticipateChallengeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +20,18 @@ import javax.validation.Valid;
 public class ChallengeController {
 
     private final CreateChallengeService createChallengeService;
+    private final ParticipateChallengeService participateChallengeService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public void createChallenge(@RequestBody @Valid CreateChallengeRequest request) {
         createChallengeService.execute(request);
     }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/{challenge-id}")
+    public void participateChallenge(@PathVariable("challenge-id") Long id) {
+        participateChallengeService.execute(id);
+    }
+
 }

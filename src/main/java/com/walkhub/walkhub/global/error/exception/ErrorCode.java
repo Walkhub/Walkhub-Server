@@ -14,13 +14,16 @@ public enum ErrorCode {
     EXPIRED_JWT(401, "COMMON-401-1", "Expired jwt"),
     INVALID_JWT(401, "COMMON-401-2", "Invalid jwt"),
     UNAUTHORIZED_USER_AUTH_CODE(401, "USER-401-1", "Unauthorized User authCode"),
+    INVALID_SCOPE(401, "CHALLENGE-401-1", "Invalid Scope"),
 
     USER_NOT_FOUND(404, "USER-404-1", "User Not Found"),
     USER_AUTH_CODE_NOT_FOUND(404, "USER-404-2", "User authCode Not Found"),
     REFRESH_TOKEN_NOT_FOUND(404, "AUTH-404-1", "Refresh Token Not Found"),
-    PASSWORD_NOT_FOUND(400, "AUTH-404-2", "Password Not Found"),
+    PASSWORD_NOT_FOUND(404, "AUTH-404-2", "Password Not Found"),
+    CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge Not Found"),
 
     USER_EXISTS(409, "USER-409-1", "User Exists"),
+    ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated"),
     CREDENTIALS_NOT_FOUND(401, "USER-401-1", "Credentials not found.");
 
     private final int status;
