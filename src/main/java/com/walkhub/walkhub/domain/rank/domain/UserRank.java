@@ -11,9 +11,9 @@ import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity
 @Immutable
 @Table(name = "user_rank")
+@Entity
 public class UserRank {
 
     @Id
