@@ -20,8 +20,8 @@ public class RankController {
     public UserListResponse userSearch(@RequestParam String name,
                                        @RequestParam Scope scope,
                                        @RequestParam String agencyCode,
-                                       @RequestParam Integer grade,
-                                       @RequestParam Integer classNum) {
+                                       @RequestParam(required = false) Integer grade,
+                                       @RequestParam(required = false) Integer classNum) {
         return userSearchService.execute(name, scope, agencyCode, grade, classNum);
     }
 }
