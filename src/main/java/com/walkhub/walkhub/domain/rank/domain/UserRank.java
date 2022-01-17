@@ -29,7 +29,7 @@ public class UserRank {
 
     private Long walkCount;
 
-    private Long userRank;
+    private Integer rank;
 
     private String agencyCode;
 
