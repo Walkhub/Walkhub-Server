@@ -50,8 +50,8 @@ public class Exercise extends BaseTimeEntity {
     @Builder
     public Exercise(User user, Integer goal, GoalType goalType) {
         this.user = user;
-        this.goal = goal;
         this.goalType = goalType;
+        this.goal = goal;
     }
 
     public void closeExercise(Integer walkCount, Integer distance, Integer calorie) {
