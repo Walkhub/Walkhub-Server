@@ -50,13 +50,14 @@ public class ParticipateChallengeService {
         Scope scope = challenge.getScope();
         User writer = challenge.getUser();
 
-        return (scope == Scope.SCH
-                && !user.getSchool().equals(writer.getSchool())
-        )
-                ||
-                (scope == Scope.CLS
-                        && !user.getGroup().getClassCode().equals(writer.getGroup().getClassCode())
-        );
+        switch (scope) {
+            case SCH:
+                return !user.getSchool().equals(writer.getSchool());
+            case CLS:
+                return !user.getClassCode().equals(writer.getClassCode());
+            default:
+                return false;
+        }
     }
 
 }

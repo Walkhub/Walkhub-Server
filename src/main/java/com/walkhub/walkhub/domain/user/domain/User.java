@@ -101,5 +101,9 @@ public class User {
         this.birthday = request.getBirthday();
         this.sex = request.getSex();
     }
+
+    public String getClassCode() {
+        return this.group.getClassCode();
+    }
   
 }
