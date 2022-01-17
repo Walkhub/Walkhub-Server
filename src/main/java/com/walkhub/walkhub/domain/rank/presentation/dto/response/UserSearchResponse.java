@@ -7,11 +7,11 @@ import lombok.Getter;
 @Builder
 public class UserSearchResponse {
 
-    private String accountId;
-    private String name;
-    private Integer rank;
-    private Integer grade;
-    private Integer classNum;
-    private String profileImageUrl;
-    private Integer walkCount;
+    private final String accountId;
+    private final String name;
+    private final Integer rank;
+    private final Integer grade;
+    private final Integer classNum;
+    private final String profileImageUrl;
+    private final Integer walkCount;
 }
