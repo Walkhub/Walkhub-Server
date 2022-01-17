@@ -30,7 +30,8 @@ public class ParticipateChallengeService {
             throw AlreadyParticipatedException.EXCEPTION;
         }
 
-        if (verifyScope(user, challenge)) {
+        if (verifyScope(user, challenge)
+                || user.getGroup() == null) {
             throw InvalidScopeException.EXCEPTION;
         }
 
