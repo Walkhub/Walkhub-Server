@@ -101,5 +101,13 @@ public class User {
         this.birthday = request.getBirthday();
         this.sex = request.getSex();
     }
+
+    public String getRealSchoolAgencyCode() {
+        return this.group.getSchool().getAgencyCode();
+    }
+
+    public String getClassCode() {
+        return this.group.getClassCode();
+    }
   
 }

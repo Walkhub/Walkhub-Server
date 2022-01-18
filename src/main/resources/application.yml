@@ -30,6 +30,13 @@ spring:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
 
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: always
+      table-prefix: batch_
+
 coolsms:
   key: ${SMS_KEY}
   secret: ${SMS_SECRET}
