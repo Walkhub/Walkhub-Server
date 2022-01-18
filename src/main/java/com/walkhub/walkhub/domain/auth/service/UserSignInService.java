@@ -2,7 +2,7 @@ package com.walkhub.walkhub.domain.auth.service;
 
 import com.walkhub.walkhub.domain.auth.domain.RefreshToken;
 import com.walkhub.walkhub.domain.auth.domain.repository.RefreshTokenRepository;
-import com.walkhub.walkhub.domain.auth.exception.PasswordNotFoundException;
+import com.walkhub.walkhub.domain.auth.exception.PasswordMismatchException;
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.SignInRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
@@ -33,7 +33,7 @@ public class UserSignInService {
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw PasswordNotFoundException.EXCEPTION;
+            throw PasswordMismatchException.EXCEPTION;
         }
 
         user.setDeviceToken(request.getDeviceToken());
