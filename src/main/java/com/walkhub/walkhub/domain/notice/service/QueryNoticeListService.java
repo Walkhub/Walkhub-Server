@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -21,11 +22,13 @@ public class QueryNoticeListService {
 	private final NoticeRepository noticeRepository;
 	private final UserFacade userFacade;
 
+	@Transactional(readOnly=true)
 	public QueryNoticeListResponse execute() {
 
-		List<NoticeResponse> noticeResponseList = noticeRepository.findAll()
+		User user = userFacade.getCurrentUser();
+
+		List<NoticeResponse> noticeResponseList = noticeRepository.findAllBy(user.getGroup().getSchool(), user.getAuthority())
 			.stream()
-			.filter(this::verifyScope)
 			.map(this::noticeResponseBuilder)
 			.collect(Collectors.toList());
 
@@ -46,14 +49,4 @@ public class QueryNoticeListService {
 			.build();
 	}
 
-	private boolean verifyScope(Notice notice) {
-		Scope scope = notice.getScope();
-		User writer = notice.getUser();
-		User reader = userFacade.getCurrentUser();
-
-		if (reader.getSchool() == writer.getSchool() || scope.equals(Scope.ALL)) {
-			return !scope.equals(Scope.TEA) || reader.getAuthority().equals(Authority.TCHR);
-		}
-		return false;
-	}
 }
