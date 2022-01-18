@@ -26,8 +26,8 @@ public class QueryChallengeParticipantsListService {
                     return ChallengeParticipantsElement.builder()
                             .id(participant.getId())
                             .name(participant.getName())
-                            // 학번 대신 추가
                             .profileImageUrl(participant.getProfileImageUrl())
+                            .schoolName(participant.getRealSchoolName())
                             .build();
                 })
                 .collect(Collectors.toList());

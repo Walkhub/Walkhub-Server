@@ -11,8 +11,8 @@ public class ChallengeParticipantsElement {
 
     private final String name;
 
-    private final String gcn;
-
     private final String profileImageUrl;
+
+    private final String schoolName;
 
 }
