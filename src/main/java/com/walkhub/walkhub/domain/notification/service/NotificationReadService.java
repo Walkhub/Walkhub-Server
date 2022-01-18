@@ -13,27 +13,27 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class IsNotificationReadService {
+public class NotificationReadService {
 
     private final NotificationListRepository notificationListRepository;
     private final NotificationRepository notificationRepository;
     private final UserFacade userFacade;
 
-    public void execute(Long notification_id) {
-        NotificationEntity notification = notificationRepository.findById(notification_id)
+    public void execute(Long notificationId) {
+        NotificationEntity notification = notificationRepository.findById(notificationId)
                 .orElseThrow(() -> NotificationNotFoundException.EXCEPTION);
 
         User user = userFacade.getCurrentUser();
 
         NotificationListId notificationListId = NotificationListId.builder()
-                .notificationEntity(notification_id)
+                .notificationEntity(notificationId)
                 .user(user.getId())
                 .build();
 
         NotificationList notificationList = notificationListRepository.findById(notificationListId)
                 .orElseThrow(() -> NotificationNotFoundException.EXCEPTION);
 
-        notificationList.updateNotificationList(notification, user);
+        notificationList.updateNotificationList();
     }
 
 }
