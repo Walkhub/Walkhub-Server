@@ -76,7 +76,7 @@ public class UserController {
         updateUserInfoService.execute(request);
     }
 
-    @ResponseStatus
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/classes/{agency-code}/{grade}/{class}")
     public void joinGroup(@PathVariable(name = "agency-code") String agencyCode,
                           @PathVariable(name = "grade") Integer grade,
