@@ -9,5 +9,5 @@ import java.util.List;
 @AllArgsConstructor
 public class ImageUrlResponse {
 
-    final List<String> imageUrl;
+    private final List<String> imageUrl;
 }
