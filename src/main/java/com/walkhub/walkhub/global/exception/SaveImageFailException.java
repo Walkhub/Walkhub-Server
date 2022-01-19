@@ -3,12 +3,12 @@ package com.walkhub.walkhub.global.exception;
 import com.walkhub.walkhub.global.error.exception.ErrorCode;
 import com.walkhub.walkhub.global.error.exception.WalkhubException;
 
-public class SaveImageFalseException extends WalkhubException {
+public class SaveImageFailException extends WalkhubException {
 
     public static final WalkhubException EXCEPTION =
-            new SaveImageFalseException();
+            new SaveImageFailException();
 
-    private SaveImageFalseException() {
-        super(ErrorCode.SAVE_IMAGE_FALSE);
+    private SaveImageFailException() {
+        super(ErrorCode.SAVE_IMAGE_FAIL);
     }
 }
