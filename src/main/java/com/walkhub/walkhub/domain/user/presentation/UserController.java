@@ -64,8 +64,8 @@ public class UserController {
         return userSignUpService.execute(request);
     }
 
-    @PatchMapping("/health")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/health")
     public void inputHealthInformationRequest(@RequestBody @Valid InputHealthInformationRequest request) {
         inputHealthInformationService.execute(request);
     }

@@ -18,8 +18,8 @@ public class ExerciseController {
 
 	private final CreateExerciseService createExerciseService;
 
-	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
+	@PostMapping
 	public CreateExerciseResponse createExercise(@RequestBody CreateExerciseRequest request) {
 		return createExerciseService.execute(request);
 	}
