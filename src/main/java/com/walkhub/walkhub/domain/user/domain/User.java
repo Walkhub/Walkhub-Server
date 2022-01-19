@@ -102,6 +102,10 @@ public class User {
         this.sex = request.getSex();
     }
 
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
     public String getRealSchoolAgencyCode() {
         return this.group.getSchool().getAgencyCode();
     }
