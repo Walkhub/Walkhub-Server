@@ -22,7 +22,7 @@ public class JoinGroupService {
     public void execute(String agencyCode, Integer grade, Integer classNum, String reqClassCode) {
         User user = userFacade.getCurrentUser();
 
-        if (userFacade.isAlreadyJoined(user.getGroup())) {
+        if (user.getGroup() != null) {
             throw AlreadyJoinedException.EXCEPTION;
         }
 
