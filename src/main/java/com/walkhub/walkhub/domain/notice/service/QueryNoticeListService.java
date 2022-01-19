@@ -9,6 +9,8 @@ import com.walkhub.walkhub.domain.notice.presentation.dto.response.QueryNoticeLi
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.enums.Authority;
+import com.walkhub.walkhub.global.exception.InvalidRoleException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -23,16 +25,25 @@ public class QueryNoticeListService {
 	private final UserFacade userFacade;
 
 	@Transactional(readOnly=true)
-	public QueryNoticeListResponse execute() {
-
+	public QueryNoticeListResponse execute(Scope scope) {
 		User user = userFacade.getCurrentUser();
+		List<Notice> noticeList = new ArrayList<>();
 
-		List<NoticeResponse> noticeResponseList = noticeRepository.findAllBy(user.getGroup().getSchool(), user.getAuthority())
-			.stream()
-			.map(this::noticeResponseBuilder)
-			.collect(Collectors.toList());
+		if (scope.equals(Scope.ALL)) {
+			noticeList = noticeRepository.findAllByScope(scope);
+		}
+		else {
+			if(user.getAuthority().equals(Authority.USER) && scope.equals(Scope.TEA)) {
+				throw InvalidRoleException.EXCEPTION;
+			}
+ 			noticeList = noticeRepository.findAllBySchoolAndScope(user.getGroup().getSchool(), scope);
+		}
 
-		return new QueryNoticeListResponse(noticeResponseList);
+		return new QueryNoticeListResponse(
+			noticeList.stream()
+				.map(this::noticeResponseBuilder)
+				.collect(Collectors.toList())
+		);
 	}
 
 	private NoticeResponse noticeResponseBuilder(Notice notice) {
