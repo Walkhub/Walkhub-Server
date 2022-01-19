@@ -2,12 +2,14 @@ package com.walkhub.walkhub.domain.user.presentation;
 
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.InputHealthInformationRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinGroupRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryMyPageResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
+import com.walkhub.walkhub.domain.user.service.JoinGroupService;
 import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
 import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
 import com.walkhub.walkhub.domain.user.service.UpdateUserInfoService;
@@ -37,6 +39,7 @@ public class UserController {
     private final UserSignUpService userSignUpService;
     private final InputHealthInformationService inputHealthInformationService;
     private final UpdateUserInfoService updateUserInfoService;
+    private final JoinGroupService joinGroupService;
 
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -72,4 +75,14 @@ public class UserController {
     public void updateUserInfo(@RequestBody @Valid UpdateUserInfoRequest request) {
         updateUserInfoService.execute(request);
     }
+
+    @ResponseStatus
+    @PostMapping("/classes/{agency-code}/{grade}/{class}")
+    public void joinGroup(@PathVariable(name = "agency-code") String agencyCode,
+                          @PathVariable(name = "grade") Integer grade,
+                          @PathVariable(name = "class") Integer classNum,
+                          @RequestBody @Valid JoinGroupRequest request) {
+        joinGroupService.execute(agencyCode, grade, classNum, request.getClassCode());
+    }
+
 }
