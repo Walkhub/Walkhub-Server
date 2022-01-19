@@ -18,7 +18,7 @@ public class ImageController {
     private final ImageUploadService imageUploadService;
 
     @PostMapping
-    public ImageUrlResponse saveImage(List<MultipartFile> files) {
-        return imageUploadService.execute(files);
+    public ImageUrlResponse saveImage(List<MultipartFile> images) {
+        return imageUploadService.execute(images);
     }
 }
