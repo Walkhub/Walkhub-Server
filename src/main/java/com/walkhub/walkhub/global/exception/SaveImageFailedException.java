@@ -9,6 +9,6 @@ public class SaveImageFailedException extends WalkhubException {
             new SaveImageFailedException();
 
     private SaveImageFailedException() {
-        super(ErrorCode.SAVE_IMAGE_FAIL);
+        super(ErrorCode.SAVE_IMAGE_FAILED);
     }
 }
