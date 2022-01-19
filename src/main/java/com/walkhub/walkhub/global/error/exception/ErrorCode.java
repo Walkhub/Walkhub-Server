@@ -10,7 +10,7 @@ import lombok.Getter;
 public enum ErrorCode {
 
     PASSWORD_NOT_MATCH(400, "AUTH-400-1", "Password Not Match"),
-    SAVE_IMAGE_FALSE(400, "COMMON-404-1", "Save Image False"),
+    SAVE_IMAGE_FAIL(400, "COMMON-404-1", "Save Image False"),
 
     EXPIRED_JWT(401, "COMMON-401-1", "Expired jwt"),
     INVALID_JWT(401, "COMMON-401-2", "Invalid jwt"),
