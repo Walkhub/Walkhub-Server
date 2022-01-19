@@ -15,13 +15,11 @@ public class ImageUploadService {
 
     private final S3Facade s3Facade;
 
-    public ImageUrlResponse execute(List<MultipartFile> files) {
-        List<String> imageUrls = files.stream()
+    public ImageUrlResponse execute(List<MultipartFile> images) {
+        List<String> imageUrl = images.stream()
                 .map(s3Facade::uploadImage)
                 .collect(Collectors.toList());
 
-        return ImageUrlResponse.builder()
-                .imageUrl(imageUrls)
-                .build();
+        return new ImageUrlResponse(imageUrl);
     }
 }
