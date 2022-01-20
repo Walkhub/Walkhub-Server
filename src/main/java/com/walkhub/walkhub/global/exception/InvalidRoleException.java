@@ -9,6 +9,6 @@ public class InvalidRoleException extends WalkhubException {
 		new InvalidRoleException();
 
 	private InvalidRoleException() {
-		super(ErrorCode.INVALID_JWT);
+		super(ErrorCode.INVALID_ROLE);
 	}
 }
