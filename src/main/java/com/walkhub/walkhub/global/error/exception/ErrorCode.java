@@ -17,7 +17,7 @@ public enum ErrorCode {
     INVALID_CLASS_CODE(401, "USER-401-2", "Invalid class code"),
     INVALID_SCOPE(401, "CHALLENGE-401-1", "Invalid Scope"),
     PASSWORD_MISMATCH(401, "AUTH-401-1", "Password Mismatch"),
-    INVALID_ROLE(401, "GLOBAL-401", "Invalid Role")
+    INVALID_ROLE(401, "GLOBAL-401", "Invalid Role"),
 
     USER_NOT_FOUND(404, "USER-404-1", "User Not Found"),
     USER_AUTH_CODE_NOT_FOUND(404, "USER-404-2", "User authCode Not Found"),
