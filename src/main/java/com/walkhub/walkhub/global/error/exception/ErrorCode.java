@@ -16,11 +16,12 @@ public enum ErrorCode {
     UNAUTHORIZED_USER_AUTH_CODE(401, "USER-401-1", "Unauthorized User authCode"),
     INVALID_CLASS_CODE(401, "USER-401-2", "Invalid class code"),
     INVALID_SCOPE(401, "CHALLENGE-401-1", "Invalid Scope"),
-    CREDENTIALS_NOT_FOUND(401, "USER-401-3", "Credentials not found."),
     PASSWORD_MISMATCH(401, "AUTH-401-1", "Password Mismatch"),
+    INVALID_ROLE(401, "GLOBAL-401", "Invalid Role")
 
     USER_NOT_FOUND(404, "USER-404-1", "User Not Found"),
     USER_AUTH_CODE_NOT_FOUND(404, "USER-404-2", "User authCode Not Found"),
+    CREDENTIALS_NOT_FOUND(401, "USER-404-3", "Credentials not found."),
     GROUP_NOT_FOUND(404, "GROUP-404-1", "Group not found"),
     REFRESH_TOKEN_NOT_FOUND(404, "AUTH-404-1", "Refresh Token Not Found"),
     CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge Not Found"),
