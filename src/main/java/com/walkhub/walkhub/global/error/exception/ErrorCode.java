@@ -26,7 +26,6 @@ public enum ErrorCode {
 
     USER_EXISTS(409, "USER-409-1", "User Exists"),
     ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated"),
-    CREDENTIALS_NOT_FOUND(401, "USER-401-1", "Credentials not found."),
 
     INVALID_ROLE(401, "GLOBAL-401", "Invalid Role");
 
