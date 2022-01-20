@@ -24,15 +24,15 @@ public class QueryNoticeListService {
 	private final NoticeRepository noticeRepository;
 	private final UserFacade userFacade;
 
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public QueryNoticeListResponse execute(Scope scope) {
 		User user = userFacade.getCurrentUser();
 		List<Notice> noticeList;
 
 		if (scope.equals(Scope.ALL)) {
 			noticeList = noticeRepository.findAllByScope(scope);
-		} else if(user.getAuthority().equals(Authority.USER) && scope.equals(Scope.TEA)) {
-				throw InvalidRoleException.EXCEPTION;
+		} else if (user.getAuthority().equals(Authority.USER) && scope.equals(Scope.TEA)) {
+			throw InvalidRoleException.EXCEPTION;
 		} else {
 			noticeList = noticeRepository
 				.findAllBySchoolAndScope(user.getGroup().getSchool(), scope);
