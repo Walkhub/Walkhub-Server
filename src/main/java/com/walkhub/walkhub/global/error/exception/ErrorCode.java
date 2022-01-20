@@ -9,7 +9,8 @@ import lombok.Getter;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ErrorCode {
 
-    SAVE_IMAGE_FALSE(400, "COMMON-404-1", "Save Image False"),
+    PASSWORD_NOT_MATCH(400, "AUTH-400-1", "Password Not Match"),
+    SAVE_IMAGE_FAILED(400, "COMMON-400-1", "Save Image Failed"),
 
     EXPIRED_JWT(401, "COMMON-401-1", "Expired jwt"),
     INVALID_JWT(401, "COMMON-401-2", "Invalid jwt"),
@@ -25,7 +26,7 @@ public enum ErrorCode {
     GROUP_NOT_FOUND(404, "GROUP-404-1", "Group not found"),
     REFRESH_TOKEN_NOT_FOUND(404, "AUTH-404-1", "Refresh Token Not Found"),
     CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge Not Found"),
-  
+
     USER_EXISTS(409, "USER-409-1", "User Exists"),
     ALREADY_JOINED(409, "USER-409-2", "Already joined"),
     ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated");
