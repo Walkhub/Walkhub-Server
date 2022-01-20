@@ -20,7 +20,7 @@ public class JoinGroupService {
     private final GroupRepository groupRepository;
 
     @Transactional
-    public void execute(String agencyCode, Integer grade, Integer classNum, String reqClassCode) {
+    public void execute(String agencyCode, Integer grade, Integer classNum, String requestClassCode) {
         User user = userFacade.getCurrentUser();
 
         if (user.getGroup() != null) {
@@ -30,7 +30,7 @@ public class JoinGroupService {
         Group group = groupRepository.findById(new GroupId(grade, classNum, agencyCode))
                 .orElseThrow(() -> GroupNotFoundException.EXCEPTION);
 
-        if (!reqClassCode.equals(group.getClassCode())) {
+        if (!requestClassCode.equals(group.getClassCode())) {
             throw InvalidClassCodeException.EXCEPTION;
         }
 
