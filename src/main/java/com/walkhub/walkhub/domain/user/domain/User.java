@@ -104,10 +104,17 @@ public class User {
 
     public void setGroup(Group group) {
         this.group = group;
+      
+    public School getRealSchool() {
+        return this.group.getSchool();
     }
 
     public String getRealSchoolAgencyCode() {
-        return this.group.getSchool().getAgencyCode();
+        return this.getRealSchool().getAgencyCode();
+    }
+
+    public String getRealSchoolName() {
+        return this.getRealSchool().getName();
     }
 
     public String getClassCode() {
