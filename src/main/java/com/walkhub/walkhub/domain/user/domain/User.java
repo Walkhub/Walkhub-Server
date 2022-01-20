@@ -104,6 +104,7 @@ public class User {
 
     public void setGroup(Group group) {
         this.group = group;
+    }
       
     public School getRealSchool() {
         return this.group.getSchool();
