@@ -25,7 +25,9 @@ public enum ErrorCode {
     CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge Not Found"),
 
     USER_EXISTS(409, "USER-409-1", "User Exists"),
-    ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated");
+    ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated"),
+
+    INVALID_ROLE(401, "GLOBAL-401", "Invalid Role");
 
     private final int status;
     private final String code;
