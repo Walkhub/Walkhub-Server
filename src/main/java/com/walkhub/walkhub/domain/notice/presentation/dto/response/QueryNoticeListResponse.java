@@ -11,7 +11,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class QueryNoticeListResponse {
 
-	public List<NoticeResponse> noticeList;
+	public final List<NoticeResponse> noticeList;
 
 	@Getter
 	@Builder

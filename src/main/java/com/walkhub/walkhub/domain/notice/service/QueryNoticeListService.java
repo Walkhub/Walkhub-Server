@@ -27,7 +27,7 @@ public class QueryNoticeListService {
 	@Transactional(readOnly=true)
 	public QueryNoticeListResponse execute(Scope scope) {
 		User user = userFacade.getCurrentUser();
-		List<Notice> noticeList = new ArrayList<>();
+		List<Notice> noticeList;
 
 		if (scope.equals(Scope.ALL)) {
 			noticeList = noticeRepository.findAllByScope(scope);
