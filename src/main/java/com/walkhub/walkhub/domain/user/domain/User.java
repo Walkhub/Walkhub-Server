@@ -102,8 +102,16 @@ public class User {
         this.sex = request.getSex();
     }
 
+    public School getRealSchool() {
+        return this.group.getSchool();
+    }
+
     public String getRealSchoolAgencyCode() {
-        return this.group.getSchool().getAgencyCode();
+        return this.getRealSchool().getAgencyCode();
+    }
+
+    public String getRealSchoolName() {
+        return this.getRealSchool().getName();
     }
 
     public String getClassCode() {
