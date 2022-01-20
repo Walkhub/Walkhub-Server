@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.domain.user.service;
 
 import com.walkhub.walkhub.domain.user.domain.Group;
+import com.walkhub.walkhub.domain.user.domain.GroupId;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.GroupRepository;
 import com.walkhub.walkhub.domain.user.exception.AlreadyJoinedException;
@@ -26,7 +27,7 @@ public class JoinGroupService {
             throw AlreadyJoinedException.EXCEPTION;
         }
 
-        Group group = groupRepository.findBySchoolAgencyCodeAndGradeAndClassNum(agencyCode, grade, classNum)
+        Group group = groupRepository.findById(new GroupId(grade, classNum, agencyCode))
                 .orElseThrow(() -> GroupNotFoundException.EXCEPTION);
 
         if (!reqClassCode.equals(group.getClassCode())) {
