@@ -102,6 +102,10 @@ public class User {
         this.sex = request.getSex();
     }
 
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+      
     public School getRealSchool() {
         return this.group.getSchool();
     }
