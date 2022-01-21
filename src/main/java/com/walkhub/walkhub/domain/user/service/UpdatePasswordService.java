@@ -26,8 +26,9 @@ public class UpdatePasswordService {
         UserAuthCode code = userAuthCodeRepository.findById(request.getPhoneNumber())
                 .orElseThrow(() -> UserAuthCodeNotFoundException.EXCEPTION);
 
-        if (!code.getCode().equals(request.getAuthCode()))
+        if (!code.getCode().equals(request.getAuthCode())) {
             throw UnauthorizedUserAuthCodeException.EXCEPTION;
+        }
 
         User user = userFacade.getUserByAccountId(request.getAccountId());
 
