@@ -26,6 +26,7 @@ public enum ErrorCode {
     GROUP_NOT_FOUND(404, "GROUP-404-1", "Group not found"),
     REFRESH_TOKEN_NOT_FOUND(404, "AUTH-404-1", "Refresh Token Not Found"),
     CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge Not Found"),
+    EXERCISE_NOT_FOUND(404, "EXERCISE-404-1", "Exercise not found"),
 
     USER_EXISTS(409, "USER-409-1", "User Exists"),
     ALREADY_JOINED(409, "USER-409-2", "Already joined"),
