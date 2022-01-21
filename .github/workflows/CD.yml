@@ -32,5 +32,8 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
       
-    - name: Publish on Dockerhub
-      run: docker build -t teamwalkhub/walkhub-server --push .
+    - name: Build on Dockerhub
+      run: docker build -t teamwalkhub/walkhub-server .
+
+    - name: Push on Dockerhub
+      run: docker push teamwalkhub/walkhub-server
