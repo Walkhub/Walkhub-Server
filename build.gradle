@@ -47,6 +47,10 @@ test {
 	useJUnitPlatform()
 }
 
+jar {
+	enabled = false
+}
+
 sonarqube {
 	properties {
 		property "sonar.projectKey", "Walkhub_Walkhub-Server"
