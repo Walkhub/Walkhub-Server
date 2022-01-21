@@ -9,6 +9,8 @@ import com.walkhub.walkhub.domain.user.exception.UserAuthCodeNotFoundException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdatePasswordRequest;
 import lombok.RequiredArgsConstructor;
+import org.apache.http.client.utils.URIUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,7 @@ public class UpdatePasswordService {
 
     private final UserAuthCodeRepository userAuthCodeRepository;
     private final UserFacade userFacade;
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
     @Transactional
@@ -31,7 +34,7 @@ public class UpdatePasswordService {
 
         User user = userFacade.getUserByAccountId(request.getAccountId());
 
-        user.setPassword(request.getNewPassword());
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
 
         userRepository.save(user);
     }
