@@ -34,9 +34,7 @@ public class UpdatePasswordService {
 
         User user = userFacade.getUserByAccountId(request.getAccountId());
 
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-
-        userRepository.save(user);
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));≠
     }
 
 }
