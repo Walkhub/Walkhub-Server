@@ -10,8 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -22,21 +22,24 @@ public class FinishExerciseService {
 
     @Transactional
     public void execute(Long exerciseId, FinishExerciseRequest request) {
-        List<CertifyingShot> certifyingShotList = new ArrayList<>();
         Exercise exercise = exerciseRepository.findById(exerciseId)
                 .orElseThrow(() -> ExerciseNotFoundException.EXCEPTION);
-        exercise.closeExercise(request.getWalkCount(), request.getDistance(), 0);
 
-        for (String image : request.getImageUrl()) {
-            CertifyingShot certifyingShot = CertifyingShot.builder()
-                    .exercise(exercise)
-                    .photo(image)
-                    .build();
+        exercise.closeExercise(request.getWalkCount(), request.getDistance(), request.getCalorie());
 
-            certifyingShotList.add(certifyingShot);
-        }
+        List<CertifyingShot> certifyingShotList = request.getImageUrl()
+                .stream()
+                .map(image -> buildCertifyingShot(exercise, image))
+                .collect(Collectors.toList());
 
         certifyingShotRepository.saveAll(certifyingShotList);
+    }
+
+    private CertifyingShot buildCertifyingShot(Exercise exercise, String image) {
+        return CertifyingShot.builder()
+                .exercise(exercise)
+                .photo(image)
+                .build();
     }
 
 }
