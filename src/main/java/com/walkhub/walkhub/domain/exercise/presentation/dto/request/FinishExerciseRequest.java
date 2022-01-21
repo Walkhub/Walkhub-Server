@@ -17,6 +17,9 @@ public class FinishExerciseRequest {
     @NotNull(message = "distance는 null, 공백을 허용하지 않습니다.")
     private Integer distance;
 
+    @NotNull(message = "calorie는 null, 공백을 허용하지 않습니다.")
+    private Integer calorie;
+
     @NotEmpty(message = "image_url은 공백을 허용하지 않습니다.")
     private List<String> imageUrl;
 
