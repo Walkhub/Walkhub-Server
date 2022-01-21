@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class FinishExerciseService {
@@ -19,6 +22,7 @@ public class FinishExerciseService {
 
     @Transactional
     public void execute(Long exerciseId, FinishExerciseRequest request) {
+        List<CertifyingShot> certifyingShotList = new ArrayList<>();
         Exercise exercise = exerciseRepository.findById(exerciseId)
                 .orElseThrow(() -> ExerciseNotFoundException.EXCEPTION);
         exercise.closeExercise(request.getWalkCount(), request.getDistance(), 0);
@@ -29,8 +33,10 @@ public class FinishExerciseService {
                     .photo(image)
                     .build();
 
-            certifyingShotRepository.save(certifyingShot);
+            certifyingShotList.add(certifyingShot);
         }
+
+        certifyingShotRepository.saveAll(certifyingShotList);
     }
 
 }
