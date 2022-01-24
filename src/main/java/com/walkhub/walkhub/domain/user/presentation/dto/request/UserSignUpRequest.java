@@ -29,4 +29,6 @@ public class UserSignUpRequest {
     @NotBlank(message = "auth_code는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
     private String authCode;
 
+    @NotBlank(message = "school_name은 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
+    private String schoolName;
 }
