@@ -9,29 +9,29 @@ import lombok.Getter;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ErrorCode {
 
-    PASSWORD_NOT_MATCH(400, "AUTH-400-1", "Password Not Match"),
-    SAVE_IMAGE_FAILED(400, "COMMON-400-1", "Save Image Failed"),
+    PASSWORD_NOT_MATCH(400, "AUTH-400-1", "Password not match"),
+    SAVE_IMAGE_FAILED(400, "COMMON-400-1", "Save image failed"),
 
     EXPIRED_JWT(401, "COMMON-401-1", "Expired jwt"),
     INVALID_JWT(401, "COMMON-401-2", "Invalid jwt"),
-    UNAUTHORIZED_USER_AUTH_CODE(401, "USER-401-1", "Unauthorized User authCode"),
+    UNAUTHORIZED_USER_AUTH_CODE(401, "USER-401-1", "Unauthorized user authCode"),
     INVALID_CLASS_CODE(401, "USER-401-2", "Invalid class code"),
-    INVALID_SCOPE(401, "CHALLENGE-401-1", "Invalid Scope"),
-    PASSWORD_MISMATCH(401, "AUTH-401-1", "Password Mismatch"),
-    INVALID_ROLE(401, "GLOBAL-401", "Invalid Role"),
+    INVALID_SCOPE(401, "CHALLENGE-401-1", "Invalid scope"),
+    PASSWORD_MISMATCH(401, "AUTH-401-1", "Password mismatch"),
+    INVALID_ROLE(401, "GLOBAL-401", "Invalid role"),
 
-    USER_NOT_FOUND(404, "USER-404-1", "User Not Found"),
-    USER_AUTH_CODE_NOT_FOUND(404, "USER-404-2", "User authCode Not Found"),
+    USER_NOT_FOUND(404, "USER-404-1", "User not found"),
+    USER_AUTH_CODE_NOT_FOUND(404, "USER-404-2", "User authCode not found"),
     CREDENTIALS_NOT_FOUND(401, "USER-404-3", "Credentials not found."),
     GROUP_NOT_FOUND(404, "GROUP-404-1", "Group not found"),
-    REFRESH_TOKEN_NOT_FOUND(404, "AUTH-404-1", "Refresh Token Not Found"),
-    CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge Not Found"),
+    REFRESH_TOKEN_NOT_FOUND(404, "AUTH-404-1", "Refresh token not found"),
+    CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge not found"),
     EXERCISE_NOT_FOUND(404, "EXERCISE-404-1", "Exercise not found"),
 
-    USER_EXISTS(409, "USER-409-1", "User Exists"),
-    ALREADY_CREATED(409, "USER-409-2", "Already created"),
+    USER_EXISTS(409, "USER-409-1", "User exists"),
+    ALREADY_CREATED(409, "GROUP-409-2", "Already created"),
     ALREADY_JOINED(409, "USER-409-2", "Already joined"),
-    ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated");
+    ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already participated");
 
     private final int status;
     private final String code;
