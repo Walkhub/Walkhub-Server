@@ -3,9 +3,9 @@ package com.walkhub.walkhub.domain.user.service;
 import com.walkhub.walkhub.domain.user.domain.UserAuthCode;
 import com.walkhub.walkhub.domain.user.domain.repository.UserAuthCodeRepository;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
+import com.walkhub.walkhub.global.utils.code.CreateRandomCodeUtil;
 import com.walkhub.walkhub.infrastructure.sms.coolsms.CoolSms;
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.utility.RandomString;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class UserAuthCodeService {
     @Async
     public void execute(UserAuthCodeRequest request) {
         String phoneNumber = request.getPhoneNumber();
-        String code = RandomString.make(5);
+        String code = CreateRandomCodeUtil.random();
 
         coolSms.sendCode(phoneNumber, code);
 
