@@ -15,7 +15,7 @@ public class NotificationController {
     private final NotificationReadService notificationReadService;
 
     @PatchMapping("/{notification-id}")
-    public void isNotificationRead(@PathVariable("notification-id") Long notificationId) {
+    public void notificationRead(@PathVariable("notification-id") Long notificationId) {
         notificationReadService.execute(notificationId);
     }
 
