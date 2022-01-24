@@ -20,13 +20,13 @@ public class QueryMyPageService {
 		return QueryMyPageResponse.builder()
 			.id(user.getId())
 			.name(user.getName())
-			.profileImage(user.getProfileImageUrl())
+			.profileImageUrl(user.getProfileImageUrl())
 			.schoolName(user.getSchool().getName())
 			.grade(user.getGroup().getGrade())
 			.titleBadge(TitleBadge.builder()
 				.id(titleBadge.getId())
 				.name(titleBadge.getName())
-				.image(titleBadge.getImage())
+				.imageUrl(titleBadge.getImageUrl())
 				.build())
 			.build();
 	}

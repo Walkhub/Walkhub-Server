@@ -22,12 +22,12 @@ public class School {
     private String name;
 
     @Column
-    private String logoImage;
+    private String logoImageUrl;
 
     @Builder
-    public School(String agencyCode, String name, String logoImage) {
+    public School(String agencyCode, String name, String logoImageUrl) {
         this.agencyCode = agencyCode;
         this.name = name;
-        this.logoImage = logoImage;
+        this.logoImageUrl = logoImageUrl;
     }
 }
