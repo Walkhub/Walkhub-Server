@@ -109,6 +109,10 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public void setSchool(School school) {
+        this.school = school;
+    }
       
     public School getRealSchool() {
         return this.group.getSchool();
