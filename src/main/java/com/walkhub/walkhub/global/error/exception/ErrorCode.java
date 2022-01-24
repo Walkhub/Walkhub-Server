@@ -29,6 +29,7 @@ public enum ErrorCode {
     EXERCISE_NOT_FOUND(404, "EXERCISE-404-1", "Exercise not found"),
 
     USER_EXISTS(409, "USER-409-1", "User Exists"),
+    ALREADY_CREATED(409, "USER-409-2", "Already created"),
     ALREADY_JOINED(409, "USER-409-2", "Already joined"),
     ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated");
 
