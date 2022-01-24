@@ -1,11 +1,14 @@
 package com.walkhub.walkhub.domain.user.presentation.dto.request;
 
+import com.walkhub.walkhub.domain.user.domain.type.Sex;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.math.BigDecimal;
 
 @Getter
 @NoArgsConstructor
@@ -29,6 +32,16 @@ public class UserSignUpRequest {
     @NotBlank(message = "auth_code는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
     private String authCode;
 
-    @NotBlank(message = "school_name은 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
-    private String schoolName;
+    @NotBlank(message = "agency_code는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
+    private String agencyCode;
+
+    private Integer weight;
+
+    @Digits(integer = 3, fraction = 1)
+    private BigDecimal height;
+
+    private Sex sex;
+
+    private String birthday;
+
 }
