@@ -28,15 +28,14 @@ public class CreateClassService {
         Integer grade = request.getGrade();
         Integer classNum = request.getClassNum();
         String classCode = RandomCodeUtil.make();
+        Group group = Group.builder()
+                .grade(grade)
+                .classNum(classNum)
+                .school(userSchool)
+                .classCode(classCode)
+                .build();
 
         try {
-            Group group = Group.builder()
-                    .grade(grade)
-                    .classNum(classNum)
-                    .school(userSchool)
-                    .classCode(classCode)
-                    .build();
-
             groupRepository.save(group);
             user.setGroup(group);
         } catch (DataIntegrityViolationException e) {
