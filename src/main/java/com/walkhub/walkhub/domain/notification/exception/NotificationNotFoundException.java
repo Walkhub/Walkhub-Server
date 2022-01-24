@@ -9,7 +9,7 @@ public class NotificationNotFoundException extends WalkhubException {
             new NotificationNotFoundException();
 
     private NotificationNotFoundException() {
-        super(ErrorCode.USER_NOT_FOUND);
+        super(ErrorCode.NOTIFICATION_NOT_FOUND);
     }
 
 }
