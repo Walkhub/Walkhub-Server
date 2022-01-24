@@ -24,7 +24,7 @@ public enum ErrorCode {
 
     USER_EXISTS(409, "USER-409-1", "User Exists"),
   
-    NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification not found."),
+    NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification Not Found."),
   
     ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated"),
     CREDENTIALS_NOT_FOUND(401, "USER-401-1", "Credentials not found.");
