@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.domain.user.service;
 
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
+import com.walkhub.walkhub.domain.user.domain.School;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.UserAuthCode;
 import com.walkhub.walkhub.domain.user.domain.repository.SchoolRepository;
@@ -41,8 +42,8 @@ public class UserSignUpService {
 
         userFacade.checkUserExists(request.getAccountId());
 
-        schoolRepository.findByName(request.getSchoolName())
-                        .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
+        School school = schoolRepository.findByName(request.getSchoolName())
+                .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
 
         userRepository.save(User.builder()
                 .accountId(request.getAccountId())
@@ -50,6 +51,7 @@ public class UserSignUpService {
                 .phoneNumber(request.getPhoneNumber())
                 .authority(Authority.USER)
                 .name(request.getName())
+                .school(school)
                 .isMeasuring(false)
                 .build());
 
