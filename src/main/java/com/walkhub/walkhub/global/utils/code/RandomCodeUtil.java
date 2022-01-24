@@ -2,13 +2,13 @@ package com.walkhub.walkhub.global.utils.code;
 
 import net.bytebuddy.utility.RandomString;
 
-public class CreateRandomCodeUtil {
+public class RandomCodeUtil {
 
-    private CreateRandomCodeUtil() {
+    private RandomCodeUtil() {
         throw new IllegalStateException("Utility class");
     }
 
-    public static String random() {
+    public static String make() {
         return RandomString.make(5);
     }
 

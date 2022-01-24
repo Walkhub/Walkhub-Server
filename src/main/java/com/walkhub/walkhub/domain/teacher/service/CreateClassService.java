@@ -9,7 +9,7 @@ import com.walkhub.walkhub.domain.teacher.exception.AlreadyCreatedException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.CreateClassRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CreateClassResponse;
-import com.walkhub.walkhub.global.utils.code.CreateRandomCodeUtil;
+import com.walkhub.walkhub.global.utils.code.RandomCodeUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +33,7 @@ public class CreateClassService {
             throw AlreadyCreatedException.EXCEPTION;
         }
 
-        String classCode = CreateRandomCodeUtil.random();
+        String classCode = RandomCodeUtil.make();
         Group group = Group.builder()
                 .grade(grade)
                 .classNum(classNum)
