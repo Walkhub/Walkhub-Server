@@ -11,6 +11,8 @@ import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @RequiredArgsConstructor
 @Service
 public class NotificationReadService {
@@ -19,6 +21,7 @@ public class NotificationReadService {
     private final NotificationRepository notificationRepository;
     private final UserFacade userFacade;
 
+    @Transactional
     public void execute(Long notificationId) {
         NotificationEntity notification = notificationRepository.findById(notificationId)
                 .orElseThrow(() -> NotificationNotFoundException.EXCEPTION);
@@ -33,7 +36,7 @@ public class NotificationReadService {
         NotificationList notificationList = notificationListRepository.findById(notificationListId)
                 .orElseThrow(() -> NotificationNotFoundException.EXCEPTION);
 
-        notificationList.updateNotificationList();
+        notificationList.updateNotificationIsRead();
     }
 
 }
