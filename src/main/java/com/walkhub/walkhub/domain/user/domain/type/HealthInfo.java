@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.validation.constraints.Digits;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -20,7 +19,7 @@ public class HealthInfo implements Serializable {
     @Column(columnDefinition = "TINYINT unsigned")
     private Integer weight;
 
-    @Digits(integer = 3, fraction = 1)
+    @Column(precision = 4, scale = 1)
     private BigDecimal height;
 
 }
