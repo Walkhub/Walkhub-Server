@@ -3,8 +3,10 @@ package com.walkhub.walkhub.domain.user.service;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.UserAuthCode;
+import com.walkhub.walkhub.domain.user.domain.repository.SchoolRepository;
 import com.walkhub.walkhub.domain.user.domain.repository.UserAuthCodeRepository;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
+import com.walkhub.walkhub.domain.user.exception.SchoolNotFoundException;
 import com.walkhub.walkhub.domain.user.exception.UnauthorizedUserAuthCodeException;
 import com.walkhub.walkhub.domain.user.exception.UserAuthCodeNotFoundException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
@@ -24,6 +26,7 @@ public class UserSignUpService {
 
     private final UserAuthCodeRepository userAuthCodeRepository;
     private final UserFacade userFacade;
+    private final SchoolRepository schoolRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
@@ -37,6 +40,9 @@ public class UserSignUpService {
             throw UnauthorizedUserAuthCodeException.EXCEPTION;
 
         userFacade.checkUserExists(request.getAccountId());
+
+        schoolRepository.findByName(request.getSchoolName())
+                        .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
 
         userRepository.save(User.builder()
                 .accountId(request.getAccountId())
