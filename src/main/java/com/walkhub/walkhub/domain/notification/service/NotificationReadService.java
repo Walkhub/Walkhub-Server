@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.notification.service;
 
-import com.walkhub.walkhub.domain.notification.domain.NotificationEntity;
 import com.walkhub.walkhub.domain.notification.domain.NotificationList;
 import com.walkhub.walkhub.domain.notification.domain.NotificationListId;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationListRepository;
