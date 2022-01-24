@@ -3,7 +3,6 @@ package com.walkhub.walkhub.domain.rank.service;
 import com.walkhub.walkhub.domain.rank.domain.UserRank;
 import com.walkhub.walkhub.domain.rank.domain.repository.UserRankRepository;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListResponse;
-import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserSearchResponse;
 import com.walkhub.walkhub.global.enums.Scope;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,8 +27,8 @@ public class UserSearchService {
             userRankList = userRankRepository.findTop100ByNameContainsAndAgencyCode(name, agencyCode);
         }
 
-        List<UserSearchResponse> userList = userRankList.stream().map(userRank ->
-                UserSearchResponse.builder()
+        List<UserListResponse.UserSearchResponse> userList = userRankList.stream().map(userRank ->
+                UserListResponse.UserSearchResponse.builder()
                         .accountId(userRank.getAccountId())
                         .name(userRank.getName())
                         .rank(userRank.getRank())
