@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.notification.exception;
 
-import com.walkhub.walkhub.domain.user.exception.UserNotFoundException;
 import com.walkhub.walkhub.global.error.exception.ErrorCode;
 import com.walkhub.walkhub.global.error.exception.WalkhubException;
 
