@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class VerificationCodeService {
 
     private final UserFacade userFacade;
-    TeacherAuthCodeRepository teacherAuthCodeRepository;
+    private final TeacherAuthCodeRepository teacherAuthCodeRepository;
 
     public VerificationCodeResponse execute() {
         User user = userFacade.getCurrentUser();
