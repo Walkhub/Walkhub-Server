@@ -4,6 +4,7 @@ import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenRespon
 import com.walkhub.walkhub.domain.user.presentation.dto.request.InputHealthInformationRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinGroupRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdatePasswordRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateSchoolInfoRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
@@ -14,6 +15,7 @@ import com.walkhub.walkhub.domain.user.service.JoinGroupService;
 import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
 import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
 import com.walkhub.walkhub.domain.user.service.UpdatePasswordService;
+import com.walkhub.walkhub.domain.user.service.UpdateSchoolInfoService;
 import com.walkhub.walkhub.domain.user.service.UpdateUserInfoService;
 import com.walkhub.walkhub.domain.user.service.UserAuthCodeService;
 import com.walkhub.walkhub.domain.user.service.UserSignUpService;
@@ -43,6 +45,7 @@ public class UserController {
     private final UpdateUserInfoService updateUserInfoService;
     private final JoinGroupService joinGroupService;
     private final UpdatePasswordService updatePasswordService;
+    private final UpdateSchoolInfoService updateSchoolInfoService;
 
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -92,6 +95,12 @@ public class UserController {
     @PatchMapping("/password")
     public void updatePassword(@RequestBody @Valid UpdatePasswordRequest request) {
         updatePasswordService.execute(request);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/school")
+    public void updateSchoolInfo(@RequestBody @Valid UpdateSchoolInfoRequest request) {
+        updateSchoolInfoService.execute(request);
     }
 
 }
