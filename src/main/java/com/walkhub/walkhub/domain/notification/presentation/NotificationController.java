@@ -2,10 +2,8 @@ package com.walkhub.walkhub.domain.notification.presentation;
 
 import com.walkhub.walkhub.domain.notification.service.NotificationReadService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,6 +13,7 @@ public class NotificationController {
     private final NotificationReadService notificationReadService;
 
     @PatchMapping("/{notification-id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void notificationRead(@PathVariable("notification-id") Long notificationId) {
         notificationReadService.execute(notificationId);
     }
