@@ -23,7 +23,7 @@ public class NotificationReadService {
 
     @Transactional
     public void execute(Long notificationId) {
-        NotificationEntity notification = notificationRepository.findById(notificationId)
+        notificationRepository.findById(notificationId)
                 .orElseThrow(() -> NotificationNotFoundException.EXCEPTION);
 
         User user = userFacade.getCurrentUser();
