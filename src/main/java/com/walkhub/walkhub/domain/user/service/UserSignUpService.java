@@ -42,7 +42,7 @@ public class UserSignUpService {
 
         userFacade.checkUserExists(request.getAccountId());
 
-        School school = schoolRepository.findByName(request.getSchoolName())
+        School school = schoolRepository.findById(request.getAgencyCode())
                 .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
 
         userRepository.save(User.builder()
@@ -52,6 +52,10 @@ public class UserSignUpService {
                 .authority(Authority.USER)
                 .name(request.getName())
                 .school(school)
+                .height(request.getHeight())
+                .weight(request.getWeight())
+                .sex(request.getSex())
+                .birthday(request.getBirthday())
                 .isMeasuring(false)
                 .build());
 
