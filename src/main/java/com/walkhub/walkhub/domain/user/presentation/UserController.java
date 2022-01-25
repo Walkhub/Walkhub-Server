@@ -5,6 +5,7 @@ import com.walkhub.walkhub.domain.user.presentation.dto.request.InputHealthInfor
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.response.ListOfBadgesOwnResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryMyPageResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.service.*;
@@ -70,7 +71,7 @@ public class UserController {
     }
 
     @GetMapping("/{user-id}/badges")
-    public void getBadgeList(@PathVariable("user-id") Long userId) {
-        listOfBadgesOwnService.execute(userId);
+    public ListOfBadgesOwnResponse getBadgeList(@PathVariable("user-id") Long userId) {
+        return listOfBadgesOwnService.execute(userId);
     }
 }
