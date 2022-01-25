@@ -2,20 +2,35 @@ package com.walkhub.walkhub.domain.user.service;
 
 import com.walkhub.walkhub.domain.user.domain.Badge;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.domain.user.domain.repository.BadgeRepository;
+import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
+import com.walkhub.walkhub.domain.user.exception.BadgeNotFoundException;
+import com.walkhub.walkhub.domain.user.exception.BadgeUnauthorizedException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.QueryTitleBadgeRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryMyPageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
 @Service
 public class TitleBadgeSettingService {
 
+    private final BadgeRepository badgeRepository;
     private final UserFacade userFacade;
 
-    public QueryMyPageResponse execute() {
+    @Transactional
+    public QueryMyPageResponse execute(QueryTitleBadgeRequest request) {
         User user = userFacade.getCurrentUser();
-        Badge titleBadge = user.getBadge();
+        Badge titleBadge = badgeRepository.findById(request.getBadgeId())
+                .orElseThrow(() -> BadgeNotFoundException.EXCEPTION);
+
+
+        if (!user.getBadge().equals(request.getBadgeId())) {
+            throw BadgeUnauthorizedException.EXCEPTION;
+        }
         return QueryMyPageResponse.builder()
                 .titleBadge(QueryMyPageResponse.TitleBadge.builder()
                         .id(titleBadge.getId())
