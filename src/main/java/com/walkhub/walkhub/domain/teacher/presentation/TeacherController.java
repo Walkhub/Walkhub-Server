@@ -34,7 +34,7 @@ public class TeacherController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/verification")
+    @PostMapping("/verification-codes")
     public VerificationCodeResponse verificationCode() {
         return verificationCodeService.execute();
     }
