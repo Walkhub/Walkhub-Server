@@ -104,6 +104,33 @@ public class User {
 
     public void setBadge(Badge badge) {
         this.badge = badge;
+      
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setSchool(School school) {
+        this.school = school;
+    }
+      
+    public School getRealSchool() {
+        return this.group.getSchool();
+    }
+
+    public String getRealSchoolAgencyCode() {
+        return this.getRealSchool().getAgencyCode();
+    }
+
+    public String getRealSchoolName() {
+        return this.getRealSchool().getName();
+    }
+
+    public String getClassCode() {
+        return this.group.getClassCode();
     }
   
 }

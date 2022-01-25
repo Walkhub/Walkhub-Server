@@ -1,4 +1,10 @@
+server:
+  shutdown: graceful
+
 spring:
+  lifecycle:
+    timeout-per-shutdown-phase: "60s"
+
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -23,6 +29,13 @@ spring:
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
+
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: always
+      table-prefix: batch_
 
 coolsms:
   key: ${SMS_KEY}

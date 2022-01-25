@@ -3,7 +3,7 @@ package com.walkhub.walkhub.infrastructure.image.s3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.walkhub.walkhub.global.exception.SaveImageFalseException;
+import com.walkhub.walkhub.global.exception.SaveImageFailedException;
 import com.walkhub.walkhub.infrastructure.image.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ public class S3Facade implements ImageUtil {
             amazonS3Client.putObject(new PutObjectRequest(s3Properties.getBucket(), fileName, image.getInputStream(), null)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (Exception e) {
-            throw SaveImageFalseException.EXCEPTION;
+            throw SaveImageFailedException.EXCEPTION;
         }
 
         return getFileUrl(fileName);
