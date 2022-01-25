@@ -1,11 +1,8 @@
 package com.walkhub.walkhub.domain.user.service;
 
 import com.walkhub.walkhub.domain.user.domain.Group;
-import com.walkhub.walkhub.domain.user.domain.GroupId;
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.domain.user.domain.repository.GroupRepository;
 import com.walkhub.walkhub.domain.user.exception.AlreadyJoinedException;
-import com.walkhub.walkhub.domain.user.exception.GroupNotFoundException;
 import com.walkhub.walkhub.domain.user.exception.InvalidClassCodeException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class JoinGroupService {
 
     private final UserFacade userFacade;
-    private final GroupRepository groupRepository;
 
     @Transactional
     public void execute(String agencyCode, Integer grade, Integer classNum, String requestClassCode) {
@@ -27,8 +23,7 @@ public class JoinGroupService {
             throw AlreadyJoinedException.EXCEPTION;
         }
 
-        Group group = groupRepository.findById(new GroupId(grade, classNum, agencyCode))
-                .orElseThrow(() -> GroupNotFoundException.EXCEPTION);
+        Group group = userFacade.getGroupByGroupId(agencyCode, grade, classNum);
 
         if (!requestClassCode.equals(group.getClassCode())) {
             throw InvalidClassCodeException.EXCEPTION;

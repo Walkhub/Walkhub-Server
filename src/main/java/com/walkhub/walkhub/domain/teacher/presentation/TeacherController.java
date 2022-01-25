@@ -8,6 +8,11 @@ import com.walkhub.walkhub.domain.teacher.service.VerificationCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import com.walkhub.walkhub.domain.teacher.service.DeleteClassService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +28,7 @@ public class TeacherController {
 
     private final CreateClassService createClassService;
     private final VerificationCodeService verificationCodeService;
+    private final DeleteClassService deleteClassService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/classes")
@@ -33,6 +39,13 @@ public class TeacherController {
     @GetMapping("/verification")
     public VerificationCodeResponse verificationCode() {
         return verificationCodeService.execute();
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/classes/{agency-code}/{grade}/{class}")
+    public void deleteClass(@PathVariable(name = "agency-code") String agencyCode,
+                            @PathVariable(name = "grade") Integer grade,
+                            @PathVariable(name = "class") Integer classNum) {
+        deleteClassService.execute(agencyCode, grade, classNum);
     }
 
 }
