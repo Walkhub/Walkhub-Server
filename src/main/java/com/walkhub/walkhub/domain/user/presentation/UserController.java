@@ -62,7 +62,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/badges/{badge-id}")
     public QueryMyPageResponse titleBadgeSetting(@PathVariable("badge-id")Long badgeId) {
-        return titleBadgeSettingService.execute();
+        return titleBadgeSettingService.execute(badgeId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
