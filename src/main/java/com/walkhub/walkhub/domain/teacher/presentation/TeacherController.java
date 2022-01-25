@@ -4,11 +4,8 @@ import com.walkhub.walkhub.domain.teacher.presentation.dto.request.CreateClassRe
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CreateClassResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.VerificationCodeResponse;
 import com.walkhub.walkhub.domain.teacher.service.CreateClassService;
-import com.walkhub.walkhub.domain.teacher.service.VerificationCodeService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
 import com.walkhub.walkhub.domain.teacher.service.DeleteClassService;
+import com.walkhub.walkhub.domain.teacher.service.VerificationCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,9 +33,11 @@ public class TeacherController {
         return createClassService.execute(request);
     }
 
-    @GetMapping("/verification")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/verification")
     public VerificationCodeResponse verificationCode() {
         return verificationCodeService.execute();
+    }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/classes/{agency-code}/{grade}/{class}")
