@@ -101,5 +101,9 @@ public class User {
         this.birthday = request.getBirthday();
         this.sex = request.getSex();
     }
+
+    public void setBadge(Badge badge) {
+        this.badge = badge;
+    }
   
 }
