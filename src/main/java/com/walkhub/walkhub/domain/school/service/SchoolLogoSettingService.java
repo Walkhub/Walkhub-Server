@@ -25,7 +25,7 @@ public class SchoolLogoSettingService {
         School school = schoolRepository.findById(agencyCode)
                 .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
 
-        if (!user.getSchool().getAgencyCode().equals(school.getAgencyCode())) {
+        if (!user.getSchool().equals(school)) {
             throw AgencyCodeNotMatchException.EXCEPTION;
         }
 
