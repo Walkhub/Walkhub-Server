@@ -6,6 +6,7 @@ import com.walkhub.walkhub.domain.user.exception.UserNotFoundException;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -13,6 +14,7 @@ public class SearchAccountIdService {
 
     private final UserRepository userRepository;
 
+    @Transactional(readOnly = true)
     public UserAccountIdResponse execute(String phoneNumber) {
         User user = userRepository.findByPhoneNumber(phoneNumber)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
