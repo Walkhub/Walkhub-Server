@@ -1,10 +1,13 @@
 package com.walkhub.walkhub.domain.user.service;
 
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
+import com.walkhub.walkhub.domain.user.domain.School;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.UserAuthCode;
+import com.walkhub.walkhub.domain.user.domain.repository.SchoolRepository;
 import com.walkhub.walkhub.domain.user.domain.repository.UserAuthCodeRepository;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
+import com.walkhub.walkhub.domain.user.exception.SchoolNotFoundException;
 import com.walkhub.walkhub.domain.user.exception.UnauthorizedUserAuthCodeException;
 import com.walkhub.walkhub.domain.user.exception.UserAuthCodeNotFoundException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
@@ -24,6 +27,7 @@ public class UserSignUpService {
 
     private final UserAuthCodeRepository userAuthCodeRepository;
     private final UserFacade userFacade;
+    private final SchoolRepository schoolRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
@@ -38,12 +42,20 @@ public class UserSignUpService {
 
         userFacade.checkUserExists(request.getAccountId());
 
+        School school = schoolRepository.findById(request.getAgencyCode())
+                .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
+
         userRepository.save(User.builder()
                 .accountId(request.getAccountId())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .phoneNumber(request.getPhoneNumber())
                 .authority(Authority.USER)
                 .name(request.getName())
+                .school(school)
+                .height(request.getHeight())
+                .weight(request.getWeight())
+                .sex(request.getSex())
+                .birthday(request.getBirthday())
                 .isMeasuring(false)
                 .build());
 

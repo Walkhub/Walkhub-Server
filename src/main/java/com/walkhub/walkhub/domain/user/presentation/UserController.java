@@ -2,6 +2,9 @@ package com.walkhub.walkhub.domain.user.presentation;
 
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.InputHealthInformationRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinGroupRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdatePasswordRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateSchoolInfoRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
@@ -9,6 +12,15 @@ import com.walkhub.walkhub.domain.user.presentation.dto.response.ListOfBadgesOwn
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryMyPageResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.service.*;
+import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
+import com.walkhub.walkhub.domain.user.service.JoinGroupService;
+import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
+import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
+import com.walkhub.walkhub.domain.user.service.UpdatePasswordService;
+import com.walkhub.walkhub.domain.user.service.UpdateSchoolInfoService;
+import com.walkhub.walkhub.domain.user.service.UpdateUserInfoService;
+import com.walkhub.walkhub.domain.user.service.UserAuthCodeService;
+import com.walkhub.walkhub.domain.user.service.UserSignUpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +46,9 @@ public class UserController {
     private final InputHealthInformationService inputHealthInformationService;
     private final UpdateUserInfoService updateUserInfoService;
     private final ListOfBadgesOwnService listOfBadgesOwnService;
-
+    private final JoinGroupService joinGroupService;
+    private final UpdatePasswordService updatePasswordService;
+    private final UpdateSchoolInfoService updateSchoolInfoService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
@@ -58,8 +72,8 @@ public class UserController {
         return userSignUpService.execute(request);
     }
 
-    @PatchMapping("/health")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/health")
     public void inputHealthInformationRequest(@RequestBody @Valid InputHealthInformationRequest request) {
         inputHealthInformationService.execute(request);
     }
@@ -74,4 +88,26 @@ public class UserController {
     public ListOfBadgesOwnResponse getBadgeList(@PathVariable("user-id") Long userId) {
         return listOfBadgesOwnService.execute(userId);
     }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/classes/{agency-code}/{grade}/{class}")
+    public void joinGroup(@PathVariable(name = "agency-code") String agencyCode,
+                          @PathVariable(name = "grade") Integer grade,
+                          @PathVariable(name = "class") Integer classNum,
+                          @RequestBody @Valid JoinGroupRequest request) {
+        joinGroupService.execute(agencyCode, grade, classNum, request.getClassCode());
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/password")
+    public void updatePassword(@RequestBody @Valid UpdatePasswordRequest request) {
+        updatePasswordService.execute(request);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/school")
+    public void updateSchoolInfo(@RequestBody @Valid UpdateSchoolInfoRequest request) {
+        updateSchoolInfoService.execute(request);
+    }
+
 }
