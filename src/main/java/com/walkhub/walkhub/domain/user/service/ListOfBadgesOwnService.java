@@ -19,7 +19,7 @@ public class ListOfBadgesOwnService {
     public ListOfBadgesOwnResponse execute(Long userId) {
 
         User user = userFacade.getUserById(userId);
-        Badge badge = user.getBadge();
+        
         return ListOfBadgesOwnResponse.builder()
                 .name(user.getName())
                 .image(user.getProfileImageUrl())
