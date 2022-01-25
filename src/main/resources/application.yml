@@ -37,7 +37,7 @@ jwt:
   prefix: ${JWT_PREFIX}
 
 firebase:
-  path: $(FIREBASE_PATH}
+  path: ${FIREBASE_PATH}
 
 cloud:
   aws:
