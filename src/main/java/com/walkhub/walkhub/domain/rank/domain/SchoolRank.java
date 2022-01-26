@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.rank.domain;
 
+import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import javax.persistence.Id;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class SchoolRank {
+public class SchoolRank extends BaseTimeEntity {
 
     @Id
     @Column(length = 7)
@@ -25,15 +26,19 @@ public class SchoolRank {
     private Integer rank;
 
     @Column(nullable = false)
-    private Integer walkCount;
+    private Integer allWalkCount;
+
+    @Column(nullable = false)
+    private Integer averageWalkCount;
 
     private String logoImageUrl;
 
     @Builder
-    public SchoolRank(String agencyCode, String name, Integer rank, Integer walkCount) {
+    public SchoolRank(String agencyCode, String name, Integer rank, Integer allWalkCount, Integer averageWalkCount) {
         this.agencyCode = agencyCode;
         this.name = name;
         this.rank = rank;
-        this.walkCount = walkCount;
+        this.allWalkCount = allWalkCount;
+        this.averageWalkCount = averageWalkCount;
     }
 }
