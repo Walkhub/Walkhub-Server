@@ -1,19 +1,15 @@
 package com.walkhub.walkhub.domain.challenge.presentation;
 
 import com.walkhub.walkhub.domain.challenge.presentation.dto.request.CreateChallengeRequest;
+import com.walkhub.walkhub.domain.challenge.presentation.dto.request.UpdateChallengeRequest;
 import com.walkhub.walkhub.domain.challenge.presentation.dto.response.ChallengeParticipantsListResponse;
 import com.walkhub.walkhub.domain.challenge.service.CreateChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.ParticipateChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.QueryChallengeParticipantsListService;
+import com.walkhub.walkhub.domain.challenge.service.UpdateChallengeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -23,6 +19,7 @@ import javax.validation.Valid;
 public class ChallengeController {
 
     private final CreateChallengeService createChallengeService;
+    private final UpdateChallengeService updateChallengeService;
     private final ParticipateChallengeService participateChallengeService;
     private final QueryChallengeParticipantsListService queryChallengeParticipantsListService;
 
@@ -30,6 +27,12 @@ public class ChallengeController {
     @PostMapping
     public void createChallenge(@RequestBody @Valid CreateChallengeRequest request) {
         createChallengeService.execute(request);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/{challenge-id}")
+    public void updateChallenge(@PathVariable("challenge-id") UpdateChallengeRequest request) {
+        updateChallengeService.execute(request);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
