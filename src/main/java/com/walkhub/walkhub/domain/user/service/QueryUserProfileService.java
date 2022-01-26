@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class QueryUserProfileService {
 
-	private final UserFacade userFacade;
+    private final UserFacade userFacade;
 
-	public QueryUserProfileResponse execute(Long userId) {
+    public QueryUserProfileResponse execute(Long userId) {
 
-		User user = userFacade.getUserById(userId);
-		Badge titleBadge = user.getBadge();
+        User user = userFacade.getUserById(userId);
+        Badge titleBadge = user.getBadge();
 
 		return QueryUserProfileResponse.builder()
 			.name(user.getName())
