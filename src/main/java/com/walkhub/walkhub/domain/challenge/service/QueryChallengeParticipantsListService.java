@@ -1,7 +1,6 @@
 package com.walkhub.walkhub.domain.challenge.service;
 
 import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeStatusRepository;
-import com.walkhub.walkhub.domain.challenge.presentation.dto.response.ChallengeParticipantsElement;
 import com.walkhub.walkhub.domain.challenge.presentation.dto.response.ChallengeParticipantsListResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +18,11 @@ public class QueryChallengeParticipantsListService {
 
     @Transactional(readOnly = true)
     public ChallengeParticipantsListResponse execute(Long challengeId) {
-        List<ChallengeParticipantsElement> result = challengeStatusRepository.findByChallengeId(challengeId)
+        List<ChallengeParticipantsListResponse.ChallengeParticipantsElement> result = challengeStatusRepository.findByChallengeId(challengeId)
                 .stream()
                 .map(challenge -> {
                     User participant = challenge.getUser();
-                    return ChallengeParticipantsElement.builder()
+                    return ChallengeParticipantsListResponse.ChallengeParticipantsElement.builder()
                             .id(participant.getId())
                             .name(participant.getName())
                             .profileImageUrl(participant.getProfileImageUrl())
