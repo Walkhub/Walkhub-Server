@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -36,13 +37,16 @@ public class NotificationEntity {
     @Column(length = 3, nullable = false)
     private Scope scope;
 
+    private LocalDateTime createAt;
+
     @Builder
-    public NotificationEntity(String title, String content, Type type, Long value, Scope scope) {
+    public NotificationEntity(String title, String content, Type type, Long value, Scope scope, LocalDateTime createAt) {
         this.title = title;
         this.content = content;
         this.type = type;
         this.value = value;
         this.scope = scope;
+        this.createAt = createAt;
     }
 
 }
