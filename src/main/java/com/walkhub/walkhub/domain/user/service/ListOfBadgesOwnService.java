@@ -2,6 +2,7 @@ package com.walkhub.walkhub.domain.user.service;
 
 import com.walkhub.walkhub.domain.user.domain.Badge;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.domain.user.facade.BadgeFacade;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.ListOfBadgesOwnResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,15 +15,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class ListOfBadgesOwnService {
 
     private final UserFacade userFacade;
+    private final BadgeFacade badgeFacade;
 
     @Transactional(readOnly = true)
-    public ListOfBadgesOwnResponse execute(Long userId) {
+    public ListOfBadgesOwnResponse execute(Long userId, Long badgeId) {
 
-        User user = userFacade.getUserById(userId);
-        
+        Badge badge = badgeFacade.getBadgeId(badgeId);
+        userFacade.getUserById(userId);
+
         return ListOfBadgesOwnResponse.builder()
-                .name(user.getName())
-                .image(user.getProfileImageUrl())
+                .id(badge.getId())
+                .name(badge.getName())
+                .image(badge.getImage())
                 .build();
     }
 
