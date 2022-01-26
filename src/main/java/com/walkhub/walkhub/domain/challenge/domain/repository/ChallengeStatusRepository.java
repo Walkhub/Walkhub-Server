@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface ChallengeStatusRepository extends CrudRepository<ChallengeStatus, ChallengeStatusId> {
     Optional<ChallengeStatus> findByUserAndChallenge(User user, Challenge challenge);
     List<ChallengeStatus> findByChallengeId(Long challengeId);
+    Long countByChallengeId(Long challengeId);
+    Boolean existsByChallengeIdAndUserId(Long challengeId, Long userId);
 }
