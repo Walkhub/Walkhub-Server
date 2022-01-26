@@ -13,5 +13,5 @@ public interface ChallengeStatusRepository extends CrudRepository<ChallengeStatu
     Optional<ChallengeStatus> findByUserAndChallenge(User user, Challenge challenge);
     List<ChallengeStatus> findByChallengeId(Long challengeId);
     Long countByChallengeId(Long challengeId);
-    Boolean existsByChallengeIdAndUserId(Long challengeId, Long userId);
+    Optional<ChallengeStatus> findByChallengeIdAndUserId(Long challengeId, Long userId);
 }

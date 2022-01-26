@@ -31,7 +31,7 @@ public class QueryChallengeDetailService {
 
 		User writer = challenge.getUser();
 		Long participantCount = challengeStatusRepository.countByChallengeId(id);
-		Boolean isMine = challengeStatusRepository.existsByChallengeIdAndUserId(id, user.getId());
+		Boolean isMine = challengeStatusRepository.findByChallengeIdAndUserId(id, user.getId()).isPresent();
 
 		return QueryChallengeDetailResponse.builder()
 			.name(challenge.getName())
@@ -53,7 +53,7 @@ public class QueryChallengeDetailService {
 	}
 
 	private boolean roleFilter(Challenge challenge, User user) {
-		if (!challenge.getScope().equals(Scope.ALL) && challenge.getUser().getSchool() != user.getSchool()) {
+		if (!challenge.getScope().equals(Scope.ALL) && !challenge.getUser().getSchool().equals(user.getSchool())) {
 			throw InvalidRoleException.EXCEPTION;
 		}
 		return true;
