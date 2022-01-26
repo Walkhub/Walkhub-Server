@@ -30,4 +30,8 @@ public class School {
         this.name = name;
         this.logoImageUrl = logoImageUrl;
     }
+
+    public void setLogoImage(String logoImageUrl) {
+        this.logoImageUrl = logoImageUrl;
+    }
 }
