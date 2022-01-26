@@ -2,9 +2,11 @@ package com.walkhub.walkhub.domain.exercise.presentation;
 
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.CreateExerciseRequest;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.FinishExerciseRequest;
+import com.walkhub.walkhub.domain.exercise.presentation.dto.request.SaveLocationRequest;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.CreateExerciseResponse;
 import com.walkhub.walkhub.domain.exercise.service.CreateExerciseService;
 import com.walkhub.walkhub.domain.exercise.service.FinishExerciseService;
+import com.walkhub.walkhub.domain.exercise.service.SaveLocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -24,6 +26,7 @@ public class ExerciseController {
 
 	private final CreateExerciseService createExerciseService;
 	private final FinishExerciseService finishExerciseService;
+	private final SaveLocationService saveLocationService;
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
@@ -36,6 +39,13 @@ public class ExerciseController {
 	public void finishExercise(@PathVariable(name = "exercise-id") Long exerciseId,
 							   @RequestBody @Valid FinishExerciseRequest request) {
 		finishExerciseService.execute(exerciseId, request);
+	}
+
+	@ResponseStatus(HttpStatus.CREATED)
+	@PostMapping("/locations/{exercise-id}")
+	public void saveLocation(@PathVariable(name = "exercise-id") Long exerciseId,
+							 @RequestBody @Valid SaveLocationRequest request) {
+		saveLocationService.execute(exerciseId, request);
 	}
 
 }

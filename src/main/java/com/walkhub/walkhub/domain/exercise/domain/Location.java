@@ -32,7 +32,8 @@ public class Location {
     private BigDecimal longitude;
 
     @Builder
-    public Location(Exercise exercise, BigDecimal latitude, BigDecimal longitude) {
+    public Location(Integer order, Exercise exercise, BigDecimal latitude, BigDecimal longitude) {
+        this.order = order;
         this.exercise = exercise;
         this.latitude = latitude;
         this.longitude = longitude;
