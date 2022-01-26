@@ -34,11 +34,13 @@ public class SchoolRank extends BaseTimeEntity {
     private String logoImageUrl;
 
     @Builder
-    public SchoolRank(String agencyCode, String name, Integer rank, Integer allWalkCount, Integer averageWalkCount) {
+    public SchoolRank(String agencyCode, String name, Integer rank,
+                      Integer allWalkCount, Integer averageWalkCount, String logoImageUrl) {
         this.agencyCode = agencyCode;
         this.name = name;
         this.rank = rank;
         this.allWalkCount = allWalkCount;
         this.averageWalkCount = averageWalkCount;
+        this.logoImageUrl = logoImageUrl;
     }
 }
