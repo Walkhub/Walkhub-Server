@@ -12,6 +12,7 @@ import com.walkhub.walkhub.global.enums.Scope;
 import com.walkhub.walkhub.global.exception.InvalidRoleException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -21,6 +22,7 @@ public class QueryChallengeDetailService {
 	private final ChallengeRepository challengeRepository;
 	private final ChallengeStatusRepository challengeStatusRepository;
 
+	@Transactional(readOnly = true)
 	public QueryChallengeDetailResponse execute(Long id) {
 
 		User user = userFacade.getCurrentUser();
