@@ -31,7 +31,7 @@ public class School {
         this.logoImageUrl = logoImageUrl;
     }
 
-    public void setLogoImage(String logoImage) {
-        this.logoImage = logoImage;
+    public void setLogoImage(String logoImageUrl) {
+        this.logoImageUrl = logoImageUrl;
     }
 }
