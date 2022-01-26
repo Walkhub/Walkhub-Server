@@ -14,5 +14,5 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
 	@Query("select c from Challenge c where c.scope = com.walkhub.walkhub.global.enums.Scope.ALL or "
 		+ "c.user.school = :school and (c.scope = com.walkhub.walkhub.global.enums.Scope.SCH or "
 		+ "(c.scope = com.walkhub.walkhub.global.enums.Scope.CLS and c.user.group = :group))")
-	List<Challenge> findAllByScope((School school, Group group);
+	List<Challenge> findAllByScope(School school, Group group);
 }
