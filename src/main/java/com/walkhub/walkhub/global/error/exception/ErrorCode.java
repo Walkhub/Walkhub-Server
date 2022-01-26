@@ -32,7 +32,9 @@ public enum ErrorCode {
     USER_EXISTS(409, "USER-409-1", "User Exists"),
     ALREADY_CREATED(409, "GROUP-409-1", "Already Created"),
     ALREADY_JOINED(409, "USER-409-2", "Already Joined"),
-    ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated");
+    ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated"),
+
+    BADGE_NOT_FOUND(404,"BADGE-404-1","Badge not found");
 
     private final int status;
     private final String code;
