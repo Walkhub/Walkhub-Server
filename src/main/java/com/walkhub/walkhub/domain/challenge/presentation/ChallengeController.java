@@ -31,7 +31,7 @@ public class ChallengeController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/{challenge-id}")
-    public void updateChallenge(@PathVariable("challenge-id") UpdateChallengeRequest request) {
+    public void updateChallenge(@RequestBody @Valid UpdateChallengeRequest request) {
         updateChallengeService.execute(request);
     }
 
