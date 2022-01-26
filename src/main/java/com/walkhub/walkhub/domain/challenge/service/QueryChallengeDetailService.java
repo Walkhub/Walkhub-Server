@@ -27,13 +27,11 @@ public class QueryChallengeDetailService {
 
 		User user = userFacade.getCurrentUser();
 
-		Challenge challenge = challengeRepository.findById(id)
+		Challenge challenge = challengeRepository.findChallengeById(id)
 			.filter(c -> roleFilter(c, user))
 			.orElseThrow(() -> ChallengeNotFoundException.EXCEPTION);
 
 		User writer = challenge.getUser();
-		Long participantCount = challengeStatusRepository.countByChallengeId(id);
-		Boolean isMine = challengeStatusRepository.findByChallengeIdAndUserId(id, user.getId()).isPresent();
 
 		return QueryChallengeDetailResponse.builder()
 			.name(challenge.getName())
@@ -44,8 +42,10 @@ public class QueryChallengeDetailService {
 			.startAt(challenge.getCreateAt())
 			.endAt(challenge.getEndAt())
 			.scope(challenge.getScope())
-			.participantCount(participantCount)
-			.isMine(isMine)
+			.participantCount((long) challenge.getChallengeStatuses().size())
+			.isMine(challenge.getChallengeStatuses()
+				.stream()
+				.anyMatch(challengeStatus -> challengeStatus.getUser().equals(user)))
 			.writer(Writer.builder()
 				.id(writer.getId())
 				.name(writer.getName())
