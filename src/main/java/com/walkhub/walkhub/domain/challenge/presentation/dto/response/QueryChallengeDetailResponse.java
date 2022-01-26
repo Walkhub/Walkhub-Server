@@ -22,7 +22,7 @@ public class QueryChallengeDetailResponse {
 
 	@Getter
 	@Builder
-	public static class Writer{
+	public static class Writer {
 		private final Long id;
 		private final String name;
 		private final String profileImageUrl;
