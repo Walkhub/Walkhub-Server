@@ -19,17 +19,17 @@ public class QueryUserProfileService {
         User user = userFacade.getUserById(userId);
         Badge titleBadge = user.getBadge();
 
-        return QueryUserProfileResponse.builder()
-                .name(user.getName())
-                .profileImage(user.getProfileImageUrl())
-                .schoolName(user.getSchool().getName())
-                .grade(user.getGroup().getGrade())
-                .classNum(user.getGroup().getClassNum())
-                .titleBadge(TitleBadge.builder()
-                        .id(titleBadge.getId())
-                        .name(titleBadge.getName())
-                        .image(titleBadge.getImage())
-                        .build())
-                .build();
-    }
+		return QueryUserProfileResponse.builder()
+			.name(user.getName())
+			.profileImageUrl(user.getProfileImageUrl())
+			.schoolName(user.getSchool().getName())
+			.grade(user.getGroup().getGrade())
+			.classNum(user.getGroup().getClassNum())
+			.titleBadge(TitleBadge.builder()
+				.id(titleBadge.getId())
+				.name(titleBadge.getName())
+				.imageUrl(titleBadge.getImageUrl())
+				.build())
+			.build();
+	}
 }
