@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.user.domain;
 
+import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
 import com.walkhub.walkhub.domain.user.domain.type.Sex;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
@@ -129,7 +130,7 @@ public class User {
     public void setSchool(School school) {
         this.school = school;
     }
-      
+
     public School getRealSchool() {
         return this.group.getSchool();
     }
