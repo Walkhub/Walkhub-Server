@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
-@RestController("/users/auth")
+@RestController("/users/token")
 public class AuthController {
 
     private final UserSignInService userSignInService;
