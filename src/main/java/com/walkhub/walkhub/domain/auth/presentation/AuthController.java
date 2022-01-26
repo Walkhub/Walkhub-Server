@@ -6,6 +6,7 @@ import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenRespon
 import com.walkhub.walkhub.domain.auth.service.TokenRefreshService;
 import com.walkhub.walkhub.domain.auth.service.UserSignInService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +27,7 @@ public class AuthController {
         return userSignInService.execute(request);
     }
 
-    @PutMapping
+    @PatchMapping
     public UserAccessTokenResponse userTokenRefresh(@RequestHeader("Refresh-Token") String refreshToken) {
         return tokenRefreshService.execute(refreshToken);
     }
