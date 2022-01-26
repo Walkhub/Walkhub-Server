@@ -24,7 +24,7 @@ public class CreateNoticeService {
 
         if (request.getScope() == Scope.STU && user.getGroup() == null) {
             throw GroupNotFoundException.EXCEPTION;
-        } else if (!(Authority.ROOT == user.getAuthority())) {
+        } else if (Authority.ROOT != user.getAuthority()) {
             throw InvalidRoleException.EXCEPTION;
         }
 
