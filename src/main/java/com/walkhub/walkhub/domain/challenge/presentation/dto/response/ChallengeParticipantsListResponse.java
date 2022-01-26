@@ -12,6 +12,7 @@ public class ChallengeParticipantsListResponse {
 
     private final List<ChallengeParticipantsElement> challengeParticipantsList;
 
+    @Getter
     @Builder
     public static class ChallengeParticipantsElement {
         private final Long id;
