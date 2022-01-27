@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .requestMatchers(CorsUtils::isCorsRequest).permitAll()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers(HttpMethod.POST, "/users/verification-codes").permitAll()
                 .antMatchers(HttpMethod.POST, "/challenges").hasAnyRole("TCHR", "ROOT")
                 .anyRequest().authenticated()
