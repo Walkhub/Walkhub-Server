@@ -18,7 +18,6 @@ public class SchoolRankInfo {
     private String name;
     private String logoImageUrl;
     private Integer allWalkCount;
-    private Integer averageWalkCount;
     private Integer ranking;
 
 }

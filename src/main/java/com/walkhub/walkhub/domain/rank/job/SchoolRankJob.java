@@ -68,7 +68,6 @@ public class SchoolRankJob {
                 .agencyCode(rankDto.getAgencyCode())
                 .name(rankDto.getName())
                 .allWalkCount(rankDto.getAllWalkCount())
-                .averageWalkCount(rankDto.getAverageWalkCount())
                 .logoImageUrl(rankDto.getLogoImageUrl())
                 .rank(rankDto.getRanking())
                 .build();
@@ -79,7 +78,7 @@ public class SchoolRankJob {
     public JdbcBatchItemWriter<SchoolRank> schoolRankWriter() {
         JdbcBatchItemWriter<SchoolRank> writer = new JdbcBatchItemWriterBuilder<SchoolRank>()
                 .dataSource(dataSource)
-                .sql("INSERT INTO school_rank VALUES (:rank, :agency_code, :name, :logo_image_url, :all_walk_count, :average_walk_count)")
+                .sql("INSERT INTO school_rank VALUES (:rank, :agency_code, :name, :logo_image_url, :all_walk_count)")
                 .beanMapped()
                 .build();
 
