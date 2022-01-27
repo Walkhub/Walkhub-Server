@@ -48,8 +48,7 @@ public class Challenge {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "challenge")
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToMany(mappedBy = "challenge", cascade = CascadeType.REMOVE)
     private List<ChallengeStatus> challengeStatuses;
 
     @Builder
