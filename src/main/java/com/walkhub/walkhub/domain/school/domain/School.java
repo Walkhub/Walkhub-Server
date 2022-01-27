@@ -1,4 +1,4 @@
-package com.walkhub.walkhub.domain.user.domain;
+package com.walkhub.walkhub.domain.school.domain;
 
 import lombok.AccessLevel;
 import lombok.Builder;

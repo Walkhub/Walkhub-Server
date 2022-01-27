@@ -1,10 +1,10 @@
 package com.walkhub.walkhub.domain.school.service;
 
+import com.walkhub.walkhub.domain.school.domain.School;
+import com.walkhub.walkhub.domain.school.domain.repository.SchoolRepository;
 import com.walkhub.walkhub.domain.school.exception.AgencyCodeNotMatchException;
 import com.walkhub.walkhub.domain.school.presentation.dto.request.SchoolLogoRequest;
-import com.walkhub.walkhub.domain.user.domain.School;
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.domain.user.domain.repository.SchoolRepository;
 import com.walkhub.walkhub.domain.user.exception.SchoolNotFoundException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
