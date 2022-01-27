@@ -1,5 +1,7 @@
 package com.walkhub.walkhub.global.security;
 
+import com.walkhub.walkhub.global.security.jwt.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,9 +13,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsUtils;
 
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -36,7 +41,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .requestMatchers(CorsUtils::isCorsRequest).permitAll()
                 .antMatchers(HttpMethod.POST, "/users/verification-codes").permitAll()
                 .antMatchers(HttpMethod.POST, "/challenges").hasAnyRole("TCHR", "ROOT")
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+
+                .and()
+                .apply(new FilterConfig(jwtTokenProvider));
     }
 
 }
