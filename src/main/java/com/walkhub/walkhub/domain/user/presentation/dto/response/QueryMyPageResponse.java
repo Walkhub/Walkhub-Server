@@ -9,7 +9,7 @@ public class QueryMyPageResponse {
 
 	private final Long id;
 	private final String name;
-	private final String profileImage;
+	private final String profileImageUrl;
 	private final String schoolName;
 	private final Integer grade;
 	private final TitleBadge titleBadge;
@@ -19,6 +19,6 @@ public class QueryMyPageResponse {
 	public static class TitleBadge {
 		private final Long id;
 		private final String name;
-		private final String image;
+		private final String imageUrl;
 	}
 }

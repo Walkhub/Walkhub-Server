@@ -11,10 +11,12 @@ import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpReques
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryMyPageResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.service.*;
+import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
 import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
 import com.walkhub.walkhub.domain.user.service.JoinGroupService;
 import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
 import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
+import com.walkhub.walkhub.domain.user.service.SearchAccountIdService;
 import com.walkhub.walkhub.domain.user.service.UpdatePasswordService;
 import com.walkhub.walkhub.domain.user.service.UpdateSchoolInfoService;
 import com.walkhub.walkhub.domain.user.service.UpdateUserInfoService;
@@ -41,6 +43,7 @@ public class UserController {
     private final JoinGroupService joinGroupService;
     private final UpdatePasswordService updatePasswordService;
     private final UpdateSchoolInfoService updateSchoolInfoService;
+    private final SearchAccountIdService searchAccountIdService;
 
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -102,6 +105,11 @@ public class UserController {
     @PatchMapping("/school")
     public void updateSchoolInfo(@RequestBody @Valid UpdateSchoolInfoRequest request) {
         updateSchoolInfoService.execute(request);
+    }
+
+    @GetMapping("/accounts/{phone-number}")
+    public UserAccountIdResponse searchAccountId(@PathVariable(name = "phone-number") String phoneNumber) {
+        return searchAccountIdService.execute(phoneNumber);
     }
 
 }

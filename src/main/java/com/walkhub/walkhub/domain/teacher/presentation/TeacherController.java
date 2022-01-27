@@ -2,8 +2,10 @@ package com.walkhub.walkhub.domain.teacher.presentation;
 
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.CreateClassRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CreateClassResponse;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.VerificationCodeResponse;
 import com.walkhub.walkhub.domain.teacher.service.CreateClassService;
 import com.walkhub.walkhub.domain.teacher.service.DeleteClassService;
+import com.walkhub.walkhub.domain.teacher.service.VerificationCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,12 +24,19 @@ import javax.validation.Valid;
 public class TeacherController {
 
     private final CreateClassService createClassService;
+    private final VerificationCodeService verificationCodeService;
     private final DeleteClassService deleteClassService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/classes")
     public CreateClassResponse createClass(@RequestBody @Valid CreateClassRequest request) {
         return createClassService.execute(request);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/verification-codes")
+    public VerificationCodeResponse verificationCode() {
+        return verificationCodeService.execute();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
