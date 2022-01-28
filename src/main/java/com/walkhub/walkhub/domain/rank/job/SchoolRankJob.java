@@ -64,12 +64,12 @@ public class SchoolRankJob {
     @Bean
     @StepScope
     public ItemProcessor<SchoolRankInfo, SchoolRank> schoolRankProcessor() {
-        return rankDto -> SchoolRank.builder()
-                .agencyCode(rankDto.getAgencyCode())
-                .name(rankDto.getName())
-                .walkCount(rankDto.getWalkCount())
-                .logoImageUrl(rankDto.getLogoImageUrl())
-                .ranking(rankDto.getRanking())
+        return rankInfo -> SchoolRank.builder()
+                .agencyCode(rankInfo.getAgencyCode())
+                .name(rankInfo.getName())
+                .walkCount(rankInfo.getWalkCount())
+                .logoImageUrl(rankInfo.getLogoImageUrl())
+                .ranking(rankInfo.getRanking())
                 .build();
     }
 
