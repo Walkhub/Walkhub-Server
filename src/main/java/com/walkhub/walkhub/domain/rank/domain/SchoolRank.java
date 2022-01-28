@@ -23,20 +23,20 @@ public class SchoolRank extends BaseTimeEntity {
     private String name;
 
     @Column(columnDefinition = "TINYINT", unique = true, nullable = false)
-    private Integer rank;
+    private Integer ranking;
 
     @Column(nullable = false)
-    private Integer allWalkCount;
+    private Integer walkCount;
 
     private String logoImageUrl;
 
     @Builder
-    public SchoolRank(String agencyCode, String name, Integer rank,
-                      Integer allWalkCount, String logoImageUrl) {
+    public SchoolRank(String agencyCode, String name, Integer ranking,
+                      Integer walkCount, String logoImageUrl) {
         this.agencyCode = agencyCode;
         this.name = name;
-        this.rank = rank;
-        this.allWalkCount = allWalkCount;
+        this.ranking = ranking;
+        this.walkCount = walkCount;
         this.logoImageUrl = logoImageUrl;
     }
 }

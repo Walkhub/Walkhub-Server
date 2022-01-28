@@ -9,15 +9,15 @@ import javax.persistence.Table;
 
 @Getter
 @Immutable
-@Entity
 @Table(name = "school_rank_info")
+@Entity
 public class SchoolRankInfo {
 
     @Id
     private String agencyCode;
     private String name;
     private String logoImageUrl;
-    private Integer allWalkCount;
+    private Integer walkCount;
     private Integer ranking;
 
 }
