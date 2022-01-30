@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class UpdateChallengeRequest {
 
-    @NotNull(message = "challengeId 는 공백일수 없습니다.")
+    @NotNull(message = "challengeId는 Null일 수 없습니다.")
     private Long id;
 
     @NotBlank(message = "name은 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
