@@ -1,9 +1,9 @@
 package com.walkhub.walkhub.domain.challenge.service;
 
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
-import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeRepository;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presentation.dto.request.UpdateChallengeRequest;
+import com.walkhub.walkhub.domain.challenge.presentation.dto.response.ChallengeResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.enums.Authority;
@@ -20,23 +20,24 @@ public class UpdateChallengeService {
     private final ChallengeFacade challengeFacade;
 
     @Transactional
-    public void execute(UpdateChallengeRequest request) {
+    public ChallengeResponse execute(Long id, UpdateChallengeRequest request) {
         User user = userFacade.getCurrentUser();
-        Challenge challenge = challengeFacade.getById(request.getId());
+        Challenge challenge = challengeFacade.getById(id);
 
         if (!Authority.TCHR.equals(user.getAuthority())) {
             throw InvalidRoleException.EXCEPTION;
         }
 
-        challenge
-                .updateName(request.getName())
-                .updateContent(request.getContent())
-                .updateGoal(request.getGoal())
-                .updateImageUrl(request.getImageUrl())
-                .updateAward(request.getAward())
-                .updateCreateAt(request.getCreatedAt())
-                .UpdateEndAt(request.getEndAt())
-                .updateScope(request.getScope());
+        return ChallengeResponse.builder()
+                .name(challenge.getName())
+                .imageUrl(challenge.getImageUrl())
+                .content(challenge.getContent())
+                .createAt(challenge.getCreateAt())
+                .endAt(challenge.getEndAt())
+                .award(challenge.getAward())
+                .scope(challenge.getScope())
+                .goal(challenge.getGoal())
+                .build();
     }
 
 }
