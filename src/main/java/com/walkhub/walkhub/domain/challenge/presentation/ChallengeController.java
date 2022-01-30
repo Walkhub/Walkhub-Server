@@ -31,8 +31,9 @@ public class ChallengeController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/{challenge-id}")
-    public void updateChallenge(@RequestBody @Valid UpdateChallengeRequest request) {
-        updateChallengeService.execute(request);
+    public void updateChallenge(@PathVariable("challenge-id") Long id,
+                                @RequestBody @Valid UpdateChallengeRequest request) {
+        updateChallengeService.execute(id, request);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
