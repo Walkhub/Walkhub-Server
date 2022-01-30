@@ -32,11 +32,9 @@ public enum ErrorCode {
     NOTICE_NOT_FOUND(404, "NOTICE-404-1", "Notice Not Found"),
 
     USER_EXISTS(409, "USER-409-1", "User Exists"),
-    CREDENTIALS_NOT_FOUND(401, "USER-401-1", "Credentials not found."),
 
     BADGE_NOT_FOUND(404, "BADGE-404-1", "Badge not found"),
-    UNAUTHORIZED_BADGE(401,"BADGE-401-2", "Unauthorized badge"),
-  
+
     ALREADY_CREATED(409, "GROUP-409-1", "Already Created"),
     ALREADY_JOINED(409, "USER-409-2", "Already Joined"),
     ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated");
