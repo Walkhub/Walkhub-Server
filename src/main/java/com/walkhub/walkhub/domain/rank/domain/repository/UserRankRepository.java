@@ -1,11 +1,11 @@
 package com.walkhub.walkhub.domain.rank.domain.repository;
 
-import com.walkhub.walkhub.domain.rank.domain.UserRank;
+import com.walkhub.walkhub.domain.rank.domain.UserRankInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface UserRankRepository extends JpaRepository<UserRank, String> {
-    List<UserRank> findTop100ByNameContainsAndAgencyCode(String name, String agencyCode);
-    List<UserRank> findTop100ByNameContainsAndAgencyCodeAndClassNumAndGrade(String name, String agencyCode, Integer grade, Integer classNum);
+public interface UserRankRepository extends JpaRepository<UserRankInfo, String> {
+    List<UserRankInfo> findTop100ByNameContainsAndAgencyCode(String name, String agencyCode);
+    List<UserRankInfo> findTop100ByNameContainsAndAgencyCodeAndClassNumAndGrade(String name, String agencyCode, Integer grade, Integer classNum);
 }
