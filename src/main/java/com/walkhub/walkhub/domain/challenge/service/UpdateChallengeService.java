@@ -32,7 +32,7 @@ public class UpdateChallengeService {
                 .updateName(request.getName())
                 .updateContent(request.getContent())
                 .updateGoal(request.getGoal())
-                .updateGoal(request.getGoal())
+                .updateImageUrl(request.getImageUrl())
                 .updateAward(request.getAward())
                 .updateCreateAt(request.getCreatedAt())
                 .UpdateEndAt(request.getEndAt())
