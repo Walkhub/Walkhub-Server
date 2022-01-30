@@ -73,43 +73,4 @@ public class Challenge {
         this.scope = scope;
     }
 
-    public Challenge updateName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public Challenge updateContent(String content) {
-        this.content = content;
-        return this;
-    }
-
-    public Challenge updateGoal(Long goal) {
-        this.goal = goal;
-        return this;
-    }
-
-    public Challenge updateAward(String award) {
-        this.award = award;
-        return this;
-    }
-
-    public Challenge updateImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-        return this;
-    }
-
-    public Challenge updateCreateAt(LocalDateTime createAt) {
-        this.createAt = createAt;
-        return this;
-    }
-
-    public Challenge UpdateEndAt(LocalDateTime endAt) {
-        this.endAt = endAt;
-        return this;
-    }
-
-    public Challenge updateScope(Scope scope) {
-        this.scope = scope;
-        return this;
-    }
 }
