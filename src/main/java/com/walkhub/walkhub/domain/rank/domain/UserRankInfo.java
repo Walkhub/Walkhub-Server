@@ -8,6 +8,7 @@ import org.hibernate.annotations.Immutable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -32,5 +33,7 @@ public class UserRankInfo {
     private Integer ranking;
 
     private String agencyCode;
+
+    private LocalDateTime createDate;
 
 }

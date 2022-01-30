@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Immutable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Getter
 @Immutable
@@ -19,5 +20,6 @@ public class SchoolRankInfo {
     private String logoImageUrl;
     private Integer walkCount;
     private Integer ranking;
+    private LocalDateTime createDate;
 
 }
