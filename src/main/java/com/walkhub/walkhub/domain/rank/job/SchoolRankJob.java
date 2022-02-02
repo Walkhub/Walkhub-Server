@@ -78,7 +78,7 @@ public class SchoolRankJob {
     public JdbcBatchItemWriter<SchoolRank> schoolRankWriter(@Value("#{jobParameters[jobKey]}") String jobKey) {
         JdbcBatchItemWriter<SchoolRank> writer = new JdbcBatchItemWriterBuilder<SchoolRank>()
                 .dataSource(dataSource)
-                .sql("INSERT INTO SchoolRank VALUES (:agencyCode, :name, :ranking, :logoImageUrl, :walkCount)")
+                .sql("INSERT INTO school_rank VALUES (:agency_code, :name, :ranking, :logo_image_url, :walk_count)")
                 .beanMapped()
                 .build();
 
