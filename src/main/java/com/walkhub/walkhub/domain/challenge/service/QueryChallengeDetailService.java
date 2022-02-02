@@ -28,7 +28,7 @@ public class QueryChallengeDetailService {
 		User user = userFacade.getCurrentUser();
 
 		Challenge challenge = challengeRepository.findChallengeById(id)
-			.filter(c -> roleFilter(c, user))
+			.filter(c -> roleFilter(c, c.getUser(), user))
 			.orElseThrow(() -> ChallengeNotFoundException.EXCEPTION);
 
 		User writer = challenge.getUser();
@@ -54,8 +54,8 @@ public class QueryChallengeDetailService {
 			.build();
 	}
 
-	private boolean roleFilter(Challenge challenge, User user) {
-		if (!challenge.getScope().equals(Scope.ALL) && !challenge.getUser().getSchool().equals(user.getSchool())) {
+	private boolean roleFilter(Challenge challenge, User writer, User user) {
+		if (!challenge.getScope().equals(Scope.ALL) && !writer.getSchool().equals(user.getSchool())) {
 			throw InvalidRoleException.EXCEPTION;
 		}
 		return true;
