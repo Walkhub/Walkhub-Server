@@ -4,20 +4,10 @@ import com.walkhub.walkhub.domain.challenge.presentation.dto.request.CreateChall
 import com.walkhub.walkhub.domain.challenge.presentation.dto.response.QueryChallengeDetailResponse;
 import com.walkhub.walkhub.domain.challenge.presentation.dto.response.ChallengeParticipantsListResponse;
 import com.walkhub.walkhub.domain.challenge.presentation.dto.response.QueryChallengeListResponse;
-import com.walkhub.walkhub.domain.challenge.service.CreateChallengeService;
-import com.walkhub.walkhub.domain.challenge.service.ParticipateChallengeService;
-import com.walkhub.walkhub.domain.challenge.service.QueryChallengeListService;
-import com.walkhub.walkhub.domain.challenge.service.QueryChallengeDetailService;
-import com.walkhub.walkhub.domain.challenge.service.QueryChallengeParticipantsListService;
+import com.walkhub.walkhub.domain.challenge.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -31,6 +21,7 @@ public class ChallengeController {
     private final QueryChallengeDetailService queryChallengeDetailService;
     private final ParticipateChallengeService participateChallengeService;
     private final QueryChallengeParticipantsListService queryChallengeParticipantsListService;
+    private final RemoveChallengeService removeChallengeService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
@@ -59,4 +50,9 @@ public class ChallengeController {
         return queryChallengeDetailService.execute(id);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{challenge-id}")
+    public void reomoveChallenge(@PathVariable("challenge-id") Long id) {
+        removeChallengeService.execute(id);
+    }
 }
