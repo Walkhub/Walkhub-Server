@@ -37,3 +37,4 @@ out/
 .vscode/
 
 src/main/resources/walkhub-7bfde-firebase-adminsdk-gsqm9-f0c32d0607.json
+**.DS_STORE
