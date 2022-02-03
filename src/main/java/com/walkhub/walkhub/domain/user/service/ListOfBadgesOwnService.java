@@ -19,7 +19,7 @@ public class ListOfBadgesOwnService {
     @Transactional(readOnly = true)
     public ListOfBadgesOwnResponse execute(Long userId, Long badgeId) {
 
-        Badge badge = badgeFacade.getBadgeId(badgeId);
+        Badge badge = badgeFacade.getBadgeById(badgeId);
         userFacade.getUserById(userId);
 
         return ListOfBadgesOwnResponse.builder()
