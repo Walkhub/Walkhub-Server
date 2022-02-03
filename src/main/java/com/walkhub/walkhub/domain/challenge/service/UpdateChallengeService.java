@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.challenge.service;
 
-import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presentation.dto.request.UpdateChallengeRequest;
 import com.walkhub.walkhub.domain.challenge.presentation.dto.response.ChallengeResponse;
