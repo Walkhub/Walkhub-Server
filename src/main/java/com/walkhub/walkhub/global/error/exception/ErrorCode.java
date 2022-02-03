@@ -37,7 +37,9 @@ public enum ErrorCode {
   
     ALREADY_CREATED(409, "GROUP-409-1", "Already Created"),
     ALREADY_JOINED(409, "USER-409-2", "Already Joined"),
-    ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated");
+    ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated"),
+
+    INTERNAL_SERVER_ERROR(500, "SERVER-500-1", "Internal Server Error");
 
     private final int status;
     private final String code;
