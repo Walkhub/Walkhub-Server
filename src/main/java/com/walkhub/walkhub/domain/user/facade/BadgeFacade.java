@@ -2,7 +2,7 @@ package com.walkhub.walkhub.domain.user.facade;
 
 import com.walkhub.walkhub.domain.user.domain.Badge;
 import com.walkhub.walkhub.domain.user.domain.repository.BadgeRepository;
-import com.walkhub.walkhub.domain.user.exception.UserNotFoundException;
+import com.walkhub.walkhub.domain.user.exception.BadgeNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +14,6 @@ public class BadgeFacade {
 
     public Badge getBadgeId(Long badgeId) {
         return badgeRepository.findByBadgeId(badgeId)
-                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+                .orElseThrow(() -> BadgeNotFoundException.EXCEPTION);
     }
 }
