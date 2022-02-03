@@ -5,6 +5,7 @@ import com.corundumstudio.socketio.listener.ExceptionListener;
 import com.walkhub.walkhub.global.error.ErrorResponse;
 import com.walkhub.walkhub.global.error.exception.ErrorCode;
 import com.walkhub.walkhub.global.error.exception.WalkhubException;
+import com.walkhub.walkhub.global.websocket.property.SocketProperty;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.List;
@@ -49,7 +50,7 @@ public class SocketExceptionListener implements ExceptionListener {
                 errorCode.getMessage()
         );
 
-        client.sendEvent("error", message);
+        client.sendEvent(SocketProperty.ERROR, message);
     }
 
 }
