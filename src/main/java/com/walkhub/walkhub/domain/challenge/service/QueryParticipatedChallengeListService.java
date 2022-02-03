@@ -17,14 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class QueryParticipatedChallengeListService {
 
 	private final UserFacade userFacade;
-	private final ChallengeStatusRepository challengeStatusRepository;
 
 	@Transactional(readOnly = true)
 	public QueryChallengeListResponse execute() {
 
 		User user = userFacade.getCurrentUser();
 
-		List<ChallengeResponse> challengeList = challengeStatusRepository.findByUser(user)
+		List<ChallengeResponse> challengeList = user.getChallengeStatuses()
 			.stream()
 			.map(ChallengeStatus::getChallenge)
 			.map(challenge -> ChallengeResponse.builder()
