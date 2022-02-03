@@ -3,6 +3,7 @@ package com.walkhub.walkhub.global.websocket;
 import com.corundumstudio.socketio.SocketConfig;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.SpringAnnotationScanner;
+import com.walkhub.walkhub.global.websocket.exception.SocketExceptionListener;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +24,7 @@ public class WebSocketConfig {
         config.setPort(port);
         config.setOrigin("*");
         config.setSocketConfig(socketConfig);
+        config.setExceptionListener(new SocketExceptionListener());
         return new SocketIOServer(config);
     }
 
