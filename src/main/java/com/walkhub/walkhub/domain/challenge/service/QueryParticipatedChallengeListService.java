@@ -1,7 +1,6 @@
 package com.walkhub.walkhub.domain.challenge.service;
 
 import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
-import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeStatusRepository;
 import com.walkhub.walkhub.domain.challenge.presentation.dto.response.QueryChallengeListResponse;
 import com.walkhub.walkhub.domain.challenge.presentation.dto.response.QueryChallengeListResponse.ChallengeResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
