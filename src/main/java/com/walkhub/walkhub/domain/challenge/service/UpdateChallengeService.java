@@ -22,21 +22,21 @@ public class UpdateChallengeService {
     @Transactional
     public ChallengeResponse execute(Long id, UpdateChallengeRequest request) {
         User user = userFacade.getCurrentUser();
-        Challenge challenge = challengeFacade.getById(id);
+        challengeFacade.getById(id);
 
         if (!Authority.TCHR.equals(user.getAuthority())) {
             throw InvalidRoleException.EXCEPTION;
         }
 
         return ChallengeResponse.builder()
-                .name(challenge.getName())
-                .imageUrl(challenge.getImageUrl())
-                .content(challenge.getContent())
-                .createAt(challenge.getCreateAt())
-                .endAt(challenge.getEndAt())
-                .award(challenge.getAward())
-                .scope(challenge.getScope())
-                .goal(challenge.getGoal())
+                .name(request.getName())
+                .imageUrl(request.getImageUrl())
+                .content(request.getContent())
+                .createAt(request.getCreatedAt())
+                .endAt(request.getEndAt())
+                .award(request.getAward())
+                .scope(request.getScope())
+                .goal(request.getGoal())
                 .build();
     }
 
