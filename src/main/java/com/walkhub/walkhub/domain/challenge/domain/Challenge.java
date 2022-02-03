@@ -2,6 +2,7 @@ package com.walkhub.walkhub.domain.challenge.domain;
 
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.Scope;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,7 +23,7 @@ public class Challenge {
     @Column(length = 200, nullable = false)
     private String name;
 
-    private String image;
+    private String imageUrl;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
@@ -47,6 +48,9 @@ public class Challenge {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @OneToMany(mappedBy = "challenge", cascade = CascadeType.REMOVE)
+    private List<ChallengeStatus> challengeStatuses;
+
     @Builder
     public Challenge(String name, String content, Long goal, String award,
                      LocalDateTime createAt, LocalDateTime endAt, Scope scope, User user) {
@@ -61,13 +65,13 @@ public class Challenge {
 
     }
 
-    public void updateChallenge(String name, String content, Long goal, String award, String image,
+    public void updateChallenge(String name, String content, Long goal, String award, String imageUrl,
                                 LocalDateTime createAt, LocalDateTime endAt, Scope scope) {
         this.name = name;
         this.content = content;
         this.goal = goal;
         this.award = award;
-        this.image = image;
+        this.imageUrl = imageUrl;
         this.createAt = createAt;
         this.endAt = endAt;
         this.scope = scope;

@@ -16,7 +16,7 @@ public class RankController {
 
     private final UserSearchService userSearchService;
 
-    @GetMapping("/search")
+    @GetMapping("/users/search")
     public UserListResponse userSearch(@RequestParam String name,
                                        @RequestParam Scope scope,
                                        @RequestParam String agencyCode,

@@ -8,8 +8,8 @@ public class RandomCodeUtil {
         throw new IllegalStateException("Utility class");
     }
 
-    public static String make() {
-        return RandomString.make(5);
+    public static String make(Integer codeLength) {
+        return RandomString.make(codeLength);
     }
 
 }

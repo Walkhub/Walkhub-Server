@@ -11,6 +11,7 @@ public enum ErrorCode {
 
     PASSWORD_NOT_MATCH(400, "AUTH-400-1", "Password Not Match"),
     SAVE_IMAGE_FAILED(400, "COMMON-400-1", "Save Image Failed"),
+    AGENCY_CODE_NOT_MATCH(400, "SCHOOL-400-1", "AgencyCode Not Match"),
 
     EXPIRED_JWT(401, "COMMON-401-1", "Expired Jwt"),
     INVALID_JWT(401, "COMMON-401-2", "Invalid Jwt"),
@@ -28,13 +29,19 @@ public enum ErrorCode {
     REFRESH_TOKEN_NOT_FOUND(404, "AUTH-404-1", "Refresh Token Not Found"),
     CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge Not Found"),
     EXERCISE_NOT_FOUND(404, "EXERCISE-404-1", "Exercise Not Found"),
+    NOTICE_NOT_FOUND(404, "NOTICE-404-1", "Notice Not Found"),
 
     USER_EXISTS(409, "USER-409-1", "User Exists"),
+  
+    NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification Not Found."),
+  
     ALREADY_CREATED(409, "GROUP-409-1", "Already Created"),
     ALREADY_JOINED(409, "USER-409-2", "Already Joined"),
     ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated"),
 
-    BADGE_NOT_FOUND(404,"BADGE-404-1","Badge not found");
+    BADGE_NOT_FOUND(404,"BADGE-404-1","Badge not found"),
+  
+    INTERNAL_SERVER_ERROR(500, "SERVER-500-1", "Internal Server Error");
 
     private final int status;
     private final String code;

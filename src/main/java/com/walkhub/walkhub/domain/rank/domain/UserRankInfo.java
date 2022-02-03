@@ -12,9 +12,9 @@ import javax.persistence.Table;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Immutable
-@Table(name = "user_rank")
+@Table(name = "user_rank_info")
 @Entity
-public class UserRank {
+public class UserRankInfo {
 
     @Id
     private String accountId;
@@ -29,7 +29,7 @@ public class UserRank {
 
     private Long walkCount;
 
-    private Integer rank;
+    private Integer ranking;
 
     private String agencyCode;
 
