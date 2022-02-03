@@ -1,4 +1,4 @@
-package com.walkhub.walkhub.domain.user.domain;
+package com.walkhub.walkhub.domain.school.domain;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -28,6 +28,10 @@ public class School {
     public School(String agencyCode, String name, String logoImageUrl) {
         this.agencyCode = agencyCode;
         this.name = name;
+        this.logoImageUrl = logoImageUrl;
+    }
+
+    public void setLogoImage(String logoImageUrl) {
         this.logoImageUrl = logoImageUrl;
     }
 }

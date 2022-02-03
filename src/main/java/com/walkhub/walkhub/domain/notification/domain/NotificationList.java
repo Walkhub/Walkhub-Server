@@ -36,4 +36,8 @@ public class NotificationList {
         this.isRead = false;
     }
 
+    public void updateNotificationIsRead() {
+        this.isRead = true;
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.walkhub.walkhub.domain.rank.service;
 
-import com.walkhub.walkhub.domain.rank.domain.UserRank;
+import com.walkhub.walkhub.domain.rank.domain.UserRankInfo;
 import com.walkhub.walkhub.domain.rank.domain.repository.UserRankRepository;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListResponse;
 import com.walkhub.walkhub.global.enums.Scope;
@@ -19,23 +19,23 @@ public class UserSearchService {
 
     @Transactional(readOnly = true)
     public UserListResponse execute(String name, Scope scope, String agencyCode, Integer grade, Integer classNum) {
-        List<UserRank> userRankList;
+        List<UserRankInfo> userRankInfoList;
 
         if (Scope.CLS.equals(scope)) {
-            userRankList = userRankRepository.findTop100ByNameContainsAndAgencyCodeAndClassNumAndGrade(name, agencyCode, grade, classNum);
+            userRankInfoList = userRankRepository.findTop100ByNameContainsAndAgencyCodeAndClassNumAndGrade(name, agencyCode, grade, classNum);
         } else {
-            userRankList = userRankRepository.findTop100ByNameContainsAndAgencyCode(name, agencyCode);
+            userRankInfoList = userRankRepository.findTop100ByNameContainsAndAgencyCode(name, agencyCode);
         }
 
-        List<UserListResponse.UserSearchResponse> userList = userRankList.stream().map(userRank ->
+        List<UserListResponse.UserSearchResponse> userList = userRankInfoList.stream().map(userRankInfo ->
                 UserListResponse.UserSearchResponse.builder()
-                        .accountId(userRank.getAccountId())
-                        .name(userRank.getName())
-                        .rank(userRank.getRank())
-                        .grade(userRank.getGrade())
-                        .classNum(userRank.getClassNum())
-                        .profileImageUrl(userRank.getProfileImageUrl())
-                        .walkCount(userRank.getClassNum())
+                        .accountId(userRankInfo.getAccountId())
+                        .name(userRankInfo.getName())
+                        .rank(userRankInfo.getRanking())
+                        .grade(userRankInfo.getGrade())
+                        .classNum(userRankInfo.getClassNum())
+                        .profileImageUrl(userRankInfo.getProfileImageUrl())
+                        .walkCount(userRankInfo.getClassNum())
                         .build()
         ).collect(Collectors.toList());
 
