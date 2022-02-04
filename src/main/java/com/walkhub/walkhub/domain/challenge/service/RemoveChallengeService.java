@@ -29,7 +29,7 @@ public class RemoveChallengeService {
             throw InvalidRoleException.EXCEPTION;
         }
 
-        if (!challenge.isMySchool(user.getRealSchoolAgencyCode())){
+        if (!challenge.isYourSchool(user.getRealSchoolAgencyCode())){
             throw NotYourSchoolException.EXCEPTION;
         }
 
