@@ -1,5 +1,9 @@
 package com.walkhub.walkhub.infrastructure.image;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DefaultImage {
 	public static final String USER_PROFILE_IMAGE = "";
 	public static final String CHALLENGE_IMAGE = "";
