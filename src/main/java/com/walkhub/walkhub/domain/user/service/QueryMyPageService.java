@@ -18,7 +18,7 @@ public class QueryMyPageService {
 		User user = userFacade.getCurrentUser();
 		Badge titleBadge = user.getBadge();
 		return QueryUserProfileResponse.builder()
-			.id(user.getId())
+			.userId(user.getId())
 			.name(user.getName())
 			.profileImageUrl(user.getProfileImageUrl())
 			.schoolName(user.getSchool().getName())
