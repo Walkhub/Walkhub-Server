@@ -7,6 +7,7 @@ import lombok.Getter;
 @Builder
 public class QueryUserProfileResponse {
 
+	private final Long id;
 	private final String name;
 	private final String profileImageUrl;
 	private final String schoolName;

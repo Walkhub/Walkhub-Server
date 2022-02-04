@@ -20,6 +20,7 @@ public class QueryUserProfileService {
         Badge titleBadge = user.getBadge();
 
 		return QueryUserProfileResponse.builder()
+			.id(user.getId())
 			.name(user.getName())
 			.profileImageUrl(user.getProfileImageUrl())
 			.schoolName(user.getSchool().getName())
