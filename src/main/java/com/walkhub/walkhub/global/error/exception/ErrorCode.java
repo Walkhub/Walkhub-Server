@@ -11,7 +11,9 @@ public enum ErrorCode {
 
     PASSWORD_NOT_MATCH(400, "AUTH-400-1", "Password Not Match"),
     SAVE_IMAGE_FAILED(400, "COMMON-400-1", "Save Image Failed"),
+
     AGENCY_CODE_NOT_MATCH(400, "SCHOOL-400-1", "AgencyCode Not Match"),
+    NOT_YOUR_SCHOOL(403,"SCHOOL-403-2","Not your school."),
 
     EXPIRED_JWT(401, "COMMON-401-1", "Expired Jwt"),
     INVALID_JWT(401, "COMMON-401-2", "Invalid Jwt"),
