@@ -2,6 +2,7 @@ package com.walkhub.walkhub.domain.challenge.domain;
 
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.Scope;
+import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,6 +25,7 @@ public class Challenge {
     @Column(length = 200, nullable = false)
     private String name;
 
+    @ColumnDefault(DefaultImage.CHALLENGE_IMAGE)
     private String imageUrl;
 
     @Column(columnDefinition = "TEXT", nullable = false)
