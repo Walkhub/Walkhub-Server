@@ -35,7 +35,7 @@ spring:
       enabled: false
     jdbc:
       initialize-schema: always
-      table-prefix: batch_
+      table-prefix: BATCH_
 
 coolsms:
   key: ${SMS_KEY}
