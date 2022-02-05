@@ -25,7 +25,7 @@ public class ListOfBadgesOwnService {
         return ListOfBadgesOwnResponse.builder()
                 .id(badge.getId())
                 .name(badge.getName())
-                .image(badge.getImage())
+                .imageUrl(badge.getImageUrl())
                 .build();
     }
 

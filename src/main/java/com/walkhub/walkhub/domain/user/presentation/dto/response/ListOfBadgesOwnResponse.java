@@ -9,6 +9,6 @@ public class ListOfBadgesOwnResponse {
 
     private final Long id;
     private final String name;
-    private final String image;
+    private final String imageUrl;
 
 }
