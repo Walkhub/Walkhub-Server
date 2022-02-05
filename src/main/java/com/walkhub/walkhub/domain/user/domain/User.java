@@ -88,9 +88,9 @@ public class User {
 
     @Builder
     public User(Long id, String accountId, String password, String phoneNumber, String name,
-                String profileImageUrl, Authority authority, Group group, School school, boolean isMeasuring,
+                String profileImageUrl, Authority authority, Group group, School school,
                 Integer weight, BigDecimal height, Sex sex, LocalDate birthday, Badge badge,
-                String deviceToken) {
+                boolean isMeasuring, String deviceToken) {
         this.id = id;
         this.accountId = accountId;
         this.password = password;
