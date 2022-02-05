@@ -3,21 +3,16 @@ package com.walkhub.walkhub.global.websocket;
 import com.corundumstudio.socketio.SocketConfig;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.SpringAnnotationScanner;
-import com.walkhub.walkhub.global.websocket.connect.WebSocketJwtHandler;
 import com.walkhub.walkhub.global.websocket.exception.SocketExceptionListener;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@RequiredArgsConstructor
 @Configuration
 public class WebSocketConfig {
 
     @Value("${socket.port}")
     private Integer port;
-
-    private final WebSocketJwtHandler webSocketJwtHandler;
 
     @Bean
     public SocketIOServer socketIOServer() {
@@ -28,9 +23,7 @@ public class WebSocketConfig {
         config.setOrigin("*");
         config.setSocketConfig(socketConfig);
         config.setExceptionListener(new SocketExceptionListener());
-        SocketIOServer server = new SocketIOServer(config);
-        server.addConnectListener(webSocketJwtHandler::onConnect);
-        return server;
+        return new SocketIOServer(config);
     }
 
     @Bean
