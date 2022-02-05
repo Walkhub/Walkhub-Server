@@ -63,3 +63,6 @@ cloud:
       static: ${S3_REGION}
     stack:
       auto: false
+
+socket:
+  port: ${SOCKET_PORT:8081}

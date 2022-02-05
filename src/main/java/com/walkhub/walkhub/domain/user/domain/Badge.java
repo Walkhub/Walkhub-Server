@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.user.domain;
 
+import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,6 +24,7 @@ public class Badge {
 	@Column(length = 20, nullable = false)
 	private String name;
 
+	@ColumnDefault(DefaultImage.BADGE_IMAGE)
 	private String imageUrl;
 
 	@Builder

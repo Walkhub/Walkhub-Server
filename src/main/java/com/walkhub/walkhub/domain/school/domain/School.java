@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.school.domain;
 
+import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,7 +23,7 @@ public class School {
     @Column(length = 20, nullable = false)
     private String name;
 
-    @Column
+    @ColumnDefault(DefaultImage.SCHOOL_LOGO_IMAGE)
     private String logoImageUrl;
 
     @Builder

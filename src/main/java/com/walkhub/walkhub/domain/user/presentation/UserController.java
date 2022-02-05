@@ -8,7 +8,6 @@ import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateSchoolInfo
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
-import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryMyPageResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
 import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
@@ -58,7 +57,7 @@ public class UserController {
     }
 
     @GetMapping
-    public QueryMyPageResponse queryMyPage() {
+    public QueryUserProfileResponse queryMyPage() {
         return queryMyPageService.execute();
     }
 
