@@ -22,9 +22,6 @@ public class CheeringService {
     public void execute(SocketIOClient socketIOClient, CheerRequest request) {
         User user = userFacade.getUserById(socketIOClient.get(ClientProperty.USER_KEY));
 
-        socketIOServer.getAllClients()
-                .forEach(client -> System.out.println(client.get(ClientProperty.USER_KEY).toString()));
-
         SocketIOClient clientToSend = socketIOServer.getAllClients().stream()
                 .filter(client -> client.get(ClientProperty.USER_KEY).equals(request.getUserId()))
                 .findFirst()
