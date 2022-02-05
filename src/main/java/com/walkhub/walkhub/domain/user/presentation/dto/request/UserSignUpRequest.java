@@ -9,6 +9,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
@@ -42,6 +43,6 @@ public class UserSignUpRequest {
 
     private Sex sex;
 
-    private String birthday;
+    private LocalDate birthday;
 
 }
