@@ -8,14 +8,14 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
 public class SchoolRankScheduler {
-
-    private final Job job;
+    private final Job rankJob;
     private final JobLauncher jobLauncher;
     private final UniqueIdGenerator uniqueIdGenerator;
 
@@ -25,7 +25,7 @@ public class SchoolRankScheduler {
             JobExecutionAlreadyRunningException,
             JobParametersInvalidException,
             JobRestartException {
-        jobLauncher.run(job, uniqueIdGenerator.getNext(null));
+        jobLauncher.run(rankJob, uniqueIdGenerator.getNext(null));
     }
 
 }
