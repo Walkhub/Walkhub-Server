@@ -163,7 +163,7 @@ public class UserRankJob {
                 .fetchSize(CHUNK_SIZE)
                 .dataSource(dataSource)
                 .procedureName("SELECT_USER_RANK_BY_SCHOOL_AND_DATETYPE")
-                .parameters(new SqlParameter[]{new SqlParameter("date_type_in", Types.INTEGER)})
+                .parameters(new SqlParameter("date_type_in", Types.INTEGER))
                 .preparedStatementSetter(new ArgumentPreparedStatementSetter(new Object[]{dateType}))
                 .rowMapper((rs, rowNum) -> UserRankBySchool.builder()
                         .name(rs.getString("name"))
