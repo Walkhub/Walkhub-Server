@@ -5,6 +5,7 @@ import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
 import com.walkhub.walkhub.domain.user.domain.type.Sex;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.global.enums.Authority;
+import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -48,6 +49,7 @@ public class User {
     @Column(length = 10, nullable = false)
     private String name;
 
+    @ColumnDefault(DefaultImage.USER_PROFILE_IMAGE)
     private String profileImageUrl;
 
     @Column(columnDefinition = "char(4)", nullable = false)
@@ -88,7 +90,7 @@ public class User {
 
     @Builder
     public User(Long id, String accountId, String password, String phoneNumber, String name,
-                String profileImageUrl, Authority authority, Group group, School school, boolean isMeasuring,
+                Authority authority, Group group, School school, boolean isMeasuring,
                 Integer weight, BigDecimal height, Sex sex, String birthday, Badge badge,
                 String deviceToken) {
         this.id = id;
@@ -96,7 +98,6 @@ public class User {
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.name = name;
-        this.profileImageUrl = profileImageUrl;
         this.authority = authority;
         this.group = group;
         this.school = school;
