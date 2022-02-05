@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.rank.domain;
 
-import com.walkhub.walkhub.domain.user.domain.GroupId;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

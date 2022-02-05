@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.rank.domain;
 
-import com.walkhub.walkhub.domain.rank.domain.type.DateType;
 import lombok.*;
 
 import javax.persistence.*;

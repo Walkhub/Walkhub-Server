@@ -1,7 +1,6 @@
 package com.walkhub.walkhub.domain.rank.job;
 
 import com.walkhub.walkhub.domain.rank.domain.*;
-import com.walkhub.walkhub.domain.rank.domain.type.DateType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -17,14 +16,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.ArgumentPreparedStatementSetter;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.SqlParameter;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDate;
 
