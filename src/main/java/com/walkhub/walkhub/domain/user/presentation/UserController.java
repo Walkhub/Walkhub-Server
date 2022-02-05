@@ -60,7 +60,7 @@ public class UserController {
     }
 
     @GetMapping
-    public QueryMyPageResponse queryMyPage() {
+    public QueryUserProfileResponse queryMyPage() {
         return queryMyPageService.execute();
     }
 
