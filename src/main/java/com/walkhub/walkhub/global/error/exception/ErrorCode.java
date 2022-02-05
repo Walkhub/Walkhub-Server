@@ -30,6 +30,7 @@ public enum ErrorCode {
     CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge Not Found"),
     EXERCISE_NOT_FOUND(404, "EXERCISE-404-1", "Exercise Not Found"),
     NOTICE_NOT_FOUND(404, "NOTICE-404-1", "Notice Not Found"),
+    SOCKET_CLIENT_NOT_FOUND(404, "SOCKET-404-1", "Socket Client Not Found"),
 
     USER_EXISTS(409, "USER-409-1", "User Exists"),
   
