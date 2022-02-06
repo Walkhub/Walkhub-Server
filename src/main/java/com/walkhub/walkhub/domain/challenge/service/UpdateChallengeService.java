@@ -5,8 +5,6 @@ import com.walkhub.walkhub.domain.challenge.presentation.dto.request.UpdateChall
 import com.walkhub.walkhub.domain.challenge.presentation.dto.response.ChallengeResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
-import com.walkhub.walkhub.global.enums.Authority;
-import com.walkhub.walkhub.global.exception.InvalidRoleException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,13 +17,8 @@ public class UpdateChallengeService {
     private final ChallengeFacade challengeFacade;
 
     @Transactional
-    public ChallengeResponse execute(Long id, UpdateChallengeRequest request) {
+    public ChallengeResponse execute(UpdateChallengeRequest request) {
         User user = userFacade.getCurrentUser();
-        challengeFacade.getById(id);
-
-        if (!Authority.TCHR.equals(user.getAuthority())) {
-            throw InvalidRoleException.EXCEPTION;
-        }
 
         return ChallengeResponse.builder()
                 .name(request.getName())
