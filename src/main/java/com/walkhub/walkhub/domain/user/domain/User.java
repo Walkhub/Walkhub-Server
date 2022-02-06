@@ -71,6 +71,7 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     private School school;
 
+    @Column(columnDefinition = "TINYINT")
     private Integer number;
 
     @ColumnDefault("0")
