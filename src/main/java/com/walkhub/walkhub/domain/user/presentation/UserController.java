@@ -49,7 +49,6 @@ public class UserController {
     private final UpdateSchoolInfoService updateSchoolInfoService;
     private final SearchAccountIdService searchAccountIdService;
 
-
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
     public void sendAuthCode(@RequestBody @Valid UserAuthCodeRequest request) {
