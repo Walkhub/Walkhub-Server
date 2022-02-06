@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.global.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walkhub.walkhub.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,7 @@ import org.springframework.web.cors.CorsUtils;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final ObjectMapper objectMapper;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -44,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
 
                 .and()
-                .apply(new FilterConfig(jwtTokenProvider));
+                .apply(new FilterConfig(jwtTokenProvider, objectMapper));
     }
 
 }
