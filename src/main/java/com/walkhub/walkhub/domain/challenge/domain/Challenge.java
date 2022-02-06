@@ -2,6 +2,8 @@ package com.walkhub.walkhub.domain.challenge.domain;
 
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.Scope;
+import com.walkhub.walkhub.infrastructure.image.DefaultImage;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,6 +25,7 @@ public class Challenge {
     @Column(length = 200, nullable = false)
     private String name;
 
+    @ColumnDefault(DefaultImage.CHALLENGE_IMAGE)
     private String imageUrl;
 
     @Column(columnDefinition = "TEXT", nullable = false)
@@ -47,6 +51,9 @@ public class Challenge {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @OneToMany(mappedBy = "challenge", cascade = CascadeType.REMOVE)
+    private List<ChallengeStatus> challengeStatuses;
+
     @Builder
     public Challenge(String name, String content, Long goal, String award,
                      LocalDateTime createAt, LocalDateTime endAt, Scope scope, User user) {
@@ -59,17 +66,5 @@ public class Challenge {
         this.scope = scope;
         this.user = user;
 
-    }
-
-    public void updateChallenge(String name, String content, Long goal, String award, String imageUrl,
-                                LocalDateTime createAt, LocalDateTime endAt, Scope scope) {
-        this.name = name;
-        this.content = content;
-        this.goal = goal;
-        this.award = award;
-        this.imageUrl = imageUrl;
-        this.createAt = createAt;
-        this.endAt = endAt;
-        this.scope = scope;
     }
 }

@@ -18,8 +18,12 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ErrorResponse> handleGlobal(WalkhubException e) {
 		final ErrorCode errorCode = e.getErrorCode();
 		return new ResponseEntity<>(
-			new ErrorResponse(errorCode.getStatus(), errorCode.getCode(), errorCode.getMessage()),
-			HttpStatus.valueOf(errorCode.getStatus())
+				ErrorResponse.builder()
+						.status(errorCode.getStatus())
+						.code(errorCode.getCode())
+						.message(errorCode.getMessage())
+						.build(),
+				HttpStatus.valueOf(errorCode.getStatus())
 		);
 	}
 

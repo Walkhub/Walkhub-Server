@@ -3,6 +3,13 @@ package com.walkhub.walkhub.domain.user.presentation;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.*;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryMyPageResponse;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.InputHealthInformationRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinGroupRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdatePasswordRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateSchoolInfoRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.service.*;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
@@ -39,7 +46,6 @@ public class UserController {
     private final UpdateSchoolInfoService updateSchoolInfoService;
     private final SearchAccountIdService searchAccountIdService;
 
-
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
     public void sendAuthCode(@RequestBody @Valid UserAuthCodeRequest request) {
@@ -47,7 +53,7 @@ public class UserController {
     }
 
     @GetMapping
-    public QueryMyPageResponse queryMyPage() {
+    public QueryUserProfileResponse queryMyPage() {
         return queryMyPageService.execute();
     }
 
