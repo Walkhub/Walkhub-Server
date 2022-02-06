@@ -1,7 +1,6 @@
 package com.walkhub.walkhub.domain.user.service;
 
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.InputHealthInformationRequest;
@@ -12,8 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class InputHealthInformationService {
 
-    private UserRepository userRepository;
-    private UserFacade userFacade;
+    private final UserFacade userFacade;
 
     public void execute(InputHealthInformationRequest request) {
         User user = userFacade.getCurrentUser();

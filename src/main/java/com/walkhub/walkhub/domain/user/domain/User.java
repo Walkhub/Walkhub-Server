@@ -27,7 +27,6 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -80,9 +79,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
-    @Column(columnDefinition = "char(8)")
-    private LocalDate birthday;
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "title_badge_id", nullable = false)
     private Badge badge;
@@ -92,8 +88,7 @@ public class User {
     @Builder
     public User(Long id, String accountId, String password, String phoneNumber, String name,
                 Authority authority, Group group, School school, boolean isMeasuring,
-                Integer weight, BigDecimal height, Sex sex, LocalDate birthday, Badge badge,
-                String deviceToken) {
+                Integer weight, BigDecimal height, Sex sex, Badge badge, String deviceToken) {
         this.id = id;
         this.accountId = accountId;
         this.password = password;
@@ -105,7 +100,6 @@ public class User {
         this.isMeasuring = isMeasuring;
         this.healthInfo = new HealthInfo(weight, height);
         this.sex = sex;
-        this.birthday = birthday;
         this.badge = badge;
         this.deviceToken = deviceToken;
     }
@@ -117,7 +111,6 @@ public class User {
     public void updateUser(UpdateUserInfoRequest request) {
         this.name = request.getName();
         this.profileImageUrl = request.getProfileImageUrl();
-        this.birthday = request.getBirthday();
         this.sex = request.getSex();
     }
 
