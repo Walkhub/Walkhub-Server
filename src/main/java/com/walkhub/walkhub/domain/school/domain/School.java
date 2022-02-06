@@ -40,5 +40,7 @@ public class School {
         this.logoImageUrl = logoImageUrl;
     }
 
-    public void setAuthCode(String authCode) { this.authCode = authCode; }
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode;
+    }
 }
