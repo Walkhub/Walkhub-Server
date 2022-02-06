@@ -34,8 +34,4 @@ public class ChallengeStatus {
         this.isSuccess = false;
     }
 
-    public void updateIsSuccess() {
-        this.isSuccess = true;
-    }
-
 }

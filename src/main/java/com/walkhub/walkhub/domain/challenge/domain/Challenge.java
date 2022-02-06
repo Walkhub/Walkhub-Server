@@ -67,16 +67,4 @@ public class Challenge {
         this.user = user;
 
     }
-
-    public void updateChallenge(String name, String content, Long goal, String award, String imageUrl,
-                                LocalDateTime createAt, LocalDateTime endAt, Scope scope) {
-        this.name = name;
-        this.content = content;
-        this.goal = goal;
-        this.award = award;
-        this.imageUrl = imageUrl;
-        this.createAt = createAt;
-        this.endAt = endAt;
-        this.scope = scope;
-    }
 }
