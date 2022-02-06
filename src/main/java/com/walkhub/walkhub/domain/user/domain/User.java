@@ -27,6 +27,7 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -80,7 +81,7 @@ public class User {
     private Sex sex;
 
     @Column(columnDefinition = "char(8)")
-    private String birthday;
+    private LocalDate birthday;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "title_badge_id", nullable = false)
@@ -91,7 +92,7 @@ public class User {
     @Builder
     public User(Long id, String accountId, String password, String phoneNumber, String name,
                 Authority authority, Group group, School school, boolean isMeasuring,
-                Integer weight, BigDecimal height, Sex sex, String birthday, Badge badge,
+                Integer weight, BigDecimal height, Sex sex, LocalDate birthday, Badge badge,
                 String deviceToken) {
         this.id = id;
         this.accountId = accountId;
