@@ -2,7 +2,7 @@ package com.walkhub.walkhub.domain.challenge.service;
 
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeRepository;
-import com.walkhub.walkhub.domain.challenge.exception.NotYourSchoolException;
+import com.walkhub.walkhub.domain.challenge.exception.NotMySchoolException;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
@@ -29,8 +29,8 @@ public class RemoveChallengeService {
             throw InvalidRoleException.EXCEPTION;
         }
 
-        if (!challenge.isYourSchool(user.getRealSchoolAgencyCode())){
-            throw NotYourSchoolException.EXCEPTION;
+        if (!challenge.isMySchool(user.getRealSchoolAgencyCode())){
+            throw NotMySchoolException.EXCEPTION;
         }
 
         challengeRepository.delete(challenge);

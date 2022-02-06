@@ -77,7 +77,7 @@ public class Challenge {
         this.scope = scope;
     }
 
-    public boolean isYourSchool(String agencyCode) {
+    public boolean isMySchool(String agencyCode) {
         return user.getRealSchoolAgencyCode().equals(agencyCode);
     }
 }
