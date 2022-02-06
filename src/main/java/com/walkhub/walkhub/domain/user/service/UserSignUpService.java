@@ -55,7 +55,6 @@ public class UserSignUpService {
                 .height(request.getHeight())
                 .weight(request.getWeight())
                 .sex(request.getSex())
-                .birthday(request.getBirthday())
                 .isMeasuring(false)
                 .build());
 

@@ -43,6 +43,4 @@ public class UserSignUpRequest {
 
     private Sex sex;
 
-    private LocalDate birthday;
-
 }
