@@ -6,11 +6,7 @@ import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
 import com.walkhub.walkhub.domain.user.domain.type.Sex;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.global.enums.Authority;
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -30,8 +27,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -71,6 +70,8 @@ public class User {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private School school;
+
+    private Integer number;
 
     @ColumnDefault("0")
     @Column(nullable = false)
@@ -132,6 +133,10 @@ public class User {
 
     public void setSchool(School school) {
         this.school = school;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public School getRealSchool() {
