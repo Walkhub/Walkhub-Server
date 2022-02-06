@@ -2,7 +2,6 @@ package com.walkhub.walkhub.domain.challenge.service;
 
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeRepository;
-import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeStatusRepository;
 import com.walkhub.walkhub.domain.challenge.exception.ChallengeNotFoundException;
 import com.walkhub.walkhub.domain.challenge.presentation.dto.response.QueryChallengeDetailResponse;
 import com.walkhub.walkhub.domain.challenge.presentation.dto.response.QueryChallengeDetailResponse.Writer;
@@ -20,7 +19,6 @@ public class QueryChallengeDetailService {
 
 	private final UserFacade userFacade;
 	private final ChallengeRepository challengeRepository;
-	private final ChallengeStatusRepository challengeStatusRepository;
 
 	@Transactional(readOnly = true)
 	public QueryChallengeDetailResponse execute(Long id) {

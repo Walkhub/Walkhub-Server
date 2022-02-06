@@ -9,6 +9,7 @@ import com.walkhub.walkhub.domain.challenge.service.ParticipateChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.QueryChallengeListService;
 import com.walkhub.walkhub.domain.challenge.service.QueryChallengeDetailService;
 import com.walkhub.walkhub.domain.challenge.service.QueryChallengeParticipantsListService;
+import com.walkhub.walkhub.domain.challenge.service.QueryParticipatedChallengeListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,7 @@ public class ChallengeController {
     private final QueryChallengeDetailService queryChallengeDetailService;
     private final ParticipateChallengeService participateChallengeService;
     private final QueryChallengeParticipantsListService queryChallengeParticipantsListService;
+    private final QueryParticipatedChallengeListService queryParticipatedChallengeListService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
@@ -52,6 +54,11 @@ public class ChallengeController {
     @GetMapping("/lists")
     public QueryChallengeListResponse queryChallengeList() {
         return queryChallengeListService.execute();
+    }
+
+    @GetMapping("/participated")
+    public QueryChallengeListResponse queryParticipatedChallengeList() {
+        return queryParticipatedChallengeListService.execute();
     }
 
     @GetMapping("/{challenge-id}")
