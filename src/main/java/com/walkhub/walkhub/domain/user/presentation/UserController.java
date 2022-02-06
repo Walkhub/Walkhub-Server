@@ -89,7 +89,7 @@ public class UserController {
                           @PathVariable(name = "grade") Integer grade,
                           @PathVariable(name = "class") Integer classNum,
                           @RequestBody @Valid JoinGroupRequest request) {
-        joinGroupService.execute(agencyCode, grade, classNum, request.getClassCode());
+        joinGroupService.execute(agencyCode, grade, classNum, request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
