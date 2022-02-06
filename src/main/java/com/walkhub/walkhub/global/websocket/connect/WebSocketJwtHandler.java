@@ -18,7 +18,7 @@ public class WebSocketJwtHandler {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    public static ConcurrentMap<String, SocketIOClient> socketIOClientMap = new ConcurrentHashMap<>();
+    public static final ConcurrentMap<String, SocketIOClient> socketIOClientMap = new ConcurrentHashMap<>();
 
     @OnConnect
     public void onConnect(SocketIOClient client) {
