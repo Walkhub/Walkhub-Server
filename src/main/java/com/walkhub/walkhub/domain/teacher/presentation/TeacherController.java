@@ -1,14 +1,16 @@
 package com.walkhub.walkhub.domain.teacher.presentation;
 
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.CreateClassRequest;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CreateClassResponse;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassCodeResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.VerificationCodeResponse;
 import com.walkhub.walkhub.domain.teacher.service.CreateClassService;
 import com.walkhub.walkhub.domain.teacher.service.DeleteClassService;
+import com.walkhub.walkhub.domain.teacher.service.RefreshClassCodeService;
 import com.walkhub.walkhub.domain.teacher.service.VerificationCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,10 +28,11 @@ public class TeacherController {
     private final CreateClassService createClassService;
     private final VerificationCodeService verificationCodeService;
     private final DeleteClassService deleteClassService;
+    private final RefreshClassCodeService refreshClassCodeService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/classes")
-    public CreateClassResponse createClass(@RequestBody @Valid CreateClassRequest request) {
+    public ClassCodeResponse createClass(@RequestBody @Valid CreateClassRequest request) {
         return createClassService.execute(request);
     }
 
@@ -45,6 +48,11 @@ public class TeacherController {
                             @PathVariable(name = "grade") Integer grade,
                             @PathVariable(name = "class") Integer classNum) {
         deleteClassService.execute(agencyCode, grade, classNum);
+    }
+
+    @PatchMapping("/classes/verification-codes")
+    public ClassCodeResponse refreshClassCode() {
+        return refreshClassCodeService.execute();
     }
 
 }
