@@ -44,11 +44,11 @@ public class SocketExceptionListener implements ExceptionListener {
         } else {
             errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
         }
-        ErrorResponse message = new ErrorResponse(
-                errorCode.getStatus(),
-                errorCode.getCode(),
-                errorCode.getMessage()
-        );
+        ErrorResponse message = ErrorResponse.builder()
+                .status(errorCode.getStatus())
+                .code(errorCode.getCode())
+                .message(errorCode.getMessage())
+                .build();
 
         client.sendEvent(SocketProperty.ERROR, message);
     }
