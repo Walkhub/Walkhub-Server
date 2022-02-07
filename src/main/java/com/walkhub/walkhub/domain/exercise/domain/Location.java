@@ -24,11 +24,11 @@ public class Location {
     private Exercise exercise;
 
     @Column(nullable = false)
-    @Digits(integer = 2, fraction = 10)
+    @Digits(integer = 2, fraction = 8)
     private BigDecimal latitude;
 
     @Column(nullable = false)
-    @Digits(integer = 3, fraction = 11)
+    @Digits(integer = 3, fraction = 8)
     private BigDecimal longitude;
 
     @Builder
