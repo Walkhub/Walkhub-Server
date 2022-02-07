@@ -1,7 +1,6 @@
 package com.walkhub.walkhub.domain.user.facade;
 
 import com.walkhub.walkhub.domain.user.domain.Group;
-import com.walkhub.walkhub.domain.user.domain.GroupId;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.GroupRepository;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
@@ -40,8 +39,8 @@ public class UserFacade {
         }
     }
 
-    public Group getGroupByGroupId(String agencyCode, Integer grade, Integer classNum) {
-        return groupRepository.findById(new GroupId(grade, classNum, agencyCode))
+    public Group getGroup(String agencyCode, Integer grade, Integer classNum) {
+        return groupRepository.findBySchoolAgencyCodeAndGradeAndClassNum(agencyCode, grade, classNum)
                 .orElseThrow(() -> GroupNotFoundException.EXCEPTION);
     }
 
