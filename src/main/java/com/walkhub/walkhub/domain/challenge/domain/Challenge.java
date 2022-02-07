@@ -67,12 +67,12 @@ public class Challenge {
 
     @Builder
     public Challenge(String name, String content, Long goal, String award,
-                     LocalDate createAt, LocalDate endAt, Scope scope, User user) {
+                     LocalDate createdAt, LocalDate endAt, Scope scope, User user) {
         this.name = name;
         this.content = content;
         this.goal = goal;
         this.award = award;
-        this.createdAt = createAt;
+        this.createdAt = createdAt;
         this.endAt = endAt;
         this.scope = scope;
         this.user = user;
