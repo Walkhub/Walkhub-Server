@@ -1,20 +1,27 @@
 package com.walkhub.walkhub.domain.notification.domain;
 
 import com.walkhub.walkhub.domain.notification.domain.type.Type;
+import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.global.enums.Scope;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.time.LocalDate;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "notification")
-public class NotificationEntity {
+public class NotificationEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,9 +44,6 @@ public class NotificationEntity {
     @Column(columnDefinition = "char(3)", nullable = false)
     private Scope scope;
 
-    @Column(nullable = false)
-    private LocalDate createdAt;
-
     @Builder
     public NotificationEntity(String title, String content, Type type, Long value, Scope scope) {
         this.title = title;
@@ -47,7 +51,6 @@ public class NotificationEntity {
         this.type = type;
         this.value = value;
         this.scope = scope;
-        this.createdAt = LocalDate.now();
     }
 
 }
