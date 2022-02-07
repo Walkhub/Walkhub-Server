@@ -2,20 +2,16 @@ package com.walkhub.walkhub.domain.exercise.presentation;
 
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.CreateExerciseRequest;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.FinishExerciseRequest;
+import com.walkhub.walkhub.domain.exercise.presentation.dto.request.SaveExerciseAnalysisRequest;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.SaveLocationRequest;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.CreateExerciseResponse;
 import com.walkhub.walkhub.domain.exercise.service.CreateExerciseService;
 import com.walkhub.walkhub.domain.exercise.service.FinishExerciseService;
 import com.walkhub.walkhub.domain.exercise.service.SaveLocationService;
+import com.walkhub.walkhub.domain.exercise.service.SaveOrUpdateExerciseAnalysisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -27,6 +23,7 @@ public class ExerciseController {
 	private final CreateExerciseService createExerciseService;
 	private final FinishExerciseService finishExerciseService;
 	private final SaveLocationService saveLocationService;
+	private final SaveOrUpdateExerciseAnalysisService saveOrUpdateExerciseAnalysisService;
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
@@ -46,6 +43,12 @@ public class ExerciseController {
 	public void saveLocation(@PathVariable(name = "exercise-id") Long exerciseId,
 							 @RequestBody @Valid SaveLocationRequest request) {
 		saveLocationService.execute(exerciseId, request);
+	}
+
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@PutMapping
+	public void saveOrUpdateTodayExercise(@RequestBody @Valid SaveExerciseAnalysisRequest request) {
+		saveOrUpdateExerciseAnalysisService.execute(request);
 	}
 
 }
