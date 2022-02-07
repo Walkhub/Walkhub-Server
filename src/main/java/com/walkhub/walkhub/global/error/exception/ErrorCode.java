@@ -35,7 +35,7 @@ public enum ErrorCode {
 
     USER_EXISTS(409, "USER-409-1", "User Exists"),
 
-    BADGE_NOT_FOUND(404, "BADGE-404-1", "Badge not found"),
+    BADGE_NOT_FOUND(404, "BADGE-404-1", "Badge Not Found"),
 
     NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification Not Found."),
   
