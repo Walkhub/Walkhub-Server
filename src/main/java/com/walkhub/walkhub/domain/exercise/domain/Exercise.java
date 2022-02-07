@@ -34,9 +34,6 @@ public class Exercise extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer walkCount;
 
-    @Column(nullable = false)
-    private LocalDate createdAt;
-
     private LocalDate endAt;
 
     @ColumnDefault("0")
