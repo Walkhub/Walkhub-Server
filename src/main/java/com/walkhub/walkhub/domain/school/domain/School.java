@@ -32,7 +32,7 @@ public class School {
     private Long userCount;
 
     @Column(columnDefinition = "char(7)")
-    private String teacherCode;
+    private String authCode;
 
     @Column(columnDefinition = "char(7)", nullable = false)
     private String agencyCode;
@@ -46,6 +46,10 @@ public class School {
 
     public void setLogoImage(String logoImageUrl) {
         this.logoImageUrl = logoImageUrl;
+    }
+
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode;
     }
 
 }
