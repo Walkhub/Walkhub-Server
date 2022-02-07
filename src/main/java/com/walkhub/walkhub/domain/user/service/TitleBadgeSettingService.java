@@ -22,6 +22,5 @@ public class TitleBadgeSettingService {
         Badge badge = badgeFacade.getBadgeById(badgeId);
 
         user.setBadge(badge);
-        
     }
 }
