@@ -37,7 +37,6 @@ public class Exercise extends BaseTimeEntity {
     @Column(nullable = false)
     private LocalDate createdAt;
 
-    @Column()
     private LocalDate endAt;
 
     @ColumnDefault("0")
