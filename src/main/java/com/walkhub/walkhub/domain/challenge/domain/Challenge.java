@@ -1,7 +1,6 @@
 package com.walkhub.walkhub.domain.challenge.domain;
 
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.global.enums.Scope;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import lombok.AccessLevel;
@@ -25,7 +24,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Challenge extends BaseTimeEntity {
+public class Challenge {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +38,9 @@ public class Challenge extends BaseTimeEntity {
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
+
+    @Column(nullable = false)
+    private LocalDate createdAt;
 
     @Column(nullable = false)
     private LocalDate endAt;
@@ -59,11 +61,12 @@ public class Challenge extends BaseTimeEntity {
 
     @Builder
     public Challenge(String name, String content, Long goal, String award,
-                     LocalDate endAt, Scope scope, User user) {
+                     LocalDate createdAt, LocalDate endAt, Scope scope, User user) {
         this.name = name;
         this.content = content;
         this.goal = goal;
         this.award = award;
+        this.createdAt = createdAt;
         this.endAt = endAt;
         this.scope = scope;
         this.user = user;
