@@ -34,7 +34,9 @@ public enum ErrorCode {
     SOCKET_CLIENT_NOT_FOUND(404, "SOCKET-404-1", "Socket Client Not Found"),
 
     USER_EXISTS(409, "USER-409-1", "User Exists"),
-  
+
+    BADGE_NOT_FOUND(404, "BADGE-404-1", "Badge Not Found"),
+
     NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification Not Found."),
   
     ALREADY_CREATED(409, "GROUP-409-1", "Already Created"),

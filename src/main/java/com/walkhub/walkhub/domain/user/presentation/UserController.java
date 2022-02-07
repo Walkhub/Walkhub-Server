@@ -1,35 +1,13 @@
 package com.walkhub.walkhub.domain.user.presentation;
 
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
-import com.walkhub.walkhub.domain.user.presentation.dto.request.InputHealthInformationRequest;
-import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinGroupRequest;
-import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdatePasswordRequest;
-import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateSchoolInfoRequest;
-import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
-import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
-import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.*;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
-import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
-import com.walkhub.walkhub.domain.user.service.JoinGroupService;
-import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
-import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
-import com.walkhub.walkhub.domain.user.service.SearchAccountIdService;
-import com.walkhub.walkhub.domain.user.service.UpdatePasswordService;
-import com.walkhub.walkhub.domain.user.service.UpdateSchoolInfoService;
-import com.walkhub.walkhub.domain.user.service.UpdateUserInfoService;
-import com.walkhub.walkhub.domain.user.service.UserAuthCodeService;
-import com.walkhub.walkhub.domain.user.service.UserSignUpService;
+import com.walkhub.walkhub.domain.user.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -41,6 +19,7 @@ public class UserController {
     private final UserAuthCodeService userAuthCodeService;
     private final QueryMyPageService queryMyPageService;
     private final QueryUserProfileService queryUserProfileService;
+    private final TitleBadgeSettingService titleBadgeSettingService;
     private final UserSignUpService userSignUpService;
     private final InputHealthInformationService inputHealthInformationService;
     private final UpdateUserInfoService updateUserInfoService;
@@ -63,6 +42,12 @@ public class UserController {
     @GetMapping("/{user-id}")
     public QueryUserProfileResponse queryUserProfile(@PathVariable("user-id") Long userId) {
         return queryUserProfileService.execute(userId);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/badges/{badge-id}")
+    public void titleBadgeSetting(@PathVariable("badge-id")Long badgeId) {
+        titleBadgeSettingService.execute(badgeId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

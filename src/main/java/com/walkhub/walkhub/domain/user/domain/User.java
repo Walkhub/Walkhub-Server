@@ -122,6 +122,10 @@ public class User {
         this.sex = request.getSex();
     }
 
+    public void setBadge(Badge badge) {
+        this.badge = badge;
+    }
+      
     public void setGroup(Group group) {
         this.group = group;
     }
