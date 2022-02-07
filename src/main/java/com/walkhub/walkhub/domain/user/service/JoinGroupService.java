@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.user.service;
 
+import com.walkhub.walkhub.domain.school.exception.AgencyCodeNotMatchException;
 import com.walkhub.walkhub.domain.user.domain.Group;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.exception.AlreadyJoinedException;
@@ -28,6 +29,10 @@ public class JoinGroupService {
 
         if (!request.getClassCode().equals(group.getClassCode())) {
             throw InvalidClassCodeException.EXCEPTION;
+        }
+
+        if (!user.getSchool().equals(group.getSchool())) {
+            throw AgencyCodeNotMatchException.EXCEPTION;
         }
 
         user.setGroup(group);
