@@ -18,7 +18,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -43,14 +42,11 @@ public class Notice extends BaseTimeEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    private LocalDate createdAt;
-
     @Builder
     public Notice(String title, Scope scope, String content, User user) {
         this.title = title;
         this.scope = scope;
         this.content = content;
         this.user = user;
-        this.createdAt = LocalDate.now();
     }
 }
