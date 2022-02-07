@@ -24,6 +24,7 @@ public class SocketExceptionListener implements ExceptionListener {
     @Override
     public void onConnectException(Exception e, SocketIOClient client) {
         runExceptionHandling(e, client);
+        client.disconnect();
     }
 
     @Override
@@ -44,11 +45,11 @@ public class SocketExceptionListener implements ExceptionListener {
         } else {
             errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
         }
-        ErrorResponse message = new ErrorResponse(
-                errorCode.getStatus(),
-                errorCode.getCode(),
-                errorCode.getMessage()
-        );
+        ErrorResponse message = ErrorResponse.builder()
+                .status(errorCode.getStatus())
+                .code(errorCode.getCode())
+                .message(errorCode.getMessage())
+                .build();
 
         client.sendEvent(SocketProperty.ERROR, message);
     }

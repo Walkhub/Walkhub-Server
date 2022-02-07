@@ -13,7 +13,8 @@ public class BadgeFacade {
     private final BadgeRepository badgeRepository;
 
     public Badge getBadgeById(Long badgeId) {
-        return badgeRepository.findByBadgeId(badgeId)
+
+        return badgeRepository.findById(badgeId)
                 .orElseThrow(() -> BadgeNotFoundException.EXCEPTION);
     }
 }

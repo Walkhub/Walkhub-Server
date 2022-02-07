@@ -26,6 +26,9 @@ public class School {
     @ColumnDefault(DefaultImage.SCHOOL_LOGO_IMAGE)
     private String logoImageUrl;
 
+    @Column(columnDefinition = "char(7)")
+    private String authCode;
+
     @Builder
     public School(String agencyCode, String name, String logoImageUrl) {
         this.agencyCode = agencyCode;
@@ -35,5 +38,9 @@ public class School {
 
     public void setLogoImage(String logoImageUrl) {
         this.logoImageUrl = logoImageUrl;
+    }
+
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode;
     }
 }

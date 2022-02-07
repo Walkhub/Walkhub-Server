@@ -1,11 +1,16 @@
 package com.walkhub.walkhub.domain.user.domain;
 
+import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
 import com.walkhub.walkhub.domain.user.domain.type.Sex;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.global.enums.Authority;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -79,20 +84,19 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
-    @Column(columnDefinition = "char(8)")
-    private String birthday;
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "title_badge_id", nullable = false)
     private Badge badge;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<ChallengeStatus> challengeStatuses;
 
     private String deviceToken;
 
     @Builder
     public User(Long id, String accountId, String password, String phoneNumber, String name,
                 Authority authority, Group group, School school, boolean isMeasuring,
-                Integer weight, BigDecimal height, Sex sex, String birthday, Badge badge,
-                String deviceToken) {
+                Integer weight, BigDecimal height, Sex sex, Badge badge, String deviceToken) {
         this.id = id;
         this.accountId = accountId;
         this.password = password;
@@ -104,7 +108,6 @@ public class User {
         this.isMeasuring = isMeasuring;
         this.healthInfo = new HealthInfo(weight, height);
         this.sex = sex;
-        this.birthday = birthday;
         this.badge = badge;
         this.deviceToken = deviceToken;
     }
@@ -116,10 +119,13 @@ public class User {
     public void updateUser(UpdateUserInfoRequest request) {
         this.name = request.getName();
         this.profileImageUrl = request.getProfileImageUrl();
-        this.birthday = request.getBirthday();
         this.sex = request.getSex();
     }
 
+    public void setBadge(Badge badge) {
+        this.badge = badge;
+    }
+      
     public void setGroup(Group group) {
         this.group = group;
     }

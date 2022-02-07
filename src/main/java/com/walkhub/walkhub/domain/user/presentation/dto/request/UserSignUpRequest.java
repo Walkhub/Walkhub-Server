@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @Getter
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 public class UserSignUpRequest {
 
     @NotBlank(message = "account_id는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
+    @Size(min = 5, max = 30, message = "account_id는 5글자 이상, 30글자 이하여야 합니다.")
     private String accountId;
 
     @NotBlank(message = "password는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
@@ -41,7 +43,5 @@ public class UserSignUpRequest {
     private BigDecimal height;
 
     private Sex sex;
-
-    private String birthday;
 
 }

@@ -12,6 +12,7 @@ public enum ErrorCode {
     PASSWORD_NOT_MATCH(400, "AUTH-400-1", "Password Not Match"),
     SAVE_IMAGE_FAILED(400, "COMMON-400-1", "Save Image Failed"),
     AGENCY_CODE_NOT_MATCH(400, "SCHOOL-400-1", "AgencyCode Not Match"),
+    CANNOT_CHEER_MYSELF(400, "SOCKET-400-1", "Can Not Cheer Myself"),
 
     EXPIRED_JWT(401, "COMMON-401-1", "Expired Jwt"),
     INVALID_JWT(401, "COMMON-401-2", "Invalid Jwt"),
@@ -30,9 +31,12 @@ public enum ErrorCode {
     CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge Not Found"),
     EXERCISE_NOT_FOUND(404, "EXERCISE-404-1", "Exercise Not Found"),
     NOTICE_NOT_FOUND(404, "NOTICE-404-1", "Notice Not Found"),
+    SOCKET_CLIENT_NOT_FOUND(404, "SOCKET-404-1", "Socket Client Not Found"),
 
     USER_EXISTS(409, "USER-409-1", "User Exists"),
-  
+
+    BADGE_NOT_FOUND(404, "BADGE-404-1", "Badge Not Found"),
+
     NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification Not Found."),
   
     ALREADY_CREATED(409, "GROUP-409-1", "Already Created"),
