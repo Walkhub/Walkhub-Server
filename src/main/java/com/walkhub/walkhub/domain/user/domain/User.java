@@ -140,20 +140,4 @@ public class User {
         this.number = number;
     }
 
-    public School getRealSchool() {
-        return this.group.getSchool();
-    }
-
-    public String getRealSchoolAgencyCode() {
-        return this.getRealSchool().getAgencyCode();
-    }
-
-    public String getRealSchoolName() {
-        return this.getRealSchool().getName();
-    }
-
-    public String getClassCode() {
-        return this.group.getClassCode();
-    }
-
 }
