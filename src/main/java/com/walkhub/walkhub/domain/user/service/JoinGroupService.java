@@ -3,7 +3,7 @@ package com.walkhub.walkhub.domain.user.service;
 import com.walkhub.walkhub.domain.school.exception.AgencyCodeNotMatchException;
 import com.walkhub.walkhub.domain.user.domain.Group;
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.domain.user.exception.InvalidClassCodeException;
+import com.walkhub.walkhub.domain.user.exception.ClassCodeNotMatchException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinGroupRequest;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class JoinGroupService {
         Group group = userFacade.getGroupByGroupId(agencyCode, grade, classNum);
 
         if (!group.getClassCode().equals(request.getClassCode())) {
-            throw InvalidClassCodeException.EXCEPTION;
+            throw ClassCodeNotMatchException.EXCEPTION;
         }
 
         if (!user.getSchool().equals(group.getSchool())) {
