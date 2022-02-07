@@ -3,15 +3,26 @@ package com.walkhub.walkhub.domain.challenge.domain;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.Scope;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
 import org.hibernate.annotations.ColumnDefault;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -32,10 +43,10 @@ public class Challenge {
     private String content;
 
     @Column(nullable = false)
-    private LocalDateTime createAt;
+    private LocalDate createdAt;
 
     @Column(nullable = false)
-    private LocalDateTime endAt;
+    private LocalDate endAt;
 
     @Column(length = 200, nullable = false)
     private String award;
@@ -56,12 +67,12 @@ public class Challenge {
 
     @Builder
     public Challenge(String name, String content, Long goal, String award,
-                     LocalDateTime createAt, LocalDateTime endAt, Scope scope, User user) {
+                     LocalDate createAt, LocalDate endAt, Scope scope, User user) {
         this.name = name;
         this.content = content;
         this.goal = goal;
         this.award = award;
-        this.createAt = createAt;
+        this.createdAt = createAt;
         this.endAt = endAt;
         this.scope = scope;
         this.user = user;

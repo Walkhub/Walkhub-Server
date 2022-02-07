@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,15 +27,18 @@ public class NotificationEntity {
     private String content;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 3, nullable = false)
+    @Column(columnDefinition = "char(3)", nullable = false)
     private Type type;
 
     @Column(nullable = false)
     private Long value;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 3, nullable = false)
+    @Column(columnDefinition = "char(3)", nullable = false)
     private Scope scope;
+
+    @Column(nullable = false)
+    private LocalDate createdAt;
 
     @Builder
     public NotificationEntity(String title, String content, Type type, Long value, Scope scope) {
@@ -43,6 +47,7 @@ public class NotificationEntity {
         this.type = type;
         this.value = value;
         this.scope = scope;
+        this.createdAt = LocalDate.now();
     }
 
 }

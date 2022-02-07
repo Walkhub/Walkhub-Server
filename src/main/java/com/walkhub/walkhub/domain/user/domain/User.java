@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.user.domain;
 
-import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
 import com.walkhub.walkhub.domain.user.domain.type.Sex;
@@ -14,7 +13,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -25,12 +23,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -61,15 +56,8 @@ public class User {
     private Authority authority;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumns({
-            @JoinColumn(name = "grade"),
-            @JoinColumn(name = "class"),
-            @JoinColumn(name = "agency_code")
-    })
+    @JoinColumn(name = "group_id")
     private Group group;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private School school;
 
     @Column(columnDefinition = "TINYINT")
     private Integer number;
@@ -87,13 +75,15 @@ public class User {
     private Sex sex;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "title_badge_id", nullable = false)
+    @JoinColumn(name = "title_badge_id")
     private Badge badge;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<ChallengeStatus> challengeStatuses;
-
+    @Column(name = "app_device_token")
     private String deviceToken;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "school_id")
+    private School school;
 
     @Builder
     public User(Long id, String accountId, String password, String phoneNumber, String name,
