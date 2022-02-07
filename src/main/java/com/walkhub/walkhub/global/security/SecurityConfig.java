@@ -95,13 +95,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/images").permitAll()
 
                 // schools
-                .antMatchers(HttpMethod.PATCH, "/schools/logos/{agency-code}").hasAnyAuthority("ROOT")
+                .antMatchers(HttpMethod.PATCH, "/schools/logos/{agency-code}").hasAuthority("ROOT")
                 .antMatchers(HttpMethod.GET, "/schools/search").authenticated()
 
                 // teachers
-                .antMatchers(HttpMethod.POST, "/teachers/verification-codes").hasAnyAuthority("ROOT")
+                .antMatchers(HttpMethod.POST, "/teachers/verification-codes").hasAuthority("ROOT")
                 .antMatchers(HttpMethod.POST, "/teachers/classes").hasAnyAuthority("TCHR", "ROOT")
                 .antMatchers(HttpMethod.DELETE, "/teachers/classes/{agency-code}/{grade}/{class}").hasAnyAuthority("TCHR", "ROOT")
+                .antMatchers(HttpMethod.PATCH,  "/teachers/classes/verification-codes").hasAuthority("TCHR")
 
                 // socket.io
                 .antMatchers(HttpMethod.GET, "/socket.io").permitAll()

@@ -41,4 +41,8 @@ public class Group {
         this.school = school;
         this.classCode = classCode;
     }
+
+    public void setClassCode(String classCode) {
+        this.classCode = classCode;
+    }
 }

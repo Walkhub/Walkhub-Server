@@ -3,7 +3,7 @@ package com.walkhub.walkhub.domain.teacher.service;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.teacher.exception.AlreadyCreatedException;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.CreateClassRequest;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CreateClassResponse;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassCodeResponse;
 import com.walkhub.walkhub.domain.user.domain.Group;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.GroupRepository;
@@ -22,7 +22,7 @@ public class CreateClassService {
     private final GroupRepository groupRepository;
 
     @Transactional
-    public CreateClassResponse execute(CreateClassRequest request) {
+    public ClassCodeResponse execute(CreateClassRequest request) {
         User user = userFacade.getCurrentUser();
         School userSchool = user.getSchool();
         Integer grade = request.getGrade();
@@ -42,7 +42,7 @@ public class CreateClassService {
             throw AlreadyCreatedException.EXCEPTION;
         }
 
-        return new CreateClassResponse(classCode);
+        return new ClassCodeResponse(classCode);
     }
 
 }
