@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.domain.challenge.domain;
 
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.global.enums.Scope;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import lombok.AccessLevel;
@@ -27,7 +28,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Challenge {
+public class Challenge extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,9 +42,6 @@ public class Challenge {
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
-
-    @Column(nullable = false)
-    private LocalDate createdAt;
 
     @Column(nullable = false)
     private LocalDate endAt;
@@ -61,9 +59,6 @@ public class Challenge {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    @OneToMany(mappedBy = "challenge", cascade = CascadeType.REMOVE)
-    private List<ChallengeStatus> challengeStatuses;
 
     @Builder
     public Challenge(String name, String content, Long goal, String award,
