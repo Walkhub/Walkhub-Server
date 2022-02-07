@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -21,9 +20,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -62,12 +59,11 @@ public class Challenge extends BaseTimeEntity {
 
     @Builder
     public Challenge(String name, String content, Long goal, String award,
-                     LocalDate createdAt, LocalDate endAt, Scope scope, User user) {
+                     LocalDate endAt, Scope scope, User user) {
         this.name = name;
         this.content = content;
         this.goal = goal;
         this.award = award;
-        this.createdAt = createdAt;
         this.endAt = endAt;
         this.scope = scope;
         this.user = user;
