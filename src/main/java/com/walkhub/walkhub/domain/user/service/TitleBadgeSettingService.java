@@ -19,7 +19,7 @@ public class TitleBadgeSettingService {
     @Transactional
     public void execute(Long badgeId) {
         User user = userFacade.getCurrentUser();
-        Badge badge = badgeCollectionFacade.getBadgeById(badgeId);
+        Badge badge = badgeCollectionFacade.getBadgeById(badgeId, user);
 
         user.setBadge(badge);
     }
