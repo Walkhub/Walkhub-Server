@@ -6,6 +6,7 @@ import com.walkhub.walkhub.domain.user.domain.type.Sex;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +27,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.math.BigDecimal;
+import org.hibernate.validator.constraints.Length;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -70,7 +72,8 @@ public class User {
     @Setter
     private HealthInfo healthInfo;
 
-    @Column(columnDefinition = "VARCHAR(6)")
+    @NotNull
+    @Length(max = 6)
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
