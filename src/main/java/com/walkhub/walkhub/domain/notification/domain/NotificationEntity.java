@@ -37,6 +37,7 @@ public class NotificationEntity extends BaseTimeEntity {
 
     @NotNull
     @Length(max = 9)
+    @Enumerated(EnumType.STRING)
     private Type type;
 
     @Column(nullable = false)
