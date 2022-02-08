@@ -22,7 +22,7 @@ public class SchoolLogoSettingService {
     public void execute(String agencyCode, SchoolLogoRequest request) {
         User user = userFacade.getCurrentUser();
 
-        School school = schoolRepository.findById(agencyCode)
+        School school = schoolRepository.findByAgencyCode(agencyCode)
                 .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
 
         if (!user.getSchool().equals(school)) {

@@ -9,30 +9,33 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@IdClass(GroupId.class)
 @Entity
 public class Group {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(columnDefinition = "char(7)", nullable = false)
+    private String classCode;
+
+    @Column(columnDefinition = "TINYINT", nullable = false)
     private Integer grade;
 
-    @Id
+    @Column(columnDefinition = "TINYINT", nullable = false)
     private Integer classNum;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "agency_code")
+    @JoinColumn(name = "school_id")
     private School school;
-
-    @Column(length = 7, nullable = false)
-    private String classCode;
 
     @Builder
     public Group(Integer grade, Integer classNum, School school, String classCode) {
