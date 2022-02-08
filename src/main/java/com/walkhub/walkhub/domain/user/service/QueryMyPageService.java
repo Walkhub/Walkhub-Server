@@ -12,22 +12,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class QueryMyPageService {
 
-	private final UserFacade userFacade;
+    private final UserFacade userFacade;
 
-	public QueryUserProfileResponse execute() {
-		User user = userFacade.getCurrentUser();
-		Badge titleBadge = user.getBadge();
-		return QueryUserProfileResponse.builder()
-			.userId(user.getId())
-			.name(user.getName())
-			.profileImageUrl(user.getProfileImageUrl())
-			.schoolName(user.getSchool().getName())
-			.grade(user.getGroup().getGrade())
-			.titleBadge(TitleBadge.builder()
-				.id(titleBadge.getId())
-				.name(titleBadge.getName())
-				.imageUrl(titleBadge.getImageUrl())
-				.build())
-			.build();
-	}
+    public QueryUserProfileResponse execute() {
+        User user = userFacade.getCurrentUser();
+        Badge titleBadge = user.getBadge();
+        return QueryUserProfileResponse.builder()
+                .userId(user.getId())
+                .name(user.getName())
+                .profileImageUrl(user.getProfileImageUrl())
+                .schoolName(user.getSchool().getName())
+                .grade(user.getGroup().getGrade())
+                .classNum(user.getNumber())
+                .titleBadge(TitleBadge.builder()
+                        .id(titleBadge.getId())
+                        .name(titleBadge.getName())
+                        .imageUrl(titleBadge.getImageUrl())
+                        .build())
+                .build();
+    }
 }
