@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class BadgeFacade {
+public class BadgeCollentionFacade {
 
     private final BadgeCollectionRepository badgeCollectionRepository;
 
