@@ -28,6 +28,7 @@ public class School {
     @ColumnDefault(DefaultImage.SCHOOL_LOGO_IMAGE)
     private String logoImageUrl;
 
+    @ColumnDefault("0")
     @Column(nullable = false)
     private Long userCount;
 
