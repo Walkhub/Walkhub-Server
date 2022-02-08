@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class VerificationCodeResponse {
+public class CodeResponse {
 
     private final String code;
 }

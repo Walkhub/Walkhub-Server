@@ -1,6 +1,6 @@
 package com.walkhub.walkhub.domain.teacher.service;
 
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassCodeResponse;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CodeResponse;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.utils.code.RandomCodeUtil;
 import lombok.RequiredArgsConstructor;
@@ -11,15 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RefreshClassCodeService {
 
-	private final UserFacade userFacade;
+    private final UserFacade userFacade;
 
-	@Transactional
-	public ClassCodeResponse execute() {
+    @Transactional
+    public CodeResponse execute() {
 
-		String classCode = RandomCodeUtil.make(7);
+        String classCode = RandomCodeUtil.make(7);
 
-		userFacade.getCurrentUser().getGroup().setClassCode(classCode);
+        userFacade.getCurrentUser().getGroup().setClassCode(classCode);
 
-		return new ClassCodeResponse(classCode);
-	}
+        return new CodeResponse(classCode);
+    }
 }
