@@ -1,35 +1,37 @@
 package com.walkhub.walkhub.domain.user.domain;
 
+import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Badge {
+public class Badge extends BaseTimeEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(length = 20, nullable = false)
-	private String name;
+    @Column(length = 20, nullable = false)
+    private String name;
 
-	@ColumnDefault(DefaultImage.BADGE_IMAGE)
-	private String imageUrl;
+    @ColumnDefault(DefaultImage.BADGE_IMAGE)
+    private String imageUrl;
 
-	@Builder
-	public Badge(String name, String imageUrl) {
-		this.name = name;
-		this.imageUrl = imageUrl;
-	}
+    @Builder
+    public Badge(String name, String imageUrl) {
+        this.name = name;
+        this.imageUrl = imageUrl;
+    }
 }
