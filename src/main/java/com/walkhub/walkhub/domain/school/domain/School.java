@@ -35,12 +35,8 @@ public class School {
     @Column(columnDefinition = "char(7)")
     private String authCode;
 
-    @Column(columnDefinition = "char(7)", nullable = false)
-    private String agencyCode;
-
     @Builder
-    public School(String agencyCode, String name, String logoImageUrl) {
-        this.agencyCode = agencyCode;
+    public School(String name, String logoImageUrl) {
         this.name = name;
         this.logoImageUrl = logoImageUrl;
     }
