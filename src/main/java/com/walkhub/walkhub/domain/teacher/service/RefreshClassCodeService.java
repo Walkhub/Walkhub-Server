@@ -16,7 +16,7 @@ public class RefreshClassCodeService {
 	@Transactional
 	public ClassCodeResponse execute() {
 
-		String classCode = RandomCodeUtil.make(5);
+		String classCode = RandomCodeUtil.make(7);
 
 		userFacade.getCurrentUser().getGroup().setClassCode(classCode);
 
