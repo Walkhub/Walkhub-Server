@@ -27,7 +27,7 @@ public class CreateClassService {
         School userSchool = user.getSchool();
         Integer grade = request.getGrade();
         Integer classNum = request.getClassNum();
-        String classCode = RandomCodeUtil.make(5);
+        String classCode = RandomCodeUtil.make(7);
         Group group = Group.builder()
                 .grade(grade)
                 .classNum(classNum)
