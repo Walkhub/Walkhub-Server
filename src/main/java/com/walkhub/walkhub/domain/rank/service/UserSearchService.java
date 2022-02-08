@@ -21,7 +21,7 @@ public class UserSearchService {
     public UserListResponse execute(String name, Scope scope, String agencyCode, Integer grade, Integer classNum) {
         List<UserRankInfo> userRankInfoList;
 
-        if (Scope.CLS.equals(scope)) {
+        if (Scope.CLASS.equals(scope)) {
             userRankInfoList = userRankRepository.findTop100ByNameContainsAndAgencyCodeAndClassNumAndGrade(name, agencyCode, grade, classNum);
         } else {
             userRankInfoList = userRankRepository.findTop100ByNameContainsAndAgencyCode(name, agencyCode);
