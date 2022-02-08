@@ -9,7 +9,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 @Getter
@@ -25,13 +34,13 @@ public class Exercise extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer walkCount;
 
-    @Column(nullable = false)
     private LocalDateTime endAt;
 
     @ColumnDefault("0")
     @Column(nullable = false)
     private Integer distance;
 
+    @ColumnDefault("0")
     @Column(nullable = false)
     private Integer calorie;
 
@@ -47,6 +56,15 @@ public class Exercise extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private GoalType goalType;
 
+    @ColumnDefault("0")
+    @Column(nullable = false)
+    private Boolean isExercising;
+
+    @ColumnDefault("0")
+    @Column(nullable = false)
+    private Long cheeringCount;
+
+
     @Builder
     public Exercise(User user, Integer goal, GoalType goalType) {
         this.user = user;
@@ -59,6 +77,10 @@ public class Exercise extends BaseTimeEntity {
         this.distance = distance;
         this.calorie = calorie;
         this.endAt = LocalDateTime.now();
+    }
+
+    public void addCheeringCount() {
+        this.cheeringCount++;
     }
 
 }

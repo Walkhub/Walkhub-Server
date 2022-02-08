@@ -20,7 +20,7 @@ public class JoinGroupService {
     public void execute(String agencyCode, Integer grade, Integer classNum, JoinGroupRequest request) {
         User user = userFacade.getCurrentUser();
 
-        Group group = userFacade.getGroupByGroupId(agencyCode, grade, classNum);
+        Group group = userFacade.getGroup(agencyCode, grade, classNum);
 
         if (!group.getClassCode().equals(request.getClassCode())) {
             throw ClassCodeNotMatchException.EXCEPTION;

@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
@@ -29,14 +30,17 @@ public class UserSignUpRequest {
     private String name;
 
     @NotBlank(message = "phone_number는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
+    @Size(min = 11, max = 11, message = "phone_number는 11글자여야 합니다.")
     private String phoneNumber;
 
     @NotBlank(message = "auth_code는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
     private String authCode;
 
     @NotBlank(message = "agency_code는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
+    @Size(min = 7, max = 7, message = "agency_code는 7글자여야 합니다.")
     private String agencyCode;
 
+    @Positive(message = "weight는 양수여야 합니다.")
     private Integer weight;
 
     @Digits(integer = 3, fraction = 1)
