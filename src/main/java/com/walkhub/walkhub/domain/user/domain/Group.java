@@ -24,7 +24,7 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 7, nullable = false)
+    @Column(columnDefinition = "char(7)", nullable = false)
     private String classCode;
 
     @Column(columnDefinition = "TINYINT", nullable = false)
