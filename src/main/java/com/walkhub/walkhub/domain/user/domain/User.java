@@ -51,7 +51,7 @@ public class User {
     @ColumnDefault(DefaultImage.USER_PROFILE_IMAGE)
     private String profileImageUrl;
 
-    @Column(columnDefinition = "char(4)", nullable = false)
+    @Column(columnDefinition = "char(7)", nullable = false)
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
@@ -70,7 +70,7 @@ public class User {
     @Setter
     private HealthInfo healthInfo;
 
-    @Column(columnDefinition = "char(1)")
+    @Column(columnDefinition = "char(6)")
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
