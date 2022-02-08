@@ -79,4 +79,8 @@ public class Exercise extends BaseTimeEntity {
         this.endAt = LocalDateTime.now();
     }
 
+    public void addCheeringCount() {
+        this.cheeringCount++;
+    }
+
 }
