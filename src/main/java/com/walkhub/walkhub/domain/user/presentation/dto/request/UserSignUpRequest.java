@@ -37,6 +37,7 @@ public class UserSignUpRequest {
     private String authCode;
 
     @NotBlank(message = "agency_code는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
+    @Size(min = 7, max = 7, message = "agency_code는 7글자여야 합니다.")
     private String agencyCode;
 
     @Positive(message = "weight는 양수여야 합니다.")
