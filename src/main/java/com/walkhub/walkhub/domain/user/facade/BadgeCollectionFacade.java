@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class BadgeCollentionFacade {
+public class BadgeCollectionFacade {
 
     private final BadgeCollectionRepository badgeCollectionRepository;
 
-    public Badge getBadgeById(Long badgeId) {
-        return badgeCollectionRepository.findBadgeCollectionByBadge(badgeId)
+    public Badge getBadgeById(Long badgeId, Long userId) {
+        return badgeCollectionRepository.findBadgeCollectionByBadgeAndUser(badgeId, userId)
                 .orElseThrow(() -> BadgeNotFoundException.EXCEPTION);
     }
 
