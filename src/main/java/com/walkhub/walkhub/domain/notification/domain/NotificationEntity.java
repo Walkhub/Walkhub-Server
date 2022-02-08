@@ -34,14 +34,14 @@ public class NotificationEntity extends BaseTimeEntity {
     private String content;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "char(9)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(9)", nullable = false)
     private Type type;
 
     @Column(nullable = false)
     private Long value;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "char(6)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(6)", nullable = false)
     private Scope scope;
 
     @Builder

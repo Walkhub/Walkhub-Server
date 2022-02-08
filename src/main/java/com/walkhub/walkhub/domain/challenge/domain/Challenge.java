@@ -48,7 +48,7 @@ public class Challenge {
     @Column(length = 200, nullable = false)
     private String award;
 
-    @Column(columnDefinition = "char(3)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(6)", nullable = false)
     @Enumerated(EnumType.STRING)
     private Scope scope;
 

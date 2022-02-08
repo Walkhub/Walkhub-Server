@@ -34,7 +34,7 @@ public class Notice extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @Column(columnDefinition = "char(7)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(7)", nullable = false)
     @Enumerated(EnumType.STRING)
     private Scope scope;
 
