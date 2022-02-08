@@ -42,11 +42,9 @@ public class TeacherController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/classes/{agency-code}/{grade}/{class}")
-    public void deleteClass(@PathVariable(name = "agency-code") String agencyCode,
-                            @PathVariable(name = "grade") Integer grade,
-                            @PathVariable(name = "class") Integer classNum) {
-        deleteClassService.execute(agencyCode, grade, classNum);
+    @DeleteMapping("/classes/{group-id}")
+    public void deleteClass(@PathVariable(name = "group-id") Long groupId) {
+        deleteClassService.execute(groupId);
     }
 
     @PatchMapping("/classes/verification-codes")
