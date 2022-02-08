@@ -1,6 +1,6 @@
 package com.walkhub.walkhub.domain.teacher.service;
 
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.VerificationCodeResponse;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CodeResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.utils.code.RandomCodeUtil;
@@ -15,13 +15,13 @@ public class VerificationCodeService {
     private final UserFacade userFacade;
 
     @Transactional
-    public VerificationCodeResponse execute() {
+    public CodeResponse execute() {
         User user = userFacade.getCurrentUser();
 
         String verificationCode = RandomCodeUtil.make(7);
 
         user.getSchool().setAuthCode(verificationCode);
 
-        return new VerificationCodeResponse(verificationCode);
+        return new CodeResponse(verificationCode);
     }
 }

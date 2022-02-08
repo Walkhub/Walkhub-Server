@@ -19,7 +19,7 @@ public class DeleteClassService {
 
     @Transactional
     public void execute(String agencyCode, Integer grade, Integer classNum) {
-        Group group = userFacade.getGroupByGroupId(agencyCode, grade, classNum);
+        Group group = userFacade.getGroup(agencyCode, grade, classNum);
         User user = userFacade.getCurrentUser();
 
         if (user.getAuthority() == Authority.TCHR && !user.getGroup().equals(group)) {

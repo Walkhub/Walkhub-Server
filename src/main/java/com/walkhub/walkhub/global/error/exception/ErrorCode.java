@@ -13,11 +13,12 @@ public enum ErrorCode {
     SAVE_IMAGE_FAILED(400, "COMMON-400-1", "Save Image Failed"),
     AGENCY_CODE_NOT_MATCH(400, "SCHOOL-400-1", "AgencyCode Not Match"),
     CANNOT_CHEER_MYSELF(400, "SOCKET-400-1", "Can Not Cheer Myself"),
+    USER_NOT_EXERCISING(400, "EXERCISE-400-1", "User Not Exercising"),
 
     EXPIRED_JWT(401, "COMMON-401-1", "Expired Jwt"),
     INVALID_JWT(401, "COMMON-401-2", "Invalid Jwt"),
     UNAUTHORIZED_USER_AUTH_CODE(401, "USER-401-1", "Unauthorized User AuthCode"),
-    INVALID_CLASS_CODE(401, "USER-401-2", "Invalid Class Code"),
+    CLASS_CODE_NOT_MATCH(401, "USER-401-2", "Class Code Not Match"),
     INVALID_SCOPE(401, "CHALLENGE-401-1", "Invalid Scope"),
     PASSWORD_MISMATCH(401, "AUTH-401-1", "Password Mismatch"),
     INVALID_ROLE(401, "GLOBAL-401", "Invalid Role"),

@@ -5,11 +5,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,8 +19,8 @@ import org.hibernate.annotations.ColumnDefault;
 public class School {
 
     @Id
-    @Column(length = 7, nullable = false)
-    private String agencyCode;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(length = 20, nullable = false)
     private String name;
@@ -26,8 +28,15 @@ public class School {
     @ColumnDefault(DefaultImage.SCHOOL_LOGO_IMAGE)
     private String logoImageUrl;
 
+    @ColumnDefault("0")
+    @Column(nullable = false)
+    private Long userCount;
+
     @Column(columnDefinition = "char(7)")
     private String authCode;
+
+    @Column(columnDefinition = "char(7)", nullable = false)
+    private String agencyCode;
 
     @Builder
     public School(String agencyCode, String name, String logoImageUrl) {
@@ -43,4 +52,5 @@ public class School {
     public void setAuthCode(String authCode) {
         this.authCode = authCode;
     }
+
 }

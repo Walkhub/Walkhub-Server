@@ -42,7 +42,7 @@ public class UserSignUpService {
 
         userFacade.checkUserExists(request.getAccountId());
 
-        School school = schoolRepository.findById(request.getAgencyCode())
+        School school = schoolRepository.findByAgencyCode(request.getAgencyCode())
                 .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
 
         userRepository.save(User.builder()
