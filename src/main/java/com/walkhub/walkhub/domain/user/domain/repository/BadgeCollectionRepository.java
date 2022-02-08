@@ -9,5 +9,5 @@ import java.util.Optional;
 
 public interface BadgeCollectionRepository extends CrudRepository<BadgeCollection, BadgeCollectionId> {
 
-    Optional<Badge> findBadgeCollectionByBadgeAndUser(Long badgeId, Long userId);
+    Optional<Badge> findByBadgeAndUser(Long badgeId, Long userId);
 }
