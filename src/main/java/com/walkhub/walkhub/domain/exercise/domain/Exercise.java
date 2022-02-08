@@ -52,7 +52,7 @@ public class Exercise extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer goal;
 
-    @Column(columnDefinition = "char(1)", nullable = false)
+    @Column(columnDefinition = "char(8)", nullable = false)
     @Enumerated(EnumType.STRING)
     private GoalType goalType;
 
