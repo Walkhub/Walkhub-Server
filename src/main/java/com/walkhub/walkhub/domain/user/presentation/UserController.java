@@ -46,8 +46,8 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/badges/{badge-id}")
-    public void titleBadgeSetting(@PathVariable("badge-id") Long badgeId, Long userId) {
-        titleBadgeSettingService.execute(badgeId, userId);
+    public void titleBadgeSetting(@PathVariable("badge-id") Long badgeId) {
+        titleBadgeSettingService.execute(badgeId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

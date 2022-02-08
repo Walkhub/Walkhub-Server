@@ -12,8 +12,8 @@ public class BadgeCollectionFacade {
 
     private final BadgeCollectionRepository badgeCollectionRepository;
 
-    public Badge getBadgeById(Long badgeId, Long userId) {
-        return badgeCollectionRepository.findByBadgeAndUser(badgeId, userId)
+    public Badge getBadgeById(Long badgeId) {
+        return badgeCollectionRepository.findByBadgeAndUser(badgeId)
                 .orElseThrow(() -> BadgeNotFoundException.EXCEPTION);
     }
 

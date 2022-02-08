@@ -14,12 +14,12 @@ import javax.transaction.Transactional;
 public class TitleBadgeSettingService {
 
     private final UserFacade userFacade;
-    private final BadgeCollectionFacade badgeFacade;
+    private final BadgeCollectionFacade badgeCollectionFacade;
 
     @Transactional
-    public void execute(Long badgeId, Long userid) {
+    public void execute(Long badgeId) {
         User user = userFacade.getCurrentUser();
-        Badge badge = badgeFacade.getBadgeById(badgeId, userid);
+        Badge badge = badgeCollectionFacade.getBadgeById(badgeId);
 
         user.setBadge(badge);
     }
