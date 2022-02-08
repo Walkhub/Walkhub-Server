@@ -7,6 +7,7 @@ import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRe
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,6 +28,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.math.BigDecimal;
+import org.hibernate.validator.constraints.Length;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -52,7 +54,8 @@ public class User extends BaseTimeEntity {
     @ColumnDefault(DefaultImage.USER_PROFILE_IMAGE)
     private String profileImageUrl;
 
-    @Column(columnDefinition = "char(4)", nullable = false)
+    @NotNull
+    @Length(max = 6)
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
@@ -71,7 +74,8 @@ public class User extends BaseTimeEntity {
     @Setter
     private HealthInfo healthInfo;
 
-    @Column(columnDefinition = "char(1)")
+    @NotNull
+    @Length(max = 6)
     @Enumerated(EnumType.STRING)
     private Sex sex;
 

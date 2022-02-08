@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.exercise.domain;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
+import org.hibernate.validator.constraints.Length;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -52,7 +54,8 @@ public class Exercise extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer goal;
 
-    @Column(columnDefinition = "char(1)", nullable = false)
+    @NotNull
+    @Length(max = 8)
     @Enumerated(EnumType.STRING)
     private GoalType goalType;
 

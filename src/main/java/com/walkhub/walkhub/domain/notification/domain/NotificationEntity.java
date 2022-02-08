@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.notification.domain;
 import com.walkhub.walkhub.domain.notification.domain.type.Type;
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.global.enums.Scope;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.validator.constraints.Length;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -33,15 +35,17 @@ public class NotificationEntity extends BaseTimeEntity {
     @Column(nullable = false)
     private String content;
 
+    @NotNull
+    @Length(max = 9)
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "char(3)", nullable = false)
     private Type type;
 
     @Column(nullable = false)
     private Long value;
 
+    @NotNull
+    @Length(max = 6)
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "char(3)", nullable = false)
     private Scope scope;
 
     @Builder

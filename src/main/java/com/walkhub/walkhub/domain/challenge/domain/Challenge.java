@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.challenge.domain;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.Scope;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
+import org.hibernate.validator.constraints.Length;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -48,7 +50,8 @@ public class Challenge {
     @Column(length = 200, nullable = false)
     private String award;
 
-    @Column(columnDefinition = "char(3)", nullable = false)
+    @NotNull
+    @Length(max = 6)
     @Enumerated(EnumType.STRING)
     private Scope scope;
 

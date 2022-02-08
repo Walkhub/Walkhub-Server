@@ -30,7 +30,7 @@ public class QueryNoticeListService {
 
 		if (scope.equals(Scope.ALL)) {
 			noticeList = noticeRepository.findAllByScope(scope);
-		} else if (user.getAuthority().equals(Authority.USER) && scope.equals(Scope.TEA)) {
+		} else if (user.getAuthority().equals(Authority.USER) && scope.equals(Scope.TEACHER)) {
 			throw InvalidRoleException.EXCEPTION;
 		} else {
 			noticeList = noticeRepository
