@@ -19,7 +19,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,7 +34,7 @@ public class Exercise extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer walkCount;
 
-    private LocalDate endAt;
+    private LocalDateTime endAt;
 
     @ColumnDefault("0")
     @Column(nullable = false)
@@ -76,7 +76,7 @@ public class Exercise extends BaseTimeEntity {
         this.walkCount = walkCount;
         this.distance = distance;
         this.calorie = calorie;
-        this.endAt = LocalDate.now();
+        this.endAt = LocalDateTime.now();
     }
 
 }
