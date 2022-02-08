@@ -12,8 +12,8 @@ public class NotificationController {
 
     private final NotificationReadService notificationReadService;
 
-    @PatchMapping("/{notification-id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/{notification-id}")
     public void notificationRead(@PathVariable("notification-id") Long notificationId) {
         notificationReadService.execute(notificationId);
     }
