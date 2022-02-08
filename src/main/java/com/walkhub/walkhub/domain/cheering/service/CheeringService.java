@@ -15,6 +15,7 @@ import com.walkhub.walkhub.global.websocket.property.ClientProperty;
 import com.walkhub.walkhub.global.websocket.property.SocketProperty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -25,6 +26,7 @@ public class CheeringService {
     private final UserFacade userFacade;
     private final ExerciseRepository exerciseRepository;
 
+    @Transactional
     public void execute(SocketIOClient socketIOClient, CheerRequest request) {
         User user = userFacade.getUserByAccountId(socketIOClient.get(ClientProperty.USER_KEY));
         if (user.getId().equals(request.getUserId())) {
