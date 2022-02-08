@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.user.presentation.dto.request;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 public class InputHealthInformationRequest {
 
     @NotNull(message = "height는 null일 수 없습니다.")
+    @Digits(integer=3, fraction=1)
     private BigDecimal height;
 
     @NotNull(message = "weight는 null일 수 없습니다.")
