@@ -53,7 +53,8 @@ public class User {
     @ColumnDefault(DefaultImage.USER_PROFILE_IMAGE)
     private String profileImageUrl;
 
-    @Column(columnDefinition = "VARCHAR(7)", nullable = false)
+    @NotNull
+    @Length(max = 6)
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
