@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.domain.user.presentation;
 
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
+import com.walkhub.walkhub.domain.user.domain.BadgeCollectionId;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.*;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
@@ -46,8 +47,8 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/badges/{badge-id}")
-    public void titleBadgeSetting(@PathVariable("badge-id")Long badgeId) {
-        titleBadgeSettingService.execute(badgeId);
+    public void titleBadgeSetting(@PathVariable("badge-id")Long badgeId, Long userId) {
+        titleBadgeSettingService.execute(badgeId, userId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
