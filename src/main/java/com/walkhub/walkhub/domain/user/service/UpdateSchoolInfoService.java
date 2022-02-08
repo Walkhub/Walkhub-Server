@@ -21,7 +21,7 @@ public class UpdateSchoolInfoService {
     public void execute(UpdateSchoolInfoRequest request) {
         User user = userFacade.getCurrentUser();
 
-        School school = schoolRepository.findByAgencyCode(request.getAgencyCode())
+        School school = schoolRepository.findById(request.getSchoolId())
                 .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
 
         user.setSchool(school);
