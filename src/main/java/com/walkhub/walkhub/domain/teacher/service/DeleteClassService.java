@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.teacher.service;
 import com.walkhub.walkhub.domain.user.domain.Group;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.GroupRepository;
+import com.walkhub.walkhub.domain.user.facade.GroupFacade;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.global.exception.InvalidRoleException;
@@ -15,11 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class DeleteClassService {
 
     private final UserFacade userFacade;
+    private final GroupFacade groupFacade;
     private final GroupRepository groupRepository;
 
     @Transactional
-    public void execute(String agencyCode, Integer grade, Integer classNum) {
-        Group group = userFacade.getGroup(agencyCode, grade, classNum);
+    public void execute(Long groupId) {
+        Group group = groupFacade.getGroup(groupId);
+
         User user = userFacade.getCurrentUser();
 
         if (user.getAuthority() == Authority.TCHR && !user.getGroup().equals(group)) {

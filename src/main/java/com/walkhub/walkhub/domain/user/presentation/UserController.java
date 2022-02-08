@@ -93,12 +93,10 @@ public class UserController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/classes/{agency-code}/{grade}/{class}")
-    public void joinGroup(@PathVariable(name = "agency-code") String agencyCode,
-                          @PathVariable(name = "grade") Integer grade,
-                          @PathVariable(name = "class") Integer classNum,
+    @PostMapping("/classes/{group-id}")
+    public void joinGroup(@PathVariable(name = "group-id") Long groupId,
                           @RequestBody @Valid JoinGroupRequest request) {
-        joinGroupService.execute(agencyCode, grade, classNum, request);
+        joinGroupService.execute(groupId, request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

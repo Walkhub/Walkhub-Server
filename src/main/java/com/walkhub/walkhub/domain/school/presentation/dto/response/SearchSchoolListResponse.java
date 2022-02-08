@@ -16,7 +16,7 @@ public class SearchSchoolListResponse {
     @Getter
     @Builder
     public static class SearchSchoolResponse {
-        private final String agencyCode;
+        private final Long schoolId;
         private final String schoolName;
         private final String logoImageUrl;
     }

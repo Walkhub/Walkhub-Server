@@ -27,7 +27,7 @@ public class SearchSchoolService {
 
     private SearchSchoolListResponse.SearchSchoolResponse buildSearchSchoolResponse(School school) {
         return SearchSchoolListResponse.SearchSchoolResponse.builder()
-                .agencyCode(school.getAgencyCode())
+                .schoolId(school.getId())
                 .schoolName(school.getName())
                 .logoImageUrl(school.getLogoImageUrl())
                 .build();
