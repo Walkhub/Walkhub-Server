@@ -22,7 +22,7 @@ public class DeleteClassService {
         Group group = userFacade.getGroup(agencyCode, grade, classNum);
         User user = userFacade.getCurrentUser();
 
-        if (user.getAuthority() == Authority.TCHR && !user.getGroup().equals(group)) {
+        if (user.getAuthority() == Authority.TEACHER && !user.getGroup().equals(group)) {
             throw InvalidRoleException.EXCEPTION;
         }
 
