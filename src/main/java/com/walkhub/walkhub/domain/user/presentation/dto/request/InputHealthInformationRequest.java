@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 public class InputHealthInformationRequest {
 
     @NotNull(message = "height는 null일 수 없습니다.")
-    @Digits(integer=3, fraction=1)
+    @Digits(integer = 3, fraction = 1)
     private BigDecimal height;
 
     @NotNull(message = "weight는 null일 수 없습니다.")
