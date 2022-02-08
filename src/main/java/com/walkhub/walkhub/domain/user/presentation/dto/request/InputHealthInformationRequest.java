@@ -17,6 +17,6 @@ public class InputHealthInformationRequest {
     private BigDecimal height;
 
     @NotNull(message = "weight는 null일 수 없습니다.")
-    @Positive
+    @Positive(message = "weight는 양수여야 합니다.")
     private Integer weight;
 }
