@@ -1,10 +1,10 @@
-package com.walkhub.walkhub.domain.user.facade;
+package com.walkhub.walkhub.domain.badge.facade;
 
 import com.walkhub.walkhub.domain.badge.domain.Badge;
 import com.walkhub.walkhub.domain.badge.domain.BadgeCollection;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.badge.domain.repository.BadgeCollectionRepository;
-import com.walkhub.walkhub.domain.user.exception.BadgeNotFoundException;
+import com.walkhub.walkhub.domain.badge.exception.BadgeNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

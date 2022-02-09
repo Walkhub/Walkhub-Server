@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.user.domain;
 
+import com.walkhub.walkhub.domain.badge.domain.Badge;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
 import com.walkhub.walkhub.domain.user.domain.type.Sex;

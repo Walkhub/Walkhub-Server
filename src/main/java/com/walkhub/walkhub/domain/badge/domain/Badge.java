@@ -1,4 +1,4 @@
-package com.walkhub.walkhub.domain.user.domain;
+package com.walkhub.walkhub.domain.badge.domain;
 
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
