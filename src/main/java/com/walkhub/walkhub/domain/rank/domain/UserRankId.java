@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class UserRankId implements Serializable {
-    private String accountId;
+    private String userId;
 
     private LocalDate createdAt;
 
