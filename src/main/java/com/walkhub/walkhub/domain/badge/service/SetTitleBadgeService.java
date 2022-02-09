@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class TitleBadgeSettingService {
+public class SetTitleBadgeService {
 
     private final UserFacade userFacade;
     private final BadgeCollectionFacade badgeCollectionFacade;
