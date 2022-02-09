@@ -1,7 +1,9 @@
 package com.walkhub.walkhub.domain.challenge.domain;
 
+import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
+import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.global.enums.Scope;
+import com.walkhub.walkhub.global.enums.UserScope;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -53,26 +55,43 @@ public class Challenge {
     @NotNull
     @Length(max = 6)
     @Enumerated(EnumType.STRING)
-    private Scope scope;
+    private UserScope userScope;
 
-    @Column(nullable = false)
+    @NotNull
+    @Length(max = 3)
+    @Enumerated(EnumType.STRING)
+    private GoalScope goalScope;
+
+    @NotNull
+    @Length(max = 8)
+    @Enumerated(EnumType.STRING)
+    private GoalType goalType;
+
+    @NotNull
     private Long goal;
+
+    @NotNull
+    @ColumnDefault("1")
+    private Long successStandard;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Builder
-    public Challenge(String name, String content, Long goal, String award,
-                     LocalDate startAt, LocalDate endAt, Scope scope, User user) {
+    public Challenge(String name, String imageUrl, String content, LocalDate startAt,
+                     LocalDate endAt, String award, UserScope userScope, GoalScope goalScope,
+                     GoalType goalType, Long goal, Long successStandard, User user) {
         this.name = name;
+        this.imageUrl = imageUrl;
         this.content = content;
-        this.goal = goal;
-        this.award = award;
         this.startAt = startAt;
         this.endAt = endAt;
-        this.scope = scope;
+        this.award = award;
+        this.userScope = userScope;
+        this.goalScope = goalScope;
+        this.goalType = goalType;
+        this.goal = goal;
+        this.successStandard = successStandard;
         this.user = user;
-
     }
 }

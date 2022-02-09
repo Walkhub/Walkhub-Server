@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -24,14 +25,15 @@ public class ChallengeStatus {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(columnDefinition = "BIT(1)", nullable = false)
-    private Boolean isSuccess;
+    @ColumnDefault("1")
+    @Column(nullable = false)
+    private Long successCount;
 
     @Builder
-    public ChallengeStatus(Challenge challenge, User user) {
+    public ChallengeStatus(Challenge challenge, User user, Long successCount) {
         this.challenge = challenge;
         this.user = user;
-        this.isSuccess = false;
+        this.successCount = successCount;
     }
 
 }
