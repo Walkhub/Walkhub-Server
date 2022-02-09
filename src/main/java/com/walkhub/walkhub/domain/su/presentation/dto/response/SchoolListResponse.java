@@ -20,6 +20,5 @@ public class SchoolListResponse {
         private final String name;
         private final String logoImageUrl;
         private final Long userCount;
-        private final LocalDateTime createdAt;
     }
 }

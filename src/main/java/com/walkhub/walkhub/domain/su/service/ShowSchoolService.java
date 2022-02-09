@@ -25,7 +25,6 @@ public class ShowSchoolService {
                         .name(school.getName())
                         .logoImageUrl(school.getLogoImageUrl())
                         .userCount(school.getUserCount())
-                        .createdAt(school.getCreatedAt())
                         .build()
                 ).collect(Collectors.toList());
 
