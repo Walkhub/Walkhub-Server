@@ -17,9 +17,11 @@ public class QueryMyPageService {
     private final UserFacade userFacade;
 
     public QueryUserProfileResponse execute() {
+
         User user = userFacade.getCurrentUser();
         Badge titleBadge = user.getBadge();
         CalorieLevel level = user.getMaxLevel();
+
         return QueryUserProfileResponse.builder()
             .userId(user.getId())
             .name(user.getName())
