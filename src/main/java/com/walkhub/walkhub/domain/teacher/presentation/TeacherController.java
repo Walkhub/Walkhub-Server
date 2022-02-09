@@ -2,6 +2,7 @@ package com.walkhub.walkhub.domain.teacher.presentation;
 
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.CreateClassRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CodeResponse;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.DetailsClassResponse;
 import com.walkhub.walkhub.domain.teacher.service.CreateClassService;
 import com.walkhub.walkhub.domain.teacher.service.DeleteClassService;
 import com.walkhub.walkhub.domain.teacher.service.QueryStudentCodeService;
@@ -55,8 +56,8 @@ public class TeacherController {
         return refreshClassCodeService.execute();
     }
 
-    @GetMapping("/students/verification-codes")
-    public CodeResponse queryStudentCode() {
+    @GetMapping("/classes")
+    public DetailsClassResponse queryStudentCode() {
         return queryStudentCodeService.execute();
     }
 
