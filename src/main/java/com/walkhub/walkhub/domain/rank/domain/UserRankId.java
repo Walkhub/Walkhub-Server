@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.rank.domain;
 
-import com.walkhub.walkhub.domain.rank.domain.type.DateType;
 import lombok.*;
 
 import java.io.Serializable;
@@ -15,5 +14,7 @@ public class UserRankId implements Serializable {
 
     private LocalDate createdAt;
 
-    private DateType dateType;
+    private String dateType;
+
+    private String scopeType;
 }
