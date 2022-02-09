@@ -1,5 +1,7 @@
 package com.walkhub.walkhub.domain.challenge.domain;
 
+import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
+import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.Scope;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
@@ -55,8 +57,22 @@ public class Challenge {
     @Enumerated(EnumType.STRING)
     private Scope scope;
 
+    @NotNull
+    @Length(max = 3)
+    @Enumerated(EnumType.STRING)
+    private GoalScope goalScope;
+
+    @NotNull
+    @Length(max = 8)
+    @Enumerated(EnumType.STRING)
+    private GoalType goalType;
+
     @Column(nullable = false)
     private Long goal;
+
+    @ColumnDefault("1")
+    @Column(nullable = false)
+    private Long successStandard;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -64,10 +80,14 @@ public class Challenge {
 
     @Builder
     public Challenge(String name, String content, Long goal, String award,
-                     LocalDate startAt, LocalDate endAt, Scope scope, User user) {
+                     LocalDate startAt, LocalDate endAt, Scope scope, GoalType goalType,
+                     GoalScope goalScope, Long successStandard, User user) {
         this.name = name;
         this.content = content;
         this.goal = goal;
+        this.goalType = goalType;
+        this.goalScope = goalScope;
+        this.successStandard = successStandard;
         this.award = award;
         this.startAt = startAt;
         this.endAt = endAt;
