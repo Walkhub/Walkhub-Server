@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class SchoolRank {
     @Id
     @Column(length = 7)
-    private String agencyCode;
+    private String schoolId;
 
     @Id
     private LocalDateTime createdAt;
@@ -32,9 +32,9 @@ public class SchoolRank {
     private String logoImageUrl;
 
     @Builder
-    public SchoolRank(String agencyCode, LocalDateTime createdAt, String name, Integer ranking,
+    public SchoolRank(String schoolId, LocalDateTime createdAt, String name, Integer ranking,
                       Integer walkCount, String logoImageUrl) {
-        this.agencyCode = agencyCode;
+        this.schoolId = schoolId;
         this.createdAt = createdAt;
         this.name = name;
         this.ranking = ranking;
