@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -18,7 +19,7 @@ public class QueryExerciseListService {
 	private final LocationRepository locationRepository;
 	private final UserFacade userFacade;
 
-
+	@Transactional(readOnly = true)
 	public ExerciseListResponse execute() {
 		List<ExerciseResponse> exerciseList = exerciseRepository.findByUser(userFacade.getCurrentUser()).stream()
 			.map(locationRepository::findTop1ByExerciseOrderByOrderDesc)
