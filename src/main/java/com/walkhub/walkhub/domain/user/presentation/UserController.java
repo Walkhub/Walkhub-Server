@@ -19,7 +19,6 @@ public class UserController {
     private final UserAuthCodeService userAuthCodeService;
     private final QueryMyPageService queryMyPageService;
     private final QueryUserProfileService queryUserProfileService;
-    private final TitleBadgeSettingService titleBadgeSettingService;
     private final UserSignUpService userSignUpService;
     private final InputHealthInformationService inputHealthInformationService;
     private final UpdateUserInfoService updateUserInfoService;
@@ -42,12 +41,6 @@ public class UserController {
     @GetMapping("/{user-id}")
     public QueryUserProfileResponse queryUserProfile(@PathVariable("user-id") Long userId) {
         return queryUserProfileService.execute(userId);
-    }
-
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/badges/{badge-id}")
-    public void titleBadgeSetting(@PathVariable("badge-id") Long badgeId) {
-        titleBadgeSettingService.execute(badgeId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

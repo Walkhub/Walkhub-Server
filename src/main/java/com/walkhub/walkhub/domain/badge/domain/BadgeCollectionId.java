@@ -1,4 +1,4 @@
-package com.walkhub.walkhub.domain.user.domain;
+package com.walkhub.walkhub.domain.badge.domain;
 
 import java.io.Serializable;
 import lombok.AccessLevel;

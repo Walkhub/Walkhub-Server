@@ -1,7 +1,7 @@
-package com.walkhub.walkhub.domain.user.domain.repository;
+package com.walkhub.walkhub.domain.badge.domain.repository;
 
-import com.walkhub.walkhub.domain.user.domain.BadgeCollection;
-import com.walkhub.walkhub.domain.user.domain.BadgeCollectionId;
+import com.walkhub.walkhub.domain.badge.domain.BadgeCollection;
+import com.walkhub.walkhub.domain.badge.domain.BadgeCollectionId;
 import com.walkhub.walkhub.domain.user.domain.User;
 import org.springframework.data.repository.CrudRepository;
 
