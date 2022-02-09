@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.user.domain.repository;
 
-import com.walkhub.walkhub.domain.user.domain.Badge;
 import com.walkhub.walkhub.domain.user.domain.BadgeCollection;
 import com.walkhub.walkhub.domain.user.domain.BadgeCollectionId;
 import com.walkhub.walkhub.domain.user.domain.User;
