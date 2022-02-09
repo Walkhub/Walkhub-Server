@@ -16,15 +16,10 @@ public class ExerciseListResponse {
 	@Getter
 	@Builder
 	public static class ExerciseResponse {
-
 		private final Long exerciseId;
-
 		private final String imageUrl;
-
 		private final LocalDateTime startAt;
-
 		private final BigDecimal latitude;
-
 		private final BigDecimal longitude;
 	}
 }
