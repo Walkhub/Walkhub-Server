@@ -50,13 +50,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PATCH, "/users/password").permitAll()
                 .antMatchers(HttpMethod.GET, "/users/{user-id}").authenticated()
                 .antMatchers(HttpMethod.GET, "/users").authenticated()
-                .antMatchers(HttpMethod.GET, "/users/{user-id}/badges").authenticated()
-                .antMatchers(HttpMethod.PUT, "/users/badges/{badge-id}").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users").authenticated()
                 .antMatchers(HttpMethod.GET, "/users/accounts/{phone-number}").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users/healths").authenticated()
                 .antMatchers(HttpMethod.POST, "/users/classes/{agency-code}/{grade}/{class}").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users/school").authenticated()
+
+                // badges
+                .antMatchers(HttpMethod.GET, "/badges/{user-id}").authenticated()
+                .antMatchers(HttpMethod.GET, "/badges").authenticated()
+                .antMatchers(HttpMethod.PUT, "/badges/{badge-id}").authenticated()
+                .antMatchers(HttpMethod.GET, "/badges/new").authenticated()
 
                 // exercises
                 .antMatchers(HttpMethod.POST, "/exercises").authenticated()
@@ -64,11 +68,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/exercises").authenticated()
                 .antMatchers(HttpMethod.POST, "/exercises/locations/{exercise-id}").authenticated()
                 .antMatchers(HttpMethod.GET, "/exercises/analysis").authenticated()
+                .antMatchers(HttpMethod.GET, "/exercises/lists").authenticated()
 
                 // notices
                 .antMatchers(HttpMethod.GET, "/notices/list").authenticated()
-                .antMatchers(HttpMethod.POST, "/notices").hasAnyAuthority("TCHR", "ROOT")
-                .antMatchers(HttpMethod.DELETE, "/notices/{notice-id}").hasAnyAuthority("TCHR", "ROOT")
+                .antMatchers(HttpMethod.POST, "/notices").hasAnyAuthority("TEACHER", "ROOT", "SU")
+                .antMatchers(HttpMethod.DELETE, "/notices/{notice-id}").hasAnyAuthority("TEACHER", "ROOT", "SU")
 
                 // notifications
                 .antMatchers(HttpMethod.GET, "/notifications").authenticated()
@@ -82,14 +87,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/ranks/users/search").authenticated()
 
                 // challenges
-                .antMatchers(HttpMethod.POST, "/challenges").hasAnyAuthority("TCHR", "ROOT")
-                .antMatchers(HttpMethod.PATCH, "/challenges/{challenge-id}").hasAnyAuthority("TCHR", "ROOT")
-                .antMatchers(HttpMethod.DELETE, "/challenges/{challenge-id}").hasAnyAuthority("TCHR", "ROOT")
+                .antMatchers(HttpMethod.POST, "/challenges").hasAnyAuthority("TEACHER", "ROOT", "SU")
+                .antMatchers(HttpMethod.PATCH, "/challenges/{challenge-id}").hasAnyAuthority("TEACHER", "ROOT", "SU")
+                .antMatchers(HttpMethod.DELETE, "/challenges/{challenge-id}").hasAnyAuthority("TEACHER", "ROOT", "SU")
                 .antMatchers(HttpMethod.GET, "/challenges/list").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}").authenticated()
                 .antMatchers(HttpMethod.POST, "/challenges/{challenge-id}").authenticated()
-                .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/participated").authenticated()
+                .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants/students").authenticated()
+                .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants/teachers").hasAnyAuthority("TEACHER", "ROOT", "SU")
 
                 // images
                 .antMatchers(HttpMethod.POST, "/images").permitAll()
@@ -100,12 +106,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // teachers
                 .antMatchers(HttpMethod.POST, "/teachers/verification-codes").hasAuthority("ROOT")
-                .antMatchers(HttpMethod.POST, "/teachers/classes").hasAnyAuthority("TCHR", "ROOT")
-                .antMatchers(HttpMethod.DELETE, "/teachers/classes/{agency-code}/{grade}/{class}").hasAnyAuthority("TCHR", "ROOT")
-                .antMatchers(HttpMethod.PATCH,  "/teachers/classes/verification-codes").hasAuthority("TCHR")
+                .antMatchers(HttpMethod.POST, "/teachers/classes").hasAnyAuthority("TEACHER", "ROOT")
+                .antMatchers(HttpMethod.DELETE, "/teachers/classes/{agency-code}/{grade}/{class}").hasAnyAuthority("TEACHER", "ROOT")
+                .antMatchers(HttpMethod.GET, "/teachers/classes").hasAnyAuthority("TEACHER")
+                .antMatchers(HttpMethod.GET,"/teachers/{user-id}").hasAnyAuthority("TEACHER")
+                .antMatchers(HttpMethod.GET,"/teachers/users").hasAnyAuthority("TEACHER","ROOT")
+                .antMatchers(HttpMethod.GET,"/teachers/students/verification-codes").hasAnyAuthority("TEACHER")
+                .antMatchers(HttpMethod.PATCH,  "/teachers/classes/verification-codes").hasAuthority("TEACHER")
+
+                // su
+                .antMatchers(HttpMethod.GET,"/su").hasAnyAuthority("SU")
+
+                //excel
+                .antMatchers(HttpMethod.GET,"/excel").hasAnyAuthority("TEACHER", "ROOT")
 
                 // socket.io
                 .antMatchers(HttpMethod.GET, "/socket.io").permitAll()
+
                 .anyRequest().denyAll()
 
                 .and()
