@@ -71,7 +71,7 @@ public class Challenge {
     private Long goal;
 
     @ColumnDefault("1")
-    @Column(nullable = false)
+    @NotNull
     private Long successStandard;
 
     @ManyToOne(fetch = FetchType.LAZY)
