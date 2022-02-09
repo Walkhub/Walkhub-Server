@@ -31,7 +31,6 @@ public enum ErrorCode {
     REFRESH_TOKEN_NOT_FOUND(404, "AUTH-404-1", "Refresh Token Not Found"),
 
     CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge Not Found"),
-    NOT_YOUR_CHALLENGE(403,"CHALLENGE-403-1", "Not Your Challenge"),
 
     EXERCISE_NOT_FOUND(404, "EXERCISE-404-1", "Exercise Not Found"),
     NOTICE_NOT_FOUND(404, "NOTICE-404-1", "Notice Not Found"),
