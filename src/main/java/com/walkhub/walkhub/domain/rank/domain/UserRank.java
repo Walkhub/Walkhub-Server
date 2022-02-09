@@ -21,6 +21,9 @@ public class UserRank {
     @Id
     private String dateType;
 
+    @Id
+    private String scopeType;
+
     @Column(length = 20, nullable = false)
     private String name;
 
