@@ -95,10 +95,14 @@ public class User extends BaseTimeEntity {
     @JoinColumn(name = "max_level_id")
     private CalorieLevel maxLevel;
 
+    @NotNull
+    @ColumnDefault("10000")
+    private Integer walkCount;
+
     @Builder
     public User(Long id, String accountId, String password, String phoneNumber, String name,
                 Authority authority, Group group, School school, boolean isMeasuring,
-                Integer weight, BigDecimal height, Sex sex, Badge badge, String deviceToken) {
+                Integer weight, BigDecimal height, Sex sex, Badge badge, String deviceToken, Integer walkCount) {
         this.id = id;
         this.accountId = accountId;
         this.password = password;
@@ -112,6 +116,7 @@ public class User extends BaseTimeEntity {
         this.sex = sex;
         this.badge = badge;
         this.deviceToken = deviceToken;
+        this.walkCount = walkCount;
     }
 
     public void setDeviceToken(String deviceToken) {
@@ -142,6 +147,10 @@ public class User extends BaseTimeEntity {
 
     public void setNumber(Integer number) {
         this.number = number;
+    }
+
+    public void updateWalkCount(Integer walkCount) {
+        this.walkCount = walkCount;
     }
 
 }
