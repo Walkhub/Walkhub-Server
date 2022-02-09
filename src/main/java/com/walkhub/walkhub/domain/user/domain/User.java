@@ -93,7 +93,7 @@ public class User extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "max_level_id")
-    private CalorieLevel makLevel;
+    private CalorieLevel maxLevel;
 
     @Builder
     public User(Long id, String accountId, String password, String phoneNumber, String name,
