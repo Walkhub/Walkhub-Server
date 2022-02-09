@@ -2,7 +2,6 @@ package com.walkhub.walkhub.domain.teacher.service;
 
 import com.walkhub.walkhub.domain.exercise.domain.ExerciseAnalysis;
 import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
-import com.walkhub.walkhub.domain.teacher.exception.UserHasNotGroupException;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.DetailsClassResponse;
 import com.walkhub.walkhub.domain.user.domain.Group;
 import com.walkhub.walkhub.domain.user.domain.User;
