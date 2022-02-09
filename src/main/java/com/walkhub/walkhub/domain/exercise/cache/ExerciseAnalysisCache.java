@@ -1,4 +1,4 @@
-package com.walkhub.walkhub.domain.exercise.domain.cache;
+package com.walkhub.walkhub.domain.exercise.cache;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AccessLevel;
