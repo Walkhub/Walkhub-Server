@@ -67,33 +67,31 @@ public class Challenge {
     @Enumerated(EnumType.STRING)
     private GoalType goalType;
 
-    @Column(nullable = false)
+    @NotNull
     private Long goal;
 
-    @ColumnDefault("1")
     @NotNull
+    @ColumnDefault("1")
     private Long successStandard;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Builder
-    public Challenge(String name, String content, Long goal, String award, String imageUrl,
-                     LocalDate startAt, LocalDate endAt, UserScope userScope, GoalType goalType,
-                     GoalScope goalScope, Long successStandard, User user) {
+    public Challenge(String name, String imageUrl, String content, LocalDate startAt,
+                     LocalDate endAt, String award, UserScope userScope, GoalScope goalScope,
+                     GoalType goalType, Long goal, Long successStandard, User user) {
         this.name = name;
-        this.content = content;
-        this.goal = goal;
-        this.goalType = goalType;
-        this.goalScope = goalScope;
-        this.successStandard = successStandard;
-        this.award = award;
         this.imageUrl = imageUrl;
+        this.content = content;
         this.startAt = startAt;
         this.endAt = endAt;
+        this.award = award;
         this.userScope = userScope;
+        this.goalScope = goalScope;
+        this.goalType = goalType;
+        this.goal = goal;
+        this.successStandard = successStandard;
         this.user = user;
-
     }
 }
