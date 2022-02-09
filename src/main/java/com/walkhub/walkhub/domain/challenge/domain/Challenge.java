@@ -78,6 +78,7 @@ public class Challenge {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Builder
     public Challenge(String name, String imageUrl, String content, LocalDate startAt,
                      LocalDate endAt, String award, UserScope userScope, GoalScope goalScope,
                      GoalType goalType, Long goal, Long successStandard, User user) {
