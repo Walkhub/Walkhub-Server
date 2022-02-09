@@ -35,7 +35,7 @@ public class QueryUserProfileService {
 				.imageUrl(titleBadge.getImageUrl())
 				.build())
 			.level(Level.builder()
-				.image_url(level.getFoodImageUrl())
+				.imageUrl(level.getFoodImageUrl())
 				.name(level.getFoodName())
 				.build())
 			.build();

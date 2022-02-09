@@ -28,6 +28,6 @@ public class QueryUserProfileResponse {
 	@Builder
 	public static class Level {
 		private final String name;
-		private final String image_url;
+		private final String imageUrl;
 	}
 }
