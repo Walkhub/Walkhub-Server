@@ -9,4 +9,5 @@ public class DefaultImage {
 	public static final String CHALLENGE_IMAGE = "";
 	public static final String SCHOOL_LOGO_IMAGE = "";
 	public static final String BADGE_IMAGE = "";
+	public static final String EXERCISE_IMAGE = "";
 }

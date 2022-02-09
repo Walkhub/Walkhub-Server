@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.exercise.domain;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
+import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -67,6 +68,9 @@ public class Exercise extends BaseTimeEntity {
     @Column(nullable = false)
     private Long cheeringCount;
 
+    @NotNull
+    @ColumnDefault(DefaultImage.EXERCISE_IMAGE)
+    private String imageUrl;
 
     @Builder
     public Exercise(User user, Integer goal, GoalType goalType) {
