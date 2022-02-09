@@ -53,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PATCH, "/users").authenticated()
                 .antMatchers(HttpMethod.GET, "/users/accounts/{phone-number}").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users/healths").authenticated()
+                .antMatchers(HttpMethod.PATCH, "/users/goal").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users/school").authenticated()
 
                 // badges
