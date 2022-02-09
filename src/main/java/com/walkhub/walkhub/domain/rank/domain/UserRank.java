@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Builder
 public class UserRank {
     @Id
-    private String accountId;
+    private String userId;
 
     @Id
     private LocalDate createdAt;
@@ -39,6 +39,5 @@ public class UserRank {
     @Column(columnDefinition = "TINYINT", nullable = false)
     private Integer ranking;
 
-    @Column(length = 7)
-    private String agencyCode;
+    private String schoolId;
 }
