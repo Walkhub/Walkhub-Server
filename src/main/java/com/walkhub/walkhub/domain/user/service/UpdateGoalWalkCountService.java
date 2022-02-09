@@ -20,4 +20,3 @@ public class UpdateGoalWalkCountService {
         user.updateWalkCount(request.getWalkCount());
     }
 }
-ㅋ
