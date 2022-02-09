@@ -6,11 +6,11 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UserRankInfo {
-    private String accountId;
+    private String userId;
 
     private String name;
 
-    private String agencyCode;
+    private String schoolId;
 
     private Integer grade;
 

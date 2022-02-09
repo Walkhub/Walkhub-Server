@@ -117,11 +117,11 @@ public class UserRankJob {
     @StepScope
     public ItemProcessor<UserRankInfo, UserRank> weeklyUserSchoolRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
         return rankInfo -> UserRank.builder()
-                .accountId(rankInfo.getAccountId())
+                .userId(rankInfo.getUserId())
                 .createdAt(LocalDate.now())
                 .dateType("WEEK")
                 .scopeType("SCHOOL")
-                .agencyCode(rankInfo.getAgencyCode())
+                .schoolId(rankInfo.getSchoolId())
                 .name(rankInfo.getName())
                 .grade(rankInfo.getGrade())
                 .classNum(rankInfo.getClassNum())
@@ -135,11 +135,11 @@ public class UserRankJob {
     @StepScope
     public ItemProcessor<UserRankInfo, UserRank> monthlyUserSchoolRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
         return rankInfo -> UserRank.builder()
-                .accountId(rankInfo.getAccountId())
+                .userId(rankInfo.getUserId())
                 .createdAt(LocalDate.now())
                 .dateType("MONTH")
                 .scopeType("SCHOOL")
-                .agencyCode(rankInfo.getAgencyCode())
+                .schoolId(rankInfo.getSchoolId())
                 .name(rankInfo.getName())
                 .grade(rankInfo.getGrade())
                 .classNum(rankInfo.getClassNum())
@@ -153,11 +153,11 @@ public class UserRankJob {
     @StepScope
     public ItemProcessor<UserRankInfo, UserRank> weeklyUserClassRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
         return rankInfo -> UserRank.builder()
-                .accountId(rankInfo.getAccountId())
+                .userId(rankInfo.getUserId())
                 .createdAt(LocalDate.now())
                 .dateType("WEEK")
                 .scopeType("CLASS")
-                .agencyCode(rankInfo.getAgencyCode())
+                .schoolId(rankInfo.getSchoolId())
                 .name(rankInfo.getName())
                 .grade(rankInfo.getGrade())
                 .classNum(rankInfo.getClassNum())
@@ -171,11 +171,11 @@ public class UserRankJob {
     @StepScope
     public ItemProcessor<UserRankInfo, UserRank> monthlyUserClassRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
         return rankInfo -> UserRank.builder()
-                .accountId(rankInfo.getAccountId())
+                .userId(rankInfo.getUserId())
                 .createdAt(LocalDate.now())
                 .dateType("MONTH")
                 .scopeType("CLASS")
-                .agencyCode(rankInfo.getAgencyCode())
+                .schoolId(rankInfo.getSchoolId())
                 .name(rankInfo.getName())
                 .grade(rankInfo.getGrade())
                 .classNum(rankInfo.getClassNum())
@@ -190,7 +190,7 @@ public class UserRankJob {
     public JdbcBatchItemWriter<UserRank> userRankWriter(@Value("#{jobParameters[jobKey]}") String jobKey) {
         JdbcBatchItemWriter<UserRank> writer = new JdbcBatchItemWriterBuilder<UserRank>()
                 .dataSource(dataSource)
-                .sql("CALL SAVE_USER_RANK(:accountId, :createdAt, :dateType, :scopeType, :agencyCode, :name, :grade, :classNum, :profileImageUrl, :ranking, :walkCount)")
+                .sql("CALL SAVE_USER_RANK(:userId, :createdAt, :dateType, :scopeType, :schoolId, :name, :grade, :classNum, :profileImageUrl, :ranking, :walkCount)")
                 .beanMapped()
                 .build();
 
@@ -208,11 +208,11 @@ public class UserRankJob {
                 .preparedStatementSetter(new ArgumentPreparedStatementSetter(new Object[]{dateType}))
                 .rowMapper((rs, rowNum) -> UserRankInfo.builder()
                         .name(rs.getString("name"))
-                        .agencyCode(rs.getString("agency_code"))
+                        .schoolId(rs.getString("school_id"))
                         .grade(rs.getInt("grade"))
                         .classNum(rs.getInt("class_num"))
                         .profileImageUrl(rs.getString("profile_image_url"))
-                        .accountId(rs.getString("account_id"))
+                        .userId(rs.getString("user_id"))
                         .walkCount(rs.getInt("walk_count"))
                         .ranking(rs.getInt("ranking"))
                         .build())
