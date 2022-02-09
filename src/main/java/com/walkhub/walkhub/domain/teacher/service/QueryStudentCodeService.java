@@ -32,10 +32,6 @@ public class QueryStudentCodeService {
         User teacher = userFacade.getCurrentUser();
         Group group = groupFacade.getGroup(teacher.getGroup().getId());
 
-        if (group == null) {
-            throw UserHasNotGroupException.EXCEPTION;
-        }
-
         List<DetailsClassResponse.UserListResponse> result =
                 userRepository.findAllByGroupAndAuthority(group, Authority.STUDENT)
                         .stream()
