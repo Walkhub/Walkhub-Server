@@ -1,6 +1,6 @@
 package com.walkhub.walkhub.domain.user.service;
 
-import com.walkhub.walkhub.domain.user.domain.Badge;
+import com.walkhub.walkhub.domain.badge.domain.Badge;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.BadgeCollectionFacade;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
