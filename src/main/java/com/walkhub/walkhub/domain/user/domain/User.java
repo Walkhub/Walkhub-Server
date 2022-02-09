@@ -91,6 +91,10 @@ public class User extends BaseTimeEntity {
     @JoinColumn(name = "school_id")
     private School school;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "max_level_id")
+    private CalorieLevel maxLevel;
+
     @Builder
     public User(Long id, String accountId, String password, String phoneNumber, String name,
                 Authority authority, Group group, School school, boolean isMeasuring,
