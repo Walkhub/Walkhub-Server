@@ -3,7 +3,7 @@ package com.walkhub.walkhub.domain.challenge.domain;
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.global.enums.Scope;
+import com.walkhub.walkhub.global.enums.UserScope;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -55,7 +55,7 @@ public class Challenge {
     @NotNull
     @Length(max = 6)
     @Enumerated(EnumType.STRING)
-    private Scope scope;
+    private UserScope userScope;
 
     @NotNull
     @Length(max = 3)
@@ -79,8 +79,8 @@ public class Challenge {
     private User user;
 
     @Builder
-    public Challenge(String name, String content, Long goal, String award,
-                     LocalDate startAt, LocalDate endAt, Scope scope, GoalType goalType,
+    public Challenge(String name, String content, Long goal, String award, String imageUrl,
+                     LocalDate startAt, LocalDate endAt, UserScope userScope, GoalType goalType,
                      GoalScope goalScope, Long successStandard, User user) {
         this.name = name;
         this.content = content;
@@ -89,9 +89,10 @@ public class Challenge {
         this.goalScope = goalScope;
         this.successStandard = successStandard;
         this.award = award;
+        this.imageUrl = imageUrl;
         this.startAt = startAt;
         this.endAt = endAt;
-        this.scope = scope;
+        this.userScope = userScope;
         this.user = user;
 
     }

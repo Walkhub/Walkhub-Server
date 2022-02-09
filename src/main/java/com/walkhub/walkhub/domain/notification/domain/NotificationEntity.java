@@ -2,7 +2,7 @@ package com.walkhub.walkhub.domain.notification.domain;
 
 import com.walkhub.walkhub.domain.notification.domain.type.Type;
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
-import com.walkhub.walkhub.global.enums.Scope;
+import com.walkhub.walkhub.global.enums.UserScope;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -46,15 +46,15 @@ public class NotificationEntity extends BaseTimeEntity {
     @NotNull
     @Length(max = 6)
     @Enumerated(EnumType.STRING)
-    private Scope scope;
+    private UserScope userScope;
 
     @Builder
-    public NotificationEntity(String title, String content, Type type, Long value, Scope scope) {
+    public NotificationEntity(String title, String content, Type type, Long value, UserScope userScope) {
         this.title = title;
         this.content = content;
         this.type = type;
         this.value = value;
-        this.scope = scope;
+        this.userScope = userScope;
     }
 
 }
