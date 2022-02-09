@@ -21,7 +21,7 @@ public class QueryExerciseListService {
 
 	@Transactional(readOnly = true)
 	public ExerciseListResponse execute() {
-		List<ExerciseResponse> exerciseList = exerciseRepository.findByUser(userFacade.getCurrentUser()).stream()
+		List<ExerciseResponse> exerciseList = exerciseRepository.findAllByUser(userFacade.getCurrentUser()).stream()
 			.map(locationRepository::findTop1ByExerciseOrderByOrderDesc)
 			.map(location -> ExerciseResponse.builder()
 				.exerciseId(location.getExercise().getId())

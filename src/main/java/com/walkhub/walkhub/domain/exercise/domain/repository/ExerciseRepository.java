@@ -9,5 +9,5 @@ import java.util.Optional;
 
 public interface ExerciseRepository extends CrudRepository<Exercise, Long> {
     Optional<Exercise> findByIsExercisingTrueAndUser(User user);
-    List<Exercise> findByUser(User user);
+    List<Exercise> findAllByUser(User user);
 }
