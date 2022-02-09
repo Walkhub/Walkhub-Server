@@ -1,6 +1,6 @@
 package com.walkhub.walkhub.domain.badge.presentation;
 
-import com.walkhub.walkhub.domain.badge.service.TitleBadgeSettingService;
+import com.walkhub.walkhub.domain.badge.service.SetTitleBadgeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class BadgeController {
 
-    private final TitleBadgeSettingService titleBadgeSettingService;
+    private final SetTitleBadgeService setTitleBadgeService;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{badge-id}")
-    public void titleBadgeSetting(@PathVariable("badge-id") Long badgeId) {
-        titleBadgeSettingService.execute(badgeId);
+    public void setTitleBadge(@PathVariable("badge-id") Long badgeId) {
+        setTitleBadgeService.execute(badgeId);
     }
 
 }
