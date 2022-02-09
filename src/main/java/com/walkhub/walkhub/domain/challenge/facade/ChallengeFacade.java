@@ -13,7 +13,7 @@ public class ChallengeFacade {
 
     private final ChallengeRepository challengeRepository;
 
-    public Challenge getByChallengeId(Long id) {
+    public Challenge getChallengeById(Long id) {
         return challengeRepository.findById(id)
                 .orElseThrow(() -> ChallengeNotFoundException.EXCEPTION);
     }

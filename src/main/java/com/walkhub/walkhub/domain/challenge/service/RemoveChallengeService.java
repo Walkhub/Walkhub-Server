@@ -19,7 +19,7 @@ public class RemoveChallengeService {
 
     public void execute(Long id) {
         User user = userFacade.getCurrentUser();
-        Challenge challenge = challengeFacade.getByChallengeId(id);
+        Challenge challenge = challengeFacade.getChallengeById(id);
 
         if (!challenge.isWriter(user.getId()))
             throw NotYourChallengeException.EXCEPTION;
