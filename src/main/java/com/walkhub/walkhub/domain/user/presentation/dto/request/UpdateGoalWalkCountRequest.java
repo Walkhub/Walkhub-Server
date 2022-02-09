@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class UpdateGoalWalkCountRequest {
 
-    @NotNull(message = "walk_count null일 수 없습니다.")
-    @Size(min = 1, max = 50000 ,message = "walk_count는 1이상 500000 이하 여야 합니다" )
-    private Integer walkCount;
+    @NotNull(message = "daily_walk_count_goal null일 수 없습니다.")
+    @Size(min = 1, max = 50000, message = "daily_walk_count_goal는 1이상 500000 이하 여야 합니다")
+    private Integer dailyWalkCountGoal;
 }

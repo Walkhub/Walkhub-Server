@@ -97,12 +97,12 @@ public class User extends BaseTimeEntity {
 
     @NotNull
     @ColumnDefault("10000")
-    private Integer walkCount;
+    private Integer dailyWalkCountGoal;
 
     @Builder
     public User(Long id, String accountId, String password, String phoneNumber, String name,
                 Authority authority, Group group, School school, boolean isMeasuring,
-                Integer weight, BigDecimal height, Sex sex, Badge badge, String deviceToken, Integer walkCount) {
+                Integer weight, BigDecimal height, Sex sex, Badge badge, String deviceToken, Integer dailyWalkCountGoal) {
         this.id = id;
         this.accountId = accountId;
         this.password = password;
@@ -116,7 +116,7 @@ public class User extends BaseTimeEntity {
         this.sex = sex;
         this.badge = badge;
         this.deviceToken = deviceToken;
-        this.walkCount = walkCount;
+        this.dailyWalkCountGoal = dailyWalkCountGoal;
     }
 
     public void setDeviceToken(String deviceToken) {
@@ -149,8 +149,8 @@ public class User extends BaseTimeEntity {
         this.number = number;
     }
 
-    public void updateWalkCount(Integer walkCount) {
-        this.walkCount = walkCount;
+    public void updatedailyWalkCountGoal(Integer dailyWalkCountGoal) {
+        this.dailyWalkCountGoal = dailyWalkCountGoal;
     }
 
 }

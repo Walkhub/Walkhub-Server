@@ -17,6 +17,6 @@ public class UpdateGoalWalkCountService {
     public void execute(UpdateGoalWalkCountRequest request) {
         User user = userFacade.getCurrentUser();
 
-        user.updateWalkCount(request.getWalkCount());
+        user.updatedailyWalkCountGoal(request.getDailyWalkCountGoal());
     }
 }
