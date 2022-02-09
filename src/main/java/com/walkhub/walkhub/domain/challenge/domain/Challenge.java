@@ -95,4 +95,8 @@ public class Challenge {
         this.successStandard = successStandard;
         this.user = user;
     }
+
+    public boolean isWriter(Long userId) {
+        return user.getId().equals(userId);
+    }
 }
