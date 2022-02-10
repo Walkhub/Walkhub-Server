@@ -2,6 +2,8 @@ package com.walkhub.walkhub.domain.exercise.service;
 
 import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerciseAnalysisResponse;
+import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerciseAnalysisResponse.ExerciseAnalysisResponse;
+import com.walkhub.walkhub.domain.user.domain.CalorieLevel;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +21,12 @@ public class QueryExerciseAnalysisService {
     private final UserFacade userFacade;
 
     @Transactional(readOnly = true)
-    public QueryExerciseAnalysisResponse execute() {
+    public QueryExerciseAnalysisResponse execute(CalorieLevel calorieLevel) {
         User user = userFacade.getCurrentUser();
-        List<QueryExerciseAnalysisResponse.ExerciseAnalysisResponse> queryExerciseAnalysisResponseList =
-                exerciseAnalysisRepository.findExerciseAnalysisByUser(user)
+        List<ExerciseAnalysisResponse> queryExerciseAnalysisResponseList =
+                exerciseAnalysisRepository.findByUser(user)
                         .stream()
-                        .map(exerciseAnalysis -> QueryExerciseAnalysisResponse.ExerciseAnalysisResponse.builder()
-                                .levelId(exerciseAnalysis.getLevelId())
-                                .foodCalorie(exerciseAnalysis.getFoodCalorie())
+                        .map(exerciseAnalysis -> ExerciseAnalysisResponse.builder()
                                 .dailyWalkCountGoal(user.getDailyWalkCountGoal())
                                 .walkCount(exerciseAnalysis.getWalkCount())
                                 .calorie(exerciseAnalysis.getCalorie())
