@@ -25,6 +25,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
     @Override
     public List<QueryUserListResponse.UserListInfo> queryUserList(Integer page, String scope, String sort, Integer grade, Integer classNum, User currentUser) {
+        Long size = 4L;
         return queryFactory
                 .select(new QQueryUserListResponse_UserListInfo(
                         user.id.as("userId"),
@@ -43,8 +44,8 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                         buildFilteringCondition(scope),
                         gradeAndClassNumEq(grade, classNum)
                 )
-                .offset(page * 100)
-                .limit(100)
+                .offset((long)page * size)
+                .limit(size)
                 .orderBy(buildSortCondition(sort))
                 .fetch();
     }
