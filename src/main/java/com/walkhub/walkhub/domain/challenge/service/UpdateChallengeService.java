@@ -2,10 +2,9 @@ package com.walkhub.walkhub.domain.challenge.service;
 
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.ChallengeRequest;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChallengeRequest;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
-import com.walkhub.walkhub.global.enums.UserScope;
 import com.walkhub.walkhub.global.exception.InvalidRoleException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,21 +18,11 @@ public class UpdateChallengeService {
     private final ChallengeFacade challengeFacade;
 
     @Transactional
-    public void execute(Long id, ChallengeRequest request) {
+    public void execute(Long id, UpdateChallengeRequest request) {
         User user = userFacade.getCurrentUser();
         Challenge challenge = challengeFacade.getChallengeById(id);
 
         if (!challenge.getUser().equals(user)) {
-            throw InvalidRoleException.EXCEPTION;
-        }
-
-        if (UserScope.SCHOOL.equals(challenge.getUserScope())) {
-            if (UserScope.GRADE.equals(request.getUserScope()) || UserScope.CLASS.equals(request.getUserScope())) {
-                throw InvalidRoleException.EXCEPTION;
-            }
-        } else if (UserScope.GRADE.equals(challenge.getUserScope()) && UserScope.CLASS.equals(request.getUserScope())) {
-            throw InvalidRoleException.EXCEPTION;
-        } else if (UserScope.CLASS.equals(challenge.getUserScope())) {
             throw InvalidRoleException.EXCEPTION;
         }
 

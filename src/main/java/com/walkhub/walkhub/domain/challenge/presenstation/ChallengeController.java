@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.domain.challenge.presenstation;
 
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.ChallengeRequest;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.CreateChallengeRequest;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChallengeRequest;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse;
 import com.walkhub.walkhub.domain.challenge.service.CreateChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.QueryChallengeListService;
@@ -38,7 +39,7 @@ public class ChallengeController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void createChallenge(@RequestBody @Valid ChallengeRequest request) {
+    public void createChallenge(@RequestBody @Valid CreateChallengeRequest request) {
         createChallengeService.execute(request);
     }
 
@@ -50,7 +51,7 @@ public class ChallengeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/{challenge-id}")
     public void updateChallenge(@PathVariable("challenge-id") Long id,
-                                @RequestBody @Valid ChallengeRequest request) {
+                                @RequestBody @Valid UpdateChallengeRequest request) {
         updateChallengeService.execute(id, request);
     }
 
