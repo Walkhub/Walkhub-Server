@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.domain.challenge.domain;
 
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChallengeRequest;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.UserScope;
@@ -100,6 +101,19 @@ public class Challenge {
         this.goal = goal;
         this.successStandard = successStandard;
         this.user = user;
+    }
+
+    public void updateChallenge(UpdateChallengeRequest request) {
+        this.name = request.getName();
+        this.content = request.getContent();
+        this.imageUrl = request.getImageUrl() == null ? DefaultImage.CHALLENGE_IMAGE : request.getImageUrl();
+        this.startAt = request.getStartAt();
+        this.endAt = request.getEndAt();
+        this.award = request.getAward();
+        this.goal = request.getGoal();
+        this.goalType = request.getGoalType();
+        this.goalScope = request.getGoalScope();
+        this.successStandard = request.getSuccessStandard();
     }
 
     public boolean isWriter(Long userId) {

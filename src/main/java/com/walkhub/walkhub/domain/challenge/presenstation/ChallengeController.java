@@ -1,16 +1,19 @@
 package com.walkhub.walkhub.domain.challenge.presenstation;
 
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.CreateChallengeRequest;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChallengeRequest;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse;
 import com.walkhub.walkhub.domain.challenge.service.CreateChallengeService;
-import com.walkhub.walkhub.domain.challenge.service.QueryChallengeListService;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsResponse;
 import com.walkhub.walkhub.domain.challenge.service.QueryChallengeDetailsService;
+import com.walkhub.walkhub.domain.challenge.service.QueryChallengeListService;
 import com.walkhub.walkhub.domain.challenge.service.RemoveChallengeService;
+import com.walkhub.walkhub.domain.challenge.service.UpdateChallengeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +31,7 @@ public class ChallengeController {
     private final RemoveChallengeService removeChallengeService;
     private final CreateChallengeService createChallengeService;
     private final QueryChallengeListService queryChallengeListService;
+    private final UpdateChallengeService updateChallengeService;
     private final QueryChallengeDetailsService queryChallengeDetailsService;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -45,6 +49,13 @@ public class ChallengeController {
     @GetMapping("/lists")
     public QueryChallengeListResponse queryChallengeList() {
         return queryChallengeListService.execute();
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/{challenge-id}")
+    public void updateChallenge(@PathVariable("challenge-id") Long id,
+                                @RequestBody @Valid UpdateChallengeRequest request) {
+        updateChallengeService.execute(id, request);
     }
 
     @GetMapping("/{challenge-id}")
