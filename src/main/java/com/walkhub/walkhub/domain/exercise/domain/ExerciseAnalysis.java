@@ -8,7 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,30 +21,44 @@ public class ExerciseAnalysis {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
     private Integer calorie;
 
-    @Column(nullable = false)
+    @NotNull
     private Integer walkCount;
 
-    @Column(nullable = false)
+    @NotNull
     private Integer distance;
 
-    @Column(nullable = false)
+    @NotNull
     private LocalDate date;
+
+    @NotNull
+    private Long levelId;
+
+    @NotNull
+    private Integer foodCalorie;
+
+    @NotNull
+    private LocalDateTime walkTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+
     @Builder
     public ExerciseAnalysis(Integer calorie, Integer walkCount,
-                            Integer distance, LocalDate date, User user) {
+                            Integer distance, LocalDate date, User user, Long levelId,
+                            Integer foodCalorie, LocalDateTime walkTime) {
         this.calorie = calorie;
         this.walkCount = walkCount;
         this.distance = distance;
         this.date = date;
         this.user = user;
+        this.levelId = levelId;
+        this.foodCalorie = foodCalorie;
+        this.walkTime = walkTime;
     }
 
     public void updateExerciseAnalysis(SaveExerciseAnalysisRequest request) {
