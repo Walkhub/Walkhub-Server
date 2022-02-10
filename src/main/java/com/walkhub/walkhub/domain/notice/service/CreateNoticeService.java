@@ -11,6 +11,7 @@ import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.global.exception.InvalidRoleException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -19,12 +20,13 @@ public class CreateNoticeService {
     private final UserFacade userFacade;
     private final NoticeRepository noticeRepository;
 
+    @Transactional
     public void execute(CreateNoticeRequest request) {
         User user = userFacade.getCurrentUser();
 
-        if (request.getScope() == Scope.SCHOOL && user.getSection() == null) {
+        if (Scope.SCHOOL.equals(request.getScope()) && user.getSection() == null) {
             throw SectionNotFoundException.EXCEPTION;
-        } else if (Authority.ROOT != user.getAuthority()) {
+        } else if (!Authority.ROOT.equals(user.getAuthority())) {
             throw InvalidRoleException.EXCEPTION;
         }
 
