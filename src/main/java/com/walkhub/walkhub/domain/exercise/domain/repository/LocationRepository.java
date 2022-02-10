@@ -6,5 +6,5 @@ import com.walkhub.walkhub.domain.exercise.domain.LocationId;
 import org.springframework.data.repository.CrudRepository;
 
 public interface LocationRepository extends CrudRepository<Location, LocationId> {
-	Location findTop1ByExerciseOrderByOrderDesc(Exercise exercise);
+	Location findTop1ByExerciseOrderBySequenceDesc(Exercise exercise);
 }

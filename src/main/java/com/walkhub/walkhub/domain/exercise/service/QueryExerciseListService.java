@@ -22,7 +22,7 @@ public class QueryExerciseListService {
 	@Transactional(readOnly = true)
 	public ExerciseListResponse execute() {
 		List<ExerciseResponse> exerciseList = exerciseRepository.findAllByUser(userFacade.getCurrentUser()).stream()
-			.map(locationRepository::findTop1ByExerciseOrderByOrderDesc)
+			.map(locationRepository::findTop1ByExerciseOrderBySequenceDesc)
 			.map(location -> ExerciseResponse.builder()
 				.exerciseId(location.getExercise().getId())
 				.imageUrl(location.getExercise().getImageUrl())

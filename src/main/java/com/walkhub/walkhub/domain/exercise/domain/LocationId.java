@@ -16,8 +16,8 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class LocationId implements Serializable {
 
-    @Column(name = "sequence", nullable = false)
-    private Integer order;
+    @Column(nullable = false)
+    private Integer sequence;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exercise_id", nullable = false)
