@@ -16,7 +16,7 @@ public class UpdateChallengeRequest {
     @NotBlank(message = "name은 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
     private String name;
 
-    @NotBlank(message = "name은 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
+    @NotBlank(message = "content는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
     private String content;
 
     private String imageUrl;
