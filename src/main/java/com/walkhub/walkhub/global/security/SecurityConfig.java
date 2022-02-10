@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/users").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users").authenticated()
                 .antMatchers(HttpMethod.POST,"/users/classes/{section-id}").authenticated()
-                .antMatchers(HttpMethod.GET, "/users/accounts/{phone-number}").authenticated()
+                .antMatchers(HttpMethod.GET, "/users/accounts/{phone-number}").permitAll()
                 .antMatchers(HttpMethod.PATCH, "/users/healths").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users/goal").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users/school").authenticated()
@@ -122,7 +122,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/excel").hasAnyAuthority("TEACHER", "ROOT")
 
                 // socket.io
-                .antMatchers(HttpMethod.GET, "/socket.io").permitAll()
+                .antMatchers(HttpMethod.GET, "/socket.io").authenticated()
 
                 .anyRequest().denyAll()
 
