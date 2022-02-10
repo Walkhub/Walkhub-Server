@@ -27,14 +27,12 @@ public class UpdateChallengeService {
             throw InvalidRoleException.EXCEPTION;
         }
 
-        if (challenge.getUserScope() == UserScope.SCHOOL) {
+        if (UserScope.SCHOOL.equals(challenge.getUserScope())) {
             if (UserScope.GRADE.equals(request.getUserScope()) || UserScope.CLASS.equals(request.getUserScope())) {
                 throw InvalidRoleException.EXCEPTION;
             }
-        } else if (UserScope.GRADE.equals(challenge.getUserScope())) {
-            if (UserScope.CLASS.equals(request.getUserScope())) {
-                throw InvalidRoleException.EXCEPTION;
-            }
+        } else if (UserScope.GRADE.equals(challenge.getUserScope()) && UserScope.CLASS.equals(request.getUserScope())) {
+            throw InvalidRoleException.EXCEPTION;
         } else if (UserScope.CLASS.equals(challenge.getUserScope())) {
             throw InvalidRoleException.EXCEPTION;
         }
