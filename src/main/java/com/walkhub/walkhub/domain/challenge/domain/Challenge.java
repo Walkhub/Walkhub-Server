@@ -3,7 +3,6 @@ package com.walkhub.walkhub.domain.challenge.domain;
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.global.enums.UserScope;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import java.time.LocalDateTime;
@@ -24,7 +23,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.time.LocalDate;
 import org.hibernate.validator.constraints.Length;
 
 @Getter
