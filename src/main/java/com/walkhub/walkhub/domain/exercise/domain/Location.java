@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 public class Location {
 
     @Id
-    private Integer order;
+    private Integer sequence;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,8 +32,8 @@ public class Location {
     private BigDecimal longitude;
 
     @Builder
-    public Location(Integer order, Exercise exercise, BigDecimal latitude, BigDecimal longitude) {
-        this.order = order;
+    public Location(Integer sequence, Exercise exercise, BigDecimal latitude, BigDecimal longitude) {
+        this.sequence = sequence;
         this.exercise = exercise;
         this.latitude = latitude;
         this.longitude = longitude;

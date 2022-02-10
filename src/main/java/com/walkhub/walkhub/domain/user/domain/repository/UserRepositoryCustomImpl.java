@@ -7,8 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QQueryUserListResponse_UserListInfo;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserListResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.domain.user.facade.GroupFacade;
-import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.domain.user.facade.SectionFacade;
 import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.global.querydsl.QuerydslUtil;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,7 @@ import static com.walkhub.walkhub.domain.user.domain.QUser.user;
 public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     private final JPAQueryFactory queryFactory;
     private final QuerydslUtil querydslUtil;
-    private final GroupFacade groupFacade;
+    private final SectionFacade sectionFacade;
 
     @Override
     public List<QueryUserListResponse.UserListInfo> queryUserList(Integer page, String scope, String sort, Integer grade, Integer classNum, User currentUser) {
@@ -39,7 +38,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 .from(user)
                 .leftJoin(exerciseAnalysis.user, user)
                 .where(
-                        user.school.eq(groupFacade.getGroup(currentUser.getId()).getSchool()),
+                        user.school.eq(sectionFacade.getSectionById(currentUser.getId()).getSchool()),
                         buildFilteringCondition(scope),
                         gradeAndClassNumEq(grade, classNum)
                 )

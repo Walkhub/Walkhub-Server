@@ -22,7 +22,7 @@ public class UserController {
     private final UserSignUpService userSignUpService;
     private final InputHealthInformationService inputHealthInformationService;
     private final UpdateUserInfoService updateUserInfoService;
-    private final JoinGroupService joinGroupService;
+    private final JoinSectionService joinSectionService;
     private final UpdatePasswordService updatePasswordService;
     private final UpdateSchoolInfoService updateSchoolInfoService;
     private final SearchAccountIdService searchAccountIdService;
@@ -62,10 +62,10 @@ public class UserController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/classes/{group-id}")
-    public void joinGroup(@PathVariable(name = "group-id") Long groupId,
-                          @RequestBody @Valid JoinGroupRequest request) {
-        joinGroupService.execute(groupId, request);
+    @PostMapping("/classes/{section-id}")
+    public void joinSection(@PathVariable(name = "section-id") Long sectionId,
+                            @RequestBody @Valid JoinSectionRequest request) {
+        joinSectionService.execute(sectionId, request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
