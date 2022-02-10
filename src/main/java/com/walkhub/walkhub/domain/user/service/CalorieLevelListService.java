@@ -19,13 +19,13 @@ public class CalorieLevelListService {
         List<CalorieLevelListResponse.CalorieLevelResponse> results =
                 calorieLevelRepository.findAllBy()
                         .stream()
-                        .map(this::BuildCalorieLevelList)
+                        .map(this::CalorieLevelResponse)
                         .collect(Collectors.toList());
 
         return new CalorieLevelListResponse(results);
     }
 
-    private CalorieLevelListResponse.CalorieLevelResponse BuildCalorieLevelList(CalorieLevel calorieLevel) {
+    private CalorieLevelListResponse.CalorieLevelResponse CalorieLevelResponse(CalorieLevel calorieLevel) {
         return CalorieLevelListResponse.CalorieLevelResponse.builder()
                 .foodImageUrl(calorieLevel.getFoodImageUrl())
                 .foodName(calorieLevel.getFoodName())
