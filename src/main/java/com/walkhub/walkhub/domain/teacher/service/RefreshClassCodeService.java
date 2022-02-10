@@ -18,7 +18,7 @@ public class RefreshClassCodeService {
 
         String classCode = RandomCodeUtil.make(7);
 
-        userFacade.getCurrentUser().getGroup().setClassCode(classCode);
+        userFacade.getCurrentUser().getSection().setClassCode(classCode);
 
         return new CodeResponse(classCode);
     }
