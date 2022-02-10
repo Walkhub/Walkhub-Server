@@ -44,19 +44,13 @@ public class ParticipateChallengeService {
     private boolean verifyScope(User user, User writer, Challenge challenge) {
         switch (challenge.getUserScope()) {
             case SCHOOL: {
-                if (!user.getSchool().equals(writer.getSchool())) {
-                    return false;
-                }
+                return user.getSchool().equals(writer.getSchool());
             }
             case GRADE: {
-                if (!user.getSection().getGrade().equals(writer.getSection().getGrade())) {
-                    return false;
-                }
+                return user.getSection().getGrade().equals(writer.getSection().getGrade());
             }
             case CLASS: {
-                if (!user.getSection().getClassNum().equals(writer.getSection().getClassNum())) {
-                    return false;
-                }
+                return user.getSection().getClassNum().equals(writer.getSection().getClassNum());
             }
             default:
                 return true;
