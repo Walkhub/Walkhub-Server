@@ -6,6 +6,8 @@ import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChal
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsResponse.Writer;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.enums.UserScope;
+import com.walkhub.walkhub.global.exception.InvalidRoleException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,10 @@ public class QueryChallengeDetailsService {
 		Challenge challenge = challengeFacade.getChallengeById(challengeId);
 		User user = userFacade.getCurrentUser();
 		User writer = challenge.getUser();
+
+		if (!challenge.getUserScope().equals(UserScope.ALL) && !user.getSchool().equals(writer.getSchool())) {
+			throw InvalidRoleException.EXCEPTION;
+		}
 
 		Boolean isMine = challenge.getChallengeStatuses()
 			.stream()
