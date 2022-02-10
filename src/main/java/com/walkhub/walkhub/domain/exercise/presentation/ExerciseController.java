@@ -60,11 +60,10 @@ public class ExerciseController {
 	@GetMapping("/analysis")
 	public QueryExerciseAnalysisResponse  setQueryExerciseAnalysis() {
 		return queryExerciseAnalysisService.execute();
-  }
-    
+  	}
+
 	@GetMapping("/lists")
 	public ExerciseListResponse queryExerciseList() {
 		return queryExerciseListService.execute();
 	}
-
 }
