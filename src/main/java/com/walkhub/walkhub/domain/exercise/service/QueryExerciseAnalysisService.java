@@ -21,7 +21,7 @@ public class QueryExerciseAnalysisService {
     private final UserFacade userFacade;
 
     @Transactional(readOnly = true)
-    public QueryExerciseAnalysisResponse execute(CalorieLevel calorieLevel) {
+    public QueryExerciseAnalysisResponse execute() {
         User user = userFacade.getCurrentUser();
         List<ExerciseAnalysisResponse> queryExerciseAnalysisResponseList =
                 exerciseAnalysisRepository.findByUser(user)
