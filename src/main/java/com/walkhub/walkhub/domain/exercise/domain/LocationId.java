@@ -16,7 +16,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class LocationId implements Serializable {
 
-    @Column(nullable = false)
+    @Column(name = "sequence", nullable = false)
     private Integer order;
 
     @ManyToOne(fetch = FetchType.LAZY)
