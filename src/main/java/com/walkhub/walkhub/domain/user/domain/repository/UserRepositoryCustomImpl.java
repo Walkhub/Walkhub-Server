@@ -65,7 +65,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     private BooleanExpression buildFilteringCondition(String scope) {
         switch (scope) {
             case "ALL":
-                return user.authority.eq(Authority.TEACHER).and(user.authority.eq(Authority.USER));
+                return user.authority.eq(Authority.TEACHER).or(user.authority.eq(Authority.USER));
             case "STUDENT":
                 return user.authority.eq(Authority.USER);
             case "TEACHER":
@@ -79,21 +79,24 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         switch (sort) {
             case "NAME":
                 return new OrderSpecifier[]{
-                        user.name.asc()
+                        user.name.asc(), user.authority.asc()
                 };
             case "GCN":
                 return new OrderSpecifier[]{
                         user.section.grade.asc(),
                         user.section.classNum.asc(),
-                        user.number.asc()
+                        user.number.asc(),
+                        user.authority.asc()
                 };
             case "WALK_COUNT":
                 return new OrderSpecifier[]{
-                        exerciseAnalysis.walkCount.desc()
+                        exerciseAnalysis.walkCount.desc(),
+                        user.authority.asc()
                 };
             case "DISTANCE":
                 return new OrderSpecifier[]{
-                        exerciseAnalysis.distance.desc()
+                        exerciseAnalysis.distance.desc(),
+                        user.authority.asc()
                 };
             default:
                 return null;
