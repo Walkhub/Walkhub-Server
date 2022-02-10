@@ -26,14 +26,8 @@ public class QueryChallengeDetailsService {
 		User user = userFacade.getCurrentUser();
 		User writer = challenge.getUser();
 
-		if (!challenge.getUserScope().equals(UserScope.ALL)) {
-			if (!challenge.getUserScope().equals(UserScope.SCHOOL) || !writer.getSchool().equals(user.getSchool())) {
-				if (!challenge.getUserScope().equals(UserScope.GRADE) || !writer.getGroup().getGrade().equals(user.getGroup().getGrade())) {
-					if (!writer.getGroup().equals(user.getGroup())) {
-						throw InvalidRoleException.EXCEPTION;
-					}
-				}
-			}
+		if (!challenge.getUserScope().equals(UserScope.ALL) && !user.getSchool().equals(writer.getSchool())) {
+			throw InvalidRoleException.EXCEPTION;
 		}
 
 		Boolean isMine = challenge.getChallengeStatuses()
