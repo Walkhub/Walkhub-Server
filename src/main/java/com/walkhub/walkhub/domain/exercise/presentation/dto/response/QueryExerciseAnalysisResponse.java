@@ -12,13 +12,11 @@ import java.util.List;
 @AllArgsConstructor
 public class QueryExerciseAnalysisResponse {
 
-    private final List<ExerciseAnalysisResponse> exerciseAnalysisResponses;
+    private final List<ExerciseAnalysisResponse> exerciseAnalysisList;
 
     @Getter
     @Builder
     public static class ExerciseAnalysisResponse {
-        private final Long levelId;
-        private final Integer foodCalorie;
         private final List<WalkCountListResponse> walkCountList;
         private final Integer dailyWalkCountGoal;
         private final Integer walkCount;
