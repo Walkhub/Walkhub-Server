@@ -24,7 +24,7 @@ public class NotificationController {
     }
 
     @GetMapping("/")
-    public QueryNotificationListResponse notificationList(Pageable pageable, NotificationEntity notificationEntity) {
-        return queryNotificationListService.execute(pageable,notificationEntity);
+    public QueryNotificationListResponse notificationList(Pageable pageable) {
+        return queryNotificationListService.execute(pageable);
     }
 }

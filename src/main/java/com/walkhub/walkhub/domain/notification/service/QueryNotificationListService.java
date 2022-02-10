@@ -23,18 +23,17 @@ public class QueryNotificationListService {
     private final UserFacade userFacade;
 
     @Transactional(readOnly = true)
-    public QueryNotificationListResponse execute(Pageable pageable, NotificationEntity notificationEntity) {
+    public QueryNotificationListResponse execute(Pageable pageable) {
 
         User user = userFacade.getCurrentUser();
-
         List<NotificationResponse> notificationLists = notificationListRepository.findByUser(user, pageable)
                 .stream()
                 .map(notificationList -> NotificationResponse.builder()
-                        .id(notificationEntity.getId())
-                        .title(notificationEntity.getTitle())
-                        .content(notificationEntity.getContent())
-                        .type(notificationEntity.getType())
-                        .value(notificationEntity.getValue())
+                        .id(notificationList.getNotificationEntity().getId())
+                        .title(notificationList.getNotificationEntity().getTitle())
+                        .content(notificationList.getNotificationEntity().getContent())
+                        .type(notificationList.getNotificationEntity().getType())
+                        .value(notificationList.getNotificationEntity().getValue())
                         .isRead(notificationList.getIsRead())
                         .build())
                 .collect(Collectors.toList());
