@@ -1,11 +1,14 @@
 package com.walkhub.walkhub.domain.challenge.presenstation;
 
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.CreateChallengeRequest;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse;
 import com.walkhub.walkhub.domain.challenge.service.CreateChallengeService;
+import com.walkhub.walkhub.domain.challenge.service.QueryChallengeListService;
 import com.walkhub.walkhub.domain.challenge.service.RemoveChallengeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +25,7 @@ public class ChallengeController {
 
     private final RemoveChallengeService removeChallengeService;
     private final CreateChallengeService createChallengeService;
+    private final QueryChallengeListService queryChallengeListService;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{challenge-id}")
@@ -35,4 +39,8 @@ public class ChallengeController {
         createChallengeService.execute(request);
     }
 
+    @GetMapping("lists")
+    public QueryChallengeListResponse queryChallengeList() {
+        return queryChallengeListService.execute();
+    }
 }
