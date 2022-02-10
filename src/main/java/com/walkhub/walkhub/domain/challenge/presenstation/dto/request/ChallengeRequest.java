@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class CreateChallengeRequest {
+public class ChallengeRequest {
 
     @NotBlank(message = "name은 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
     private String name;
