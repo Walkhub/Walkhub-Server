@@ -23,6 +23,7 @@ public class QueryChallengeDetailsResponse {
 	private final LocalDateTime endAt;
 	private final Long participantCount;
 	private final Boolean isMine;
+	private final Boolean isParticipated;
 	private final Writer writer;
 
 	@Getter
