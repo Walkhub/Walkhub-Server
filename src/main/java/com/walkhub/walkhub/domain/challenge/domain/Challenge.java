@@ -6,6 +6,9 @@ import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.UserScope;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import java.time.LocalDateTime;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -77,6 +80,9 @@ public class Challenge {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "challenge", cascade = CascadeType.REMOVE)
+    private List<ChallengeStatus> challengeStatuses;
 
     @Builder
     public Challenge(String name, String imageUrl, String content, LocalDateTime startAt,
