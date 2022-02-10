@@ -1,16 +1,22 @@
 package com.walkhub.walkhub.domain.challenge.domain;
 
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChallengeRequest;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.UserScope;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
+import java.time.LocalDateTime;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,8 +28,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.time.LocalDate;
-import org.hibernate.validator.constraints.Length;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -44,12 +48,12 @@ public class Challenge {
     private String content;
 
     @Column(nullable = false)
-    private LocalDate startAt;
+    private LocalDateTime startAt;
 
     @Column(nullable = false)
-    private LocalDate endAt;
+    private LocalDateTime endAt;
 
-    @Column(length = 200, nullable = false)
+    @Column(nullable = false)
     private String award;
 
     @NotNull
@@ -68,20 +72,23 @@ public class Challenge {
     private GoalType goalType;
 
     @NotNull
-    private Long goal;
+    private Integer goal;
 
     @NotNull
     @ColumnDefault("1")
-    private Long successStandard;
+    private Integer successStandard;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @OneToMany(mappedBy = "challenge", cascade = CascadeType.REMOVE)
+    private List<ChallengeStatus> challengeStatuses;
+
     @Builder
-    public Challenge(String name, String imageUrl, String content, LocalDate startAt,
-                     LocalDate endAt, String award, UserScope userScope, GoalScope goalScope,
-                     GoalType goalType, Long goal, Long successStandard, User user) {
+    public Challenge(String name, String imageUrl, String content, LocalDateTime startAt,
+                     LocalDateTime endAt, String award, UserScope userScope, GoalScope goalScope,
+                     GoalType goalType, Integer goal, Integer successStandard, User user) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.content = content;
@@ -94,5 +101,22 @@ public class Challenge {
         this.goal = goal;
         this.successStandard = successStandard;
         this.user = user;
+    }
+
+    public void updateChallenge(UpdateChallengeRequest request) {
+        this.name = request.getName();
+        this.content = request.getContent();
+        this.imageUrl = request.getImageUrl() == null ? DefaultImage.CHALLENGE_IMAGE : request.getImageUrl();
+        this.startAt = request.getStartAt();
+        this.endAt = request.getEndAt();
+        this.award = request.getAward();
+        this.goal = request.getGoal();
+        this.goalType = request.getGoalType();
+        this.goalScope = request.getGoalScope();
+        this.successStandard = request.getSuccessStandard();
+    }
+
+    public boolean isWriter(Long userId) {
+        return user.getId().equals(userId);
     }
 }

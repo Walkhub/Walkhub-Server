@@ -61,8 +61,8 @@ public class User extends BaseTimeEntity {
     private Authority authority;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    private Group group;
+    @JoinColumn(name = "section_id")
+    private Section section;
 
     @Column(columnDefinition = "TINYINT")
     private Integer number;
@@ -100,16 +100,16 @@ public class User extends BaseTimeEntity {
     private Integer dailyWalkCountGoal;
 
     @Builder
-    public User(Long id, String accountId, String password, String phoneNumber, String name,
-                Authority authority, Group group, School school, boolean isMeasuring,
-                Integer weight, BigDecimal height, Sex sex, Badge badge, String deviceToken, Integer dailyWalkCountGoal) {
+    public User(Integer calorie, Integer walkCount,
+                Integer distance, LocalDate date, User user, Long levelId,
+                Integer foodCalorie, LocalDateTime walkTime) {
         this.id = id;
         this.accountId = accountId;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.name = name;
         this.authority = authority;
-        this.group = group;
+        this.section = section;
         this.school = school;
         this.isMeasuring = isMeasuring;
         this.healthInfo = new HealthInfo(weight, height);
@@ -133,8 +133,8 @@ public class User extends BaseTimeEntity {
         this.badge = badge;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setSection(Section section) {
+        this.section = section;
     }
 
     public void setPassword(String password) {
@@ -147,6 +147,10 @@ public class User extends BaseTimeEntity {
 
     public void setNumber(Integer number) {
         this.number = number;
+    }
+
+    public void updatedailyWalkCountGoal(Integer dailyWalkCountGoal) {
+        this.dailyWalkCountGoal = dailyWalkCountGoal;
     }
 
 }

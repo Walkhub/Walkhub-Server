@@ -7,6 +7,12 @@ import com.walkhub.walkhub.domain.exercise.presentation.dto.request.SaveLocation
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.CreateExerciseResponse;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerciseAnalysisResponse;
 import com.walkhub.walkhub.domain.exercise.service.*;
+import com.walkhub.walkhub.domain.exercise.presentation.dto.response.ExerciseListResponse;
+import com.walkhub.walkhub.domain.exercise.service.CreateExerciseService;
+import com.walkhub.walkhub.domain.exercise.service.FinishExerciseService;
+import com.walkhub.walkhub.domain.exercise.service.QueryExerciseListService;
+import com.walkhub.walkhub.domain.exercise.service.SaveLocationService;
+import com.walkhub.walkhub.domain.exercise.service.SaveOrUpdateExerciseAnalysisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +27,7 @@ public class ExerciseController {
 	private final CreateExerciseService createExerciseService;
 	private final FinishExerciseService finishExerciseService;
 	private final SaveLocationService saveLocationService;
+	private final QueryExerciseListService queryExerciseListService;
 	private final SaveOrUpdateExerciseAnalysisService saveOrUpdateExerciseAnalysisService;
 	private final QueryExerciseAnalysisService queryExerciseAnalysisService;
 
@@ -53,6 +60,11 @@ public class ExerciseController {
 	@GetMapping("/analysis")
 	public QueryExerciseAnalysisResponse  setQueryExerciseAnalysis() {
 		return queryExerciseAnalysisService.execute();
+  }
+    
+	@GetMapping("/lists")
+	public ExerciseListResponse queryExerciseList() {
+		return queryExerciseListService.execute();
 	}
 
 }
