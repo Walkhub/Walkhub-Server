@@ -62,10 +62,10 @@ public class UserController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/classes/{group-id}")
-    public void joinGroup(@PathVariable(name = "group-id") Long groupId,
-                          @RequestBody @Valid JoinGroupRequest request) {
-        joinSectionService.execute(groupId, request);
+    @PostMapping("/classes/{section-id}")
+    public void joinSection(@PathVariable(name = "section-id") Long sectionId,
+                            @RequestBody @Valid JoinSectionRequest request) {
+        joinSectionService.execute(sectionId, request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

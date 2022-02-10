@@ -20,8 +20,8 @@ public class DeleteClassService {
     private final SectionRepository sectionRepository;
 
     @Transactional
-    public void execute(Long groupId) {
-        Section section = sectionFacade.getSectionById(groupId);
+    public void execute(Long sectionId) {
+        Section section = sectionFacade.getSectionById(sectionId);
 
         User user = userFacade.getCurrentUser();
 

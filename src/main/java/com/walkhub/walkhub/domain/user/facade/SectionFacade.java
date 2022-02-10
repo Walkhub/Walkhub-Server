@@ -2,7 +2,7 @@ package com.walkhub.walkhub.domain.user.facade;
 
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.repository.SectionRepository;
-import com.walkhub.walkhub.domain.user.exception.GroupNotFoundException;
+import com.walkhub.walkhub.domain.user.exception.SectionNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +14,6 @@ public class SectionFacade {
 
     public Section getSectionById(Long id) {
        return sectionRepository.findById(id)
-                .orElseThrow(() -> GroupNotFoundException.EXCEPTION);
+                .orElseThrow(() -> SectionNotFoundException.EXCEPTION);
     }
 }

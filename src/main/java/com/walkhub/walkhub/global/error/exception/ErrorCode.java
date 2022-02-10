@@ -27,7 +27,7 @@ public enum ErrorCode {
     USER_AUTH_CODE_NOT_FOUND(404, "USER-404-2", "User AuthCode Not Found"),
     CREDENTIALS_NOT_FOUND(404, "USER-404-3", "Credentials Not Found"),
     SCHOOL_NOT_FOUND(404, "USER-404-4", "School Not Found"),
-    GROUP_NOT_FOUND(404, "GROUP-404-1", "Group Not Found"),
+    SECTION_NOT_FOUND(404, "SECTION-404-1", "Section Not Found"),
     REFRESH_TOKEN_NOT_FOUND(404, "AUTH-404-1", "Refresh Token Not Found"),
 
     CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge Not Found"),
@@ -42,7 +42,7 @@ public enum ErrorCode {
 
     NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification Not Found."),
   
-    ALREADY_CREATED(409, "GROUP-409-1", "Already Created"),
+    ALREADY_CREATED(409, "SECTION-409-1", "Already Created"),
     ALREADY_JOINED(409, "USER-409-2", "Already Joined"),
     ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated"),
 

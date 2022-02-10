@@ -6,7 +6,7 @@ import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.exception.ClassCodeNotMatchException;
 import com.walkhub.walkhub.domain.user.facade.SectionFacade;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
-import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinGroupRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinSectionRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,10 +19,10 @@ public class JoinSectionService {
     private final SectionFacade sectionFacade;
 
     @Transactional
-    public void execute(Long groupId, JoinGroupRequest request) {
+    public void execute(Long sectionId, JoinSectionRequest request) {
         User user = userFacade.getCurrentUser();
 
-        Section section = sectionFacade.getSectionById(groupId);
+        Section section = sectionFacade.getSectionById(sectionId);
 
         if (!section.getClassCode().equals(request.getClassCode())) {
             throw ClassCodeNotMatchException.EXCEPTION;
