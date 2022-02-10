@@ -100,9 +100,9 @@ public class User extends BaseTimeEntity {
     private Integer dailyWalkCountGoal;
 
     @Builder
-    public User(Integer calorie, Integer walkCount,
-                Integer distance, LocalDate date, User user, Long levelId,
-                Integer foodCalorie, LocalDateTime walkTime) {
+    public User(Long id, String accountId, String password, String phoneNumber, String name,
+                Authority authority, Section section, School school, boolean isMeasuring,
+                Integer weight, BigDecimal height, Sex sex, Badge badge, String deviceToken, Integer dailyWalkCountGoal) {
         this.id = id;
         this.accountId = accountId;
         this.password = password;
