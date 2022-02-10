@@ -11,5 +11,5 @@ import org.springframework.data.repository.query.Param;
 public interface ChallengeRepository extends CrudRepository<Challenge, Long> {
 
 	@Query("select c from Challenge c where c.user.school = :school")
-	List<Challenge> findAllBySchool(@Param("school") School school)
+	List<Challenge> findAllBySchool(@Param("school") School school);
 }
