@@ -4,6 +4,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.walkhub.walkhub.domain.exercise.domain.QExerciseAnalysis;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QQueryUserListResponse_UserListInfo;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserListResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
@@ -36,9 +37,10 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                         user.authority.eq(Authority.TEACHER).as("isTeacher")
                 ))
                 .from(user)
-                .leftJoin(exerciseAnalysis.user, user)
+                .leftJoin(exerciseAnalysis)
+                .on(exerciseAnalysis.user.eq(user))
                 .where(
-                        user.school.eq(sectionFacade.getSectionById(currentUser.getId()).getSchool()),
+                        user.school.eq(currentUser.getSchool()),
                         buildFilteringCondition(scope),
                         gradeAndClassNumEq(grade, classNum)
                 )
