@@ -15,6 +15,7 @@ public class CalorieLevelListResponse {
     @Getter
     @Builder
     public static class CalorieLevelResponse {
+        private final Long levelId;
         private final String foodImageUrl;
         private final String foodName;
         private final Integer calorie;
