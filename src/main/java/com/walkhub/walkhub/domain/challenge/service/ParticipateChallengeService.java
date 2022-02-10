@@ -6,6 +6,7 @@ import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeStatusRep
 import com.walkhub.walkhub.domain.challenge.exception.AlreadyParticipatedException;
 import com.walkhub.walkhub.domain.challenge.exception.InvalidScopeException;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
+import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
@@ -42,15 +43,18 @@ public class ParticipateChallengeService {
     }
 
     private boolean verifyScope(User user, User writer, Challenge challenge) {
+        Section userSection = user.getSection();
+        Section writerSection = writer.getSection();
+
         switch (challenge.getUserScope()) {
             case SCHOOL: {
                 return user.getSchool().equals(writer.getSchool());
             }
             case GRADE: {
-                return user.getSection().getGrade().equals(writer.getSection().getGrade());
+                return userSection.getGrade().equals(writerSection.getGrade());
             }
             case CLASS: {
-                return user.getSection().getClassNum().equals(writer.getSection().getClassNum());
+                return userSection.getClassNum().equals(writerSection.getClassNum());
             }
             default:
                 return true;
