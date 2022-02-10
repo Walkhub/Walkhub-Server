@@ -26,7 +26,7 @@ public class SaveLocationService {
         List<Location> locationList = request.getLocationList()
                 .stream()
                 .map(locationInfo -> Location.builder()
-                        .order(locationInfo.getOrder())
+                        .sequence(locationInfo.getSequence())
                         .exercise(exercise)
                         .latitude(locationInfo.getLatitude())
                         .longitude(locationInfo.getLongitude())

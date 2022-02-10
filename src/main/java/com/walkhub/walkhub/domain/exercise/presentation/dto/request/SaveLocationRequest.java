@@ -16,8 +16,8 @@ public class SaveLocationRequest {
     @Getter
     public static class LocationInfo {
 
-        @NotNull(message = "order는 null, 공백을 허용하지 않습니다.")
-        private Integer order;
+        @NotNull(message = "sequence는 null, 공백을 허용하지 않습니다.")
+        private Integer sequence;
 
         @NotNull(message = "latitude는 null, 공백을 허용하지 않습니다.")
         private BigDecimal latitude;

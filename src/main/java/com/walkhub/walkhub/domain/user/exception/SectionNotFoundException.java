@@ -3,13 +3,13 @@ package com.walkhub.walkhub.domain.user.exception;
 import com.walkhub.walkhub.global.error.exception.ErrorCode;
 import com.walkhub.walkhub.global.error.exception.WalkhubException;
 
-public class GroupNotFoundException extends WalkhubException {
+public class SectionNotFoundException extends WalkhubException {
 
     public static final WalkhubException EXCEPTION =
-            new GroupNotFoundException();
+            new SectionNotFoundException();
 
-    private GroupNotFoundException() {
-        super(ErrorCode.GROUP_NOT_FOUND);
+    private SectionNotFoundException() {
+        super(ErrorCode.SECTION_NOT_FOUND);
     }
 
 }
