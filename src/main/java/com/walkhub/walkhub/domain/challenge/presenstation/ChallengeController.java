@@ -63,4 +63,9 @@ public class ChallengeController {
         return queryChallengeDetailsService.execute(challengeId);
     }
 
+    @GetMapping("/participated")
+    public QueryChallengeListResponse queryParticipatedChallengeList() {
+
+    }
+
 }
