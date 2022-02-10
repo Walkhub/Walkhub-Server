@@ -64,8 +64,8 @@ public class TeacherController {
     public QueryUserListResponse queryUserList(@RequestParam Integer page,
                                                @RequestParam String scope,
                                                @RequestParam String sort,
-                                               @RequestParam Integer grade,
-                                               @RequestParam Integer classNum) {
+                                               @RequestParam(required = false) Integer grade,
+                                               @RequestParam(required = false) Integer classNum) {
         return queryUserListService.execute(page, scope, sort, grade, classNum);
     }
 
