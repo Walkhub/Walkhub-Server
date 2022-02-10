@@ -39,5 +39,5 @@ public class UserRank {
     @Column(columnDefinition = "TINYINT", nullable = false)
     private Integer ranking;
 
-    private String schoolId;
+    private Long schoolId;
 }

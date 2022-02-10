@@ -10,7 +10,7 @@ public class UserRankInfo {
 
     private String name;
 
-    private String schoolId;
+    private Long schoolId;
 
     private Integer grade;
 

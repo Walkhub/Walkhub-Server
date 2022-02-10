@@ -98,7 +98,7 @@ public class UserRankJob {
     @Bean
     @StepScope
     public StoredProcedureItemReader<UserRankInfo> monthlyUserSchoolRankReader(@Value("#{jobParameters[stepKey]}") Integer type) {
-        return callProcedure("monthlyUserSchoolRankReader", "SELECT_USER_RANK_BY_SCHOOL", 31);
+        return callProcedure("monthlyUserSchoolRankReader", "SELECT_USER_RANK_BY_SCHOOL", 28);
     }
 
     @Bean
@@ -110,7 +110,7 @@ public class UserRankJob {
     @Bean
     @StepScope
     public StoredProcedureItemReader<UserRankInfo> monthlyUserClassRankReader(@Value("#{jobParameters[stepKey]}") Integer type) {
-        return callProcedure("monthlyUserClassRankReader", "SELECT_USER_RANK_BY_CLASS", 31);
+        return callProcedure("monthlyUserClassRankReader", "SELECT_USER_RANK_BY_CLASS", 28);
     }
 
     @Bean
@@ -208,7 +208,7 @@ public class UserRankJob {
                 .preparedStatementSetter(new ArgumentPreparedStatementSetter(new Object[]{dateType}))
                 .rowMapper((rs, rowNum) -> UserRankInfo.builder()
                         .name(rs.getString("name"))
-                        .schoolId(rs.getString("school_id"))
+                        .schoolId(rs.getLong("school_id"))
                         .grade(rs.getInt("grade"))
                         .classNum(rs.getInt("class_num"))
                         .profileImageUrl(rs.getString("profile_image_url"))
