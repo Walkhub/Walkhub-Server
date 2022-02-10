@@ -1,10 +1,9 @@
 package com.walkhub.walkhub.domain.challenge.service;
 
 import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeRepository;
+import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse.ChallengeResponse;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse.Writer;
-import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,29 +17,14 @@ public class QueryChallengeListService {
 
 	private final ChallengeRepository challengeRepository;
 	private final UserFacade userFacade;
+	private final ChallengeFacade challengeFacade;
 
 	@Transactional(readOnly = true)
 	public QueryChallengeListResponse execute() {
 
-		User user = userFacade.getCurrentUser();
-
-		List<ChallengeResponse> challengeResponseList = challengeRepository.findAllBySchool(user.getSchool())
+		List<ChallengeResponse> challengeResponseList = challengeRepository.findAllBySchool(userFacade.getCurrentUser().getSchool())
 			.stream()
-			.map(challenge -> ChallengeResponse.builder()
-				.id(challenge.getId())
-				.name(challenge.getName())
-				.startAt(challenge.getStartAt())
-				.endAt(challenge.getEndAt())
-				.imageUrl(challenge.getImageUrl())
-				.userScope(challenge.getUserScope())
-				.goalScope(challenge.getGoalScope())
-				.goalType(challenge.getGoalType())
-				.writer(Writer.builder()
-					.userId(challenge.getUser().getId())
-					.name(challenge.getUser().getName())
-					.profileImageUrl(challenge.getUser().getProfileImageUrl())
-					.build())
-				.build())
+			.map(challengeFacade::challengeResponseBuilder)
 			.collect(Collectors.toList());
 
 		return new QueryChallengeListResponse(challengeResponseList);
