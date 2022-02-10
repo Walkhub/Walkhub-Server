@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.domain.challenge.service;
 
-import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeRepository;
+import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
+import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeStatusRepository;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse.ChallengeResponse;
@@ -13,17 +14,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class QueryChallengeListService {
+public class QueryParticipatedChallengeListService {
 
-	private final ChallengeRepository challengeRepository;
+	private final ChallengeStatusRepository challengeStatusRepository;
 	private final UserFacade userFacade;
 	private final ChallengeFacade challengeFacade;
 
 	@Transactional(readOnly = true)
 	public QueryChallengeListResponse execute() {
 
-		List<ChallengeResponse> challengeResponseList = challengeRepository.findAllBySchool(userFacade.getCurrentUser().getSchool())
+		List<ChallengeResponse> challengeResponseList = challengeStatusRepository.findAllByUser(userFacade.getCurrentUser())
 			.stream()
+			.map(ChallengeStatus::getChallenge)
 			.map(challengeFacade::challengeResponseBuilder)
 			.collect(Collectors.toList());
 
