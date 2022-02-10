@@ -2,11 +2,11 @@ package com.walkhub.walkhub.domain.challenge.presenstation;
 
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.CreateChallengeRequest;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChallengeRequest;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse;
 import com.walkhub.walkhub.domain.challenge.service.CreateChallengeService;
-import com.walkhub.walkhub.domain.challenge.service.QueryChallengeListService;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsResponse;
 import com.walkhub.walkhub.domain.challenge.service.QueryChallengeDetailsService;
+import com.walkhub.walkhub.domain.challenge.service.QueryChallengeListService;
 import com.walkhub.walkhub.domain.challenge.service.RemoveChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.UpdateChallengeService;
 import lombok.RequiredArgsConstructor;
@@ -57,7 +57,7 @@ public class ChallengeController {
                                 @RequestBody @Valid UpdateChallengeRequest request) {
         updateChallengeService.execute(id, request);
     }
-  
+
     @GetMapping("/{challenge-id}")
     public QueryChallengeDetailsResponse queryChallengeDetails(@PathVariable("challenge-id") Long challengeId) {
         return queryChallengeDetailsService.execute(challengeId);
