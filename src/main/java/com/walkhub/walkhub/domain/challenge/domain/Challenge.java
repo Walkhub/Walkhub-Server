@@ -100,7 +100,7 @@ public class Challenge {
     public void updateChallenge(UpdateChallengeRequest request) {
         this.name = request.getName();
         this.content = request.getContent();
-        this.imageUrl = request.getImageUrl();
+        this.imageUrl = request.getImageUrl() == null ? DefaultImage.CHALLENGE_IMAGE : request.getImageUrl();
         this.startAt = request.getStartAt();
         this.endAt = request.getEndAt();
         this.award = request.getAward();
