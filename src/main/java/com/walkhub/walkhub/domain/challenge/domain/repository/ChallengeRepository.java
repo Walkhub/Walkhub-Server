@@ -16,7 +16,4 @@ public interface ChallengeRepository extends CrudRepository<Challenge, Long> {
 		+ "c.user.group = :group and (c.userScope = com.walkhub.walkhub.global.enums.UserScope.CLASS)))")
 	List<Challenge> findAllByScope(@Param("school") School school, @Param("grade") Integer grade, @Param("group") Group group);
 
-//	@Query("select c from Challenge c join fetch c.user join fetch c.challengeStatuses where c.id = :challengeId")
-//	Optional<Challenge> findChallengeById(@Param("challengeId") Long challengeId);
-
 }
