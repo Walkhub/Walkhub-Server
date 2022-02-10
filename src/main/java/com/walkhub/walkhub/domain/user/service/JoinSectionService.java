@@ -1,10 +1,10 @@
 package com.walkhub.walkhub.domain.user.service;
 
 import com.walkhub.walkhub.domain.school.exception.AgencyCodeNotMatchException;
-import com.walkhub.walkhub.domain.user.domain.Group;
+import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.exception.ClassCodeNotMatchException;
-import com.walkhub.walkhub.domain.user.facade.GroupFacade;
+import com.walkhub.walkhub.domain.user.facade.SectionFacade;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinGroupRequest;
 import lombok.RequiredArgsConstructor;
@@ -13,26 +13,26 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class JoinGroupService {
+public class JoinSectionService {
 
     private final UserFacade userFacade;
-    private final GroupFacade groupFacade;
+    private final SectionFacade sectionFacade;
 
     @Transactional
     public void execute(Long groupId, JoinGroupRequest request) {
         User user = userFacade.getCurrentUser();
 
-        Group group = groupFacade.getGroup(groupId);
+        Section section = sectionFacade.getSectionById(groupId);
 
-        if (!group.getClassCode().equals(request.getClassCode())) {
+        if (!section.getClassCode().equals(request.getClassCode())) {
             throw ClassCodeNotMatchException.EXCEPTION;
         }
 
-        if (!user.getSchool().equals(group.getSchool())) {
+        if (!user.getSchool().equals(section.getSchool())) {
             throw AgencyCodeNotMatchException.EXCEPTION;
         }
 
-        user.setGroup(group);
+        user.setSection(section);
         user.setNumber(request.getNumber());
     }
 

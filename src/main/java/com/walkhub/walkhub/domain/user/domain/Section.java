@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "section")
-public class Group extends BaseTimeEntity {
+public class Section extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +41,7 @@ public class Group extends BaseTimeEntity {
     private School school;
 
     @Builder
-    public Group(Integer grade, Integer classNum, School school, String classCode) {
+    public Section(Integer grade, Integer classNum, School school, String classCode) {
         this.grade = grade;
         this.classNum = classNum;
         this.school = school;

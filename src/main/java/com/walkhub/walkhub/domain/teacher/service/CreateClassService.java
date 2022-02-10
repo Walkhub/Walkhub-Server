@@ -4,9 +4,9 @@ import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.teacher.exception.AlreadyCreatedException;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.CreateClassRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CodeResponse;
-import com.walkhub.walkhub.domain.user.domain.Group;
+import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.domain.user.domain.repository.GroupRepository;
+import com.walkhub.walkhub.domain.user.domain.repository.SectionRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.utils.code.RandomCodeUtil;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CreateClassService {
 
     private final UserFacade userFacade;
-    private final GroupRepository groupRepository;
+    private final SectionRepository sectionRepository;
 
     @Transactional
     public CodeResponse execute(CreateClassRequest request) {
@@ -28,7 +28,7 @@ public class CreateClassService {
         Integer grade = request.getGrade();
         Integer classNum = request.getClassNum();
         String classCode = RandomCodeUtil.make(7);
-        Group group = Group.builder()
+        Section section = Section.builder()
                 .grade(grade)
                 .classNum(classNum)
                 .school(userSchool)
@@ -36,8 +36,8 @@ public class CreateClassService {
                 .build();
 
         try {
-            groupRepository.save(group);
-            user.setGroup(group);
+            sectionRepository.save(section);
+            user.setSection(section);
         } catch (DataIntegrityViolationException e) {
             throw AlreadyCreatedException.EXCEPTION;
         }

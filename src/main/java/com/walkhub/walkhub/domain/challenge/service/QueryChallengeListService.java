@@ -25,7 +25,7 @@ public class QueryChallengeListService {
 		User user = userFacade.getCurrentUser();
 
 		List<ChallengeResponse> challengeResponseList = challengeRepository
-			.findAllByScope(user.getSchool(), user.getGroup().getGrade(), user.getGroup())
+			.findAllByScope(user.getSchool(), user.getSection().getGrade(), user.getSection())
 			.stream()
 			.map(challenge -> ChallengeResponse.builder()
 				.id(challenge.getId())

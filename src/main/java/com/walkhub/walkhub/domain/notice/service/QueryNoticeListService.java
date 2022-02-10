@@ -34,7 +34,7 @@ public class QueryNoticeListService {
 			throw InvalidRoleException.EXCEPTION;
 		} else {
 			noticeList = noticeRepository
-				.findAllBySchoolAndScope(user.getGroup().getSchool(), scope);
+				.findAllBySchoolAndScope(user.getSection().getSchool(), scope);
 		}
 
 		return new QueryNoticeListResponse(

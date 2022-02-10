@@ -22,7 +22,7 @@ public class CreateNoticeService {
     public void execute(CreateNoticeRequest request) {
         User user = userFacade.getCurrentUser();
 
-        if (request.getScope() == Scope.SCHOOL && user.getGroup() == null) {
+        if (request.getScope() == Scope.SCHOOL && user.getSection() == null) {
             throw GroupNotFoundException.EXCEPTION;
         } else if (Authority.ROOT != user.getAuthority()) {
             throw InvalidRoleException.EXCEPTION;
