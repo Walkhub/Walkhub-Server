@@ -30,8 +30,8 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                         user.id.as("userId"),
                         user.name,
                         user.profileImageUrl,
-                        user.group.grade,
-                        user.group.classNum,
+                        user.section.grade,
+                        user.section.classNum,
                         user.number,
                         user.authority.eq(Authority.TEACHER).as("isTeacher")
                 ))
@@ -53,11 +53,11 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     }
 
     private BooleanBuilder gradeEq(Integer grade) {
-        return querydslUtil.nullSafeBuilder(() -> user.group.grade.eq(grade));
+        return querydslUtil.nullSafeBuilder(() -> user.section.grade.eq(grade));
     }
 
     private BooleanBuilder classNumEq(Integer classNum) {
-        return querydslUtil.nullSafeBuilder(() -> user.group.classNum.eq(classNum));
+        return querydslUtil.nullSafeBuilder(() -> user.section.classNum.eq(classNum));
     }
 
     private BooleanExpression buildFilteringCondition(String scope) {
@@ -81,8 +81,8 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 };
             case "GCN":
                 return new OrderSpecifier[]{
-                        user.group.grade.asc(),
-                        user.group.classNum.asc(),
+                        user.section.grade.asc(),
+                        user.section.classNum.asc(),
                         user.number.asc()
                 };
             case "WALK_COUNT":
