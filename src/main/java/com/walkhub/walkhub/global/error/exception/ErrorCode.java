@@ -33,6 +33,7 @@ public enum ErrorCode {
     CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge Not Found"),
 
     EXERCISE_NOT_FOUND(404, "EXERCISE-404-1", "Exercise Not Found"),
+    EXERCISE_ANALYSIS_NOT_FOUND(404, "EXERCISE-404-2", "Exercise Analysis Not Found"),
     NOTICE_NOT_FOUND(404, "NOTICE-404-1", "Notice Not Found"),
     SOCKET_CLIENT_NOT_FOUND(404, "SOCKET-404-1", "Socket Client Not Found"),
 
@@ -46,6 +47,7 @@ public enum ErrorCode {
     ALREADY_JOINED(409, "USER-409-2", "Already Joined"),
     ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated"),
 
+    REDIS_TRANSACTION_EXCEPTION(500, "REDIS-500-1", "Cannot Read Cache From Redis"),
     INTERNAL_SERVER_ERROR(500, "SERVER-500-1", "Internal Server Error");
 
     private final int status;
