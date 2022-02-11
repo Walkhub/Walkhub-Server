@@ -3,7 +3,6 @@ package com.walkhub.walkhub.domain.teacher.presentation.dto.response;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
