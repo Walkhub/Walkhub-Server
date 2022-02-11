@@ -106,7 +106,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/schools/search").authenticated()
 
                 // teachers
-                .antMatchers(HttpMethod.POST, "/teachers/verification-codes").hasAuthority("ROOT")
+                .antMatchers(HttpMethod.POST, "/teachers/verification-codes").hasAuthority("USER")
                 .antMatchers(HttpMethod.POST, "/teachers/classes").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.DELETE, "/teachers/classes/{section-id}").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.GET, "/teachers/classes").hasAnyAuthority("TEACHER")
