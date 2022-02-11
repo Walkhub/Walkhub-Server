@@ -15,13 +15,13 @@ public class QueryUserListResponse {
     @Getter
     @Builder
     public static class UserListInfo {
-        private Long userId;
-        private String name;
-        private String profileImageUrl;
-        private Integer grade;
-        private Integer classNum;
-        private Integer number;
-        private Boolean isTeacher;
+        private final Long userId;
+        private final String name;
+        private final String profileImageUrl;
+        private final Integer grade;
+        private final Integer classNum;
+        private final Integer number;
+        private final Boolean isTeacher;
 
         @QueryProjection
         public UserListInfo(Long userId, String name, String profileImageUrl, Integer grade, Integer classNum, Integer number, Boolean isTeacher) {
