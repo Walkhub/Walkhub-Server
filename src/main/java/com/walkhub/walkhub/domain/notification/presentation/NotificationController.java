@@ -23,7 +23,7 @@ public class NotificationController {
         notificationReadService.execute(notificationId);
     }
 
-    @GetMapping("/")
+    @GetMapping
     public QueryNotificationListResponse notificationList(Pageable pageable) {
         return queryNotificationListService.execute(pageable);
     }
