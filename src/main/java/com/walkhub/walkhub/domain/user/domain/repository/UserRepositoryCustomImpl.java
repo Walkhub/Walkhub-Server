@@ -25,6 +25,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
     @Override
     public List<QueryUserListResponse.UserListInfo> queryUserList(Integer page, String scope, String sort, Integer grade, Integer classNum, User currentUser) {
+        long size = 4;
         return queryFactory
                 .select(new QQueryUserListResponse_UserListInfo(
                         user.id.as("userId"),
