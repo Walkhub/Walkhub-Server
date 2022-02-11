@@ -126,8 +126,7 @@ public class SchoolRankJob {
                 .fetchSize(RankJobConstant.CHUNK_SIZE)
                 .dataSource(dataSource)
                 .procedureName(RankJobConstant.SELECT_PROCEDURE_NAME)
-                .parameters(new SqlParameter[] {
-                        new SqlParameter("_DATETYPE", Types.VARCHAR) })
+                .parameters(new SqlParameter("_DATETYPE", Types.VARCHAR))
                 .preparedStatementSetter(new ArgumentPreparedStatementSetter(new Object[] {dateType}))
                 .rowMapper((rs, rowNum) -> SchoolRankInfo.builder()
                         .schoolId(rs.getLong("school_id"))
