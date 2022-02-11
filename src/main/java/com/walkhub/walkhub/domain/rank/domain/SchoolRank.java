@@ -1,44 +1,48 @@
 package com.walkhub.walkhub.domain.rank.domain;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import java.time.LocalDate;
 
 @Getter
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @IdClass(SchoolRankId.class)
 public class SchoolRank {
     @Id
-    @Column(length = 7)
-    private String agencyCode;
+    private String schoolId;
 
     @Id
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
+
+    @Id
+    private String dateType;
 
     @Column(length = 20, unique = true, nullable = false)
     private String name;
 
-    @Column(columnDefinition = "TINYINT", unique = true, nullable = false)
-    private Integer ranking;
+    @Column(nullable = false)
+    private String logoImageUrl;
+
+    @ColumnDefault("0")
+    @Column(nullable = false)
+    private Long userCount;
 
     @Column(nullable = false)
     private Integer walkCount;
 
-    private String logoImageUrl;
+    @Column(columnDefinition = "TINYINT", nullable = false)
+    private Integer ranking;
 
-    @Builder
-    public SchoolRank(String agencyCode, LocalDateTime createdAt, String name, Integer ranking,
-                      Integer walkCount, String logoImageUrl) {
-        this.agencyCode = agencyCode;
-        this.createdAt = createdAt;
-        this.name = name;
-        this.ranking = ranking;
-        this.walkCount = walkCount;
-        this.logoImageUrl = logoImageUrl;
-    }
 }
