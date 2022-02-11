@@ -29,7 +29,7 @@ public class SchoolRank {
     @Id
     private String dateType;
 
-    @Column(length = 20, unique = true, nullable = false)
+    @Column(length = 20, nullable = false)
     private String name;
 
     @Column(nullable = false)
