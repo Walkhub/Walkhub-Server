@@ -1,6 +1,8 @@
 package com.walkhub.walkhub.domain.user.domain;
 
 import com.walkhub.walkhub.domain.badge.domain.Badge;
+import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
+import com.walkhub.walkhub.domain.exercise.domain.Exercise;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
 import com.walkhub.walkhub.domain.user.domain.type.Sex;
@@ -8,6 +10,9 @@ import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRe
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -99,6 +104,9 @@ public class User extends BaseTimeEntity {
     @ColumnDefault("10000")
     private Integer dailyWalkCountGoal;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Exercise> exerciseList;
+    
     @Builder
     public User(Long id, String accountId, String password, String phoneNumber, String name,
                 Authority authority, Section section, School school, boolean isMeasuring,
