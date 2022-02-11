@@ -5,7 +5,6 @@ import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
 import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeStatusRepository;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeParticipantsForTeacherResponse;
-import com.walkhub.walkhub.domain.exercise.domain.ExerciseAnalysis;
 import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
@@ -13,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,12 +41,6 @@ public class QueryChallengeParticipantsForTeacherService {
         Section userSection = user.getSection();
         Challenge challenge = challengeStatus.getChallenge();
 
-        List<LocalDate> successDateList = exerciseAnalysisRepository.findAllByUser(user)
-                .stream()
-                .filter(e -> e.getWalkCount() > challenge.getGoal())
-                .map(ExerciseAnalysis::getDate)
-                .collect(Collectors.toList());
-
         return QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants.builder()
                 .userId(user.getId())
                 .grade(userSection.getGrade())
@@ -57,7 +49,7 @@ public class QueryChallengeParticipantsForTeacherService {
                 .name(user.getName())
                 .profileImageUrl(user.getProfileImageUrl())
                 .schoolName(user.getSchool().getName())
-                .successDate(successDateList)
+                .successDate(exerciseAnalysisRepository.querySuccessDateList(challengeStatus))
                 .isSuccess(challengeStatus.getSuccessCount() > challenge.getSuccessStandard())
                 .build();
     }
