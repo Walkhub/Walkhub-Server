@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,15 +34,11 @@ public class Badge extends BaseTimeEntity {
     @NotNull
     private String condition;
 
-    @NotNull
-    private LocalDateTime createAt;
-
     @Builder
     public Badge(String name, String imageUrl,
-                 String condition, LocalDateTime createAt) {
+                 String condition) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.condition = condition;
-        this.createAt = createAt;
     }
 }

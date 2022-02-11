@@ -27,7 +27,6 @@ public class QueryUserBadgeListService {
                         .name(badge.getName())
                         .imageUrl(badge.getImageUrl())
                         .condition(badge.getCondition())
-                        .createAt(badge.getCreateAt())
                         .build())
                 .collect(Collectors.toList());
 

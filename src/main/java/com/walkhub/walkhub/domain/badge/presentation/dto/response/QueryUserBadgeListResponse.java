@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -19,6 +18,5 @@ public class QueryUserBadgeListResponse {
         private final String name;
         private final String imageUrl;
         private final String condition;
-        private final LocalDateTime createAt;
     }
 }
