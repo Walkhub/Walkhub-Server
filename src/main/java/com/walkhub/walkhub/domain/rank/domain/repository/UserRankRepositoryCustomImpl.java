@@ -2,7 +2,8 @@ package com.walkhub.walkhub.domain.rank.domain.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.walkhub.walkhub.domain.rank.domain.UserRank;
+import com.walkhub.walkhub.domain.rank.presentation.dto.response.QUserRankListResponse_UserRankResponse;
+import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
@@ -14,11 +15,21 @@ import static com.walkhub.walkhub.domain.rank.domain.QUserRank.userRank;
 public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
+    private static final Long LIMIT = 100L;
 
     @Override
-    public UserRank getMyRankByAccountId(Long userId, Integer classNum, String dateType, LocalDate date) {
+    public UserRankListResponse.UserRankResponse getMyRankByUserId(Long userId, Integer classNum, String dateType, LocalDate date) {
         return queryFactory
-                .selectFrom(userRank)
+                .select(new QUserRankListResponse_UserRankResponse(
+                        userRank.userId,
+                        userRank.name,
+                        userRank.grade,
+                        userRank.classNum,
+                        userRank.ranking,
+                        userRank.profileImageUrl,
+                        userRank.walkCount
+                ))
+                .from(userRank)
                 .where(
                         userRank.userId.eq(userId),
                         classNumEq(classNum),
@@ -29,15 +40,26 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
     }
 
     @Override
-    public List<UserRank> getUserRankListBySchoolId(Long schoolId, Integer classNum, String dateType, LocalDate date) {
+    public List<UserRankListResponse.UserRankResponse> getUserRankListBySchoolId(Long schoolId, Integer classNum, String dateType, LocalDate date) {
         return queryFactory
-                .selectFrom(userRank)
+                .select(new QUserRankListResponse_UserRankResponse(
+                        userRank.userId,
+                        userRank.name,
+                        userRank.grade,
+                        userRank.classNum,
+                        userRank.ranking,
+                        userRank.profileImageUrl,
+                        userRank.walkCount
+                ))
+                .from(userRank)
                 .where(
                         userRank.schoolId.eq(schoolId),
                         classNumEq(classNum),
                         userRank.dateType.eq(dateType),
                         userRank.createdAt.eq(date)
                 )
+                .limit(LIMIT)
+                .orderBy(userRank.ranking.asc())
                 .fetch();
     }
 
