@@ -22,6 +22,6 @@ public class ConfirmTeacherCodeService {
 		if (!user.getSchool().getAuthCode().equals(request.getCode())) {
 			throw InvalidVerificationCodeException.EXCEPTION;
 		}
-		user.setAuthority(Authority.TEACHER);
+		user.setAuthorityTeacher();
 	}
 }
