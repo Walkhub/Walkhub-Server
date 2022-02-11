@@ -8,7 +8,7 @@ import javax.persistence.Id;
 @Getter
 @Builder
 public class SchoolRankInfo {
-    private final String schoolId;
+    private final Long schoolId;
 
     private final String name;
 

@@ -21,7 +21,7 @@ import java.time.LocalDate;
 @IdClass(SchoolRankId.class)
 public class SchoolRank {
     @Id
-    private String schoolId;
+    private Long schoolId;
 
     @Id
     private LocalDate createdAt;

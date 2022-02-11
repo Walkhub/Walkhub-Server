@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class SchoolRankId implements Serializable {
-    private String schoolId;
+    private Long schoolId;
 
     private LocalDateTime createdAt;
 
