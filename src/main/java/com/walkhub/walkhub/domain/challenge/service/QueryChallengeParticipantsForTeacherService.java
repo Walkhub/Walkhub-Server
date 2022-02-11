@@ -31,16 +31,17 @@ public class QueryChallengeParticipantsForTeacherService {
 
         List<QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants> response = challengeStatusRepository.findAllByChallenge(challenge)
                 .stream()
-                .map(challengeStatus -> queryChallengeParticipantsForTeacherResponseBuilder(challenge, challengeStatus))
+                .map(challengeStatus -> queryChallengeParticipantsForTeacherResponseBuilder(challengeStatus))
                 .filter(challengeParticipants -> challengeParticipants.getIsSuccess() == isSuccess)
                 .collect(Collectors.toList());
 
         return new QueryChallengeParticipantsForTeacherResponse(response);
     }
 
-    private QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants queryChallengeParticipantsForTeacherResponseBuilder(Challenge challenge, ChallengeStatus challengeStatus) {
+    private QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants queryChallengeParticipantsForTeacherResponseBuilder(ChallengeStatus challengeStatus) {
         User user = challengeStatus.getUser();
         Section userSection = user.getSection();
+        Challenge challenge = challengeStatus.getChallenge();
 
         List<LocalDate> successDateList = exerciseAnalysisRepository.findAllByUser(user)
                 .stream()
