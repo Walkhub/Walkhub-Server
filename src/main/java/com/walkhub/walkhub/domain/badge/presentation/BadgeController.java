@@ -21,9 +21,9 @@ public class BadgeController {
         setTitleBadgeService.execute(badgeId);
     }
 
-    @GetMapping
-    public QueryUserBadgeListResponse queryUserBadgeList(@PathVariable(name = "badge-id")Long id) {
-        return queryUserBadgeListService.execute(id);
+    @GetMapping("/{badge-id}")
+    public QueryUserBadgeListResponse queryUserBadgeList(@PathVariable(name = "badge-id")Long badgeId) {
+        return queryUserBadgeListService.execute(badgeId);
     }
 
 }

@@ -21,7 +21,7 @@ public class QueryUserBadgeListService {
     public QueryUserBadgeListResponse execute(Long badgeId) {
 
         User user = userFacade.getCurrentUser();
-        List<DefaultBadgeResponse> badgeList = badgeRepository.findAllById(badgeId)
+        List<DefaultBadgeResponse> badgeList = badgeRepository.findAll(badgeId)
                 .stream()
                 .map(badge -> DefaultBadgeResponse.builder()
                         .name(badge.getName())
