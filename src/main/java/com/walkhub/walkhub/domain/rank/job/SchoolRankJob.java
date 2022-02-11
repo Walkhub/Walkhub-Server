@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
 
 @Configuration
 @RequiredArgsConstructor
@@ -66,6 +67,7 @@ public class SchoolRankJob {
     public ItemProcessor<SchoolRankInfo, SchoolRank> schoolRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
         return rankInfo -> SchoolRank.builder()
                 .agencyCode(rankInfo.getAgencyCode())
+                .createdAt(LocalDateTime.now())
                 .name(rankInfo.getName())
                 .walkCount(rankInfo.getWalkCount())
                 .logoImageUrl(rankInfo.getLogoImageUrl())
@@ -78,7 +80,7 @@ public class SchoolRankJob {
     public JdbcBatchItemWriter<SchoolRank> schoolRankWriter(@Value("#{jobParameters[jobKey]}") String jobKey) {
         JdbcBatchItemWriter<SchoolRank> writer = new JdbcBatchItemWriterBuilder<SchoolRank>()
                 .dataSource(dataSource)
-                .sql("INSERT INTO school_rank VALUES (:agency_code, :name, :ranking, :logo_image_url, :walk_count)")
+                .sql("INSERT INTO school_rank VALUES (:agency_code, :created_at, :name, :ranking, :logo_image_url, :walk_count)")
                 .beanMapped()
                 .build();
 

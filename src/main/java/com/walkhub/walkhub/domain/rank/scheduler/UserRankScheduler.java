@@ -13,18 +13,17 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class SchoolRankScheduler {
-    private final Job rankJob;
+public class UserRankScheduler {
+    private final Job userJob;
     private final JobLauncher jobLauncher;
     private final UniqueIdGenerator uniqueIdGenerator;
 
-    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
-    public void saveSchoolRank() throws
+    @Scheduled(cron = "0 0 0/1 * * *", zone = "Asia/Seoul")
+    public void saveUserRank() throws
             JobInstanceAlreadyCompleteException,
             JobExecutionAlreadyRunningException,
             JobParametersInvalidException,
             JobRestartException {
-        jobLauncher.run(rankJob, uniqueIdGenerator.getNext(null));
+        jobLauncher.run(userJob, uniqueIdGenerator.getNext(null));
     }
-
 }
