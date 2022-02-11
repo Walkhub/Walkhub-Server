@@ -11,10 +11,9 @@ import java.util.List;
 @Builder
 public class QueryUserListResponse {
 
-    private List<UserListInfo> userList;
+    private final List<UserListInfo> userList;
 
     @Getter
-    @NoArgsConstructor
     @Builder
     public static class UserListInfo {
         private Long userId;
