@@ -1,10 +1,11 @@
 package com.walkhub.walkhub.domain.rank.domain.repository;
 
-import com.walkhub.walkhub.domain.rank.domain.UserRankInfo;
+import com.walkhub.walkhub.domain.rank.domain.UserRank;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface UserRankRepositoryCustom {
-    UserRankInfo getMyRankByAccountId(String accountId);
-    List<UserRankInfo> getUserRankListByAgencyCodeAndClassNum(String agencyCode, String classNum, String dateType);
+    UserRank getMyRankByAccountId(Long accountId, Integer classNum, String dateType, LocalDate date);
+    List<UserRank> getUserRankListBySchoolId(Long schoolId, Integer classNum, String dateType, LocalDate date);
 }
