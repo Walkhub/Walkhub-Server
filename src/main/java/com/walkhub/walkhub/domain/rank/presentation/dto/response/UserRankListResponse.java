@@ -16,17 +16,17 @@ public class UserRankListResponse {
     @Getter
     @Builder
     public static class UserRankResponse {
-        private final String accountId;
+        private final Long userId;
         private final String name;
         private final Integer grade;
         private final Integer classNum;
         private final Integer ranking;
         private final String profileImageUrl;
-        private final Long walkCount;
+        private final Integer walkCount;
 
         @QueryProjection
-        public UserRankResponse(String accountId, String name, Integer grade, Integer classNum, Integer ranking, String profileImageUrl, Long walkCount) {
-            this.accountId = accountId;
+        public UserRankResponse(Long userId, String name, Integer grade, Integer classNum, Integer ranking, String profileImageUrl, Integer walkCount) {
+            this.userId = userId;
             this.name = name;
             this.grade = grade;
             this.classNum = classNum;
