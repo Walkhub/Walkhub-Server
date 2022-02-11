@@ -38,7 +38,7 @@ public class QueryUserDetailsService {
 				.build())
 			.collect(Collectors.toList());
 
-		List<Integer> walkCountList = exerciseAnalysisRepository.findAllByDateBetween(startAt, endAt)
+		List<Integer> walkCountList = exerciseAnalysisRepository.findAllByDateBetweenAndUser(startAt, endAt, user)
 			.stream()
 			.map(ExerciseAnalysis::getWalkCount)
 			.collect(Collectors.toList());
