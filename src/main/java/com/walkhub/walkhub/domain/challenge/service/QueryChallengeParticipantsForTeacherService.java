@@ -31,8 +31,8 @@ public class QueryChallengeParticipantsForTeacherService {
 
         List<QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants> response = challengeStatusRepository.findAllByChallenge(challenge)
                 .stream()
-                .map(challengeStatus -> queryChallengeParticipantsForTeacherResponseBuilder(challengeStatus))
-                .filter(challengeParticipants -> challengeParticipants.getIsSuccess() == isSuccess)
+                .map(this::queryChallengeParticipantsForTeacherResponseBuilder)
+                .filter(challengeParticipants -> challengeParticipants.getIsSuccess().equals(isSuccess))
                 .collect(Collectors.toList());
 
         return new QueryChallengeParticipantsForTeacherResponse(response);
