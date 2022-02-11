@@ -69,9 +69,9 @@ public class TeacherController {
     }
 
     @GetMapping("/users/{user-id}")
-    public QueryUserDetailsResponse queryUserDetails(@PathVariable("user-id") Long userId,
-        @RequestParam("start_at") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startAt,
-        @RequestParam("end_at") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endAt) {
+    public QueryUserDetailsResponse queryUserDetails(@PathVariable Long userId,
+        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startAt,
+        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endAt) {
         return queryUserDetailsService.execute(userId, startAt, endAt);
     }
 }
