@@ -2,6 +2,7 @@ package com.walkhub.walkhub.domain.user.presentation;
 
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.*;
+import com.walkhub.walkhub.domain.user.presentation.dto.response.CalorieLevelListResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
 import com.walkhub.walkhub.domain.user.service.*;
@@ -26,6 +27,7 @@ public class UserController {
     private final UpdatePasswordService updatePasswordService;
     private final UpdateSchoolInfoService updateSchoolInfoService;
     private final SearchAccountIdService searchAccountIdService;
+    private final CalorieLevelListService calorieLevelListService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
@@ -83,6 +85,11 @@ public class UserController {
     @GetMapping("/accounts/{phone-number}")
     public UserAccountIdResponse searchAccountId(@PathVariable(name = "phone-number") String phoneNumber) {
         return searchAccountIdService.execute(phoneNumber);
+    }
+
+    @GetMapping("/levels/lists")
+    public CalorieLevelListResponse calorieLevelList() {
+        return calorieLevelListService.execute();
     }
 
 }
