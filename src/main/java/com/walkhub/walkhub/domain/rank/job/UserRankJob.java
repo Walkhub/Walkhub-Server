@@ -212,7 +212,7 @@ public class UserRankJob {
                         .grade(rs.getInt("grade"))
                         .classNum(rs.getInt("class_num"))
                         .profileImageUrl(rs.getString("profile_image_url"))
-                        .userId(rs.getString("user_id"))
+                        .userId(rs.getLong("user_id"))
                         .walkCount(rs.getInt("walk_count"))
                         .ranking(rs.getInt("ranking"))
                         .build())

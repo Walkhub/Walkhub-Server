@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Builder
 public class UserRank {
     @Id
-    private String userId;
+    private Long userId;
 
     @Id
     private LocalDate createdAt;

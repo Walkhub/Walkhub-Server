@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UserRankInfo {
-    private String userId;
+    private Long userId;
 
     private String name;
 
