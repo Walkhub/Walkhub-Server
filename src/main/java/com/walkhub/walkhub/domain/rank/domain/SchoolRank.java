@@ -45,8 +45,7 @@ public class SchoolRank {
     @NotNull
     private Integer walkCount;
 
-    @NotNull
-    @Column(columnDefinition = "TINYINT")
+    @Column(columnDefinition = "TINYINT", nullable = false)
     private Integer ranking;
 
 }
