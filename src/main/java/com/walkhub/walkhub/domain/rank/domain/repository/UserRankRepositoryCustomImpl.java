@@ -2,36 +2,46 @@ package com.walkhub.walkhub.domain.rank.domain.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.walkhub.walkhub.domain.rank.domain.QUserRankInfo;
-import com.walkhub.walkhub.domain.rank.domain.UserRankInfo;
-import com.walkhub.walkhub.domain.rank.presentation.dto.response.QUserRankListResponse_UserRankResponse;
+import com.walkhub.walkhub.domain.rank.domain.UserRank;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import static com.walkhub.walkhub.domain.rank.domain.QUserRankInfo.*;
+import static com.walkhub.walkhub.domain.rank.domain.QUserRank.userRank;
 
 @RequiredArgsConstructor
-public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom{
+public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public UserRankInfo getMyRankByAccountId(String accountId) {
+    public UserRank getMyRankByAccountId(Long userId, Integer classNum, String dateType, LocalDate date) {
         return queryFactory
-                .select(new QUserRankListResponse_UserRankResponse(
-
-                ))
-                .from(userRankInfo)
-                .where(userRankInfo.accountId.eq(accountId))
+                .selectFrom(userRank)
+                .where(
+                        userRank.userId.eq(userId),
+                        classNumEq(classNum),
+                        userRank.dateType.eq(dateType),
+                        userRank.createdAt.eq(date)
+                )
                 .fetchOne();
     }
 
     @Override
-    public List<UserRankInfo> getUserRankListByAgencyCodeAndClassNum(String agencyCode, String classNum, String dateType) {
-        /*return queryFactory
-                .select(userRankInfo)
-                .where(userRankInfo.agencyCode.eq(agencyCode))*/
-        return null;
+    public List<UserRank> getUserRankListBySchoolId(Long schoolId, Integer classNum, String dateType, LocalDate date) {
+        return queryFactory
+                .selectFrom(userRank)
+                .where(
+                        userRank.schoolId.eq(schoolId),
+                        classNumEq(classNum),
+                        userRank.dateType.eq(dateType),
+                        userRank.createdAt.eq(date)
+                )
+                .fetch();
+    }
+
+    private BooleanExpression classNumEq(Integer classNum) {
+        return classNum != null ? userRank.scopeType.eq("CLASS").and(userRank.classNum.eq(classNum)) : userRank.scopeType.eq("SCHOOL");
     }
 }
