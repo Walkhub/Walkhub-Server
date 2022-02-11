@@ -6,12 +6,11 @@ import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeStatusRep
 import com.walkhub.walkhub.domain.challenge.exception.AlreadyParticipatedException;
 import com.walkhub.walkhub.domain.challenge.exception.InvalidScopeException;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
+import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
-import com.walkhub.walkhub.global.enums.Scope;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -21,43 +20,44 @@ public class ParticipateChallengeService {
     private final ChallengeFacade challengeFacade;
     private final ChallengeStatusRepository challengeStatusRepository;
 
-    @Transactional
-    public void execute(Long id) {
+    public void execute(Long challengeId) {
+        Challenge challenge = challengeFacade.getChallengeById(challengeId);
         User user = userFacade.getCurrentUser();
-        Challenge challenge = challengeFacade.getById(id);
+        User writer = challenge.getUser();
 
-        if (isAlreadyParticipated(user, challenge)) {
-            throw AlreadyParticipatedException.EXCEPTION;
-        }
-
-        if (verifyScope(user, challenge)
-                || user.getGroup() == null) {
+        if (!verifyScope(user, writer, challenge)) {
             throw InvalidScopeException.EXCEPTION;
         }
 
+        if (challengeStatusRepository.findByChallengeAndUser(challenge, user).isPresent()) {
+            throw AlreadyParticipatedException.EXCEPTION;
+        }
+
         ChallengeStatus challengeStatus = ChallengeStatus.builder()
-                .user(user)
                 .challenge(challenge)
+                .user(user)
+                .successCount(0L)
                 .build();
 
         challengeStatusRepository.save(challengeStatus);
     }
 
-    private boolean isAlreadyParticipated(User user, Challenge challenge) {
-        return challengeStatusRepository.findByUserAndChallenge(user, challenge).isPresent();
-    }
+    private boolean verifyScope(User user, User writer, Challenge challenge) {
+        Section userSection = user.getSection();
+        Section writerSection = writer.getSection();
 
-    private boolean verifyScope(User user, Challenge challenge) {
-        Scope scope = challenge.getScope();
-        User writer = challenge.getUser();
-
-        switch (scope) {
-            case SCH:
-                return !user.getRealSchoolAgencyCode().equals(writer.getRealSchoolAgencyCode());
-            case CLS:
-                return !user.getClassCode().equals(writer.getClassCode());
+        switch (challenge.getUserScope()) {
+            case SCHOOL: {
+                return user.getSchool().equals(writer.getSchool());
+            }
+            case GRADE: {
+                return userSection.getGrade().equals(writerSection.getGrade());
+            }
+            case CLASS: {
+                return userSection.getClassNum().equals(writerSection.getClassNum());
+            }
             default:
-                return false;
+                return true;
         }
     }
 

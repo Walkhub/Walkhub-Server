@@ -1,19 +1,29 @@
 package com.walkhub.walkhub.domain.notification.domain;
 
 import com.walkhub.walkhub.domain.notification.domain.type.Type;
-import com.walkhub.walkhub.global.enums.Scope;
+import com.walkhub.walkhub.global.entity.BaseTimeEntity;
+import com.walkhub.walkhub.global.enums.UserScope;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import org.hibernate.validator.constraints.Length;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "notification")
-public class NotificationEntity {
+public class NotificationEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,24 +35,26 @@ public class NotificationEntity {
     @Column(nullable = false)
     private String content;
 
+    @NotNull
+    @Length(max = 9)
     @Enumerated(EnumType.STRING)
-    @Column(length = 3, nullable = false)
     private Type type;
 
     @Column(nullable = false)
     private Long value;
 
+    @NotNull
+    @Length(max = 6)
     @Enumerated(EnumType.STRING)
-    @Column(length = 3, nullable = false)
-    private Scope scope;
+    private UserScope userScope;
 
     @Builder
-    public NotificationEntity(String title, String content, Type type, Long value, Scope scope) {
+    public NotificationEntity(String title, String content, Type type, Long value, UserScope userScope) {
         this.title = title;
         this.content = content;
         this.type = type;
         this.value = value;
-        this.scope = scope;
+        this.userScope = userScope;
     }
 
 }

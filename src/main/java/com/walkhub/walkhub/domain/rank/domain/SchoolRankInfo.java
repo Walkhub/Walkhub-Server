@@ -17,9 +17,9 @@ public class SchoolRankInfo {
     @Id
     private String agencyCode;
     private String name;
+    private Integer ranking;
     private String logoImageUrl;
     private Integer walkCount;
-    private Integer ranking;
     private LocalDateTime createDate;
 
 }

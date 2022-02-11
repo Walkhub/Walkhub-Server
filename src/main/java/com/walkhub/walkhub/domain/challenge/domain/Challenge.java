@@ -1,14 +1,33 @@
 package com.walkhub.walkhub.domain.challenge.domain;
 
+import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChallengeRequest;
+import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.global.enums.Scope;
+import com.walkhub.walkhub.global.enums.UserScope;
+import com.walkhub.walkhub.infrastructure.image.DefaultImage;
+import java.time.LocalDateTime;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,54 +41,82 @@ public class Challenge {
     @Column(length = 200, nullable = false)
     private String name;
 
+    @ColumnDefault(DefaultImage.CHALLENGE_IMAGE)
     private String imageUrl;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
     @Column(nullable = false)
-    private LocalDateTime createAt;
+    private LocalDateTime startAt;
 
     @Column(nullable = false)
     private LocalDateTime endAt;
 
-    @Column(length = 200, nullable = false)
+    @Column(nullable = false)
     private String award;
 
-    @Column(columnDefinition = "char(3)", nullable = false)
+    @NotNull
+    @Length(max = 6)
     @Enumerated(EnumType.STRING)
-    private Scope scope;
+    private UserScope userScope;
 
-    @Column(nullable = false)
-    private Long goal;
+    @NotNull
+    @Length(max = 3)
+    @Enumerated(EnumType.STRING)
+    private GoalScope goalScope;
+
+    @NotNull
+    @Length(max = 8)
+    @Enumerated(EnumType.STRING)
+    private GoalType goalType;
+
+    @NotNull
+    private Integer goal;
+
+    @NotNull
+    @ColumnDefault("1")
+    private Integer successStandard;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Builder
-    public Challenge(String name, String content, Long goal, String award,
-                     LocalDateTime createAt, LocalDateTime endAt, Scope scope, User user) {
-        this.name = name;
-        this.content = content;
-        this.goal = goal;
-        this.award = award;
-        this.createAt = createAt;
-        this.endAt = endAt;
-        this.scope = scope;
-        this.user = user;
+    @OneToMany(mappedBy = "challenge", cascade = CascadeType.REMOVE)
+    private List<ChallengeStatus> challengeStatuses;
 
+    @Builder
+    public Challenge(String name, String imageUrl, String content, LocalDateTime startAt,
+                     LocalDateTime endAt, String award, UserScope userScope, GoalScope goalScope,
+                     GoalType goalType, Integer goal, Integer successStandard, User user) {
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.content = content;
+        this.startAt = startAt;
+        this.endAt = endAt;
+        this.award = award;
+        this.userScope = userScope;
+        this.goalScope = goalScope;
+        this.goalType = goalType;
+        this.goal = goal;
+        this.successStandard = successStandard;
+        this.user = user;
     }
 
-    public void updateChallenge(String name, String content, Long goal, String award, String imageUrl,
-                                LocalDateTime createAt, LocalDateTime endAt, Scope scope) {
-        this.name = name;
-        this.content = content;
-        this.goal = goal;
-        this.award = award;
-        this.imageUrl = imageUrl;
-        this.createAt = createAt;
-        this.endAt = endAt;
-        this.scope = scope;
+    public void updateChallenge(UpdateChallengeRequest request) {
+        this.name = request.getName();
+        this.content = request.getContent();
+        this.imageUrl = request.getImageUrl() == null ? DefaultImage.CHALLENGE_IMAGE : request.getImageUrl();
+        this.startAt = request.getStartAt();
+        this.endAt = request.getEndAt();
+        this.award = request.getAward();
+        this.goal = request.getGoal();
+        this.goalType = request.getGoalType();
+        this.goalScope = request.getGoalScope();
+        this.successStandard = request.getSuccessStandard();
+    }
+
+    public boolean isWriter(Long userId) {
+        return user.getId().equals(userId);
     }
 }

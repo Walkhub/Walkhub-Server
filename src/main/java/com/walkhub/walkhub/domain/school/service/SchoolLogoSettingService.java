@@ -19,10 +19,10 @@ public class SchoolLogoSettingService {
     private final SchoolRepository schoolRepository;
 
     @Transactional
-    public void execute(String agencyCode, SchoolLogoRequest request) {
+    public void execute(Long schoolId, SchoolLogoRequest request) {
         User user = userFacade.getCurrentUser();
 
-        School school = schoolRepository.findById(agencyCode)
+        School school = schoolRepository.findById(schoolId)
                 .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
 
         if (!user.getSchool().equals(school)) {

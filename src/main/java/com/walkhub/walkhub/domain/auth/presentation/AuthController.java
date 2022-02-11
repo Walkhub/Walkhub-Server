@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
-@RestController("/users/token")
+@RestController
+@RequestMapping("/users/token")
 public class AuthController {
 
     private final UserSignInService userSignInService;

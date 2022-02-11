@@ -7,7 +7,10 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @Getter
@@ -15,6 +18,7 @@ import java.math.BigDecimal;
 public class UserSignUpRequest {
 
     @NotBlank(message = "account_id는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
+    @Size(min = 5, max = 30, message = "account_id는 5글자 이상, 30글자 이하여야 합니다.")
     private String accountId;
 
     @NotBlank(message = "password는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
@@ -27,21 +31,23 @@ public class UserSignUpRequest {
     private String name;
 
     @NotBlank(message = "phone_number는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
+    @Size(min = 11, max = 11, message = "phone_number는 11글자여야 합니다.")
     private String phoneNumber;
 
     @NotBlank(message = "auth_code는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
     private String authCode;
 
-    @NotBlank(message = "agency_code는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
-    private String agencyCode;
+    @NotNull(message = "school_id는 Null일 수 없습니다.")
+    private Long schoolId;
 
+    @NotNull(message = "weight는 Null일 수 없습니다.")
+    @Positive(message = "weight는 양수여야 합니다.")
     private Integer weight;
 
+    @NotNull(message = "height는 Null일 수 없습니다.")
     @Digits(integer = 3, fraction = 1)
     private BigDecimal height;
 
     private Sex sex;
-
-    private String birthday;
 
 }

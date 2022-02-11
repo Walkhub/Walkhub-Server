@@ -1,10 +1,14 @@
 package com.walkhub.walkhub.domain.user.domain;
 
+import com.walkhub.walkhub.domain.badge.domain.Badge;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
 import com.walkhub.walkhub.domain.user.domain.type.Sex;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
+import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.global.enums.Authority;
+import com.walkhub.walkhub.infrastructure.image.DefaultImage;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,15 +26,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.math.BigDecimal;
+import org.hibernate.validator.constraints.Length;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,22 +52,20 @@ public class User {
     @Column(length = 10, nullable = false)
     private String name;
 
+    @ColumnDefault(DefaultImage.USER_PROFILE_IMAGE)
     private String profileImageUrl;
 
-    @Column(columnDefinition = "char(4)", nullable = false)
+    @NotNull
+    @Length(max = 6)
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumns({
-            @JoinColumn(name = "grade"),
-            @JoinColumn(name = "class"),
-            @JoinColumn(name = "agency_code")
-    })
-    private Group group;
+    @JoinColumn(name = "section_id")
+    private Section section;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private School school;
+    @Column(columnDefinition = "TINYINT")
+    private Integer number;
 
     @ColumnDefault("0")
     @Column(nullable = false)
@@ -73,39 +75,48 @@ public class User {
     @Setter
     private HealthInfo healthInfo;
 
-    @Column(columnDefinition = "char(1)")
+    @NotNull
+    @Length(max = 6)
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
-    @Column(columnDefinition = "char(8)")
-    private String birthday;
-
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "title_badge_id", nullable = false)
+    @JoinColumn(name = "title_badge_id")
     private Badge badge;
 
+    @Column(name = "app_device_token")
     private String deviceToken;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "school_id")
+    private School school;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "max_level_id")
+    private CalorieLevel maxLevel;
+
+    @NotNull
+    @ColumnDefault("10000")
+    private Integer dailyWalkCountGoal;
 
     @Builder
     public User(Long id, String accountId, String password, String phoneNumber, String name,
-                String profileImageUrl, Authority authority, Group group, School school, boolean isMeasuring,
-                Integer weight, BigDecimal height, Sex sex, String birthday, Badge badge,
-                String deviceToken) {
+                Authority authority, Section section, School school, boolean isMeasuring,
+                Integer weight, BigDecimal height, Sex sex, Badge badge, String deviceToken, Integer dailyWalkCountGoal) {
         this.id = id;
         this.accountId = accountId;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.name = name;
-        this.profileImageUrl = profileImageUrl;
         this.authority = authority;
-        this.group = group;
+        this.section = section;
         this.school = school;
         this.isMeasuring = isMeasuring;
         this.healthInfo = new HealthInfo(weight, height);
         this.sex = sex;
-        this.birthday = birthday;
         this.badge = badge;
         this.deviceToken = deviceToken;
+        this.dailyWalkCountGoal = dailyWalkCountGoal;
     }
 
     public void setDeviceToken(String deviceToken) {
@@ -115,12 +126,15 @@ public class User {
     public void updateUser(UpdateUserInfoRequest request) {
         this.name = request.getName();
         this.profileImageUrl = request.getProfileImageUrl();
-        this.birthday = request.getBirthday();
         this.sex = request.getSex();
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setBadge(Badge badge) {
+        this.badge = badge;
+    }
+
+    public void setSection(Section section) {
+        this.section = section;
     }
 
     public void setPassword(String password) {
@@ -131,20 +145,12 @@ public class User {
         this.school = school;
     }
 
-    public School getRealSchool() {
-        return this.group.getSchool();
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
-    public String getRealSchoolAgencyCode() {
-        return this.getRealSchool().getAgencyCode();
-    }
-
-    public String getRealSchoolName() {
-        return this.getRealSchool().getName();
-    }
-
-    public String getClassCode() {
-        return this.group.getClassCode();
+    public void updatedailyWalkCountGoal(Integer dailyWalkCountGoal) {
+        this.dailyWalkCountGoal = dailyWalkCountGoal;
     }
 
 }

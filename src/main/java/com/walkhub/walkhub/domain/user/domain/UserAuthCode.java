@@ -8,18 +8,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
 
-import javax.persistence.Column;
-
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RedisHash
 public class UserAuthCode {
 
     @Id
-    @Column(columnDefinition = "char(11)")
     private String phoneNumber;
 
-    @Column(columnDefinition = "char(5)")
     private String code;
 
     @TimeToLive

@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
 
 @Configuration
 @RequiredArgsConstructor
@@ -35,7 +36,7 @@ public class SchoolRankJob {
     @Bean
     public Job rankJob() {
         return jobBuilderFactory.get("SchoolRankJob")
-                .start(schoolRankStep("schoolRankJob"))
+                .start(schoolRankStep(null))
                 .build();
     }
 
@@ -44,15 +45,15 @@ public class SchoolRankJob {
     public Step schoolRankStep(@Value("#{jobParameters[jobKey]}") String jobKey) {
         return stepBuilderFactory.get("SchoolRankStep")
                 .<SchoolRankInfo, SchoolRank>chunk(CHUNK_SIZE)
-                .reader(schoolReader("schoolRankStep"))
-                .processor(schoolRankProcessor())
-                .writer(schoolRankWriter())
+                .reader(schoolReader(null))
+                .processor(schoolRankProcessor(null))
+                .writer(schoolRankWriter(null))
                 .build();
     }
 
     @Bean
     @StepScope
-    public JpaCursorItemReader<SchoolRankInfo> schoolReader(@Value("#{jobParameters[stepKey]}") String stepKey) {
+    public JpaCursorItemReader<SchoolRankInfo> schoolReader(@Value("#{jobParameters[jobKey]}") String jobKey) {
         return new JpaCursorItemReaderBuilder<SchoolRankInfo>()
                 .name("SchoolRankReader")
                 .entityManagerFactory(em)
@@ -63,9 +64,10 @@ public class SchoolRankJob {
 
     @Bean
     @StepScope
-    public ItemProcessor<SchoolRankInfo, SchoolRank> schoolRankProcessor() {
+    public ItemProcessor<SchoolRankInfo, SchoolRank> schoolRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
         return rankInfo -> SchoolRank.builder()
                 .agencyCode(rankInfo.getAgencyCode())
+                .createdAt(LocalDateTime.now())
                 .name(rankInfo.getName())
                 .walkCount(rankInfo.getWalkCount())
                 .logoImageUrl(rankInfo.getLogoImageUrl())
@@ -75,10 +77,10 @@ public class SchoolRankJob {
 
     @Bean
     @StepScope
-    public JdbcBatchItemWriter<SchoolRank> schoolRankWriter() {
+    public JdbcBatchItemWriter<SchoolRank> schoolRankWriter(@Value("#{jobParameters[jobKey]}") String jobKey) {
         JdbcBatchItemWriter<SchoolRank> writer = new JdbcBatchItemWriterBuilder<SchoolRank>()
                 .dataSource(dataSource)
-                .sql("INSERT INTO SchoolRank VALUES (:rank, :agencyCode, :name, :logoImageUrl, :walkCount)")
+                .sql("INSERT INTO school_rank VALUES (:agency_code, :created_at, :name, :ranking, :logo_image_url, :walk_count)")
                 .beanMapped()
                 .build();
 

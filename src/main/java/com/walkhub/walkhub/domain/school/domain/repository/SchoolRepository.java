@@ -1,7 +1,13 @@
 package com.walkhub.walkhub.domain.school.domain.repository;
 
 import com.walkhub.walkhub.domain.school.domain.School;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SchoolRepository extends JpaRepository<School, String> {
+import java.util.List;
+
+public interface SchoolRepository extends JpaRepository<School, Long> {
+    List<School> findAllByNameContaining(String name);
+    Page<School> findAllBy(Pageable pageable);
 }

@@ -35,7 +35,7 @@ spring:
       enabled: false
     jdbc:
       initialize-schema: always
-      table-prefix: batch_
+      table-prefix: BATCH_
 
 coolsms:
   key: ${SMS_KEY}
@@ -50,7 +50,7 @@ jwt:
   prefix: ${JWT_PREFIX}
 
 firebase:
-  path: $(FIREBASE_PATH}
+  path: ${FIREBASE_PATH}
 
 cloud:
   aws:
@@ -63,3 +63,6 @@ cloud:
       static: ${S3_REGION}
     stack:
       auto: false
+
+socket:
+  port: ${SOCKET_PORT:8081}
