@@ -11,6 +11,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Getter
@@ -29,20 +31,22 @@ public class SchoolRank {
     @Id
     private String dateType;
 
-    @Column(length = 20, nullable = false)
+    @NotNull
+    @Size(max = 20)
     private String name;
 
-    @Column(nullable = false)
+    @NotNull
     private String logoImageUrl;
 
+    @NotNull
     @ColumnDefault("0")
-    @Column(nullable = false)
     private Long userCount;
 
-    @Column(nullable = false)
+    @NotNull
     private Integer walkCount;
 
-    @Column(columnDefinition = "TINYINT", nullable = false)
+    @NotNull
+    @Column(columnDefinition = "TINYINT")
     private Integer ranking;
 
 }
