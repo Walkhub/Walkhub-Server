@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.rank.domain.repository;
 
-import com.walkhub.walkhub.domain.rank.domain.UserRank;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
 
 import java.time.LocalDate;

@@ -2,7 +2,6 @@ package com.walkhub.walkhub.domain.rank.service;
 
 import com.walkhub.walkhub.domain.exercise.cache.ExerciseAnalysisCacheRepository;
 import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
-import com.walkhub.walkhub.domain.rank.domain.UserRank;
 import com.walkhub.walkhub.domain.rank.domain.repository.UserRankRepository;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
 import com.walkhub.walkhub.domain.user.domain.Section;
@@ -10,10 +9,8 @@ import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
