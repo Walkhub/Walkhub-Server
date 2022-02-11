@@ -149,6 +149,10 @@ public class User extends BaseTimeEntity {
         this.number = number;
     }
 
+    public void setAuthority(Authority authority) {
+        this.authority = authority;
+    }
+
     public void updatedailyWalkCountGoal(Integer dailyWalkCountGoal) {
         this.dailyWalkCountGoal = dailyWalkCountGoal;
     }
