@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,15 +25,25 @@ public class Badge extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 20, nullable = false)
+    @NotNull
+    @Column(length = 20)
     private String name;
 
     @ColumnDefault(DefaultImage.BADGE_IMAGE)
     private String imageUrl;
 
+    @NotNull
+    private String condition;
+
+    @NotNull
+    private LocalDateTime createAt;
+
     @Builder
-    public Badge(String name, String imageUrl) {
+    public Badge(String name, String imageUrl,
+                 String condition, LocalDateTime createAt) {
         this.name = name;
         this.imageUrl = imageUrl;
+        this.condition = condition;
+        this.createAt = createAt;
     }
 }
