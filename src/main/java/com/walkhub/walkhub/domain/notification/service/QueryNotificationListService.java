@@ -1,6 +1,6 @@
 package com.walkhub.walkhub.domain.notification.service;
 
-import com.walkhub.walkhub.domain.notification.domain.NotificationEntity;
+import com.walkhub.walkhub.domain.notification.domain.NotificationList;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationListRepository;
 import com.walkhub.walkhub.domain.notification.presentation.dto.response.QueryNotificationListResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
@@ -22,23 +22,28 @@ public class QueryNotificationListService {
     private final NotificationListRepository notificationListRepository;
     private final UserFacade userFacade;
 
+
     @Transactional(readOnly = true)
     public QueryNotificationListResponse execute(Pageable pageable) {
 
         User user = userFacade.getCurrentUser();
         List<NotificationResponse> notificationLists = notificationListRepository.findByUser(user, pageable)
                 .stream()
-                .map(notificationList -> NotificationResponse.builder()
-                        .id(notificationList.getNotificationEntity().getId())
-                        .title(notificationList.getNotificationEntity().getTitle())
-                        .content(notificationList.getNotificationEntity().getContent())
-                        .type(notificationList.getNotificationEntity().getType())
-                        .value(notificationList.getNotificationEntity().getValue())
-                        .isRead(notificationList.getIsRead())
-                        .build())
+                .map(QueryNotificationListService::getBadge)
                 .collect(Collectors.toList());
 
         return new QueryNotificationListResponse(notificationLists);
-
     }
+
+    private static NotificationResponse getBadge(NotificationList notificationList) {
+        return NotificationResponse.builder()
+                .id(notificationList.getNotificationEntity().getId())
+                .title(notificationList.getNotificationEntity().getTitle())
+                .content(notificationList.getNotificationEntity().getContent())
+                .type(notificationList.getNotificationEntity().getType())
+                .value(notificationList.getNotificationEntity().getValue())
+                .isRead(notificationList.getIsRead())
+                .build();
+    }
+    
 }
