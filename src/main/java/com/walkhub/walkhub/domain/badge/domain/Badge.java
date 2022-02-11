@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,7 +26,7 @@ public class Badge extends BaseTimeEntity {
     private Long id;
 
     @NotNull
-    @Column(length = 20)
+    @Size(max = 20)
     private String name;
 
     @ColumnDefault(DefaultImage.BADGE_IMAGE)
