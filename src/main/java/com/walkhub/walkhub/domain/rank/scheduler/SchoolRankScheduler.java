@@ -18,8 +18,7 @@ public class SchoolRankScheduler {
     private final JobLauncher jobLauncher;
     private final UniqueIdGenerator uniqueIdGenerator;
 
-//    @Scheduled(cron = "0 0 * * 1 *", zone = "Asia/Seoul") // 일주일(매주 월요일)마다로 변경
-    @Scheduled(cron = "*/10 * * * * *") // 10초 마다 실행
+    @Scheduled(cron = "0 0 * * 1 *", zone = "Asia/Seoul")
     public void saveSchoolRank() throws
             JobInstanceAlreadyCompleteException,
             JobExecutionAlreadyRunningException,
