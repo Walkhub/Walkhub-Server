@@ -32,7 +32,6 @@ public class UserRankJob {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
-    private final EntityManagerFactory em;
     private final DataSource dataSource;
 
     @Bean
