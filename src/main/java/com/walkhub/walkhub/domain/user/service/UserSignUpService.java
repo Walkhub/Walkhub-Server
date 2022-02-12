@@ -65,6 +65,7 @@ public class UserSignUpService {
                 .accessToken(accessToken)
                 .expiredAt(LocalDateTime.now().plusSeconds(jwtProperties.getAccessExp()))
                 .refreshToken(refreshToken)
+                .authority(Authority.USER)
                 .build();
     }
 }
