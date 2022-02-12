@@ -5,7 +5,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
-import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
 import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QQueryChallengeParticipantsForTeacherResponse_ChallengeParticipants;
@@ -37,22 +36,23 @@ public class CustomChallengeRepositoryImpl implements CustomChallengeRepository 
                         user.name,
                         user.profileImageUrl,
                         user.school.name.as("schoolName"),
-                        ExpressionUtils.as(
+                        ExpressionUtils.list(
+                                LocalDate.class,
                                 JPAExpressions
                                         .select(exerciseAnalysis.date)
                                         .from(exerciseAnalysis)
                                         .where(
                                                 exerciseAnalysis.user.eq(challengeStatus.user),
                                                 challengeGoalTypeFilter(challenge)
-                                        ),
-                                "successDate"
+                                        )
+
                         ),
                         challengeStatus.successCount.gt(challenge.getSuccessStandard())
                 ))
                 .from(user)
-                .leftJoin(exerciseAnalysis)
+                .join(exerciseAnalysis)
                 .on(exerciseAnalysis.user.eq(user))
-                .leftJoin(challengeStatus)
+                .join(challengeStatus)
                 .on(
                         challengeStatus.challenge.eq(challenge),
                         challengeStatus.user.eq(user)
