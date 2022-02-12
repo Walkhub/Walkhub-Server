@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.challenge.service;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
 import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeStatusRepository;
+import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeParticipantsForTeacherResponse;
 import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,34 +26,33 @@ public class QueryChallengeParticipantsForTeacherService {
     private final ExerciseAnalysisRepository exerciseAnalysisRepository;
 
     @Transactional(readOnly = true)
-    public QueryChallengeParticipantsForTeacherResponse execute(Long challengeId, Boolean isSuccess) {
+    public QueryChallengeParticipantsForTeacherResponse execute(Long challengeId, SuccessScope successScope) {
         Challenge challenge = challengeFacade.getChallengeById(challengeId);
 
-        List<QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants> response = challengeStatusRepository.findAllByChallenge(challenge)
-                .stream()
-                .map(this::queryChallengeParticipantsForTeacherResponseBuilder)
-                .filter(challengeParticipants -> challengeParticipants.getIsSuccess().equals(isSuccess))
-                .collect(Collectors.toList());
+        List<QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants> result =
+                challengeStatusRepository.queryChallengeParticipantsList(challenge, successScope);
 
-        return new QueryChallengeParticipantsForTeacherResponse(response);
+        return new QueryChallengeParticipantsForTeacherResponse(result);
     }
 
-    private QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants queryChallengeParticipantsForTeacherResponseBuilder(ChallengeStatus challengeStatus) {
-        User user = challengeStatus.getUser();
-        Section userSection = user.getSection();
-        Challenge challenge = challengeStatus.getChallenge();
-
-        return QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants.builder()
-                .userId(user.getId())
-                .grade(userSection.getGrade())
-                .classNum(userSection.getGrade())
-                .number(user.getNumber())
-                .name(user.getName())
-                .profileImageUrl(user.getProfileImageUrl())
-                .schoolName(user.getSchool().getName())
-                .successDate(exerciseAnalysisRepository.querySuccessDateList(challengeStatus))
-                .isSuccess(challengeStatus.getSuccessCount() > challenge.getSuccessStandard())
-                .build();
-    }
+//    private QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants queryChallengeParticipantsForTeacherResponseBuilder(ChallengeStatus challengeStatus, SuccessScope successScope) {
+//        User user = challengeStatus.getUser();
+//        Section userSection = user.getSection();
+//        Challenge challenge = challengeStatus.getChallenge();
+//
+//        List<LocalDate> successDateList = exerciseAnalysisRepository.querySuccessDateList(challengeStatus);
+//
+//        return QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants.builder()
+//                .userId(user.getId())
+//                .grade(userSection.getGrade())
+//                .classNum(userSection.getGrade())
+//                .number(user.getNumber())
+//                .name(user.getName())
+//                .profileImageUrl(user.getProfileImageUrl())
+//                .schoolName(user.getSchool().getName())
+//                .successDate(successDateList)
+//                .isSuccess(challengeStatus.getSuccessCount() > challenge.getSuccessStandard())
+//                .build();
+//    }
 
 }
