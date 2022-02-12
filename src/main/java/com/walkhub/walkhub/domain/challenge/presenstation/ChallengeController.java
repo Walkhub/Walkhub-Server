@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.challenge.presenstation;
 
+import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.CreateChallengeRequest;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChallengeRequest;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsResponse;
@@ -84,8 +85,8 @@ public class ChallengeController {
 
     @GetMapping("/{challenge-id}/participants/teachers")
     public QueryChallengeParticipantsForTeacherResponse queryChallengeParticipantsForTeacher(@PathVariable("challenge-id") Long challengeId,
-                                                                                             @RequestParam Boolean isSuccess) {
-        return queryChallengeParticipantsForTeacherService.execute(challengeId, isSuccess);
+                                                                                             @RequestParam SuccessScope successScope) {
+        return queryChallengeParticipantsForTeacherService.execute(challengeId, successScope);
     }
 
 }
