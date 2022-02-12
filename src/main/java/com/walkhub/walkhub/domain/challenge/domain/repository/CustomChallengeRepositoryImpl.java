@@ -44,11 +44,11 @@ public class CustomChallengeRepositoryImpl implements CustomChallengeRepository 
                                         .where(
                                                 exerciseAnalysis.user.eq(challengeStatus.user),
                                                 challengeGoalTypeFilter(challenge)
-                                        )
-                                        .fetch())
+                                        ),
+                                "successDate"
                         ),
                         challengeStatus.successCount.gt(challenge.getSuccessStandard())
-                )
+                ))
                 .from(user)
                 .leftJoin(exerciseAnalysis)
                 .on(exerciseAnalysis.user.eq(user))
