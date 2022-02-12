@@ -47,6 +47,11 @@ dependencies {
 	implementation 'com.corundumstudio.socketio:netty-socketio:1.7.19'
 
 	runtimeOnly 'mysql:mysql-connector-java'
+
+    implementation 'org.hibernate:hibernate-ehcache:5.4.30.Final'
+    implementation 'org.hibernate:hibernate-jcache:5.6.5.Final'
+    implementation 'org.ehcache:ehcache:3.9.2'
+
 }
 
 test {
