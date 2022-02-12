@@ -18,5 +18,6 @@ public class QueryUserBadgeListResponse {
         private final String name;
         private final String imageUrl;
         private final String condition;
+        private final boolean isMine;
     }
 }
