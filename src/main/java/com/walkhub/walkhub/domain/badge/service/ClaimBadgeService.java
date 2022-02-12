@@ -25,13 +25,17 @@ public class ClaimBadgeService {
 
         for (ClaimBadgeVO vo : claimBadgeList) {
             // todo 뱃지가 추가되면 그때마다 if 처리를 하겠습니다.
-            badgeResponses.add(ClaimBadgeResponse.BadgeResponse.builder()
-                    .badgeId(vo.getBadgeId())
-                    .name(vo.getName())
-                    .imageUrl(vo.getImageUrl())
-                    .build());
+            badgeResponses.add(buildBadgeResponse(vo));
         }
 
         return new ClaimBadgeResponse(badgeResponses);
+    }
+
+    private ClaimBadgeResponse.BadgeResponse buildBadgeResponse(ClaimBadgeVO vo) {
+        return ClaimBadgeResponse.BadgeResponse.builder()
+                .badgeId(vo.getBadgeId())
+                .name(vo.getName())
+                .imageUrl(vo.getImageUrl())
+                .build();
     }
 }
