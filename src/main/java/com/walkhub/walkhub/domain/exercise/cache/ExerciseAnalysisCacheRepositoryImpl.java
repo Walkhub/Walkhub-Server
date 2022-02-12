@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.exercise.cache;
 
+import com.walkhub.walkhub.domain.exercise.exception.RedisTransactionException;
 import io.jsonwebtoken.lang.Assert;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -24,14 +26,15 @@ public class ExerciseAnalysisCacheRepositoryImpl implements ExerciseAnalysisCach
 
     @Override
     public ExerciseAnalysisDto getUserTodayRank(Long userId) {
-        Double doubleWalkCount = zSetOperations.score(EXERCISE_ANALYSIS_KEY, userId);
-        Assert.notNull(doubleWalkCount);
+        Double doubleWalkCount = Optional.ofNullable(zSetOperations.score(EXERCISE_ANALYSIS_KEY, userId))
+                .orElseThrow(() -> RedisTransactionException.EXCEPTION);
+
         Integer walkCount = doubleWalkCount.intValue();
-        Integer ranking = zSetOperations.rank(EXERCISE_ANALYSIS_KEY, userId).intValue();
+        Long ranking = zSetOperations.rank(EXERCISE_ANALYSIS_KEY, userId);
 
         return ExerciseAnalysisDto.builder()
                 .walkCount(walkCount)
-                .ranking(ranking)
+                .ranking(ranking == null ? 0 : ranking.intValue())
                 .userId(userId)
                 .build();
     }
