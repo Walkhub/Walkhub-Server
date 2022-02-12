@@ -1,13 +1,13 @@
 package com.walkhub.walkhub.domain.exercise.cache;
 
-import com.walkhub.walkhub.domain.exercise.exception.RedisTransactionException;
+import io.jsonwebtoken.lang.Assert;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Repository
@@ -23,19 +23,37 @@ public class ExerciseAnalysisCacheRepositoryImpl implements ExerciseAnalysisCach
     }
 
     @Override
-    public Long getUserTodayRank(Long userId) {
-        return zSetOperations.reverseRank(EXERCISE_ANALYSIS_KEY, userId);
+    public ExerciseAnalysisDto getUserTodayRank(Long userId) {
+        Double doubleWalkCount = zSetOperations.score(EXERCISE_ANALYSIS_KEY, userId);
+        Assert.notNull(doubleWalkCount);
+        Integer walkCount = doubleWalkCount.intValue();
+        Integer ranking = zSetOperations.rank(EXERCISE_ANALYSIS_KEY, userId).intValue();
+
+        return ExerciseAnalysisDto.builder()
+                .walkCount(walkCount)
+                .ranking(ranking)
+                .userId(userId)
+                .build();
     }
 
     @Override
-    public List<Long> getUserIdsByRankTop100() {
-        Set<Object> rankUserIds = zSetOperations.reverseRange(EXERCISE_ANALYSIS_KEY, 0, 99);
-        if (rankUserIds == null) {
-            throw RedisTransactionException.EXCEPTION;
+    public List<ExerciseAnalysisDto> getUserIdsByRankTop100() {
+        Set<ZSetOperations.TypedTuple<Object>> rankUserIds = zSetOperations.reverseRangeWithScores(EXERCISE_ANALYSIS_KEY, 0, 99);
+        assert rankUserIds != null;
+
+        List<ExerciseAnalysisDto> exerciseAnalysisDtos = new ArrayList<>(rankUserIds.size());
+        int rank = 1;
+
+        for (ZSetOperations.TypedTuple<Object> tuple : rankUserIds) {
+            ExerciseAnalysisDto exerciseAnalysisDto = ExerciseAnalysisDto.builder()
+                    .walkCount(tuple.getScore().intValue())
+                    .userId((long) tuple.getValue())
+                    .ranking(rank)
+                    .build();
+            exerciseAnalysisDtos.add(exerciseAnalysisDto);
+            rank++;
         }
 
-        return rankUserIds.stream()
-                .map(value -> (long) value)
-                .collect(Collectors.toList());
+        return exerciseAnalysisDtos;
     }
 }
