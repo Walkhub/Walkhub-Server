@@ -1,9 +1,13 @@
 package com.walkhub.walkhub.domain.rank.service;
 
-import com.walkhub.walkhub.domain.rank.domain.UserRankInfo;
+import com.walkhub.walkhub.domain.exercise.cache.ExerciseAnalysisCacheRepositoryImpl;
+import com.walkhub.walkhub.domain.exercise.cache.ExerciseAnalysisDto;
+import com.walkhub.walkhub.domain.rank.domain.UserRank;
 import com.walkhub.walkhub.domain.rank.domain.repository.UserRankRepository;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListResponse;
-import com.walkhub.walkhub.global.enums.UserScope;
+import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
+import com.walkhub.walkhub.global.enums.DateType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,31 +20,50 @@ import java.util.stream.Collectors;
 public class UserSearchService {
 
     private final UserRankRepository userRankRepository;
+    private final ExerciseAnalysisCacheRepositoryImpl exerciseAnalysisCacheRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public UserListResponse execute(String name, UserScope userScope, String agencyCode, Integer grade, Integer classNum) {
-        List<UserRankInfo> userRankInfoList;
+    public UserListResponse execute(Long schoolId, String name, DateType dateType) {
+        List<UserListResponse.UserSearchResponse> result;
 
-        if (UserScope.CLASS.equals(userScope)) {
-            userRankInfoList = userRankRepository.findTop100ByNameContainsAndAgencyCodeAndClassNumAndGrade(name, agencyCode, grade, classNum);
+        if (DateType.DAY.equals(dateType)) {
+            result = userRepository.findAllBySchoolIdAndNameContaining(schoolId, name)
+                    .stream().map(this::buildDayUserSearchResponse)
+                    .collect(Collectors.toList());
         } else {
-            userRankInfoList = userRankRepository.findTop100ByNameContainsAndAgencyCode(name, agencyCode);
+            result = userRankRepository.findAllBySchoolIdAndNameContainingAndDateType(schoolId, name, dateType.toString())
+                    .stream().map(this::buildUserSearchResponse)
+                    .collect(Collectors.toList());
         }
 
-        List<UserListResponse.UserSearchResponse> userList = userRankInfoList.stream().map(userRankInfo ->
-                UserListResponse.UserSearchResponse.builder()
-                        .accountId(userRankInfo.getAccountId())
-                        .name(userRankInfo.getName())
-                        .rank(userRankInfo.getRanking())
-                        .grade(userRankInfo.getGrade())
-                        .classNum(userRankInfo.getClassNum())
-                        .profileImageUrl(userRankInfo.getProfileImageUrl())
-                        .walkCount(userRankInfo.getClassNum())
-                        .build()
-        ).collect(Collectors.toList());
+        return new UserListResponse(result);
+    }
 
-        return UserListResponse.builder()
-                .userList(userList).build();
+    private UserListResponse.UserSearchResponse buildDayUserSearchResponse(User user) {
+        ExerciseAnalysisDto exerciseAnalysisDto = exerciseAnalysisCacheRepository
+                .getUserTodayRank(user.getId());
 
+        return UserListResponse.UserSearchResponse.builder()
+                .userId(user.getId())
+                .name(user.getName())
+                .rank(exerciseAnalysisDto.getRanking())
+                .grade(user.getSection().getGrade())
+                .classNum(user.getSection().getClassNum())
+                .profileImageUrl(user.getProfileImageUrl())
+                .walkCount(exerciseAnalysisDto.getWalkCount())
+                .build();
+    }
+
+    private UserListResponse.UserSearchResponse buildUserSearchResponse(UserRank userRank) {
+        return UserListResponse.UserSearchResponse.builder()
+                .userId(userRank.getUserId())
+                .name(userRank.getName())
+                .rank(userRank.getRanking())
+                .grade(userRank.getGrade())
+                .classNum(userRank.getClassNum())
+                .profileImageUrl(userRank.getProfileImageUrl())
+                .walkCount(userRank.getWalkCount())
+                .build();
     }
 }
