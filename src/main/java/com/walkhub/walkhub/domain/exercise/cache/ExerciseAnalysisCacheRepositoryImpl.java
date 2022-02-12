@@ -1,7 +1,6 @@
 package com.walkhub.walkhub.domain.exercise.cache;
 
 import com.walkhub.walkhub.domain.exercise.exception.RedisTransactionException;
-import io.jsonwebtoken.lang.Assert;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Repository;
@@ -49,8 +48,8 @@ public class ExerciseAnalysisCacheRepositoryImpl implements ExerciseAnalysisCach
 
         for (ZSetOperations.TypedTuple<Object> tuple : rankUserIds) {
             ExerciseAnalysisDto exerciseAnalysisDto = ExerciseAnalysisDto.builder()
-                    .walkCount(tuple.getScore().intValue())
-                    .userId((long) tuple.getValue())
+                    .walkCount(tuple.getScore() == null ? 0 : tuple.getScore().intValue())
+                    .userId(tuple.getValue() == null ? 0 : (long) tuple.getValue())
                     .ranking(rank)
                     .build();
             exerciseAnalysisDtos.add(exerciseAnalysisDto);
