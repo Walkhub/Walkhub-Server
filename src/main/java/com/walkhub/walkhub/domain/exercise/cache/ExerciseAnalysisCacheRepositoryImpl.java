@@ -48,7 +48,7 @@ public class ExerciseAnalysisCacheRepositoryImpl implements ExerciseAnalysisCach
 
         for (ZSetOperations.TypedTuple<Object> tuple : rankUserIds) {
             ExerciseAnalysisDto exerciseAnalysisDto = ExerciseAnalysisDto.builder()
-                    .walkCount(tuple.getScore() == null ? 0 : tuple.getScore().intValue())
+                    .walkCount(tuple.getScore() == null ? 0 : Integer.parseInt(tuple.getScore().toString()))
                     .userId(tuple.getValue() == null ? 0 : (long) tuple.getValue())
                     .ranking(rank)
                     .build();
