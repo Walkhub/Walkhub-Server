@@ -11,7 +11,6 @@ import com.walkhub.walkhub.domain.teacher.service.QueryUserDetailsService;
 import com.walkhub.walkhub.domain.teacher.service.RefreshClassCodeService;
 import com.walkhub.walkhub.domain.teacher.service.VerificationCodeService;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
