@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,6 +30,9 @@ public class Badge extends BaseTimeEntity {
 
     @ColumnDefault(DefaultImage.BADGE_IMAGE)
     private String imageUrl;
+
+    @OneToMany(mappedBy = "badge")
+    private List<BadgeCollection> badgeCollections;
 
     @Builder
     public Badge(String name, String imageUrl) {
