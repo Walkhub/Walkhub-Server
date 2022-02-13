@@ -22,10 +22,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.validator.constraints.Length;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicInsert
 @Entity
 public class Exercise extends BaseTimeEntity {
 
@@ -33,43 +35,35 @@ public class Exercise extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ColumnDefault("0")
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "integer default 0")
     private Integer walkCount;
 
     private LocalDateTime endAt;
 
-    @ColumnDefault("0")
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "integer default 0")
     private Integer distance;
 
-    @ColumnDefault("0")
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "integer default 0")
     private Integer calorie;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ColumnDefault("6000")
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "integer default 6000")
     private Integer goal;
 
     @NotNull
-    @Length(max = 8)
     @Enumerated(EnumType.STRING)
     private GoalType goalType;
 
-    @ColumnDefault("0")
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean isExercising;
 
-    @ColumnDefault("0")
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "integer default 0")
     private Long cheeringCount;
 
-    @NotNull
-    @ColumnDefault(DefaultImage.EXERCISE_IMAGE)
+    @Column(nullable = false, columnDefinition = "varchar(255) default " + DefaultImage.EXERCISE_IMAGE)
     private String imageUrl;
 
     @Builder
@@ -77,6 +71,7 @@ public class Exercise extends BaseTimeEntity {
         this.user = user;
         this.goalType = goalType;
         this.goal = goal;
+        this.isExercising = true;
     }
 
     public void closeExercise(Integer walkCount, Integer distance, Integer calorie) {
