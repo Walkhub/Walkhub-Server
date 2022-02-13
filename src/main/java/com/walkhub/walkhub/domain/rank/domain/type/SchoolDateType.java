@@ -1,6 +1,6 @@
 package com.walkhub.walkhub.domain.rank.domain.type;
 
-public enum DateType {
+public enum SchoolDateType {
 	WEEK,
 	MONTH
 }

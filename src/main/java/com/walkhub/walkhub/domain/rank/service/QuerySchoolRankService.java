@@ -2,7 +2,7 @@ package com.walkhub.walkhub.domain.rank.service;
 
 import com.walkhub.walkhub.domain.rank.domain.SchoolRank;
 import com.walkhub.walkhub.domain.rank.domain.repository.SchoolRankRepository;
-import com.walkhub.walkhub.domain.rank.domain.type.DateType;
+import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse.MySchoolResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse.SchoolResponse;
@@ -21,9 +21,9 @@ public class QuerySchoolRankService {
 	private final SchoolRankRepository schoolRankRepository;
 	private final UserFacade userFacade;
 
-	public SchoolRankResponse execute(DateType dateType) {
+	public SchoolRankResponse execute(SchoolDateType schoolDateType) {
 		LocalDate localDate = LocalDate.now();
-		switch (dateType) {
+		switch (schoolDateType) {
 			case WEEK: localDate = localDate.minusWeeks(1);
 			break;
 			case MONTH: localDate = localDate.minusMonths(1);
@@ -32,7 +32,7 @@ public class QuerySchoolRankService {
 
 		User user = userFacade.getCurrentUser();
 		SchoolRank schoolRank = schoolRankRepository.
-			findBySchoolIdAndDateTypeAndCreatedAtBetween(user.getSchool().getId(), dateType.toString(), localDate, LocalDate.now());
+			findBySchoolIdAndDateTypeAndCreatedAtBetween(user.getSchool().getId(), schoolDateType.toString(), localDate, LocalDate.now());
 
 		MySchoolResponse mySchoolResponse = MySchoolResponse.builder()
 			.schoolId(schoolRank.getSchoolId())
@@ -44,7 +44,7 @@ public class QuerySchoolRankService {
 			.build();
 
 		List<SchoolResponse> schoolResponseList = schoolRankRepository
-			.findAllByDateTypeAndCreatedAtBetweenOrderByRankingDesc(dateType.toString(), localDate, LocalDate.now())
+			.findAllByDateTypeAndCreatedAtBetweenOrderByRankingDesc(schoolDateType.toString(), localDate, LocalDate.now())
 			.stream()
 			.map(schoolRank2 -> SchoolResponse.builder()
 				.schoolId(schoolRank2.getSchoolId())
