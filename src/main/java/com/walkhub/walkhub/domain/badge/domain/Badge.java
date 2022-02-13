@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,7 +32,7 @@ public class Badge extends BaseTimeEntity {
     @ColumnDefault(DefaultImage.BADGE_IMAGE)
     private String imageUrl;
 
-    @OneToMany(mappedBy = "badge")
+    @OneToMany(mappedBy = "badge", cascade = CascadeType.REMOVE)
     private List<BadgeCollection> badgeCollections;
 
     @Builder
