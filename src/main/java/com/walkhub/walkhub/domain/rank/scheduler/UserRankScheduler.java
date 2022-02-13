@@ -1,8 +1,8 @@
 package com.walkhub.walkhub.domain.rank.scheduler;
 
+import com.walkhub.walkhub.domain.rank.job.UserRankJob;
 import com.walkhub.walkhub.global.batch.UniqueIdGenerator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class UserRankScheduler {
-    private final Job userJob;
+    private final UserRankJob userJob;
     private final JobLauncher jobLauncher;
     private final UniqueIdGenerator uniqueIdGenerator;
 
@@ -24,6 +24,6 @@ public class UserRankScheduler {
             JobExecutionAlreadyRunningException,
             JobParametersInvalidException,
             JobRestartException {
-        jobLauncher.run(userJob, uniqueIdGenerator.getNext(null));
+        jobLauncher.run(userJob.userJob(), uniqueIdGenerator.getNext(null));
     }
 }
