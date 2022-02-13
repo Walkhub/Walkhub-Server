@@ -24,9 +24,8 @@ public class CreateNoticeService {
     public void execute(CreateNoticeRequest request) {
         User user = userFacade.getCurrentUser();
 
-        if (Scope.SCHOOL.equals(request.getScope()) && user.getSection() == null) {
-            throw SectionNotFoundException.EXCEPTION;
-        } else if (!Authority.ROOT.equals(user.getAuthority())) {
+        if (request.getScope().equals(Scope.SCHOOL) && !user.getAuthority().equals(Authority.ROOT) ||
+            request.getScope().equals(Scope.ALL) && !user.getAuthority().equals(Authority.SU)) {
             throw InvalidRoleException.EXCEPTION;
         }
 
