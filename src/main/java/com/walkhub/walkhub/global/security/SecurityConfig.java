@@ -104,7 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/images").permitAll()
 
                 // schools
-                .antMatchers(HttpMethod.PATCH, "/schools/logos/{school-id}").hasAuthority("ROOT")
+                .antMatchers(HttpMethod.PATCH, "/schools/logos").hasAuthority("ROOT")
                 .antMatchers(HttpMethod.GET, "/schools/search").authenticated()
 
                 // teachers
