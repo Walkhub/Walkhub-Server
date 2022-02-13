@@ -62,9 +62,10 @@ public class UserSignUpService {
         String refreshToken = jwtTokenProvider.generateRefreshToken(request.getAccountId());
 
         return UserTokenResponse.builder()
-                .accessToken(accessToken)
-                .expiredAt(LocalDateTime.now().plusSeconds(jwtProperties.getAccessExp()))
-                .refreshToken(refreshToken)
-                .build();
+            .accessToken(accessToken)
+            .expiredAt(LocalDateTime.now().plusSeconds(jwtProperties.getAccessExp()))
+            .refreshToken(refreshToken)
+            .authority(Authority.USER)
+            .build();
     }
 }
