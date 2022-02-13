@@ -10,7 +10,6 @@ import com.walkhub.walkhub.domain.teacher.service.CreateClassService;
 import com.walkhub.walkhub.domain.teacher.service.DeleteClassService;
 import com.walkhub.walkhub.domain.teacher.service.DetailsClassService;
 import com.walkhub.walkhub.domain.teacher.service.QueryUserDetailsService;
-import com.walkhub.walkhub.domain.teacher.service.RefreshClassCodeService;
 import com.walkhub.walkhub.domain.teacher.service.VerificationCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -37,7 +36,6 @@ public class TeacherController {
     private final CreateClassService createClassService;
     private final VerificationCodeService verificationCodeService;
     private final DeleteClassService deleteClassService;
-    private final RefreshClassCodeService refreshClassCodeService;
     private final DetailsClassService detailsClassService;
     private final QueryUserDetailsService queryUserDetailsService;
     private final ConfirmTeacherCodeService confirmTeacherCodeService;
@@ -58,11 +56,6 @@ public class TeacherController {
     @DeleteMapping("/classes/{section-id}")
     public void deleteClass(@PathVariable(name = "section-id") Long sectionId) {
         deleteClassService.execute(sectionId);
-    }
-
-    @PatchMapping("/classes/verification-codes")
-    public CodeResponse refreshClassCode() {
-        return refreshClassCodeService.execute();
     }
 
     @GetMapping("/classes")
