@@ -10,10 +10,7 @@ import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, Long> {
     Optional<User> findByAccountId(String accountId);
-
     Optional<User> findByPhoneNumber(String phoneNumber);
-
     List<User> findAllBySectionAndAuthority(Section section, Authority authority);
-
     List<User> findAllBySchoolIdAndNameContaining(Long id, String name);
 }
