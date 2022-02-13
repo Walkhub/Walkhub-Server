@@ -4,13 +4,30 @@ server:
 spring:
   lifecycle:
     timeout-per-shutdown-phase: "60s"
-
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
     hibernate:
       ddl-auto: update
+    properties:
+      javax:
+        persistence:
+          sharedCache:
+            mode: ENABLE_SELECTIVE   # Enable caches only @Cacheable annotated classes
+      hibernate:
+        javax:
+          cache:
+            uri: ehcache.xml
+            provider: org.ehcache.jsr107.EhcacheCachingProvider
+        cache:
+          use_query_cache: true
+          use_second_level_cache: true
+          region:
+            factory_class: jcache
 
   servlet:
     multipart:
@@ -35,7 +52,7 @@ spring:
       enabled: false
     jdbc:
       initialize-schema: always
-      table-prefix: batch_
+      table-prefix: BATCH_
 
 coolsms:
   key: ${SMS_KEY}

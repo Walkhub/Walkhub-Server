@@ -1,6 +1,6 @@
 package com.walkhub.walkhub.domain.rank.scheduler;
 
-import com.walkhub.walkhub.domain.rank.job.SchoolRankJob;
+import com.walkhub.walkhub.domain.rank.job.UserRankJob;
 import com.walkhub.walkhub.global.batch.UniqueIdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.JobParametersInvalidException;
@@ -13,18 +13,17 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class SchoolRankScheduler {
-    private final SchoolRankJob schoolRankJob;
+public class UserRankScheduler {
+    private final UserRankJob userJob;
     private final JobLauncher jobLauncher;
     private final UniqueIdGenerator uniqueIdGenerator;
 
-    @Scheduled(cron = "0 0 * * 1 *", zone = "Asia/Seoul")
-    public void saveSchoolRank() throws
+    @Scheduled(cron = "0 0 0/1 * * *", zone = "Asia/Seoul")
+    public void saveUserRank() throws
             JobInstanceAlreadyCompleteException,
             JobExecutionAlreadyRunningException,
             JobParametersInvalidException,
             JobRestartException {
-        jobLauncher.run(schoolRankJob.schoolJob(), uniqueIdGenerator.getNext(null));
+        jobLauncher.run(userJob.userJob(), uniqueIdGenerator.getNext(null));
     }
-
 }
