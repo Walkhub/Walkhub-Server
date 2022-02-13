@@ -79,6 +79,7 @@ public class Exercise extends BaseTimeEntity {
         this.distance = distance;
         this.calorie = calorie;
         this.endAt = LocalDateTime.now();
+        this.isExercising = false;
     }
 
     public void addCheeringCount() {
