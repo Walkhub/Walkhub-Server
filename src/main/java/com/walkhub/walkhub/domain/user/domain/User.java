@@ -60,7 +60,6 @@ public class User extends BaseTimeEntity {
     private String profileImageUrl;
 
     @NotNull
-    @Length(max = 6)
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
@@ -80,7 +79,6 @@ public class User extends BaseTimeEntity {
     private HealthInfo healthInfo;
 
     @NotNull
-    @Length(max = 6)
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
