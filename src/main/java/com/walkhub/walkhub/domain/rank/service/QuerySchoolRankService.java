@@ -46,13 +46,13 @@ public class QuerySchoolRankService {
 		List<SchoolResponse> schoolResponseList = schoolRankRepository
 			.findAllByDateTypeAndCreatedAtBetween(dateType.toString(), localDate, LocalDate.now())
 			.stream()
-			.map(schoolRank -> SchoolResponse.builder()
-				.schoolId(schoolRank.getSchoolId())
-				.name(schoolRank.getName())
-				.rank(schoolRank.getRanking())
-				.studentCount(schoolRank.getUserCount())
-				.logoImageUrl(schoolRank.getLogoImageUrl())
-				.walkCount(schoolRank.getWalkCount())
+			.map(schoolRank2 -> SchoolResponse.builder()
+				.schoolId(schoolRank2.getSchoolId())
+				.name(schoolRank2.getName())
+				.rank(schoolRank2.getRanking())
+				.studentCount(schoolRank2.getUserCount())
+				.logoImageUrl(schoolRank2.getLogoImageUrl())
+				.walkCount(schoolRank2.getWalkCount())
 				.build())
 			.collect(Collectors.toList());
 
