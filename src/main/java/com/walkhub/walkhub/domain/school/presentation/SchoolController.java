@@ -26,10 +26,9 @@ public class SchoolController {
     private final SearchSchoolService searchSchoolService;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/logos/{school-id}")
-    public void schoolLogoSetting(@PathVariable(name = "school-id") Long schoolId,
-                                  @RequestBody @Valid SchoolLogoRequest request) {
-        schoolLogoSettingService.execute(schoolId, request);
+    @PatchMapping("/logos")
+    public void schoolLogoSetting(@RequestBody @Valid SchoolLogoRequest request) {
+        schoolLogoSettingService.execute(request);
     }
 
     @GetMapping("/search")
