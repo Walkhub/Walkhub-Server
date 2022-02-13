@@ -5,25 +5,22 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Getter
-@Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
-@IdClass(SchoolRankId.class)
-public class SchoolRank {
+@IdClass(UserRankId.class)
+@Builder
+public class UserRank {
     @Id
-    private Long schoolId;
+    private Long userId;
 
     @Id
     private LocalDate createdAt;
@@ -31,21 +28,23 @@ public class SchoolRank {
     @Id
     private String dateType;
 
-    @NotNull
-    @Size(max = 20)
+    @Id
+    private String scopeType;
+
+    @Column(length = 20, nullable = false)
     private String name;
 
-    @NotNull
-    private String logoImageUrl;
+    private Integer grade;
 
-    @NotNull
-    @ColumnDefault("0")
-    private Long userCount;
+    private Integer classNum;
 
-    @NotNull
+    private String profileImageUrl;
+
+    @Column(nullable = false)
     private Integer walkCount;
 
     @Column(columnDefinition = "TINYINT", nullable = false)
     private Integer ranking;
 
+    private Long schoolId;
 }

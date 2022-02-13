@@ -5,8 +5,10 @@ import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChal
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse;
 import com.walkhub.walkhub.domain.challenge.service.CreateChallengeService;
+import com.walkhub.walkhub.domain.challenge.service.ParticipateChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.QueryChallengeDetailsService;
 import com.walkhub.walkhub.domain.challenge.service.QueryChallengeListService;
+import com.walkhub.walkhub.domain.challenge.service.QueryParticipatedChallengeListService;
 import com.walkhub.walkhub.domain.challenge.service.RemoveChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.UpdateChallengeService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,8 @@ public class ChallengeController {
     private final QueryChallengeListService queryChallengeListService;
     private final UpdateChallengeService updateChallengeService;
     private final QueryChallengeDetailsService queryChallengeDetailsService;
+    private final ParticipateChallengeService participateChallengeService;
+    private final QueryParticipatedChallengeListService queryParticipatedChallengeListService;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{challenge-id}")
@@ -61,6 +65,17 @@ public class ChallengeController {
     @GetMapping("/{challenge-id}")
     public QueryChallengeDetailsResponse queryChallengeDetails(@PathVariable("challenge-id") Long challengeId) {
         return queryChallengeDetailsService.execute(challengeId);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/{challenge-id}")
+    public void participateChallenge(@PathVariable("challenge-id") Long challengeId) {
+        participateChallengeService.execute(challengeId);
+    }
+      
+    @GetMapping("/participated")
+    public QueryChallengeListResponse queryParticipatedChallengeList() {
+        return queryParticipatedChallengeListService.execute();
     }
 
 }
