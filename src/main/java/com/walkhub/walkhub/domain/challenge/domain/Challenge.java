@@ -57,17 +57,14 @@ public class Challenge {
     private String award;
 
     @NotNull
-    @Length(max = 6)
     @Enumerated(EnumType.STRING)
     private UserScope userScope;
 
     @NotNull
-    @Length(max = 3)
     @Enumerated(EnumType.STRING)
     private GoalScope goalScope;
 
     @NotNull
-    @Length(max = 8)
     @Enumerated(EnumType.STRING)
     private GoalType goalType;
 
