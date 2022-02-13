@@ -5,7 +5,6 @@ import com.walkhub.walkhub.domain.notice.domain.repository.NoticeRepository;
 import com.walkhub.walkhub.domain.notice.domain.type.Scope;
 import com.walkhub.walkhub.domain.notice.presentation.dto.request.CreateNoticeRequest;
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.domain.user.exception.SectionNotFoundException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.global.exception.InvalidRoleException;
@@ -25,7 +24,7 @@ public class CreateNoticeService {
         User user = userFacade.getCurrentUser();
 
         if (request.getScope().equals(Scope.SCHOOL) && !user.getAuthority().equals(Authority.ROOT) ||
-            request.getScope().equals(Scope.ALL) && !user.getAuthority().equals(Authority.SU)) {
+                request.getScope().equals(Scope.ALL) && !user.getAuthority().equals(Authority.SU)) {
             throw InvalidRoleException.EXCEPTION;
         }
 
