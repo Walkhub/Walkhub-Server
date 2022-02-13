@@ -4,12 +4,11 @@ import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
-import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,9 +20,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.validator.constraints.Length;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -44,7 +42,7 @@ public class Exercise extends BaseTimeEntity {
     private Integer distance;
 
     @Column(nullable = false, columnDefinition = "integer default 0")
-    private Integer calorie;
+    private Double calorie;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -74,7 +72,7 @@ public class Exercise extends BaseTimeEntity {
         this.isExercising = true;
     }
 
-    public void closeExercise(Integer walkCount, Integer distance, Integer calorie) {
+    public void closeExercise(Integer walkCount, Integer distance, Double calorie) {
         this.walkCount = walkCount;
         this.distance = distance;
         this.calorie = calorie;
