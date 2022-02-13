@@ -1,9 +1,7 @@
 package com.walkhub.walkhub.domain.challenge.service;
 
-import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeStatusRepository;
 import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
-import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeParticipantsForTeacherResponse;
 import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,24 +14,20 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class QueryChallengeParticipantsForTeacherService {
-
-    private final ChallengeFacade challengeFacade;
     private final ChallengeStatusRepository challengeStatusRepository;
     private final ExerciseAnalysisRepository exerciseAnalysisRepository;
 
     @Transactional(readOnly = true)
     public QueryChallengeParticipantsForTeacherResponse execute(Long challengeId, SuccessScope successScope) {
-        Challenge challenge = challengeFacade.getChallengeById(challengeId);
-
         return new QueryChallengeParticipantsForTeacherResponse(
-                queryChallengeParticipantsForTeacherResponseBuilder(challenge, successScope)
+                queryChallengeParticipantsForTeacherResponseBuilder(challengeId, successScope)
         );
     }
 
     private List<QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants> queryChallengeParticipantsForTeacherResponseBuilder(
-            Challenge challenge, SuccessScope successScope
+            Long challengeId, SuccessScope successScope
     ) {
-        return challengeStatusRepository.queryChallengeParticipantsList(challenge, successScope)
+        return challengeStatusRepository.queryChallengeParticipantsList(challengeId, successScope)
                 .stream()
                 .map(vo -> QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants.builder()
                         .userId(vo.getUserId())
@@ -43,7 +37,7 @@ public class QueryChallengeParticipantsForTeacherService {
                         .name(vo.getName())
                         .profileImageUrl(vo.getProfileImageUrl())
                         .schoolName(vo.getSchoolName())
-                        .successDate(exerciseAnalysisRepository.querySuccessDateList(vo.getUserId(), challenge))
+                        .successDate(exerciseAnalysisRepository.querySuccessDateList(vo.getUserId(), challengeId))
                         .isSuccess(vo.getIsSuccess())
                         .build())
                 .collect(Collectors.toList());
