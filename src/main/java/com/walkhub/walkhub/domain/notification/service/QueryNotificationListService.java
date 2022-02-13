@@ -36,12 +36,13 @@ public class QueryNotificationListService {
     }
 
     private NotificationResponse getNotification(NotificationList notificationList) {
+        NotificationEntity notificationEntity = notificationList.getNotificationEntity();
         return NotificationResponse.builder()
-                .id(notificationList.getNotificationEntity().getId())
-                .title(notificationList.getNotificationEntity().getTitle())
-                .content(notificationList.getNotificationEntity().getContent())
-                .type(notificationList.getNotificationEntity().getType())
-                .value(notificationList.getNotificationEntity().getValue())
+                .id(notificationEntity.getId())
+                .title(notificationEntity.getTitle())
+                .content(notificationEntity.getContent())
+                .type(notificationEntity.getType())
+                .value(notificationEntity.getValue())
                 .isRead(notificationList.getIsRead())
                 .build();
     }
