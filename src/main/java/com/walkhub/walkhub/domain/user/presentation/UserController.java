@@ -28,6 +28,7 @@ public class UserController {
     private final UpdateSchoolInfoService updateSchoolInfoService;
     private final SearchAccountIdService searchAccountIdService;
     private final CalorieLevelListService calorieLevelListService;
+    private final UpdateGoalWalkCountService updateGoalWalkCountService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
@@ -92,4 +93,8 @@ public class UserController {
         return calorieLevelListService.execute();
     }
 
+    @PostMapping("/goal")
+    public void updateGoalWalk(@RequestBody @Valid UpdateGoalWalkCountRequest request){
+        updateGoalWalkCountService.execute(request);
+    }
 }
