@@ -1,9 +1,9 @@
 package com.walkhub.walkhub.domain.badge.presentation;
 
 import com.walkhub.walkhub.domain.badge.presentation.dto.response.ClaimBadgeResponse;
-import com.walkhub.walkhub.domain.badge.presentation.dto.response.MyBadgeListResponse;
+import com.walkhub.walkhub.domain.badge.presentation.dto.response.QueryMyBadgeListResponse;
 import com.walkhub.walkhub.domain.badge.service.ClaimBadgeService;
-import com.walkhub.walkhub.domain.badge.service.MyBadgeListService;
+import com.walkhub.walkhub.domain.badge.service.QueryMyBadgeListService;
 import com.walkhub.walkhub.domain.badge.service.SetTitleBadgeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ public class BadgeController {
 
     private final SetTitleBadgeService setTitleBadgeService;
     private final ClaimBadgeService claimBadgeService;
-    private final MyBadgeListService myBadgeListService;
+    private final QueryMyBadgeListService myBadgeListService;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{badge-id}")
@@ -35,7 +35,7 @@ public class BadgeController {
     }
 
     @GetMapping
-    public MyBadgeListResponse myBadgeList() {
+    public QueryMyBadgeListResponse myBadgeList() {
         return myBadgeListService.execute();
     }
 
