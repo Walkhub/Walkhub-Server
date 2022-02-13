@@ -37,7 +37,6 @@ public class Notice extends BaseTimeEntity {
     private String content;
 
     @NotNull
-    @Length(max = 7)
     @Enumerated(EnumType.STRING)
     private Scope scope;
 
