@@ -165,4 +165,8 @@ public class User extends BaseTimeEntity {
         this.dailyWalkCountGoal = dailyWalkCountGoal;
     }
 
+    public void setMaxLevel(CalorieLevel calorieLevel) {
+        this.maxLevel = calorieLevel;
+    }
+
 }
