@@ -23,6 +23,7 @@ public class ExceptionFilter extends OncePerRequestFilter {
         } catch (WalkhubException e) {
             sendErrorMessage(response, e.getErrorCode());
         } catch (Exception e) {
+            e.printStackTrace();
             sendErrorMessage(response, ErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
