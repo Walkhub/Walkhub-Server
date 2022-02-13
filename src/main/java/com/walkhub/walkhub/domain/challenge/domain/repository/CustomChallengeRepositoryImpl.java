@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.challenge.domain.repository;
 
+import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeParticipantsVO;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.walkhub.walkhub.domain.challenge.domain.QChallenge.challenge;
 import static com.walkhub.walkhub.domain.challenge.domain.QChallengeStatus.challengeStatus;
 import static com.walkhub.walkhub.domain.exercise.domain.QExerciseAnalysis.exerciseAnalysis;
@@ -24,26 +26,31 @@ public class CustomChallengeRepositoryImpl implements CustomChallengeRepository 
     @Override
     public List<ChallengeParticipantsVO> queryChallengeParticipantsList(Long challengeId, SuccessScope successScope) {
         return jpaQueryFactory
-                .select(new QChallengeParticipantsVO(
-                        user.id.as("userId"),
-                        user.section.grade,
-                        user.section.classNum,
-                        user.number,
-                        user.name,
-                        user.profileImageUrl,
-                        user.school.name.as("schoolName"),
-                        challengeStatus.successCount.goe(challenge.successStandard).as("isSuccess")
-                ))
-                .from(user)
+                .selectFrom(user)
                 .join(user.school, school)
-                .join(user.section, section)
-                .join(exerciseAnalysis)
-                .on(exerciseAnalysis.user.eq(user))
+                .leftJoin(user.section, section)
+                .join(user.exerciseAnalyses, exerciseAnalysis)
                 .join(user.challengeStatuses, challengeStatus)
                 .join(challengeStatus.challenge, challenge)
-                .on(challenge.id.eq(challengeId))
-                .where(successScopeFilter(successScope))
-                .fetch();
+                .where(
+                        challenge.id.eq(challengeId),
+                        successScopeFilter(successScope),
+                        exerciseAnalysis.date.between(challenge.startAt, challenge.endAt)
+                )
+                .orderBy(user.name.asc(), user.id.asc())
+                .transform(groupBy(user.name, user.id)
+                        .list(new QChallengeParticipantsVO(
+                                user.id.as("userId"),
+                                user.section.grade,
+                                user.section.classNum,
+                                user.number,
+                                user.name,
+                                user.profileImageUrl,
+                                user.school.name.as("schoolName"),
+                                challengeStatus.successCount.goe(challenge.successStandard).as("isSuccess"),
+                                GroupBy.list(exerciseAnalysis.date))
+                        )
+                );
     }
 
     private BooleanExpression successScopeFilter(SuccessScope successScope) {
