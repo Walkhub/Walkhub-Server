@@ -97,18 +97,17 @@ public class User extends BaseTimeEntity {
     @JoinColumn(name = "max_level_id")
     private CalorieLevel maxLevel;
 
-    @NotNull
     @ColumnDefault("10000")
+    @Column(nullable = false)
     private Integer dailyWalkCountGoal;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Exercise> exerciseList;
 
     @Builder
-    public User(Long id, String accountId, String password, String phoneNumber, String name,
+    public User(String accountId, String password, String phoneNumber, String name,
                 Authority authority, Section section, School school, boolean isMeasuring,
-                Integer weight, BigDecimal height, Sex sex, Badge badge, String deviceToken, Integer dailyWalkCountGoal) {
-        this.id = id;
+                Integer weight, BigDecimal height, Sex sex) {
         this.accountId = accountId;
         this.password = password;
         this.phoneNumber = phoneNumber;
@@ -118,10 +117,8 @@ public class User extends BaseTimeEntity {
         this.school = school;
         this.isMeasuring = isMeasuring;
         this.healthInfo = new HealthInfo(weight, height);
+        this.dailyWalkCountGoal = 10000;
         this.sex = sex;
-        this.badge = badge;
-        this.deviceToken = deviceToken;
-        this.dailyWalkCountGoal = dailyWalkCountGoal;
     }
 
     public void setDeviceToken(String deviceToken) {
