@@ -46,7 +46,6 @@ public class CustomChallengeRepositoryImpl implements CustomChallengeRepository 
                 .fetch();
     }
 
-    // 성공 스코프에 따른 필터링
     private BooleanExpression successScopeFilter(SuccessScope successScope) {
         switch (successScope) {
             case TRUE: {
