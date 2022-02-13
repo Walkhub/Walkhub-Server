@@ -5,7 +5,6 @@ import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeStatusRep
 import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeParticipantsForTeacherResponse;
-import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +17,6 @@ import java.util.stream.Collectors;
 public class QueryChallengeParticipantsForTeacherService {
     private final ChallengeFacade challengeFacade;
     private final ChallengeStatusRepository challengeStatusRepository;
-    private final ExerciseAnalysisRepository exerciseAnalysisRepository;
 
     @Transactional(readOnly = true)
     public QueryChallengeParticipantsForTeacherResponse execute(Long challengeId, SuccessScope successScope) {
@@ -32,7 +30,7 @@ public class QueryChallengeParticipantsForTeacherService {
     private List<QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants> queryChallengeParticipantsForTeacherResponseBuilder(
             Challenge challenge, SuccessScope successScope
     ) {
-        return challengeStatusRepository.queryChallengeParticipantsList(challenge, successScope)
+        return challengeStatusRepository.queryChallengeParticipantsList(challenge.getId(), successScope)
                 .stream()
                 .map(vo -> QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants.builder()
                         .userId(vo.getUserId())
@@ -42,7 +40,7 @@ public class QueryChallengeParticipantsForTeacherService {
                         .name(vo.getName())
                         .profileImageUrl(vo.getProfileImageUrl())
                         .schoolName(vo.getSchoolName())
-                        .successDate(exerciseAnalysisRepository.querySuccessDateList(vo.getUserId(), challenge))
+                        .successDate(vo.getExerciseAnalysesDates())
                         .isSuccess(vo.getIsSuccess())
                         .build())
                 .collect(Collectors.toList());
