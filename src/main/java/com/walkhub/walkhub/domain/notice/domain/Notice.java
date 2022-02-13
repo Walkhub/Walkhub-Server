@@ -38,6 +38,7 @@ public class Notice extends BaseTimeEntity {
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(length = 6)
     private Scope scope;
 
     @ManyToOne(fetch = FetchType.LAZY)

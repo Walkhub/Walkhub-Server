@@ -23,7 +23,7 @@ public class CalorieLevel {
     private Long id;
 
     @NotNull
-    @Length(max = 10)
+    @Column(length = 10)
     private String foodName;
 
     @NotNull
