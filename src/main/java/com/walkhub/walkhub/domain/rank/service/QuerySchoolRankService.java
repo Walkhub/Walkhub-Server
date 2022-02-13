@@ -44,7 +44,7 @@ public class QuerySchoolRankService {
 			.build();
 
 		List<SchoolResponse> schoolResponseList = schoolRankRepository
-			.findAllByDateTypeAndCreatedAtBetween(dateType.toString(), localDate, LocalDate.now())
+			.findAllByDateTypeAndCreatedAtBetweenOrderByRankingDesc(dateType.toString(), localDate, LocalDate.now())
 			.stream()
 			.map(schoolRank2 -> SchoolResponse.builder()
 				.schoolId(schoolRank2.getSchoolId())
