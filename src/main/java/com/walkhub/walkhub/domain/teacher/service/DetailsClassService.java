@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class QueryStudentCodeService {
+public class DetailsClassService {
 
     private final UserFacade userFacade;
     private final SectionFacade sectionFacade;
