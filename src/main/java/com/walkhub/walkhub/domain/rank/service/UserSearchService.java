@@ -29,11 +29,13 @@ public class UserSearchService {
 
         if (DateType.DAY.equals(dateType)) {
             result = userRepository.findAllBySchoolIdAndNameContaining(schoolId, name)
-                    .stream().map(this::buildDayUserSearchResponse)
+                    .stream()
+                    .map(this::buildDayUserSearchResponse)
                     .collect(Collectors.toList());
         } else {
             result = userRankRepository.findAllBySchoolIdAndNameContainingAndDateType(schoolId, name, dateType.toString())
-                    .stream().map(this::buildUserSearchResponse)
+                    .stream()
+                    .map(this::buildUserSearchResponse)
                     .collect(Collectors.toList());
         }
 
