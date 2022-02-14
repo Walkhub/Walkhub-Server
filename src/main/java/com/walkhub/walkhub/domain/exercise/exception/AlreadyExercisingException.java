@@ -5,12 +5,11 @@ import com.walkhub.walkhub.global.error.exception.WalkhubException;
 
 public class AlreadyExercisingException extends WalkhubException {
 
+    public static final WalkhubException EXCEPTION =
+            new AlreadyExercisingException();
 
-	public static final WalkhubException EXCEPTION =
-		new AlreadyExercisingException();
-
-	private AlreadyExercisingException() {
-		super(ErrorCode.ALREADY_EXERCISING);
-	}
+    private AlreadyExercisingException() {
+        super(ErrorCode.ALREADY_EXERCISING);
+    }
 
 }

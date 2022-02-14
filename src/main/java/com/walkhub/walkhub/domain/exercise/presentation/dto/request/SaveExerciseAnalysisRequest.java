@@ -26,7 +26,7 @@ public class SaveExerciseAnalysisRequest {
     @NotNull(message = "calorie는 Null을 허용하지 않습니다.")
     private Integer calorie;
 
-    @PositiveOrZero(message = "calorie는 음수를 허용하지 않습니다.")
+    @PositiveOrZero(message = "exercise_time은 음수를 허용하지 않습니다.")
     @NotNull(message = "exercise_time은 Null을 허용하지 않습니다")
     private Double exerciseTime;
 

@@ -155,7 +155,7 @@ public class User extends BaseTimeEntity {
         this.authority = Authority.TEACHER;
     }
 
-    public void updatedailyWalkCountGoal(Integer dailyWalkCountGoal) {
+    public void updateDailyWalkCountGoal(Integer dailyWalkCountGoal) {
         this.dailyWalkCountGoal = dailyWalkCountGoal;
     }
 

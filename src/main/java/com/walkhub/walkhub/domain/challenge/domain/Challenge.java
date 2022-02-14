@@ -6,18 +6,13 @@ import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.UserScope;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
-import java.time.LocalDateTime;
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -28,6 +23,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -58,14 +57,17 @@ public class Challenge {
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(length = 6)
     private UserScope userScope;
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(length = 3)
     private GoalScope goalScope;
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(length = 8)
     private GoalType goalType;
 
     @NotNull

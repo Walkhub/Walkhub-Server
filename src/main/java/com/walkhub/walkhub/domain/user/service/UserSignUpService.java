@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.user.service;
 
-import com.walkhub.walkhub.domain.auth.domain.repository.RefreshTokenRepository;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.school.domain.repository.SchoolRepository;
@@ -47,17 +46,17 @@ public class UserSignUpService {
                 .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
 
         User user = User.builder()
-            .accountId(request.getAccountId())
-            .password(passwordEncoder.encode(request.getPassword()))
-            .phoneNumber(request.getPhoneNumber())
-            .authority(Authority.USER)
-            .name(request.getName())
-            .school(school)
-            .height(request.getHeight())
-            .weight(request.getWeight())
-            .sex(request.getSex())
-            .isMeasuring(false)
-            .build();
+                .accountId(request.getAccountId())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .phoneNumber(request.getPhoneNumber())
+                .authority(Authority.USER)
+                .name(request.getName())
+                .school(school)
+                .height(request.getHeight())
+                .weight(request.getWeight())
+                .sex(request.getSex())
+                .isMeasuring(false)
+                .build();
 
         userRepository.save(user);
 
@@ -65,10 +64,10 @@ public class UserSignUpService {
         String refreshToken = jwtTokenProvider.generateRefreshToken(request.getAccountId());
 
         return UserTokenResponse.builder()
-            .accessToken(accessToken)
-            .expiredAt(LocalDateTime.now().plusSeconds(jwtProperties.getAccessExp()))
-            .refreshToken(refreshToken)
-            .authority(user.getAuthority())
-            .build();
+                .accessToken(accessToken)
+                .expiredAt(LocalDateTime.now().plusSeconds(jwtProperties.getAccessExp()))
+                .refreshToken(refreshToken)
+                .authority(user.getAuthority())
+                .build();
     }
 }
