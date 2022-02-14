@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -21,13 +22,13 @@ public class QuerySchoolRankService {
 	private final SchoolRankRepository schoolRankRepository;
 	private final UserFacade userFacade;
 
+	@Transactional(readOnly = true)
 	public SchoolRankResponse execute(SchoolDateType dateType) {
 		LocalDate localDate = LocalDate.now();
-		switch (dateType) {
-			case WEEK: localDate = localDate.minusWeeks(1);
-			break;
-			case MONTH: localDate = localDate.minusMonths(1);
-			break;
+		if (dateType.equals(SchoolDateType.MONTH)) {
+			localDate = localDate.minusMonths(1);
+		} else {
+			localDate = localDate.minusWeeks(1);
 		}
 
 		User user = userFacade.getCurrentUser();
@@ -43,7 +44,7 @@ public class QuerySchoolRankService {
 			.build();
 
 		List<SchoolResponse> schoolResponseList = schoolRankRepository
-			.findAllByDateTypeAndCreatedAtBetweenOrderByRankingDesc(dateType.toString(), localDate, LocalDate.now())
+			.findAllByDateTypeAndCreatedAtBetweenOrderByRankingAsc(dateType.toString(), localDate, LocalDate.now())
 			.stream()
 			.map(schoolRank -> SchoolResponse.builder()
 				.schoolId(schoolRank.getSchoolId())

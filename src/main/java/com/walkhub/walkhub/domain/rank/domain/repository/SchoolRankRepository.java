@@ -9,5 +9,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface SchoolRankRepository extends CrudRepository<SchoolRank, SchoolRankId> {
 	SchoolRank findBySchoolIdAndDateTypeAndCreatedAtBetween(Long schoolId,
 		String dateType, LocalDate createdAt, LocalDate createdAt2);
-	List<SchoolRank> findAllByDateTypeAndCreatedAtBetweenOrderByRankingDesc(String dateType, LocalDate createdAt, LocalDate createdAt2);
+	List<SchoolRank> findAllByDateTypeAndCreatedAtBetweenOrderByRankingAsc(String dateType, LocalDate createdAt, LocalDate createdAt2);
 }
