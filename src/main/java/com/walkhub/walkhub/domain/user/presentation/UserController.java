@@ -1,13 +1,35 @@
 package com.walkhub.walkhub.domain.user.presentation;
 
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
-import com.walkhub.walkhub.domain.user.presentation.dto.request.*;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.InputHealthInformationRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinSectionRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdatePasswordRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateSchoolInfoRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
-import com.walkhub.walkhub.domain.user.service.*;
+import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
+import com.walkhub.walkhub.domain.user.service.JoinSectionService;
+import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
+import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
+import com.walkhub.walkhub.domain.user.service.SearchAccountIdService;
+import com.walkhub.walkhub.domain.user.service.UpdatePasswordService;
+import com.walkhub.walkhub.domain.user.service.UpdateSchoolInfoService;
+import com.walkhub.walkhub.domain.user.service.UpdateUserInfoService;
+import com.walkhub.walkhub.domain.user.service.UserAuthCodeService;
+import com.walkhub.walkhub.domain.user.service.UserSignUpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 

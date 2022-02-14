@@ -1,7 +1,7 @@
 package com.walkhub.walkhub.domain.user.service;
 
 import com.walkhub.walkhub.domain.badge.domain.Badge;
-import com.walkhub.walkhub.domain.user.domain.CalorieLevel;
+import com.walkhub.walkhub.domain.calorielevel.domain.CalorieLevel;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
