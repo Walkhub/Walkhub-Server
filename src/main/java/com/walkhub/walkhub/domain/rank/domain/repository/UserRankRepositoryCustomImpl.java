@@ -2,9 +2,8 @@ package com.walkhub.walkhub.domain.rank.domain.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.walkhub.walkhub.domain.rank.domain.repository.vo.QUserRankVO;
 import com.walkhub.walkhub.domain.rank.domain.repository.vo.UserRankVO;
-import com.walkhub.walkhub.domain.rank.presentation.dto.response.QUserRankListResponse_UserRankResponse;
-import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
@@ -21,7 +20,7 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
     @Override
     public UserRankVO getMyRankByUserId(Long userId, Integer classNum, String dateType, LocalDate date) {
         return queryFactory
-                .select(new QUserRankListResponse_UserRankResponse(
+                .select(new QUserRankVO(
                         userRank.userId,
                         userRank.name,
                         userRank.grade,
@@ -43,7 +42,7 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
     @Override
     public List<UserRankVO> getUserRankListBySchoolId(Long schoolId, Integer classNum, String dateType, LocalDate date) {
         return queryFactory
-                .select(new QUserRankListResponse_UserRankResponse(
+                .select(new QUserRankVO(
                         userRank.userId,
                         userRank.name,
                         userRank.grade,
