@@ -12,7 +12,7 @@ public class SchoolFacade {
 
     private final SchoolRepository schoolRepository;
 
-    public School getById(Long schoolId) {
+    public School getSchoolById(Long schoolId) {
         return schoolRepository.findById(schoolId)
                 .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
     }

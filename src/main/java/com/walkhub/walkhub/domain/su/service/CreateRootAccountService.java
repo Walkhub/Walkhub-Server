@@ -16,7 +16,7 @@ public class CreateRootAccountService {
     public CreateRootAccountResponse execute(Long schoolId) {
         String password = RandomString.make(8);
 
-        School school = schoolFacade.getById(schoolId);
+        School school = schoolFacade.getSchoolById(schoolId);
 
         return new CreateRootAccountResponse(school.getName(), password);
     }
