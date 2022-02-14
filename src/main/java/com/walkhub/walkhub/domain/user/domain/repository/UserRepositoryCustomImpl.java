@@ -6,6 +6,8 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QQueryUserListResponse_UserListInfo;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserListResponse;
+import com.walkhub.walkhub.domain.teacher.type.AuthorityScope;
+import com.walkhub.walkhub.domain.teacher.type.SortStandard;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.SectionFacade;
 import com.walkhub.walkhub.global.enums.Authority;
@@ -24,7 +26,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     private final SectionFacade sectionFacade;
 
     @Override
-    public List<QueryUserListResponse.UserListInfo> queryUserList(Integer page, String scope, String sort, Integer grade, Integer classNum, User currentUser) {
+    public List<QueryUserListResponse.UserListInfo> queryUserList(Integer page, AuthorityScope scope, SortStandard sort, Integer grade, Integer classNum, User currentUser) {
         long size = 4;
         return queryFactory
                 .select(new QQueryUserListResponse_UserListInfo(
@@ -62,38 +64,38 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         return querydslUtil.nullSafeBuilder(() -> user.section.classNum.eq(classNum));
     }
 
-    private BooleanExpression buildFilteringCondition(String scope) {
+    private BooleanExpression buildFilteringCondition(AuthorityScope scope) {
         switch (scope) {
-            case "ALL":
+            case ALL:
                 return user.authority.eq(Authority.TEACHER).or(user.authority.eq(Authority.USER));
-            case "STUDENT":
+            case STUDENT:
                 return user.authority.eq(Authority.USER);
-            case "TEACHER":
+            case TEACHER:
                 return user.authority.eq(Authority.TEACHER);
             default:
                 return null;
         }
     }
 
-    private OrderSpecifier[] buildSortCondition(String sort) {
+    private OrderSpecifier[] buildSortCondition(SortStandard sort) {
         switch (sort) {
-            case "NAME":
+            case NAME:
                 return new OrderSpecifier[]{
                         user.name.asc(), user.authority.asc()
                 };
-            case "GCN":
+            case GCN:
                 return new OrderSpecifier[]{
                         user.section.grade.asc(),
                         user.section.classNum.asc(),
                         user.number.asc(),
                         user.authority.asc()
                 };
-            case "WALK_COUNT":
+            case WALK_COUNT:
                 return new OrderSpecifier[]{
                         exerciseAnalysis.walkCount.desc(),
                         user.authority.asc()
                 };
-            case "DISTANCE":
+            case DISTANCE:
                 return new OrderSpecifier[]{
                         exerciseAnalysis.distance.desc(),
                         user.authority.asc()
