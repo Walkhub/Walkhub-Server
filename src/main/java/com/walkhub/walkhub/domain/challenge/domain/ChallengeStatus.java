@@ -5,9 +5,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,15 +29,10 @@ public class ChallengeStatus {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ColumnDefault("1")
-    @Column(nullable = false)
-    private Long successCount;
-
     @Builder
-    public ChallengeStatus(Challenge challenge, User user, Long successCount) {
+    public ChallengeStatus(Challenge challenge, User user) {
         this.challenge = challenge;
         this.user = user;
-        this.successCount = successCount;
     }
 
 }
