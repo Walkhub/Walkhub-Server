@@ -20,7 +20,7 @@ public class CalorieLevelController {
     private final CalorieLevelListService calorieLevelListService;
     private final UpdateMaxCalorieLevelService updateMaxCalorieLevelService;
 
-    @GetMapping("/levels/lists")
+    @GetMapping("/lists")
     public CalorieLevelListResponse calorieLevelList() {
         return calorieLevelListService.execute();
     }
