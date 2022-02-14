@@ -43,7 +43,8 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 .where(
                         user.school.eq(currentUser.getSchool()),
                         buildFilteringCondition(scope),
-                        gradeAndClassNumEq(grade, classNum)
+                        gradeEq(grade),
+                        classNumEq(classNum)
                 )
                 .offset((long)page * size)
                 .limit(size)
@@ -52,16 +53,12 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 .fetch();
     }
 
-    private BooleanBuilder gradeAndClassNumEq(Integer grade, Integer classNum) {
-        return gradeEq(grade).and(classNumEq(classNum));
+    private BooleanExpression gradeEq(Integer grade) {
+        return grade != null ? user.section.grade.eq(grade) : null;
     }
 
-    private BooleanBuilder gradeEq(Integer grade) {
-        return querydslUtil.nullSafeBuilder(() -> user.section.grade.eq(grade));
-    }
-
-    private BooleanBuilder classNumEq(Integer classNum) {
-        return querydslUtil.nullSafeBuilder(() -> user.section.classNum.eq(classNum));
+    private BooleanExpression classNumEq(Integer classNum) {
+        return classNum != null ? user.section.classNum.eq(classNum) : null;
     }
 
     private BooleanExpression buildFilteringCondition(AuthorityScope scope) {
