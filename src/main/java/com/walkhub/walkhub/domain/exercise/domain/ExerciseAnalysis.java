@@ -21,7 +21,7 @@ public class ExerciseAnalysis {
     private Long id;
 
     @NotNull
-    private Integer calorie;
+    private Double calorie;
 
     @NotNull
     private Integer walkCount;
@@ -38,7 +38,7 @@ public class ExerciseAnalysis {
 
 
     @Builder
-    public ExerciseAnalysis(Integer calorie, Integer walkCount,
+    public ExerciseAnalysis(Double calorie, Integer walkCount,
                             Integer distance, LocalDate date, User user) {
         this.calorie = calorie;
         this.walkCount = walkCount;
