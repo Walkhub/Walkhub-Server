@@ -6,7 +6,7 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.*;
 import com.walkhub.walkhub.domain.notification.domain.NotificationEntity;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationRepository;
-import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.domain.notification.domain.type.Type;
 import com.walkhub.walkhub.infrastructure.fcm.dto.SendDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +16,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -50,7 +48,7 @@ public class CoolNotification implements FcmUtil {
     }
 
     @Override
-    public void sendNotification(SendDto sendDto) {
+    public void sendNotification(SendDto sendDto, Type type) {
         Long notificationId = notificationRepository.save(
                 NotificationEntity.builder()
                         .title(sendDto.getTitle())
@@ -58,14 +56,13 @@ public class CoolNotification implements FcmUtil {
                         .build()
         ).getId();
 
-        List<String> deviceTokens = sendDto.getUsers()
-                .stream().map(User::getDeviceToken)
-                .collect(Collectors.toList());
+        String deviceTokens = sendDto.getUser().getDeviceToken();
 
-        MulticastMessage message = MulticastMessage.builder()
+        Message message = Message.builder()
                 .putData("notification_id", notificationId.toString())
                 .putData("click_action", sendDto.getClickAction())
                 .putData("value", sendDto.getValue())
+                .setTopic(String.valueOf(type))
                 .setNotification(
                         Notification.builder()
                                 .setTitle(sendDto.getTitle())
@@ -77,8 +74,8 @@ public class CoolNotification implements FcmUtil {
                                 .setSound("default")
                                 .build())
                         .build())
-                .addAllTokens(deviceTokens)
+                .setToken(deviceTokens)
                 .build();
-        FirebaseMessaging.getInstance().sendMulticastAsync(message);
+        FirebaseMessaging.getInstance().sendAsync(message);
     }
 }
