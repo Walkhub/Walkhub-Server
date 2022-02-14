@@ -20,6 +20,4 @@ public class SchoolRankInfo {
     private Integer ranking;
     private String logoImageUrl;
     private Integer walkCount;
-    private LocalDateTime createDate;
-
 }

@@ -33,7 +33,4 @@ public class UserRankInfo {
     private Integer ranking;
 
     private String agencyCode;
-
-    private LocalDateTime createDate;
-
 }
