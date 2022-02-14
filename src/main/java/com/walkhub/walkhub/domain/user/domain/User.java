@@ -50,7 +50,7 @@ public class User extends BaseTimeEntity {
     @Column(length = 60, nullable = false)
     private String password;
 
-    @Column(length = 11, nullable = false)
+    @Column(length = 11)
     private String phoneNumber;
 
     @Column(length = 10, nullable = false)
