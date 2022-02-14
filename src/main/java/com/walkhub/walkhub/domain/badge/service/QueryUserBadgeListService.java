@@ -17,13 +17,13 @@ public class QueryUserBadgeListService {
 
     public QueryUserBadgeListResponse execute(Long userId) {
 
-        List<DefaultBadgeResponse> badgeList = badgeCollectionRepository.findByUserId(userId)
+        List<DefaultBadgeResponse> badgeList = badgeCollectionRepository.findAllByUserId(userId)
                 .stream()
                 .map(badgeCollection -> DefaultBadgeResponse.builder()
                         .name(badgeCollection.getBadge().getName())
                         .imageUrl(badgeCollection.getBadge().getImageUrl())
                         .condition(badgeCollection.getBadge().getCondition())
-                        .build())
+                        .buil
                 .collect(Collectors.toList());
 
         return new QueryUserBadgeListResponse(badgeList);
