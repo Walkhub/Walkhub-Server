@@ -16,9 +16,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,13 +33,13 @@ public class CoolNotification implements FcmUtil {
     @Override
     public void initialize() {
         try {
-            FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials
-                            .fromStream(new ClassPathResource(path)
-                                    .getInputStream()))
-                    .build();
+                FirebaseOptions options = FirebaseOptions.builder()
+                        .setCredentials(GoogleCredentials
+                                .fromStream(new ClassPathResource(path)
+                                        .getInputStream()))
+                        .build();
 
-            if (FirebaseApp.getApps().isEmpty()) {
+                if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
                 log.info("Firebase application has been initialized");
             }
