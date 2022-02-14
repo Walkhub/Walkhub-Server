@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.badge.presentation.dto.response;
 
+import com.walkhub.walkhub.domain.badge.domain.repository.vo.DefaultBadgeVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class QueryMyBadgeListResponse {
 
-    private final List<BadgeListResponse> badgeLists;
+    private final List<DefaultBadgeVO> badgeLists;
 
     @Getter
     @Builder
@@ -20,5 +21,4 @@ public class QueryMyBadgeListResponse {
         private final String imageUrl;
         private final boolean isMine;
     }
-
 }
