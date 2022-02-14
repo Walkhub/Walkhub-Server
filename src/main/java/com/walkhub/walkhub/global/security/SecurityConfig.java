@@ -117,7 +117,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PATCH,  "/teachers/classes/verification-codes").hasAuthority("TEACHER")
 
                 // su
-                .antMatchers(HttpMethod.GET,"/su").hasAnyAuthority("SU")
+                .antMatchers(HttpMethod.GET,"/su").hasAuthority("SU")
+                .antMatchers(HttpMethod.POST,"/su/accounts/{school-id}").hasAuthority("SU")
 
                 //excel
                 .antMatchers(HttpMethod.GET,"/excel").hasAnyAuthority("TEACHER", "ROOT")
