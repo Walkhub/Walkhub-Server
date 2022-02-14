@@ -63,6 +63,12 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
                 .fetch();
     }
 
+    private BooleanExpression schoolIdEq(Long schoolId) {
+        return schoolId != null ? userRank.schoolId.eq(schoolId) : null;
+    }
+
+    private BooleanExpression
+
     private BooleanExpression classNumEq(Integer classNum) {
         return classNum != null ? userRank.scopeType.eq("CLASS").and(userRank.classNum.eq(classNum)) : userRank.scopeType.eq("SCHOOL");
     }

@@ -1,4 +1,4 @@
-package com.walkhub.walkhub.domain.user.domain;
+package com.walkhub.walkhub.domain.calorielevel.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

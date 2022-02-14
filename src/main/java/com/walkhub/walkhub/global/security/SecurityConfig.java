@@ -107,6 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // teachers
                 .antMatchers(HttpMethod.POST, "/teachers/verification-codes").hasAuthority("ROOT")
+                .antMatchers(HttpMethod.PATCH, "/teachers/verification-codes").hasAuthority("USER")
                 .antMatchers(HttpMethod.POST, "/teachers/classes").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.DELETE, "/teachers/classes/{section-id}").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.GET, "/teachers/classes").hasAnyAuthority("TEACHER")
@@ -116,7 +117,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PATCH,  "/teachers/classes/verification-codes").hasAuthority("TEACHER")
 
                 // su
-                .antMatchers(HttpMethod.GET,"/su").hasAnyAuthority("SU")
+                .antMatchers(HttpMethod.GET,"/su").hasAuthority("SU")
+                .antMatchers(HttpMethod.POST,"/su/accounts/{school-id}").hasAuthority("SU")
 
                 //excel
                 .antMatchers(HttpMethod.GET,"/excel").hasAnyAuthority("TEACHER", "ROOT")

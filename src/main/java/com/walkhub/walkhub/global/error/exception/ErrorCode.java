@@ -21,7 +21,8 @@ public enum ErrorCode {
     CLASS_CODE_NOT_MATCH(401, "USER-401-2", "Class Code Not Match"),
     INVALID_SCOPE(401, "CHALLENGE-401-1", "Invalid Scope"),
     PASSWORD_MISMATCH(401, "AUTH-401-1", "Password Mismatch"),
-    INVALID_ROLE(401, "GLOBAL-401", "Invalid Role"),
+    INVALID_ROLE(401, "GLOBAL-401-1", "Invalid Role"),
+    INVALID_VERIFICATION_CODE(401, "GLOBAL-401-2", "Invalid Verification Code"),
 
     USER_NOT_FOUND(404, "USER-404-1", "User Not Found"),
     USER_AUTH_CODE_NOT_FOUND(404, "USER-404-2", "User AuthCode Not Found"),
@@ -42,6 +43,8 @@ public enum ErrorCode {
     BADGE_NOT_FOUND(404, "BADGE-404-1", "Badge Not Found"),
 
     NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification Not Found."),
+
+    CALORIE_LEVEL_NOT_FOUND(404, "CALORIE_LEVEL-404-1", "Calorie Level Not Found"),
   
     ALREADY_CREATED(409, "SECTION-409-1", "Already Created"),
     ALREADY_JOINED(409, "USER-409-2", "Already Joined"),
