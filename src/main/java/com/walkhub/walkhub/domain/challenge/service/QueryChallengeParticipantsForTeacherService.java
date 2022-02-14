@@ -30,7 +30,7 @@ public class QueryChallengeParticipantsForTeacherService {
     private List<QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants> queryChallengeParticipantsForTeacherResponseBuilder(
             Challenge challenge, SuccessScope successScope
     ) {
-        return challengeStatusRepository.queryChallengeParticipantsList(challenge.getId(), successScope)
+        return challengeStatusRepository.queryChallengeParticipantsList(challenge, successScope)
                 .stream()
                 .map(vo -> QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants.builder()
                         .userId(vo.getUserId())
