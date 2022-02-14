@@ -58,7 +58,7 @@ public class ExerciseController {
 	}
 
 	@GetMapping("/analysis")
-	public QueryExerciseAnalysisResponse  setQueryExerciseAnalysis() {
+	public QueryExerciseAnalysisResponse QueryExerciseAnalysis() {
 		return queryExerciseAnalysisService.execute();
   	}
 
