@@ -2,7 +2,6 @@ package com.walkhub.walkhub.domain.exercise.domain.repository;
 
 import com.walkhub.walkhub.domain.exercise.domain.ExerciseAnalysis;
 import com.walkhub.walkhub.domain.user.domain.User;
-import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDate;
