@@ -1,12 +1,17 @@
 package com.walkhub.walkhub.domain.challenge.presenstation;
 
+import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.CreateChallengeRequest;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChallengeRequest;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeParticipantsForTeacherResponse;
 import com.walkhub.walkhub.domain.challenge.service.CreateChallengeService;
+import com.walkhub.walkhub.domain.challenge.service.ParticipateChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.QueryChallengeDetailsService;
 import com.walkhub.walkhub.domain.challenge.service.QueryChallengeListService;
+import com.walkhub.walkhub.domain.challenge.service.QueryChallengeParticipantsForTeacherService;
+import com.walkhub.walkhub.domain.challenge.service.QueryParticipatedChallengeListService;
 import com.walkhub.walkhub.domain.challenge.service.RemoveChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.UpdateChallengeService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +39,9 @@ public class ChallengeController {
     private final QueryChallengeListService queryChallengeListService;
     private final UpdateChallengeService updateChallengeService;
     private final QueryChallengeDetailsService queryChallengeDetailsService;
+    private final ParticipateChallengeService participateChallengeService;
+    private final QueryParticipatedChallengeListService queryParticipatedChallengeListService;
+    private final QueryChallengeParticipantsForTeacherService queryChallengeParticipantsForTeacherService;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{challenge-id}")
@@ -61,6 +70,23 @@ public class ChallengeController {
     @GetMapping("/{challenge-id}")
     public QueryChallengeDetailsResponse queryChallengeDetails(@PathVariable("challenge-id") Long challengeId) {
         return queryChallengeDetailsService.execute(challengeId);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/{challenge-id}")
+    public void participateChallenge(@PathVariable("challenge-id") Long challengeId) {
+        participateChallengeService.execute(challengeId);
+    }
+      
+    @GetMapping("/participated")
+    public QueryChallengeListResponse queryParticipatedChallengeList() {
+        return queryParticipatedChallengeListService.execute();
+    }
+
+    @GetMapping("/{challenge-id}/participants/teachers")
+    public QueryChallengeParticipantsForTeacherResponse queryChallengeParticipantsForTeacher(@PathVariable("challenge-id") Long challengeId,
+                                                                                             @RequestParam SuccessScope successScope) {
+        return queryChallengeParticipantsForTeacherService.execute(challengeId, successScope);
     }
 
 }
