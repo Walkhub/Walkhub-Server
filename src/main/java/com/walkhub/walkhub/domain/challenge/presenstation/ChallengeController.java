@@ -4,13 +4,8 @@ import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.CreateChal
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChallengeRequest;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse;
-import com.walkhub.walkhub.domain.challenge.service.CreateChallengeService;
-import com.walkhub.walkhub.domain.challenge.service.ParticipateChallengeService;
-import com.walkhub.walkhub.domain.challenge.service.QueryChallengeDetailsService;
-import com.walkhub.walkhub.domain.challenge.service.QueryChallengeListService;
-import com.walkhub.walkhub.domain.challenge.service.QueryParticipatedChallengeListService;
-import com.walkhub.walkhub.domain.challenge.service.RemoveChallengeService;
-import com.walkhub.walkhub.domain.challenge.service.UpdateChallengeService;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeParticipantsForStudentResponse;
+import com.walkhub.walkhub.domain.challenge.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,6 +32,7 @@ public class ChallengeController {
     private final QueryChallengeDetailsService queryChallengeDetailsService;
     private final ParticipateChallengeService participateChallengeService;
     private final QueryParticipatedChallengeListService queryParticipatedChallengeListService;
+    private final QueryChallengeParticipantsForStudentService queryChallengeParticipantsForStudentService;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{challenge-id}")
@@ -78,4 +74,8 @@ public class ChallengeController {
         return queryParticipatedChallengeListService.execute();
     }
 
+    @GetMapping("/{challenge-id}/participants/students")
+    public QueryChallengeParticipantsForStudentResponse queryChallengeParticipantsForStudent(@PathVariable("challenge-id") Long challengeId) {
+        return queryChallengeParticipantsForStudentService.execute(challengeId);
+    }
 }
