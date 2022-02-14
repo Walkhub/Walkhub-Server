@@ -28,7 +28,7 @@ public class SchoolRankResponse {
 	public static class SchoolResponse {
 		private final Long schoolId;
 		private final String name;
-		private final Integer rank;
+		private final Integer ranking;
 		private final Long studentCount;
 		private final String logoImageUrl;
 		private final Integer walkCount;

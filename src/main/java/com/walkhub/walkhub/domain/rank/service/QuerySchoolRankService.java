@@ -49,7 +49,7 @@ public class QuerySchoolRankService {
 			.map(schoolRank2 -> SchoolResponse.builder()
 				.schoolId(schoolRank2.getSchoolId())
 				.name(schoolRank2.getName())
-				.rank(schoolRank2.getRanking())
+				.ranking(schoolRank2.getRanking())
 				.studentCount(schoolRank2.getUserCount())
 				.logoImageUrl(schoolRank2.getLogoImageUrl())
 				.walkCount(schoolRank2.getWalkCount())
