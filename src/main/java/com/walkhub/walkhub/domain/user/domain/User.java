@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.domain.user.domain;
 
 import com.walkhub.walkhub.domain.badge.domain.Badge;
+import com.walkhub.walkhub.domain.calorielevel.domain.CalorieLevel;
 import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
 import com.walkhub.walkhub.domain.exercise.domain.Exercise;
 import com.walkhub.walkhub.domain.exercise.domain.ExerciseAnalysis;
@@ -170,6 +171,10 @@ public class User extends BaseTimeEntity {
 
     public void updatedailyWalkCountGoal(Integer dailyWalkCountGoal) {
         this.dailyWalkCountGoal = dailyWalkCountGoal;
+    }
+
+    public void setMaxLevel(CalorieLevel calorieLevel) {
+        this.maxLevel = calorieLevel;
     }
 
 }

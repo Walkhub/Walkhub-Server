@@ -1,6 +1,6 @@
-package com.walkhub.walkhub.domain.user.domain.repository;
+package com.walkhub.walkhub.domain.calorielevel.domain.repository;
 
-import com.walkhub.walkhub.domain.user.domain.CalorieLevel;
+import com.walkhub.walkhub.domain.calorielevel.domain.CalorieLevel;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
