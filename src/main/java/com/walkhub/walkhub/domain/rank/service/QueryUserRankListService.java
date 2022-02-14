@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.rank.service;
 import com.walkhub.walkhub.domain.exercise.cache.ExerciseAnalysisCacheRepository;
 import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
 import com.walkhub.walkhub.domain.rank.domain.repository.UserRankRepository;
+import com.walkhub.walkhub.domain.rank.domain.repository.vo.UserRankVO;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
@@ -53,18 +54,57 @@ public class QueryUserRankListService {
                                     .build()
                             ).collect(Collectors.toList())
                     ).build();
-        } else {
-            if (scope.equals("ALL")) {
-                return UserRankListResponse.builder()
-                        .myRank(userRankRepository.getMyRankByUserId(user.getId(), null, dateType, date))
-                        .rankList(userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), null, dateType, date))
-                        .build();
-            } else if (scope.equals("CLASS")) {
-                return UserRankListResponse.builder()
-                        .myRank(userRankRepository.getMyRankByUserId(user.getId(), user.getSection().getClassNum(), dateType, date))
-                        .rankList(userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), user.getSection().getClassNum(), dateType, date))
-                        .build();
-            }
+        } else if (scope.equals("ALL")) {
+            UserRankVO userRankVO = userRankRepository.getMyRankByUserId(user.getId(), null, dateType, date);
+            return UserRankListResponse.builder()
+                    .myRank(UserRankListResponse.UserRankResponse.builder()
+                            .userId(userRankVO.getUserId())
+                            .name(userRankVO.getName())
+                            .grade(userRankVO.getGrade())
+                            .classNum(userRankVO.getClassNum())
+                            .ranking(userRankVO.getRanking())
+                            .profileImageUrl(userRankVO.getProfileImageUrl())
+                            .walkCount(userRankVO.getWalkCount())
+                            .build()
+                    )
+                    .rankList(userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), null, dateType, date)
+                            .stream().map(vo -> UserRankListResponse.UserRankResponse.builder()
+                                    .userId(vo.getUserId())
+                                    .name(vo.getName())
+                                    .grade(vo.getGrade())
+                                    .classNum(vo.getClassNum())
+                                    .ranking(vo.getRanking())
+                                    .profileImageUrl(vo.getProfileImageUrl())
+                                    .walkCount(vo.getWalkCount())
+                                    .build()
+                            ).collect(Collectors.toList())
+                    )
+                    .build();
+        } else if (scope.equals("CLASS")) {
+            UserRankVO userRankVO = userRankRepository.getMyRankByUserId(user.getId(), user.getSection().getClassNum(), dateType, date);
+            return UserRankListResponse.builder()
+                    .myRank(UserRankListResponse.UserRankResponse.builder()
+                            .userId(userRankVO.getUserId())
+                            .name(userRankVO.getName())
+                            .grade(userRankVO.getGrade())
+                            .classNum(userRankVO.getClassNum())
+                            .ranking(userRankVO.getRanking())
+                            .profileImageUrl(userRankVO.getProfileImageUrl())
+                            .walkCount(userRankVO.getWalkCount())
+                            .build())
+                    .rankList(userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), user.getSection().getClassNum(), dateType, date)
+                            .stream().map(vo -> UserRankListResponse.UserRankResponse.builder()
+                                    .userId(vo.getUserId())
+                                    .name(vo.getName())
+                                    .grade(vo.getGrade())
+                                    .classNum(vo.getClassNum())
+                                    .ranking(vo.getRanking())
+                                    .profileImageUrl(vo.getProfileImageUrl())
+                                    .walkCount(vo.getWalkCount())
+                                    .build()
+                            ).collect(Collectors.toList())
+                    )
+                    .build();
         }
         return null;
     }
