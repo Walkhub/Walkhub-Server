@@ -9,5 +9,5 @@ import java.util.Optional;
 
 public interface ExerciseAnalysisRepository extends CrudRepository<ExerciseAnalysis, Long> {
     Optional<ExerciseAnalysis> findByUserAndDate(User user, LocalDate date);
-    Integer findWalkCountByUserId(Long userId);
+    Integer findByUserIdAndDate(Long userId, LocalDate date);
 }

@@ -36,7 +36,7 @@ public class QueryUserRankListService {
                             .classNum(section.getClassNum())
                             .ranking(Math.toIntExact(exerciseAnalysisCacheRepository.getUserTodayRank(user.getId())))
                             .profileImageUrl(user.getProfileImageUrl())
-                            .walkCount(exerciseAnalysisRepository.findWalkCountByUserId(user.getId()))
+                            .walkCount(exerciseAnalysisRepository.findByUserIdAndDate(user.getId(), LocalDate.now()))
                             .build()
                     )
                     .rankList(exerciseAnalysisCacheRepository.getUserIdsByRankTop100()
@@ -49,7 +49,7 @@ public class QueryUserRankListService {
                                     .classNum(users.getSection().getClassNum())
                                     .ranking(rankCount.incrementAndGet())
                                     .profileImageUrl(users.getProfileImageUrl())
-                                    .walkCount(exerciseAnalysisRepository.findWalkCountByUserId(users.getId()))
+                                    .walkCount(exerciseAnalysisRepository.findByUserIdAndDate(users.getId(), LocalDate.now()))
                                     .build()
                             ).collect(Collectors.toList())
                     ).build();
