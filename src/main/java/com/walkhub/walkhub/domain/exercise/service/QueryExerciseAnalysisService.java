@@ -31,7 +31,8 @@ public class QueryExerciseAnalysisService {
                 .orElse(ExerciseAnalysis.builder().build());
 
         List<Integer> walkCountList = exerciseAnalysisRepository.findAllByUserAndDateBetween(user, startAt, LocalDate.now())
-                .stream().map(ExerciseAnalysis::getWalkCount)
+                .stream()
+                .map(ExerciseAnalysis::getWalkCount)
                 .collect(Collectors.toList());
 
         return QueryExerciseAnalysisResponse.builder()
