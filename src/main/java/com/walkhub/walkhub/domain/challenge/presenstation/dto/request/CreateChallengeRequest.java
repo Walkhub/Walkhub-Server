@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
@@ -22,10 +22,10 @@ public class CreateChallengeRequest {
     private String imageUrl;
 
     @NotNull(message = "start_at은 Null일 수 없습니다.")
-    private LocalDateTime startAt;
+    private LocalDate startAt;
 
     @NotNull(message = "end_at은 Null일 수 없습니다.")
-    private LocalDateTime endAt;
+    private LocalDate endAt;
 
     @NotBlank(message = "award는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
     private String award;
