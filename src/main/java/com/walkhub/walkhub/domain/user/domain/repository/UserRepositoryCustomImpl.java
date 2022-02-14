@@ -40,8 +40,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                         user.authority.eq(Authority.TEACHER).as("isTeacher")
                 ))
                 .from(user)
-                .leftJoin(exerciseAnalysis)
-                .on(exerciseAnalysis.user.eq(user))
+                .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
                 .where(
                         user.school.eq(currentUser.getSchool()),
                         buildFilteringCondition(scope),
