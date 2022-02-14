@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.rank.presentation.dto.response;
 
-import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -23,16 +22,5 @@ public class UserRankListResponse {
         private final Integer ranking;
         private final String profileImageUrl;
         private final Integer walkCount;
-
-        @QueryProjection
-        public UserRankResponse(Long userId, String name, Integer grade, Integer classNum, Integer ranking, String profileImageUrl, Integer walkCount) {
-            this.userId = userId;
-            this.name = name;
-            this.grade = grade;
-            this.classNum = classNum;
-            this.ranking = ranking;
-            this.profileImageUrl = profileImageUrl;
-            this.walkCount = walkCount;
-        }
     }
 }
