@@ -2,7 +2,9 @@ package com.walkhub.walkhub.domain.user.domain;
 
 import com.walkhub.walkhub.domain.badge.domain.Badge;
 import com.walkhub.walkhub.domain.calorielevel.domain.CalorieLevel;
+import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
 import com.walkhub.walkhub.domain.exercise.domain.Exercise;
+import com.walkhub.walkhub.domain.exercise.domain.ExerciseAnalysis;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
 import com.walkhub.walkhub.domain.user.domain.type.Sex;
@@ -10,17 +12,15 @@ import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRe
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -32,9 +32,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import org.hibernate.validator.constraints.Length;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -51,7 +53,7 @@ public class User extends BaseTimeEntity {
     @Column(length = 60, nullable = false)
     private String password;
 
-    @Column(length = 11, nullable = false)
+    @Column(length = 11)
     private String phoneNumber;
 
     @Column(length = 10, nullable = false)
@@ -103,6 +105,12 @@ public class User extends BaseTimeEntity {
     @NotNull
     @ColumnDefault("10000")
     private Integer dailyWalkCountGoal;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<ChallengeStatus> challengeStatuses;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<ExerciseAnalysis> exerciseAnalyses;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Exercise> exerciseList;
