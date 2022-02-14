@@ -2,16 +2,15 @@ package com.walkhub.walkhub.domain.challenge.domain.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
-import com.walkhub.walkhub.domain.challenge.domain.QChallengeStatus;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QQueryChallengeParticipantsForStudentResponse_RelatedChallengeParticipants;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeParticipantsForStudentResponse;
-import com.walkhub.walkhub.domain.user.domain.QUser;
-import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QRelatedChallengeParticipantsVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
+import com.walkhub.walkhub.domain.school.domain.School;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 import static com.walkhub.walkhub.domain.challenge.domain.QChallengeStatus.challengeStatus;
+import static com.walkhub.walkhub.domain.user.domain.QSection.section;
 import static com.walkhub.walkhub.domain.user.domain.QUser.user;
 
 @RequiredArgsConstructor
@@ -29,9 +28,9 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     @Override
-    public List<QueryChallengeParticipantsForStudentResponse.RelatedChallengeParticipants> getRelatedChallengeParticipantsList(Long challengeId) {
+    public List<RelatedChallengeParticipantsVO> getRelatedChallengeParticipantsList(Long challengeId, School school, Integer grade, Integer classNum) {
         return queryFactory
-                .select(new QQueryChallengeParticipantsForStudentResponse_RelatedChallengeParticipants(
+                .select(new QRelatedChallengeParticipantsVO(
                         user.id.as("userId"),
                         user.name,
                         user.profileImageUrl
@@ -39,10 +38,18 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .from(user)
                 .join(challengeStatus)
                 .on(challengeStatus.user.eq(user))
-                .where(challengeStatus.challenge.id.eq(challengeId))
-                .orderBy()
+                .join(section)
+                .on(section.id.eq(user.section.id))
+                .where(
+                        challengeStatus.challenge.id.eq(challengeId),
+                        user.school.eq(school)
+                )
+                .orderBy(
+                        section.grade.subtract(grade).abs().asc(),
+                        section.classNum.subtract(classNum).abs().asc(),
+                        user.school.id.subtract(school.getId()).abs().asc()
+                )
                 .limit(3)
                 .fetch();
-
     }
 }
