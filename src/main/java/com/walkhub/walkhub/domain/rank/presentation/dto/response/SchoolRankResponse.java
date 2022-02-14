@@ -18,7 +18,6 @@ public class SchoolRankResponse {
 		private final Long schoolId;
 		private final String name;
 		private final String logoImageUrl;
-		private final Integer walkCount;
 		private final Integer grade;
 		private final Integer classNum;
 	}

@@ -38,7 +38,6 @@ public class QuerySchoolRankService {
 			.schoolId(schoolRank.getSchoolId())
 			.name(schoolRank.getName())
 			.logoImageUrl(schoolRank.getLogoImageUrl())
-			.walkCount(schoolRank.getWalkCount())
 			.grade(user.getSection().getGrade())
 			.classNum(user.getSection().getClassNum())
 			.build();
