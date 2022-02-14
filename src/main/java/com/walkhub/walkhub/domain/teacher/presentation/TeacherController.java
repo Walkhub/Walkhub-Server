@@ -4,6 +4,8 @@ import com.walkhub.walkhub.domain.teacher.presentation.dto.request.CreateClassRe
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CodeResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserListResponse;
 import com.walkhub.walkhub.domain.teacher.service.*;
+import com.walkhub.walkhub.domain.teacher.type.AuthorityScope;
+import com.walkhub.walkhub.domain.teacher.type.SortStandard;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -62,8 +64,8 @@ public class TeacherController {
 
     @GetMapping("/users")
     public QueryUserListResponse queryUserList(@RequestParam Integer page,
-                                               @RequestParam String scope,
-                                               @RequestParam String sort,
+                                               @RequestParam AuthorityScope scope,
+                                               @RequestParam SortStandard sort,
                                                @RequestParam(required = false) Integer grade,
                                                @RequestParam(required = false) Integer classNum) {
         return queryUserListService.execute(page, scope, sort, grade, classNum);
