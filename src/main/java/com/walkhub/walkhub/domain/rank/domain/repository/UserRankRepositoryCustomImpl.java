@@ -4,6 +4,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.rank.domain.repository.vo.QUserRankVO;
 import com.walkhub.walkhub.domain.rank.domain.repository.vo.UserRankVO;
+import com.walkhub.walkhub.global.enums.DateType;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
@@ -18,7 +19,7 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
     private static final Long LIMIT = 100L;
 
     @Override
-    public UserRankVO getMyRankByUserId(Long userId, Integer classNum, String dateType, LocalDate date) {
+    public UserRankVO getMyRankByUserId(Long userId, Integer classNum, DateType dateType, LocalDate date) {
         return queryFactory
                 .select(new QUserRankVO(
                         userRank.userId,
@@ -31,16 +32,16 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
                 ))
                 .from(userRank)
                 .where(
-                        userRank.userId.eq(userId),
+                        userIdEq(userId),
                         classNumEq(classNum),
-                        userRank.dateType.eq(dateType),
-                        userRank.createdAt.eq(date)
+                        dateTypeEq(dateType),
+                        createdAtEq(date)
                 )
                 .fetchOne();
     }
 
     @Override
-    public List<UserRankVO> getUserRankListBySchoolId(Long schoolId, Integer classNum, String dateType, LocalDate date) {
+    public List<UserRankVO> getUserRankListBySchoolId(Long schoolId, Integer classNum, DateType dateType, LocalDate date) {
         return queryFactory
                 .select(new QUserRankVO(
                         userRank.userId,
@@ -53,23 +54,40 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
                 ))
                 .from(userRank)
                 .where(
-                        userRank.schoolId.eq(schoolId),
+                        schoolIdEq(schoolId),
                         classNumEq(classNum),
-                        userRank.dateType.eq(dateType),
-                        userRank.createdAt.eq(date)
+                        dateTypeEq(dateType),
+                        createdAtEq(date)
                 )
                 .limit(LIMIT)
                 .orderBy(userRank.ranking.asc())
                 .fetch();
     }
 
+    private BooleanExpression userIdEq(Long userId) {
+        return userId != null ? userRank.userId.eq(userId) : null;
+    }
+
     private BooleanExpression schoolIdEq(Long schoolId) {
         return schoolId != null ? userRank.schoolId.eq(schoolId) : null;
     }
 
-    private BooleanExpression
-
     private BooleanExpression classNumEq(Integer classNum) {
         return classNum != null ? userRank.scopeType.eq("CLASS").and(userRank.classNum.eq(classNum)) : userRank.scopeType.eq("SCHOOL");
+    }
+
+    private BooleanExpression dateTypeEq(DateType dateType) {
+        switch (dateType) {
+            case WEEK:
+                return userRank.dateType.eq("WEEK");
+            case MONTH:
+                return userRank.dateType.eq("MONTH");
+            default:
+                return null;
+        }
+    }
+
+    private BooleanExpression createdAtEq(LocalDate date) {
+        return date != null ? userRank.createdAt.eq(date) : null;
     }
 }
