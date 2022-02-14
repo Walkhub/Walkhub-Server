@@ -23,7 +23,7 @@ public class QueryUserBadgeListService {
                         .name(badgeCollection.getBadge().getName())
                         .imageUrl(badgeCollection.getBadge().getImageUrl())
                         .condition(badgeCollection.getBadge().getCondition())
-                        .buil
+                        .build
                 .collect(Collectors.toList());
 
         return new QueryUserBadgeListResponse(badgeList);
