@@ -4,10 +4,11 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QQueryUserListResponse_UserListInfo;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserListResponse;
 import com.walkhub.walkhub.domain.teacher.type.AuthorityScope;
 import com.walkhub.walkhub.domain.teacher.type.SortStandard;
+import com.walkhub.walkhub.domain.teacher.vo.QUserListInfoVO;
+import com.walkhub.walkhub.domain.teacher.vo.UserListInfoVO;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.SectionFacade;
 import com.walkhub.walkhub.global.enums.Authority;
@@ -26,10 +27,10 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     private final SectionFacade sectionFacade;
 
     @Override
-    public List<QueryUserListResponse.UserListInfo> queryUserList(Integer page, AuthorityScope scope, SortStandard sort, Integer grade, Integer classNum, User currentUser) {
+    public List<UserListInfoVO> queryUserList(Integer page, AuthorityScope scope, SortStandard sort, Integer grade, Integer classNum, User currentUser) {
         long size = 4;
         return queryFactory
-                .select(new QQueryUserListResponse_UserListInfo(
+                .select(new QUserListInfoVO(
                         user.id.as("userId"),
                         user.name,
                         user.profileImageUrl,
@@ -49,6 +50,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 .offset((long)page * size)
                 .limit(size)
                 .orderBy(buildSortCondition(sort))
+                .groupBy(user.id)
                 .fetch();
     }
 
