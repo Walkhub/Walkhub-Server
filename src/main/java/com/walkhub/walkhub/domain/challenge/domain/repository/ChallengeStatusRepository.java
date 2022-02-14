@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-public interface ChallengeStatusRepository extends CrudRepository<ChallengeStatus, ChallengeStatusId> {
+public interface ChallengeStatusRepository extends CrudRepository<ChallengeStatus, ChallengeStatusId>, ChallengeStatusRepositoryCustom {
     Optional<ChallengeStatus> findByChallengeAndUser(Challenge challenge, User user);
     List<ChallengeStatus> findAllByUser(User user);
 }
