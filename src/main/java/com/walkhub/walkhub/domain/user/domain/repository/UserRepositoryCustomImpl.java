@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.user.domain.repository;
 
-import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -9,9 +8,7 @@ import com.walkhub.walkhub.domain.teacher.type.SortStandard;
 import com.walkhub.walkhub.domain.teacher.vo.QUserListInfoVO;
 import com.walkhub.walkhub.domain.teacher.vo.UserListInfoVO;
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.domain.user.facade.SectionFacade;
 import com.walkhub.walkhub.global.enums.Authority;
-import com.walkhub.walkhub.global.querydsl.QuerydslUtil;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -22,8 +19,6 @@ import static com.walkhub.walkhub.domain.user.domain.QUser.user;
 @RequiredArgsConstructor
 public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     private final JPAQueryFactory queryFactory;
-    private final QuerydslUtil querydslUtil;
-    private final SectionFacade sectionFacade;
 
     @Override
     public List<UserListInfoVO> queryUserList(Integer page, AuthorityScope scope, SortStandard sort, Integer grade, Integer classNum, User currentUser) {
