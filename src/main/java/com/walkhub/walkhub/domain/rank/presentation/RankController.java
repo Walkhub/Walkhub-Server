@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.domain.rank.presentation;
 
 import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
+import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
@@ -37,7 +38,7 @@ public class RankController {
     }
 
     @GetMapping("/users/my-school")
-    public UserRankListResponse queryUserRankListByMySchool(@RequestParam String scope, @RequestParam String dateType) {
+    public UserRankListResponse queryUserRankListByMySchool(@RequestParam UserRankScope scope, @RequestParam DateType dateType) {
         return queryUserRankListService.execute(scope, dateType);
     }
 }

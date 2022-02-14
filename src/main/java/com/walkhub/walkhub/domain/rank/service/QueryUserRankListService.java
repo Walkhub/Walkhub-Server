@@ -4,10 +4,12 @@ import com.walkhub.walkhub.domain.exercise.cache.ExerciseAnalysisCacheRepository
 import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
 import com.walkhub.walkhub.domain.rank.domain.repository.UserRankRepository;
 import com.walkhub.walkhub.domain.rank.domain.repository.vo.UserRankVO;
+import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.enums.DateType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +25,11 @@ public class QueryUserRankListService {
     private final UserFacade userFacade;
     private final ExerciseAnalysisRepository exerciseAnalysisRepository;
 
-    public UserRankListResponse execute(String scope, String dateType) {
+    public UserRankListResponse execute(UserRankScope scope, DateType dateType) {
         User user = userFacade.getCurrentUser();
         Section section = user.getSection();
         LocalDate date = LocalDate.now();
-        if (dateType.equals("DAY")) {
+        if (dateType.equals(DateType.DAY)) {
             AtomicInteger rankCount = new AtomicInteger();
             return UserRankListResponse.builder()
                     .myRank(UserRankListResponse.UserRankResponse.builder()
@@ -54,7 +56,7 @@ public class QueryUserRankListService {
                                     .build()
                             ).collect(Collectors.toList())
                     ).build();
-        } else if (scope.equals("ALL")) {
+        } else if (scope.equals(UserRankScope.ALL)) {
             UserRankVO userRankVO = userRankRepository.getMyRankByUserId(user.getId(), null, dateType, date);
             return UserRankListResponse.builder()
                     .myRank(UserRankListResponse.UserRankResponse.builder()
@@ -80,7 +82,7 @@ public class QueryUserRankListService {
                             ).collect(Collectors.toList())
                     )
                     .build();
-        } else if (scope.equals("CLASS")) {
+        } else if (scope.equals(UserRankScope.CLASS)) {
             UserRankVO userRankVO = userRankRepository.getMyRankByUserId(user.getId(), user.getSection().getClassNum(), dateType, date);
             return UserRankListResponse.builder()
                     .myRank(UserRankListResponse.UserRankResponse.builder()
