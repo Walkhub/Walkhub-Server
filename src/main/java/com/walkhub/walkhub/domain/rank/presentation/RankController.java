@@ -29,7 +29,7 @@ public class RankController {
     }
 
     @GetMapping("/schools")
-    public SchoolRankResponse querySchoolRank(@RequestParam SchoolDateType schoolDateType) {
-        return querySchoolRankService.execute(schoolDateType);
+    public SchoolRankResponse querySchoolRank(@RequestParam SchoolDateType dateType) {
+        return querySchoolRankService.execute(dateType);
     }
 }

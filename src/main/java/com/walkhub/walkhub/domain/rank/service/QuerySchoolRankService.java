@@ -21,9 +21,9 @@ public class QuerySchoolRankService {
 	private final SchoolRankRepository schoolRankRepository;
 	private final UserFacade userFacade;
 
-	public SchoolRankResponse execute(SchoolDateType schoolDateType) {
+	public SchoolRankResponse execute(SchoolDateType dateType) {
 		LocalDate localDate = LocalDate.now();
-		switch (schoolDateType) {
+		switch (dateType) {
 			case WEEK: localDate = localDate.minusWeeks(1);
 			break;
 			case MONTH: localDate = localDate.minusMonths(1);
@@ -32,7 +32,7 @@ public class QuerySchoolRankService {
 
 		User user = userFacade.getCurrentUser();
 		SchoolRank schoolRank = schoolRankRepository.
-			findBySchoolIdAndDateTypeAndCreatedAtBetween(user.getSchool().getId(), schoolDateType.toString(), localDate, LocalDate.now());
+			findBySchoolIdAndDateTypeAndCreatedAtBetween(user.getSchool().getId(), dateType.toString(), localDate, LocalDate.now());
 
 		MySchoolResponse mySchoolResponse = MySchoolResponse.builder()
 			.schoolId(schoolRank.getSchoolId())
@@ -44,7 +44,7 @@ public class QuerySchoolRankService {
 			.build();
 
 		List<SchoolResponse> schoolResponseList = schoolRankRepository
-			.findAllByDateTypeAndCreatedAtBetweenOrderByRankingDesc(schoolDateType.toString(), localDate, LocalDate.now())
+			.findAllByDateTypeAndCreatedAtBetweenOrderByRankingDesc(dateType.toString(), localDate, LocalDate.now())
 			.stream()
 			.map(schoolRank2 -> SchoolResponse.builder()
 				.schoolId(schoolRank2.getSchoolId())
