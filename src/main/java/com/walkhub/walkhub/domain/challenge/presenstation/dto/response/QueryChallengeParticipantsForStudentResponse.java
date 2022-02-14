@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.challenge.presenstation.dto.response;
 
-import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -18,12 +17,5 @@ public class QueryChallengeParticipantsForStudentResponse {
         private final Long userId;
         private final String name;
         private final String profileImageUrl;
-
-        @QueryProjection
-        public RelatedChallengeParticipants(Long userId, String name, String profileImageUrl) {
-            this.userId = userId;
-            this.name = name;
-            this.profileImageUrl = profileImageUrl;
-        }
     }
 }
