@@ -31,13 +31,13 @@ public class QuerySchoolRankService {
 		}
 
 		User user = userFacade.getCurrentUser();
-		SchoolRank schoolRank = schoolRankRepository.
+		SchoolRank mySchoolRank = schoolRankRepository.
 			findBySchoolIdAndDateTypeAndCreatedAtBetween(user.getSchool().getId(), dateType.toString(), localDate, LocalDate.now());
 
 		MySchoolResponse mySchoolResponse = MySchoolResponse.builder()
-			.schoolId(schoolRank.getSchoolId())
-			.name(schoolRank.getName())
-			.logoImageUrl(schoolRank.getLogoImageUrl())
+			.schoolId(mySchoolRank.getSchoolId())
+			.name(mySchoolRank.getName())
+			.logoImageUrl(mySchoolRank.getLogoImageUrl())
 			.grade(user.getSection().getGrade())
 			.classNum(user.getSection().getClassNum())
 			.build();
@@ -45,13 +45,13 @@ public class QuerySchoolRankService {
 		List<SchoolResponse> schoolResponseList = schoolRankRepository
 			.findAllByDateTypeAndCreatedAtBetweenOrderByRankingDesc(dateType.toString(), localDate, LocalDate.now())
 			.stream()
-			.map(schoolRank2 -> SchoolResponse.builder()
-				.schoolId(schoolRank2.getSchoolId())
-				.name(schoolRank2.getName())
-				.ranking(schoolRank2.getRanking())
-				.studentCount(schoolRank2.getUserCount())
-				.logoImageUrl(schoolRank2.getLogoImageUrl())
-				.walkCount(schoolRank2.getWalkCount())
+			.map(schoolRank -> SchoolResponse.builder()
+				.schoolId(schoolRank.getSchoolId())
+				.name(schoolRank.getName())
+				.ranking(schoolRank.getRanking())
+				.studentCount(schoolRank.getUserCount())
+				.logoImageUrl(schoolRank.getLogoImageUrl())
+				.walkCount(schoolRank.getWalkCount())
 				.build())
 			.collect(Collectors.toList());
 
