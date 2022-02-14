@@ -2,6 +2,7 @@ package com.walkhub.walkhub.domain.rank.domain.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.walkhub.walkhub.domain.rank.domain.repository.vo.UserRankVO;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.QUserRankListResponse_UserRankResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
     private static final Long LIMIT = 100L;
 
     @Override
-    public UserRankListResponse.UserRankResponse getMyRankByUserId(Long userId, Integer classNum, String dateType, LocalDate date) {
+    public UserRankVO getMyRankByUserId(Long userId, Integer classNum, String dateType, LocalDate date) {
         return queryFactory
                 .select(new QUserRankListResponse_UserRankResponse(
                         userRank.userId,
@@ -40,7 +41,7 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
     }
 
     @Override
-    public List<UserRankListResponse.UserRankResponse> getUserRankListBySchoolId(Long schoolId, Integer classNum, String dateType, LocalDate date) {
+    public List<UserRankVO> getUserRankListBySchoolId(Long schoolId, Integer classNum, String dateType, LocalDate date) {
         return queryFactory
                 .select(new QUserRankListResponse_UserRankResponse(
                         userRank.userId,
