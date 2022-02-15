@@ -126,6 +126,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // socket.io
                 .antMatchers(HttpMethod.GET, "/socket.io").authenticated()
 
+                // excel
+                .antMatchers(HttpMethod.GET, "/excel").hasAnyAuthority("TEACHER", "ROOT")
                 .anyRequest().denyAll()
 
                 .and()
