@@ -14,17 +14,12 @@ import java.time.LocalDateTime;
 public class UserTokenResponse {
 
     private final String accessToken;
-
-    private final String refreshToken;
-
     @DateTimeFormat(pattern = "yyyy-MM-ddThh:mm:SS")
     private final LocalDateTime expiredAt;
-
+    private final String refreshToken;
     private final Authority authority;
-
     private final BigDecimal height;
-
     private final Integer weight;
-
     private final Sex sex;
+
 }
