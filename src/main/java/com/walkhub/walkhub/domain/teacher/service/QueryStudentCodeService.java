@@ -29,7 +29,7 @@ public class QueryStudentCodeService {
     public DetailsClassResponse execute(Long sectionId) {
         Section section = sectionFacade.getSectionById(sectionId);
 
-        List<UserListResponse> result =
+        List<UserListResponse> userListResponses =
                 section.getUsers()
                         .stream()
                         .filter(user -> user.getAuthority() == Authority.USER)
@@ -50,7 +50,7 @@ public class QueryStudentCodeService {
         return DetailsClassResponse.builder()
                 .teacher(teacherResponse)
                 .classCode(section.getClassCode())
-                .userList(result)
+                .userList(userListResponses)
                 .build();
     }
 
