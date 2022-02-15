@@ -62,7 +62,7 @@ public class ExerciseAnalysisRepositoryCustomImpl implements ExerciseAnalysisRep
 		switch (userType) {
 			case STUDENT: {
 				builder.and(user.authority.eq(Authority.USER));
-				builder.and(nullFilter(builder, grade, classNum));
+				builder = (nullFilter(builder, grade, classNum));
 				break;
 			}
 			case TEACHER: {
