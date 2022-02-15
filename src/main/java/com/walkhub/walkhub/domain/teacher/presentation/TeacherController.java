@@ -2,9 +2,11 @@ package com.walkhub.walkhub.domain.teacher.presentation;
 
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.CreateClassRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.TeacherCodeRequest;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CodeResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.DetailsClassResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserDetailsResponse;
+import com.walkhub.walkhub.domain.teacher.service.ClassListService;
 import com.walkhub.walkhub.domain.teacher.service.ConfirmTeacherCodeService;
 import com.walkhub.walkhub.domain.teacher.service.CreateClassService;
 import com.walkhub.walkhub.domain.teacher.service.DeleteClassService;
@@ -39,6 +41,7 @@ public class TeacherController {
     private final DetailsClassService detailsClassService;
     private final QueryUserDetailsService queryUserDetailsService;
     private final ConfirmTeacherCodeService confirmTeacherCodeService;
+    private final ClassListService classListService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/classes")
@@ -74,6 +77,11 @@ public class TeacherController {
     @PatchMapping("/verification-codes")
     public void confirmTeacherCode(@RequestBody TeacherCodeRequest teacherCodeRequest) {
         confirmTeacherCodeService.execute(teacherCodeRequest);
+    }
+
+    @GetMapping("/classes/lists")
+    public ClassListResponse classList() {
+        return classListService.execute();
     }
 
 }
