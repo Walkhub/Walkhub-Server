@@ -26,8 +26,8 @@ public class ClassListService {
 
     @Transactional(readOnly = true)
     public ClassListResponse execute() {
-        User teacher = userFacade.getCurrentUser();
-        School school = teacher.getSchool();
+        User user = userFacade.getCurrentUser();
+        School school = user.getSchool();
 
         List<ClassResponse> classList = school.getSections()
                 .stream()
@@ -38,7 +38,7 @@ public class ClassListService {
     }
 
     private ClassResponse buildClassList(Section section) {
-        User user = userRepository.findBySectionAndAuthority(section, Authority.TEACHER);
+        User teacher = userRepository.findBySectionAndAuthority(section, Authority.TEACHER);
         Integer userCount = userRepository.findAllBySectionAndAuthority(section, Authority.USER).size();
         return ClassResponse.builder()
                 .userCount(userCount)
