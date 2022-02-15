@@ -49,6 +49,7 @@ public class CoolNotification implements FcmUtil {
 
     @Override
     public void sendNotification(SendDto sendDto, Type type) {
+        String condition = "'stock-GOOG' in topics || 'industry-tech' in topics";
         Long notificationId = notificationRepository.save(
                 NotificationEntity.builder()
                         .title(sendDto.getTitle())
@@ -56,13 +57,11 @@ public class CoolNotification implements FcmUtil {
                         .build()
         ).getId();
 
-        String deviceTokens = sendDto.getUser().getDeviceToken();
-
         Message message = Message.builder()
                 .putData("notification_id", notificationId.toString())
                 .putData("click_action", sendDto.getClickAction())
                 .putData("value", sendDto.getValue())
-                .setTopic(String.valueOf(type))
+                .setCondition(condition)
                 .setNotification(
                         Notification.builder()
                                 .setTitle(sendDto.getTitle())
@@ -74,7 +73,6 @@ public class CoolNotification implements FcmUtil {
                                 .setSound("default")
                                 .build())
                         .build())
-                .setToken(deviceTokens)
                 .build();
         FirebaseMessaging.getInstance().sendAsync(message);
     }
