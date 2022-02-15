@@ -5,7 +5,7 @@ import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
-import com.walkhub.walkhub.domain.rank.service.QueryUserRankListService;
+import com.walkhub.walkhub.domain.rank.service.QueryUserRankListByMySchoolService;
 import com.walkhub.walkhub.domain.rank.service.QuerySchoolRankService;
 import com.walkhub.walkhub.domain.rank.service.UserSearchService;
 import com.walkhub.walkhub.global.enums.DateType;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RankController {
 
     private final UserSearchService userSearchService;
-    private final QueryUserRankListService queryUserRankListService;
+    private final QueryUserRankListByMySchoolService queryUserRankListByMySchoolService;
     private final QuerySchoolRankService querySchoolRankService;
 
     @GetMapping("/users/search/{school-id}")
@@ -39,6 +39,6 @@ public class RankController {
 
     @GetMapping("/users/my-school")
     public UserRankListResponse queryUserRankListByMySchool(@RequestParam UserRankScope scope, @RequestParam DateType dateType) {
-        return queryUserRankListService.execute(scope, dateType);
+        return queryUserRankListByMySchoolService.execute(scope, dateType);
     }
 }

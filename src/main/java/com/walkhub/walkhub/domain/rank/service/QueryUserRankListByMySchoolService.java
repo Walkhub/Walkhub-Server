@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class QueryUserRankListService {
+public class QueryUserRankListByMySchoolService {
     private final UserRankRepository userRankRepository;
     private final ExerciseAnalysisCacheRepository exerciseAnalysisCacheRepository;
     private final UserFacade userFacade;
