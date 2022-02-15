@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.user.service;
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.SectionRepository;
+import com.walkhub.walkhub.domain.user.exception.AlreadyJoinedException;
 import com.walkhub.walkhub.domain.user.exception.SectionNotFoundException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinSectionRequest;
@@ -20,6 +21,10 @@ public class JoinSectionService {
     @Transactional
     public void execute(JoinSectionRequest request) {
         User user = userFacade.getCurrentUser();
+
+        if (user.getSection() != null) {
+            throw AlreadyJoinedException.EXCEPTION;
+        }
 
         Section section = sectionRepository.findByClassCodeAndSchool(request.getClassCode(), user.getSchool())
                 .orElseThrow(() -> SectionNotFoundException.EXCEPTION);
