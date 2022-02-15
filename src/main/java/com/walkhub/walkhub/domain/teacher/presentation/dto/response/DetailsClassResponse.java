@@ -10,8 +10,8 @@ import java.util.List;
 @Builder
 public class DetailsClassResponse {
 
-    private final TeacherResponse teacher;
     private final String classCode;
+    private final TeacherResponse teacher;
     private final List<UserListResponse> userList;
 
     @Getter
