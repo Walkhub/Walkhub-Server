@@ -41,8 +41,9 @@ public class CustomChallengeRepositoryImpl implements CustomChallengeRepository 
                 .on(challengeStatus.challenge.eq(challenge))
                 .where(
                         successScopeFilter(challenge, successScope),
-                        goalTypeFilter(challenge),
-                        exerciseAnalysis.date.between(challenge.getStartAt(), challenge.getEndAt())
+                        isChallengeSuccessFilter(challenge),exerciseAnalysis.date.goe(challenge.getStartAt()),
+                        exerciseAnalysis.date.goe(challengeStatus.createdAt),
+                        exerciseAnalysis.date.loe(challenge.getEndAt())
                 )
                 .orderBy(user.name.asc(), user.id.asc(), exerciseAnalysis.date.asc())
                 .transform(groupBy(user.name, user.id)
@@ -57,9 +58,11 @@ public class CustomChallengeRepositoryImpl implements CustomChallengeRepository 
                                 Expressions.asNumber(select(exerciseAnalysis.count())
                                         .from(exerciseAnalysis)
                                         .where(
-                                                goalTypeFilter(challenge),
+                                                isChallengeSuccessFilter(challenge),
                                                 exerciseAnalysis.user.eq(user),
-                                                exerciseAnalysis.date.between(challenge.getStartAt(), challenge.getEndAt())
+                                                exerciseAnalysis.date.goe(challenge.getStartAt()),
+                                                exerciseAnalysis.date.goe(challengeStatus.createdAt),
+                                                exerciseAnalysis.date.loe(challenge.getEndAt())
                                         ))
                                         .goe(challenge.getSuccessStandard()).as("isSuccess"),
                                 GroupBy.list(exerciseAnalysis.date))
@@ -73,9 +76,11 @@ public class CustomChallengeRepositoryImpl implements CustomChallengeRepository 
                 return Expressions.asNumber(select(exerciseAnalysis.count())
                         .from(exerciseAnalysis)
                         .where(
-                                goalTypeFilter(challenge),
+                                isChallengeSuccessFilter(challenge),
                                 exerciseAnalysis.user.eq(user),
-                                exerciseAnalysis.date.between(challenge.getStartAt(), challenge.getEndAt())
+                                exerciseAnalysis.date.goe(challenge.getStartAt()),
+                                exerciseAnalysis.date.goe(challengeStatus.createdAt),
+                                exerciseAnalysis.date.loe(challenge.getEndAt())
                         ))
                         .goe(challenge.getSuccessStandard());
             }
@@ -83,9 +88,11 @@ public class CustomChallengeRepositoryImpl implements CustomChallengeRepository 
                 return Expressions.asNumber(select(exerciseAnalysis.count())
                         .from(exerciseAnalysis)
                         .where(
-                                goalTypeFilter(challenge),
+                                isChallengeSuccessFilter(challenge),
                                 exerciseAnalysis.user.eq(user),
-                                exerciseAnalysis.date.between(challenge.getStartAt(), challenge.getEndAt())
+                                exerciseAnalysis.date.goe(challenge.getStartAt()),
+                                exerciseAnalysis.date.goe(challengeStatus.createdAt),
+                                exerciseAnalysis.date.loe(challenge.getEndAt())
                         ))
                         .lt(challenge.getSuccessStandard());
             }
@@ -95,23 +102,7 @@ public class CustomChallengeRepositoryImpl implements CustomChallengeRepository 
         }
     }
 
-    private BooleanExpression goalTypeFilter(Challenge challenge) {
-        if (challenge.getGoalType() == GoalType.WALK) {
-            return isChallengeSuccessByWalkCount(challenge);
-        }
-
-        return isChallengeSuccessByDistance(challenge);
-    }
-
-    private BooleanExpression isChallengeSuccessByWalkCount(Challenge challenge) {
-        if (challenge.getGoalScope() == GoalScope.DAY) {
-            return isChallengeSuccessInDayScope(challenge);
-        }
-
-        return isChallengeSuccessInAllScope(challenge);
-    }
-
-    private BooleanExpression isChallengeSuccessByDistance(Challenge challenge) {
+    private BooleanExpression isChallengeSuccessFilter(Challenge challenge) {
         if (challenge.getGoalScope() == GoalScope.DAY) {
             return isChallengeSuccessInDayScope(challenge);
         }
@@ -139,9 +130,10 @@ public class CustomChallengeRepositoryImpl implements CustomChallengeRepository 
         return JPAExpressions.select(exerciseAmount.sum())
                 .from(exerciseAnalysis)
                 .where(
-                        // 시작일과 참여일 비교 필요
-                        exerciseAnalysis.date.between(challenge.getStartAt(), challenge.getEndAt()),
-                        exerciseAnalysis.user.eq(user)
+                        exerciseAnalysis.user.eq(user),
+                        exerciseAnalysis.date.goe(challenge.getStartAt()),
+                        exerciseAnalysis.date.goe(challengeStatus.createdAt),
+                        exerciseAnalysis.date.loe(challenge.getEndAt())
                 )
                 .goe(challenge.getGoal());
     }
