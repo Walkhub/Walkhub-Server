@@ -2,18 +2,17 @@ package com.walkhub.walkhub.domain.excel.presentation.dto.request;
 
 import com.walkhub.walkhub.domain.excel.domain.type.UserType;
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PrintExcelRequest {
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate startAt;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate endAt;
 
 	private UserType userType;
