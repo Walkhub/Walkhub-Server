@@ -29,13 +29,6 @@ public class QueryStudentCodeService {
     public DetailsClassResponse execute(Long sectionId) {
         Section section = sectionFacade.getSectionById(sectionId);
 
-        List<UserListResponse> userListResponses =
-                section.getUsers()
-                        .stream()
-                        .filter(user -> user.getAuthority() == Authority.USER)
-                        .map(this::buildUserListResponse)
-                        .collect(Collectors.toList());
-
         User teacher = section.getUsers().stream()
                 .filter(user -> user.getAuthority() == Authority.TEACHER)
                 .findFirst()
@@ -47,9 +40,15 @@ public class QueryStudentCodeService {
                 .profileImageUrl(teacher.getProfileImageUrl())
                 .build();
 
+        List<UserListResponse> userListResponses = section.getUsers()
+                .stream()
+                .filter(user -> user.getAuthority() == Authority.USER)
+                .map(this::buildUserListResponse)
+                .collect(Collectors.toList());
+
         return DetailsClassResponse.builder()
-                .teacher(teacherResponse)
                 .classCode(section.getClassCode())
+                .teacher(teacherResponse)
                 .userList(userListResponses)
                 .build();
     }
