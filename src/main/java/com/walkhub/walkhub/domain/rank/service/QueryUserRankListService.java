@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -37,15 +38,11 @@ public class QueryUserRankListService {
         } else if (scope.equals(UserRankScope.ALL)) {
             myRank = buildWeekOrMonthMyRankResponse(user.getId(), null, dateType, date);
             List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), null, dateType, date);
-            for (UserRankVO users : usersWeekOrMonthRank) {
-                userRankList.add(buildWeekOrMonthUsersRankResponse(users));
-            }
+            userRankList = buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
         } else if (scope.equals(UserRankScope.CLASS)) {
             myRank = buildWeekOrMonthMyRankResponse(user.getId(), user.getSection().getClassNum(), dateType, date);
             List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), user.getSection().getClassNum(), dateType, date);
-            for (UserRankVO users : usersWeekOrMonthRank) {
-                userRankList.add(buildWeekOrMonthUsersRankResponse(users));
-            }
+            userRankList = buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
         }
         return UserRankListResponse.builder()
                 .myRank(myRank)
@@ -55,6 +52,9 @@ public class QueryUserRankListService {
 
     private UserRankListResponse.UserRankResponse buildDayMyRankResponse(User user) {
         ExerciseAnalysisDto exerciseAnalysisDto = exerciseAnalysisCacheRepository.getUserTodayRank(user.getId());
+        if (exerciseAnalysisDto == null) {
+            return null;
+        }
         return UserRankListResponse.UserRankResponse.builder()
                 .userId(user.getId())
                 .name(user.getName())
@@ -80,27 +80,32 @@ public class QueryUserRankListService {
     }
 
     private UserRankListResponse.UserRankResponse buildWeekOrMonthMyRankResponse(Long userId, Integer classNum, DateType dateType, LocalDate date) {
-        UserRankVO userRank = userRankRepository.getMyRankByUserId(userId, classNum, dateType, date);
+        UserRankVO myRank = userRankRepository.getMyRankByUserId(userId, classNum, dateType, date);
+        if (myRank == null) {
+            return null;
+        }
         return UserRankListResponse.UserRankResponse.builder()
-                .userId(userRank.getUserId())
-                .name(userRank.getName())
-                .grade(userRank.getGrade())
-                .classNum(userRank.getClassNum())
-                .ranking(userRank.getRanking())
-                .profileImageUrl(userRank.getProfileImageUrl())
-                .walkCount(userRank.getWalkCount())
+                .userId(myRank.getUserId())
+                .name(myRank.getName())
+                .grade(myRank.getGrade())
+                .classNum(myRank.getClassNum())
+                .ranking(myRank.getRanking())
+                .profileImageUrl(myRank.getProfileImageUrl())
+                .walkCount(myRank.getWalkCount())
                 .build();
     }
 
-    private UserRankListResponse.UserRankResponse buildWeekOrMonthUsersRankResponse(UserRankVO userRank) {
-        return UserRankListResponse.UserRankResponse.builder()
-                .userId(userRank.getUserId())
-                .name(userRank.getName())
-                .grade(userRank.getGrade())
-                .classNum(userRank.getClassNum())
-                .ranking(userRank.getRanking())
-                .profileImageUrl(userRank.getProfileImageUrl())
-                .walkCount(userRank.getWalkCount())
-                .build();
+    private List<UserRankListResponse.UserRankResponse> buildWeekOrMonthUsersRankResponse(List<UserRankVO> userRanks) {
+        return userRanks.stream()
+                .map(userRank -> UserRankListResponse.UserRankResponse.builder()
+                        .userId(userRank.getUserId())
+                        .name(userRank.getName())
+                        .grade(userRank.getGrade())
+                        .classNum(userRank.getClassNum())
+                        .ranking(userRank.getRanking())
+                        .profileImageUrl(userRank.getProfileImageUrl())
+                        .walkCount(userRank.getWalkCount())
+                        .build()
+                ).collect(Collectors.toList());
     }
 }
