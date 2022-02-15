@@ -9,18 +9,25 @@ public class PrintExcelVo {
 
 	@ExcelColumn(headerName = "name")
 	private final String name;
+
 	@ExcelColumn(headerName = "grade")
 	private final Integer grade;
+
 	@ExcelColumn(headerName = "classNum")
 	private final Integer classNum;
+
 	@ExcelColumn(headerName = "number")
 	private final Integer number;
+
 	@ExcelColumn(headerName = "allWalkCount")
 	private final Integer allWalkCount;
+
 	@ExcelColumn(headerName = "averageWalkCount")
 	private final Integer averageWalkCount;
+
 	@ExcelColumn(headerName = "allDistance")
 	private final Integer allDistance;
+
 	@ExcelColumn(headerName = "averageDistance")
 	private final Integer averageDistance;
 
