@@ -5,6 +5,8 @@ import com.walkhub.walkhub.domain.exercise.presentation.dto.request.FinishExerci
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.SaveExerciseAnalysisRequest;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.SaveLocationRequest;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.CreateExerciseResponse;
+import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerciseAnalysisResponse;
+import com.walkhub.walkhub.domain.exercise.service.*;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.ExerciseListResponse;
 import com.walkhub.walkhub.domain.exercise.service.CreateExerciseService;
 import com.walkhub.walkhub.domain.exercise.service.FinishExerciseService;
@@ -27,6 +29,7 @@ public class ExerciseController {
 	private final SaveLocationService saveLocationService;
 	private final QueryExerciseListService queryExerciseListService;
 	private final SaveOrUpdateExerciseAnalysisService saveOrUpdateExerciseAnalysisService;
+	private final QueryExerciseAnalysisService queryExerciseAnalysisService;
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
@@ -54,9 +57,13 @@ public class ExerciseController {
 		saveOrUpdateExerciseAnalysisService.execute(request);
 	}
 
+	@GetMapping("/analysis")
+	public QueryExerciseAnalysisResponse queryExerciseAnalysis() {
+		return queryExerciseAnalysisService.execute();
+  	}
+
 	@GetMapping("/lists")
 	public ExerciseListResponse queryExerciseList() {
 		return queryExerciseListService.execute();
 	}
-
 }

@@ -58,9 +58,9 @@ public class TeacherController {
         deleteClassService.execute(sectionId);
     }
 
-    @GetMapping("/classes")
-    public DetailsClassResponse detailsClass() {
-        return detailsClassService.execute();
+    @GetMapping("/classes/{section-id}")
+    public DetailsClassResponse detailsClass(@PathVariable("section-id") Long sectionId) {
+        return detailsClassService.execute(sectionId);
     }
 
     @GetMapping("/users/{user-id}")

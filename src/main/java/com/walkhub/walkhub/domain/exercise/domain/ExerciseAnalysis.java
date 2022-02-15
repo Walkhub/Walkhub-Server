@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
@@ -26,16 +27,16 @@ public class ExerciseAnalysis {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Integer calorie;
+    @NotNull
+    private Double calorie;
 
-    @Column(nullable = false)
+    @NotNull
     private Integer walkCount;
 
-    @Column(nullable = false)
+    @NotNull
     private Integer distance;
 
-    @Column(nullable = false)
+    @NotNull
     private LocalDate date;
 
     @Column(nullable = false)
@@ -45,14 +46,13 @@ public class ExerciseAnalysis {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+
     @Builder
-    public ExerciseAnalysis(Integer calorie, Integer walkCount, Integer distance,
-                            LocalDate date, Double exerciseTime, User user) {
+    public ExerciseAnalysis(Double calorie, Integer walkCount, Integer distance, LocalDate date, User user) {
         this.calorie = calorie;
         this.walkCount = walkCount;
         this.distance = distance;
         this.date = date;
-        this.exerciseTime = exerciseTime;
         this.user = user;
     }
 
