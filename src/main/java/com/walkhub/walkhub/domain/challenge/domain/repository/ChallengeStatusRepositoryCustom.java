@@ -6,6 +6,6 @@ import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 
 import java.util.List;
 
-public interface CustomChallengeRepository {
+public interface ChallengeStatusRepositoryCustom {
     List<ChallengeParticipantsVO> queryChallengeParticipantsList(Challenge challenge, SuccessScope successScope);
 }
