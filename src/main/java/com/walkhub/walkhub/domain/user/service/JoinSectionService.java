@@ -22,7 +22,7 @@ public class JoinSectionService {
     public void execute(JoinSectionRequest request) {
         User user = userFacade.getCurrentUser();
 
-        if (user.getSection() != null) {
+        if (user.hasSection()) {
             throw AlreadyJoinedException.EXCEPTION;
         }
 
