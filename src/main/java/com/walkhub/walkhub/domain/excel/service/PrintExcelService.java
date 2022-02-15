@@ -25,7 +25,7 @@ public class PrintExcelService {
 		Long schoolId = userFacade.getCurrentUser().getSchool().getId();
 		List<PrintExcelVo> printExcelVoList = exerciseAnalysisRepository.getPrintExcelVoList(startAt, endAt, authority, grade, classNum, schoolId);
 
-		response.setContentType("application/vnd.ms-excel");
+		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
 		ExcelFile excelFile = new OneSheetExcelFile<>(printExcelVoList, PrintExcelVo.class);
 		excelFile.write(response.getOutputStream());
