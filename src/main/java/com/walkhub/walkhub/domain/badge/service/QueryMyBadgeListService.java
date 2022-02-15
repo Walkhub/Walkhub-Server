@@ -1,7 +1,7 @@
 package com.walkhub.walkhub.domain.badge.service;
 
 import com.walkhub.walkhub.domain.badge.domain.repository.BadgeRepository;
-import com.walkhub.walkhub.domain.badge.domain.repository.vo.DefaultBadgeVO;
+import com.walkhub.walkhub.domain.badge.domain.repository.vo.MyBadgeVo;
 import com.walkhub.walkhub.domain.badge.presentation.dto.response.QueryMyBadgeListResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
@@ -21,7 +21,7 @@ public class QueryMyBadgeListService {
     @Transactional(readOnly = true)
     public QueryMyBadgeListResponse execute() {
         User user = userFacade.getCurrentUser();
-        List<DefaultBadgeVO> badgeVOList = badgeRepository.findAllByBadgeCollections(user.getId());
+        List<MyBadgeVo> badgeVOList = badgeRepository.findAllByBadgeCollections(user.getId());
         return new QueryMyBadgeListResponse(badgeVOList);
     }
 }
