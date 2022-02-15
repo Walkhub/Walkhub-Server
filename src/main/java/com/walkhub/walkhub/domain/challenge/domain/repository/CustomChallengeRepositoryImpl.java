@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.challenge.domain.repository;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
@@ -104,26 +105,41 @@ public class CustomChallengeRepositoryImpl implements CustomChallengeRepository 
 
     private BooleanExpression isChallengeSuccessByWalkCount(Challenge challenge) {
         if (challenge.getGoalScope() == GoalScope.DAY) {
-            return exerciseAnalysis.walkCount.goe(challenge.getGoal());
+            return isChallengeSuccessInDayScope(challenge);
         }
 
-        return JPAExpressions.select(exerciseAnalysis.walkCount.sum())
-                .from(exerciseAnalysis)
-                .where(
-                        exerciseAnalysis.date.between(challenge.getStartAt(), challenge.getEndAt()),
-                        exerciseAnalysis.user.eq(user)
-                )
-                .goe(challenge.getGoal());
+        return isChallengeSuccessInAllScope(challenge);
     }
 
     private BooleanExpression isChallengeSuccessByDistance(Challenge challenge) {
         if (challenge.getGoalScope() == GoalScope.DAY) {
-            return exerciseAnalysis.distance.goe(challenge.getGoal());
+            return isChallengeSuccessInDayScope(challenge);
         }
 
-        return JPAExpressions.select(exerciseAnalysis.distance.sum())
+        return isChallengeSuccessInAllScope(challenge);
+    }
+
+    private BooleanExpression isChallengeSuccessInDayScope(Challenge challenge) {
+        NumberPath<Integer> exerciseAmount = exerciseAnalysis.distance;
+
+        if (challenge.getGoalType() == GoalType.WALK) {
+            exerciseAmount = exerciseAnalysis.walkCount;
+        }
+
+        return exerciseAmount.goe(challenge.getGoal());
+    }
+
+    private BooleanExpression isChallengeSuccessInAllScope(Challenge challenge) {
+        NumberPath<Integer> exerciseAmount = exerciseAnalysis.distance;
+
+        if (challenge.getGoalType() == GoalType.WALK) {
+            exerciseAmount = exerciseAnalysis.walkCount;
+        }
+
+        return JPAExpressions.select(exerciseAmount.sum())
                 .from(exerciseAnalysis)
                 .where(
+                        // 시작일과 참여일 비교 필요
                         exerciseAnalysis.date.between(challenge.getStartAt(), challenge.getEndAt()),
                         exerciseAnalysis.user.eq(user)
                 )
