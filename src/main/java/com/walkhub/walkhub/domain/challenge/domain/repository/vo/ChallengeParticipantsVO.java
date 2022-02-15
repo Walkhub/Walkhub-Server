@@ -15,12 +15,13 @@ public class ChallengeParticipantsVO {
     private final String name;
     private final String profileImageUrl;
     private final String schoolName;
-    private final Boolean isSuccess;
     private final List<LocalDate> exerciseAnalysesDates;
+    private final Boolean isSuccess;
 
     @QueryProjection
     public ChallengeParticipantsVO(Long userId, Integer grade, Integer classNum, Integer number,
-                                   String name, String profileImageUrl, String schoolName, Boolean isSuccess, List<LocalDate> exerciseAnalysesDates) {
+                                   String name, String profileImageUrl, String schoolName,
+                                   Boolean isSuccess, List<LocalDate> exerciseAnalysesDates) {
         this.userId = userId;
         this.grade = grade;
         this.classNum = classNum;
@@ -28,7 +29,7 @@ public class ChallengeParticipantsVO {
         this.name = name;
         this.profileImageUrl = profileImageUrl;
         this.schoolName = schoolName;
-        this.isSuccess = isSuccess;
         this.exerciseAnalysesDates = exerciseAnalysesDates;
+        this.isSuccess = isSuccess;
     }
 }

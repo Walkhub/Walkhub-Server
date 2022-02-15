@@ -2,6 +2,8 @@ package com.walkhub.walkhub.domain.challenge.domain.repository;
 
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
+import static com.querydsl.jpa.JPAExpressions.select;
 import static com.walkhub.walkhub.domain.challenge.domain.QChallengeStatus.challengeStatus;
 import static com.walkhub.walkhub.domain.exercise.domain.QExerciseAnalysis.exerciseAnalysis;
 import static com.walkhub.walkhub.domain.school.domain.QSchool.school;
@@ -27,7 +30,8 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<ChallengeParticipantsVO> queryChallengeParticipantsList(Challenge challenge, SuccessScope successScope) {
+    public List<ChallengeParticipantsVO> queryChallengeParticipantsList(Challenge challenge, SuccessScope successScope, Long page) {
+        final long size = 20L;
         return jpaQueryFactory
                 .selectFrom(user)
                 .join(user.school, school)
@@ -38,10 +42,12 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .on(challengeStatus.challenge.eq(challenge))
                 .where(
                         successScopeFilter(challenge, successScope),
-                        goalTypeFilter(challenge),
-                        exerciseAnalysis.date.between(challenge.getStartAt(), challenge.getEndAt())
+                        isChallengeSuccessFilter(challenge),
+                        challengeDateFilter(challenge)
                 )
-                .orderBy(user.name.asc(), user.id.asc())
+                .offset(page * size)
+                .limit(size)
+                .orderBy(user.name.asc(), user.id.asc(), exerciseAnalysis.date.asc())
                 .transform(groupBy(user.name, user.id)
                         .list(new QChallengeParticipantsVO(
                                 user.id.as("userId"),
@@ -51,7 +57,14 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                                 user.name,
                                 user.profileImageUrl,
                                 user.school.name.as("schoolName"),
-                                challengeStatus.successCount.goe(challenge.getSuccessStandard()).as("isSuccess"),
+                                Expressions.asNumber(select(exerciseAnalysis.count())
+                                        .from(exerciseAnalysis)
+                                        .where(
+                                                exerciseAnalysis.user.eq(user),
+                                                isChallengeSuccessFilter(challenge),
+                                                challengeDateFilter(challenge)
+                                        ))
+                                        .goe(challenge.getSuccessStandard()).as("isSuccess"),
                                 GroupBy.list(exerciseAnalysis.date))
                         )
                 );
@@ -60,10 +73,24 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     private BooleanExpression successScopeFilter(Challenge challenge, SuccessScope successScope) {
         switch (successScope) {
             case TRUE: {
-                return challengeStatus.successCount.goe(challenge.getSuccessStandard());
+                return Expressions.asNumber(select(exerciseAnalysis.count())
+                        .from(exerciseAnalysis)
+                        .where(
+                                exerciseAnalysis.user.eq(user),
+                                isChallengeSuccessFilter(challenge),
+                                challengeDateFilter(challenge)
+                        ))
+                        .goe(challenge.getSuccessStandard());
             }
             case FALSE: {
-                return challengeStatus.successCount.lt(challenge.getSuccessStandard());
+                return Expressions.asNumber(select(exerciseAnalysis.count())
+                        .from(exerciseAnalysis)
+                        .where(
+                                exerciseAnalysis.user.eq(user),
+                                isChallengeSuccessFilter(challenge),
+                                challengeDateFilter(challenge)
+                        ))
+                        .lt(challenge.getSuccessStandard());
             }
             default: {
                 return null;
@@ -71,34 +98,44 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
         }
     }
 
-    private BooleanExpression goalTypeFilter(Challenge challenge) {
+    private BooleanExpression isChallengeSuccessFilter(Challenge challenge) {
+        if (challenge.getGoalScope() == GoalScope.DAY) {
+            return isChallengeSuccessInDayScope(challenge);
+        }
+
+        return isChallengeSuccessInAllScope(challenge);
+    }
+
+    private BooleanExpression isChallengeSuccessInDayScope(Challenge challenge) {
+        NumberPath<Integer> exerciseAmount = exerciseAnalysis.distance;
+
         if (challenge.getGoalType() == GoalType.WALK) {
-            return isChallengeSuccessByWalkCount(challenge);
+            exerciseAmount = exerciseAnalysis.walkCount;
         }
 
-        return isChallengeSuccessByDistance(challenge);
+        return exerciseAmount.goe(challenge.getGoal());
     }
 
-    private BooleanExpression isChallengeSuccessByWalkCount(Challenge challenge) {
-        if (challenge.getGoalScope() == GoalScope.DAY) {
-            return exerciseAnalysis.walkCount.goe(challenge.getGoal());
+    private BooleanExpression isChallengeSuccessInAllScope(Challenge challenge) {
+        NumberPath<Integer> exerciseAmount = exerciseAnalysis.distance;
+
+        if (challenge.getGoalType() == GoalType.WALK) {
+            exerciseAmount = exerciseAnalysis.walkCount;
         }
 
-        return JPAExpressions.select(exerciseAnalysis.walkCount.sum())
+        return JPAExpressions.select(exerciseAmount.sum())
                 .from(exerciseAnalysis)
-                .where(exerciseAnalysis.date.between(challenge.getStartAt(), challenge.getEndAt()))
+                .where(
+                        exerciseAnalysis.user.eq(user),
+                        challengeDateFilter(challenge)
+                )
                 .goe(challenge.getGoal());
     }
 
-    private BooleanExpression isChallengeSuccessByDistance(Challenge challenge) {
-        if (challenge.getGoalScope() == GoalScope.DAY) {
-            return exerciseAnalysis.distance.goe(challenge.getGoal());
-        }
-
-        return JPAExpressions.select(exerciseAnalysis.distance.sum())
-                .from(exerciseAnalysis)
-                .where(exerciseAnalysis.date.between(challenge.getStartAt(), challenge.getEndAt()))
-                .goe(challenge.getGoal());
+    private BooleanExpression challengeDateFilter(Challenge challenge) {
+        return exerciseAnalysis.date.goe(challenge.getStartAt())
+                .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
+                .and(exerciseAnalysis.date.loe(challenge.getEndAt()));
     }
 
 }

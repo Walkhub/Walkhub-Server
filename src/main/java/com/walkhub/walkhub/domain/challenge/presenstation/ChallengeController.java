@@ -85,8 +85,9 @@ public class ChallengeController {
 
     @GetMapping("/{challenge-id}/participants/teachers")
     public QueryChallengeParticipantsForTeacherResponse queryChallengeParticipantsForTeacher(@PathVariable("challenge-id") Long challengeId,
-                                                                                             @RequestParam SuccessScope successScope) {
-        return queryChallengeParticipantsForTeacherService.execute(challengeId, successScope);
+                                                                                             @RequestParam SuccessScope successScope,
+                                                                                             @RequestParam Long page) {
+        return queryChallengeParticipantsForTeacherService.execute(challengeId, successScope, page);
     }
 
 }
