@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class QueryStudentCodeService {
+public class DetailsClassService {
 
     private final SectionFacade sectionFacade;
     private final ExerciseAnalysisRepository exerciseAnalysisRepository;

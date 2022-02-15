@@ -8,6 +8,7 @@ import com.walkhub.walkhub.domain.exercise.domain.ExerciseAnalysis;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
 import com.walkhub.walkhub.domain.user.domain.type.Sex;
+import com.walkhub.walkhub.domain.user.exception.SectionNotFoundException;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.global.enums.Authority;
@@ -18,7 +19,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -63,7 +63,6 @@ public class User extends BaseTimeEntity {
     private String profileImageUrl;
 
     @NotNull
-    @Length(max = 6)
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
@@ -83,7 +82,6 @@ public class User extends BaseTimeEntity {
     private HealthInfo healthInfo;
 
     @NotNull
-    @Length(max = 6)
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
@@ -102,8 +100,8 @@ public class User extends BaseTimeEntity {
     @JoinColumn(name = "max_level_id")
     private CalorieLevel maxLevel;
 
-    @NotNull
     @ColumnDefault("10000")
+    @Column(nullable = false)
     private Integer dailyWalkCountGoal;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
@@ -114,12 +112,11 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Exercise> exerciseList;
-    
+
     @Builder
-    public User(Long id, String accountId, String password, String phoneNumber, String name,
+    public User(String accountId, String password, String phoneNumber, String name,
                 Authority authority, Section section, School school, boolean isMeasuring,
-                Integer weight, BigDecimal height, Sex sex, Badge badge, String deviceToken, Integer dailyWalkCountGoal) {
-        this.id = id;
+                Integer weight, BigDecimal height, Sex sex) {
         this.accountId = accountId;
         this.password = password;
         this.phoneNumber = phoneNumber;
@@ -129,10 +126,8 @@ public class User extends BaseTimeEntity {
         this.school = school;
         this.isMeasuring = isMeasuring;
         this.healthInfo = new HealthInfo(weight, height);
+        this.dailyWalkCountGoal = 10000;
         this.sex = sex;
-        this.badge = badge;
-        this.deviceToken = deviceToken;
-        this.dailyWalkCountGoal = dailyWalkCountGoal;
     }
 
     public void setDeviceToken(String deviceToken) {
@@ -169,8 +164,15 @@ public class User extends BaseTimeEntity {
         this.authority = Authority.TEACHER;
     }
 
-    public void updatedailyWalkCountGoal(Integer dailyWalkCountGoal) {
+    public void updateDailyWalkCountGoal(Integer dailyWalkCountGoal) {
         this.dailyWalkCountGoal = dailyWalkCountGoal;
+    }
+
+    public Section getSection() {
+        if (section == null) {
+            throw SectionNotFoundException.EXCEPTION;
+        }
+        return section;
     }
 
     public void setMaxLevel(CalorieLevel calorieLevel) {
