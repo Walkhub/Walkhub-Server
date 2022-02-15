@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.time.LocalDate;
 import java.util.Optional;
 
-public interface ExerciseAnalysisRepository extends CrudRepository<ExerciseAnalysis, Long> {
+public interface ExerciseAnalysisRepository extends CrudRepository<ExerciseAnalysis, Long>, ExerciseAnalysisRepositoryCustom {
     Optional<ExerciseAnalysis> findByUserAndDate(User user, LocalDate date);
     List<ExerciseAnalysis> findAllByDateBetweenAndUser(LocalDate startAt, LocalDate endAt, User user);
 }
