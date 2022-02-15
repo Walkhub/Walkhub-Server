@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/users/{user-id}").authenticated()
                 .antMatchers(HttpMethod.GET, "/users").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users").authenticated()
-                .antMatchers(HttpMethod.POST,"/users/classes/{section-id}").authenticated()
+                .antMatchers(HttpMethod.POST, "/users/classes/{section-id}").authenticated()
                 .antMatchers(HttpMethod.GET, "/users/accounts/{phone-number}").permitAll()
                 .antMatchers(HttpMethod.PATCH, "/users/health").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users/goal").authenticated()
@@ -105,7 +105,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // schools
                 .antMatchers(HttpMethod.PATCH, "/schools/logos").hasAuthority("ROOT")
-                .antMatchers(HttpMethod.GET, "/schools/search").authenticated()
+                .antMatchers(HttpMethod.GET, "/schools/search").permitAll()
 
                 // teachers
                 .antMatchers(HttpMethod.POST, "/teachers/verification-codes").hasAuthority("ROOT")
@@ -113,16 +113,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/teachers/classes").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.DELETE, "/teachers/classes/{section-id}").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.GET, "/teachers/classes").hasAuthority("TEACHER")
-                .antMatchers(HttpMethod.GET,"/teachers/users/{user-id}").hasAnyAuthority("TEACHER")
-                .antMatchers(HttpMethod.GET,"/teachers/users").hasAnyAuthority("TEACHER","ROOT")
-                .antMatchers(HttpMethod.GET,"/teachers/students/verification-codes").hasAnyAuthority("TEACHER")
-                .antMatchers(HttpMethod.PATCH,  "/teachers/classes/verification-codes").hasAuthority("TEACHER")
+                .antMatchers(HttpMethod.GET, "/teachers/users/{user-id}").hasAnyAuthority("TEACHER")
+                .antMatchers(HttpMethod.GET, "/teachers/users").hasAnyAuthority("TEACHER", "ROOT")
+                .antMatchers(HttpMethod.GET, "/teachers/students/verification-codes").hasAnyAuthority("TEACHER")
+                .antMatchers(HttpMethod.PATCH, "/teachers/classes/verification-codes").hasAuthority("TEACHER")
 
                 // su
-                .antMatchers(HttpMethod.GET,"/su").hasAnyAuthority("SU")
+                .antMatchers(HttpMethod.GET, "/su").hasAnyAuthority("SU")
 
                 //excel
-                .antMatchers(HttpMethod.GET,"/excel").hasAnyAuthority("TEACHER", "ROOT")
+                .antMatchers(HttpMethod.GET, "/excel").hasAnyAuthority("TEACHER", "ROOT")
 
                 // socket.io
                 .antMatchers(HttpMethod.GET, "/socket.io").authenticated()
