@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.school.domain;
 
+import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import lombok.AccessLevel;
@@ -13,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,6 +38,9 @@ public class School extends BaseTimeEntity {
 
     @Column(columnDefinition = "char(7)")
     private String authCode;
+
+    @OneToMany(mappedBy = "school")
+    private List<Section> sections;
 
     @Builder
     public School(String name, String logoImageUrl) {
