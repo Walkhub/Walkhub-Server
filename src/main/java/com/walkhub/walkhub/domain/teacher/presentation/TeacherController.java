@@ -2,9 +2,11 @@ package com.walkhub.walkhub.domain.teacher.presentation;
 
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.CreateClassRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.TeacherCodeRequest;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CodeResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.DetailsClassResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserDetailsResponse;
+import com.walkhub.walkhub.domain.teacher.service.ClassListService;
 import com.walkhub.walkhub.domain.teacher.service.ConfirmTeacherCodeService;
 import com.walkhub.walkhub.domain.teacher.service.CreateClassService;
 import com.walkhub.walkhub.domain.teacher.service.DeleteClassService;
@@ -12,7 +14,6 @@ import com.walkhub.walkhub.domain.teacher.service.QueryStudentCodeService;
 import com.walkhub.walkhub.domain.teacher.service.QueryUserDetailsService;
 import com.walkhub.walkhub.domain.teacher.service.RefreshClassCodeService;
 import com.walkhub.walkhub.domain.teacher.service.VerificationCodeService;
-import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 
 @RequiredArgsConstructor
 @RequestMapping("/teachers")
@@ -41,6 +43,7 @@ public class TeacherController {
     private final QueryStudentCodeService queryStudentCodeService;
     private final QueryUserDetailsService queryUserDetailsService;
     private final ConfirmTeacherCodeService confirmTeacherCodeService;
+    private final ClassListService classListService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/classes")
@@ -81,6 +84,11 @@ public class TeacherController {
     @PatchMapping("/verification-codes")
     public void confirmTeacherCode(@RequestBody TeacherCodeRequest teacherCodeRequest) {
         confirmTeacherCodeService.execute(teacherCodeRequest);
+    }
+
+    @GetMapping("lists")
+    public ClassListResponse classList() {
+        return classListService.execute();
     }
 
 }
