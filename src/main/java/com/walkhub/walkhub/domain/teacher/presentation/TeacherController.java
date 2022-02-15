@@ -65,9 +65,9 @@ public class TeacherController {
         return refreshClassCodeService.execute();
     }
 
-    @GetMapping("/classes")
-    public DetailsClassResponse queryStudentCode() {
-        return queryStudentCodeService.execute();
+    @GetMapping("/classes/{section-id}")
+    public DetailsClassResponse queryStudentCode(@PathVariable("section-id") Long sectionId) {
+        return queryStudentCodeService.execute(sectionId);
     }
 
     @GetMapping("/users/{user-id}")
