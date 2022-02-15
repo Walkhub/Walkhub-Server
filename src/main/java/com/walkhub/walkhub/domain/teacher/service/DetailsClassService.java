@@ -54,9 +54,9 @@ public class DetailsClassService {
     }
 
     private UserListResponse buildUserListResponse(User user) {
-        LocalDate start = LocalDate.now().minusDays(7);
-        LocalDate end = LocalDate.now();
-        List<ExerciseAnalysis> exerciseAnalyses = exerciseAnalysisRepository.findAllByUserAndDateBetween(user, start, end);
+        LocalDate startAt = LocalDate.now().minusDays(7);
+        LocalDate endAt = LocalDate.now();
+        List<ExerciseAnalysis> exerciseAnalyses = exerciseAnalysisRepository.findAllByUserAndDateBetween(user, startAt, endAt);
 
         return UserListResponse.builder()
                 .userId(user.getId())
