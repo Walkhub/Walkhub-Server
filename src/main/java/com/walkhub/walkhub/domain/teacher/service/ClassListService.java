@@ -48,9 +48,9 @@ public class ClassListService {
                         .classNum(section.getClassNum())
                         .build())
                 .teacher(TeacherResponse.builder()
-                        .userId(user.getId())
-                        .name(user.getName())
-                        .profileImageUrl(user.getProfileImageUrl())
+                        .userId(teacher.getId())
+                        .name(teacher.getName())
+                        .profileImageUrl(teacher.getProfileImageUrl())
                         .build())
                 .build();
     }
