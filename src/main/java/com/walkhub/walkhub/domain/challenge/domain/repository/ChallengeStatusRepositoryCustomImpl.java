@@ -42,9 +42,8 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .on(challengeStatus.challenge.eq(challenge))
                 .where(
                         successScopeFilter(challenge, successScope),
-                        isChallengeSuccessFilter(challenge),exerciseAnalysis.date.goe(challenge.getStartAt()),
-                        exerciseAnalysis.date.goe(challengeStatus.createdAt),
-                        exerciseAnalysis.date.loe(challenge.getEndAt())
+                        isChallengeSuccessFilter(challenge),
+                        challengeDateFilter(challenge)
                 )
                 .offset(page * size)
                 .limit(size)
@@ -61,11 +60,9 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                                 Expressions.asNumber(select(exerciseAnalysis.count())
                                         .from(exerciseAnalysis)
                                         .where(
-                                                isChallengeSuccessFilter(challenge),
                                                 exerciseAnalysis.user.eq(user),
-                                                exerciseAnalysis.date.goe(challenge.getStartAt()),
-                                                exerciseAnalysis.date.goe(challengeStatus.createdAt),
-                                                exerciseAnalysis.date.loe(challenge.getEndAt())
+                                                isChallengeSuccessFilter(challenge),
+                                                challengeDateFilter(challenge)
                                         ))
                                         .goe(challenge.getSuccessStandard()).as("isSuccess"),
                                 GroupBy.list(exerciseAnalysis.date))
@@ -79,11 +76,9 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 return Expressions.asNumber(select(exerciseAnalysis.count())
                         .from(exerciseAnalysis)
                         .where(
-                                isChallengeSuccessFilter(challenge),
                                 exerciseAnalysis.user.eq(user),
-                                exerciseAnalysis.date.goe(challenge.getStartAt()),
-                                exerciseAnalysis.date.goe(challengeStatus.createdAt),
-                                exerciseAnalysis.date.loe(challenge.getEndAt())
+                                isChallengeSuccessFilter(challenge),
+                                challengeDateFilter(challenge)
                         ))
                         .goe(challenge.getSuccessStandard());
             }
@@ -91,11 +86,9 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 return Expressions.asNumber(select(exerciseAnalysis.count())
                         .from(exerciseAnalysis)
                         .where(
-                                isChallengeSuccessFilter(challenge),
                                 exerciseAnalysis.user.eq(user),
-                                exerciseAnalysis.date.goe(challenge.getStartAt()),
-                                exerciseAnalysis.date.goe(challengeStatus.createdAt),
-                                exerciseAnalysis.date.loe(challenge.getEndAt())
+                                isChallengeSuccessFilter(challenge),
+                                challengeDateFilter(challenge)
                         ))
                         .lt(challenge.getSuccessStandard());
             }
@@ -134,11 +127,15 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .from(exerciseAnalysis)
                 .where(
                         exerciseAnalysis.user.eq(user),
-                        exerciseAnalysis.date.goe(challenge.getStartAt()),
-                        exerciseAnalysis.date.goe(challengeStatus.createdAt),
-                        exerciseAnalysis.date.loe(challenge.getEndAt())
+                        challengeDateFilter(challenge)
                 )
                 .goe(challenge.getGoal());
+    }
+
+    private BooleanExpression challengeDateFilter(Challenge challenge) {
+        return exerciseAnalysis.date.goe(challenge.getStartAt())
+                .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
+                .and(exerciseAnalysis.date.loe(challenge.getEndAt()));
     }
 
 }
