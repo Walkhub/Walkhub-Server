@@ -48,11 +48,13 @@ public class ExerciseAnalysis {
 
 
     @Builder
-    public ExerciseAnalysis(Double calorie, Integer walkCount, Integer distance, LocalDate date, User user) {
+    public ExerciseAnalysis(Double calorie, Integer walkCount, Double exerciseTime,
+                            Integer distance, LocalDate date, User user) {
         this.calorie = calorie;
         this.walkCount = walkCount;
         this.distance = distance;
         this.date = date;
+        this.exerciseTime = exerciseTime;
         this.user = user;
     }
 
