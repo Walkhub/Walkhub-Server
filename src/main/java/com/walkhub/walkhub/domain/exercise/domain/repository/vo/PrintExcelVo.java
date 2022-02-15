@@ -1,40 +1,25 @@
 package com.walkhub.walkhub.domain.exercise.domain.repository.vo;
 
-import com.lannstark.ExcelColumn;
 import com.querydsl.core.annotations.QueryProjection;
+import com.walkhub.walkhub.global.enums.Authority;
 import lombok.Getter;
 
 @Getter
 public class PrintExcelVo {
 
-	@ExcelColumn(headerName = "name")
 	private final String name;
-
-	@ExcelColumn(headerName = "grade")
 	private final Integer grade;
-
-	@ExcelColumn(headerName = "classNum")
 	private final Integer classNum;
-
-	@ExcelColumn(headerName = "number")
 	private final Integer number;
-
-	@ExcelColumn(headerName = "allWalkCount")
 	private final Integer allWalkCount;
-
-	@ExcelColumn(headerName = "averageWalkCount")
 	private final Integer averageWalkCount;
-
-	@ExcelColumn(headerName = "allDistance")
 	private final Integer allDistance;
-
-	@ExcelColumn(headerName = "averageDistance")
 	private final Integer averageDistance;
+	private final Authority authority;
 
 	@QueryProjection
 	public PrintExcelVo(String name, Integer grade, Integer classNum, Integer number,
-		Integer allWalkCount, Integer averageWalkCount, Integer allDistance,
-		Integer averageDistance) {
+		Integer allWalkCount, Integer averageWalkCount, Integer allDistance, Integer averageDistance, Authority authority) {
 		this.name = name;
 		this.grade = grade;
 		this.classNum = classNum;
@@ -43,5 +28,6 @@ public class PrintExcelVo {
 		this.averageWalkCount = averageWalkCount;
 		this.allDistance = allDistance;
 		this.averageDistance = averageDistance;
+		this.authority = authority;
 	}
 }

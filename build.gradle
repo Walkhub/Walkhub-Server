@@ -51,11 +51,6 @@ dependencies {
     implementation 'org.hibernate:hibernate-ehcache:5.4.30.Final'
     implementation 'org.hibernate:hibernate-jcache:5.6.5.Final'
     implementation 'org.ehcache:ehcache:3.9.2'
-
-	implementation group: 'org.apache.poi', name: 'poi', version: '5.0.0'
-	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.0.0'
-
-	implementation('com.github.lannstark:excel-download:0.1.1')
 }
 
 test {
@@ -71,11 +66,5 @@ sonarqube {
 		property "sonar.projectKey", "Walkhub_Walkhub-Server"
 		property "sonar.organization", "walkhub"
 		property "sonar.host.url", "https://sonarcloud.io"
-	}
-}
-
-allprojects {
-	repositories {
-		maven { url 'https://jitpack.io' }
 	}
 }
