@@ -1,5 +1,7 @@
 package com.walkhub.walkhub.domain.badge.presentation;
 
+import com.walkhub.walkhub.domain.badge.presentation.dto.response.QueryUserBadgeListResponse;
+import com.walkhub.walkhub.domain.badge.service.QueryUserBadgeListService;
 import com.walkhub.walkhub.domain.badge.presentation.dto.response.ClaimBadgeResponse;
 import com.walkhub.walkhub.domain.badge.service.ClaimBadgeService;
 import com.walkhub.walkhub.domain.badge.service.SetTitleBadgeService;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BadgeController {
 
     private final SetTitleBadgeService setTitleBadgeService;
+    private final QueryUserBadgeListService queryUserBadgeListService;
     private final ClaimBadgeService claimBadgeService;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -26,6 +29,11 @@ public class BadgeController {
         setTitleBadgeService.execute(badgeId);
     }
 
+    @GetMapping("/{user-id}")
+    public QueryUserBadgeListResponse queryUserBadgeList(@PathVariable(name = "user-id") Long userId) {
+        return queryUserBadgeListService.execute(userId);
+    }
+  
     @GetMapping("/new")
     public ClaimBadgeResponse claimBadge() {
         return claimBadgeService.execute();

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
@@ -19,24 +20,25 @@ public class ExerciseAnalysis {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Integer calorie;
+    @NotNull
+    private Double calorie;
 
-    @Column(nullable = false)
+    @NotNull
     private Integer walkCount;
 
-    @Column(nullable = false)
+    @NotNull
     private Integer distance;
 
-    @Column(nullable = false)
+    @NotNull
     private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+
     @Builder
-    public ExerciseAnalysis(Integer calorie, Integer walkCount,
+    public ExerciseAnalysis(Double calorie, Integer walkCount,
                             Integer distance, LocalDate date, User user) {
         this.calorie = calorie;
         this.walkCount = walkCount;

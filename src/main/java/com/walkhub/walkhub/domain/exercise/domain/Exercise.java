@@ -45,7 +45,7 @@ public class Exercise extends BaseTimeEntity {
 
     @ColumnDefault("0")
     @Column(nullable = false)
-    private Integer calorie;
+    private Double calorie;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -79,7 +79,7 @@ public class Exercise extends BaseTimeEntity {
         this.goal = goal;
     }
 
-    public void closeExercise(Integer walkCount, Integer distance, Integer calorie) {
+    public void closeExercise(Integer walkCount, Integer distance, Double calorie) {
         this.walkCount = walkCount;
         this.distance = distance;
         this.calorie = calorie;
