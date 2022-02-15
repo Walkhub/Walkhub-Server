@@ -50,7 +50,7 @@ public class ExerciseAnalysisRepositoryCustomImpl implements ExerciseAnalysisRep
 			.where(
 				school.id.eq(schoolId),
 				user.authority.eq(authority),
-				exerciseAnalysis.date.between(localDate, localDate2),
+				exerciseAnalysis.date.between(startAt, endAt),
 				builder
 			)
 			.groupBy(user)
