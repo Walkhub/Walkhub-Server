@@ -79,7 +79,7 @@ public class TeacherController {
         confirmTeacherCodeService.execute(teacherCodeRequest);
     }
 
-    @GetMapping("lists")
+    @GetMapping("/classes/lists")
     public ClassListResponse classList() {
         return classListService.execute();
     }
