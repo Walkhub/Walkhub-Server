@@ -62,6 +62,7 @@ public class DetailsClassService {
                 .userId(user.getId())
                 .name(user.getName())
                 .profileImageUrl(user.getProfileImageUrl())
+                .number(user.getNumber())
                 .averageWalkCount((int) exerciseAnalyses.stream().mapToInt(ExerciseAnalysis::getWalkCount).average().orElse(0))
                 .totalWalkCount(exerciseAnalyses.stream().mapToInt(ExerciseAnalysis::getWalkCount).sum())
                 .averageDistance((int) exerciseAnalyses.stream().mapToInt(ExerciseAnalysis::getDistance).average().orElse(0))

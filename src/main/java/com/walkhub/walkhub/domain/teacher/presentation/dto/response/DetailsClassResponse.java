@@ -27,6 +27,7 @@ public class DetailsClassResponse {
     public static class UserListResponse {
         private final Long userId;
         private final String name;
+        private final Integer number;
         private final String profileImageUrl;
         private final Integer averageWalkCount;
         private final Integer totalWalkCount;
