@@ -1,10 +1,9 @@
 package com.walkhub.walkhub.domain.user.service;
 
-import com.walkhub.walkhub.domain.school.exception.AgencyCodeNotMatchException;
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.domain.user.exception.ClassCodeNotMatchException;
-import com.walkhub.walkhub.domain.user.facade.SectionFacade;
+import com.walkhub.walkhub.domain.user.domain.repository.SectionRepository;
+import com.walkhub.walkhub.domain.user.exception.SectionNotFoundException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinSectionRequest;
 import lombok.RequiredArgsConstructor;
@@ -16,21 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class JoinSectionService {
 
     private final UserFacade userFacade;
-    private final SectionFacade sectionFacade;
+    private final SectionRepository sectionRepository;
 
     @Transactional
-    public void execute(Long sectionId, JoinSectionRequest request) {
+    public void execute(JoinSectionRequest request) {
         User user = userFacade.getCurrentUser();
 
-        Section section = sectionFacade.getSectionById(sectionId);
-
-        if (!section.getClassCode().equals(request.getClassCode())) {
-            throw ClassCodeNotMatchException.EXCEPTION;
-        }
-
-        if (!user.getSchool().equals(section.getSchool())) {
-            throw AgencyCodeNotMatchException.EXCEPTION;
-        }
+        Section section = sectionRepository.findByClassCodeAndSchool(request.getClassCode(), user.getSchool())
+                .orElseThrow(() -> SectionNotFoundException.EXCEPTION);
 
         user.setSection(section);
         user.setNumber(request.getNumber());
