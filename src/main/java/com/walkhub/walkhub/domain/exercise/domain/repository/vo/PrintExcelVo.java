@@ -16,10 +16,11 @@ public class PrintExcelVo {
 	private final Integer allDistance;
 	private final Integer averageDistance;
 	private final Authority authority;
+	private final String schoolName;
 
 	@QueryProjection
 	public PrintExcelVo(String name, Integer grade, Integer classNum, Integer number,
-		Integer allWalkCount, Integer averageWalkCount, Integer allDistance, Integer averageDistance, Authority authority) {
+		Integer allWalkCount, Integer averageWalkCount, Integer allDistance, Integer averageDistance, Authority authority, String schoolName) {
 		this.name = name;
 		this.grade = grade;
 		this.classNum = classNum;
@@ -29,5 +30,6 @@ public class PrintExcelVo {
 		this.allDistance = allDistance;
 		this.averageDistance = averageDistance;
 		this.authority = authority;
+		this.schoolName = schoolName;
 	}
 }

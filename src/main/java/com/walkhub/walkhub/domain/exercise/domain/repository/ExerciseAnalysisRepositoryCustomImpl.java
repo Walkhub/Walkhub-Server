@@ -30,7 +30,7 @@ public class ExerciseAnalysisRepositoryCustomImpl implements ExerciseAnalysisRep
 
 		 Integer grade = excelRequest.getGrade();
 
-		 Integer classNum = excelRequest.getGrade();
+		 Integer classNum = excelRequest.getClassNum();
 
 		return queryFactory
 			.select(new QPrintExcelVo(
@@ -42,18 +42,19 @@ public class ExerciseAnalysisRepositoryCustomImpl implements ExerciseAnalysisRep
 				exerciseAnalysis.walkCount.avg().intValue(),
 				exerciseAnalysis.distance.sum(),
 				exerciseAnalysis.distance.avg().intValue(),
-				user.authority
+				user.authority,
+				school.name
 			))
 			.from(exerciseAnalysis)
 			.join(exerciseAnalysis.user, user)
 			.join(user.school, school)
-			.join(user.section, section)
+			.leftJoin(user.section, section)
 			.where(
 				school.id.eq(schoolId),
 				exerciseAnalysis.date.between(startAt, endAt),
 				nullFilter(authority,grade,classNum)
 			)
-			.groupBy(user.authority)
+			.groupBy(user)
 			.fetch();
 	}
 
