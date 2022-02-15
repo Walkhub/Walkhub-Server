@@ -1,4 +1,4 @@
-package com.walkhub.walkhub.domain.user.domain;
+package com.walkhub.walkhub.domain.calorielevel.domain;
 
 import lombok.AccessLevel;
 import lombok.Builder;

@@ -1,7 +1,10 @@
 package com.walkhub.walkhub.domain.user.domain;
 
 import com.walkhub.walkhub.domain.badge.domain.Badge;
+import com.walkhub.walkhub.domain.calorielevel.domain.CalorieLevel;
+import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
 import com.walkhub.walkhub.domain.exercise.domain.Exercise;
+import com.walkhub.walkhub.domain.exercise.domain.ExerciseAnalysis;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
 import com.walkhub.walkhub.domain.user.domain.type.Sex;
@@ -50,7 +53,7 @@ public class User extends BaseTimeEntity {
     @Column(length = 60, nullable = false)
     private String password;
 
-    @Column(length = 11, nullable = false)
+    @Column(length = 11)
     private String phoneNumber;
 
     @Column(length = 10, nullable = false)
@@ -100,6 +103,12 @@ public class User extends BaseTimeEntity {
     @ColumnDefault("10000")
     @Column(nullable = false)
     private Integer dailyWalkCountGoal;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<ChallengeStatus> challengeStatuses;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<ExerciseAnalysis> exerciseAnalyses;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Exercise> exerciseList;
@@ -164,6 +173,10 @@ public class User extends BaseTimeEntity {
             throw SectionNotFoundException.EXCEPTION;
         }
         return section;
+    }
+
+    public void setMaxLevel(CalorieLevel calorieLevel) {
+        this.maxLevel = calorieLevel;
     }
 
 }
