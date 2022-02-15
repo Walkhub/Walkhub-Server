@@ -12,6 +12,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -20,6 +21,7 @@ public class PrintExcelService {
 	private final ExerciseAnalysisRepository exerciseAnalysisRepository;
 	private final UserFacade userFacade;
 
+	@Transactional(readOnly = true)
 	public void execute(LocalDate startAt, LocalDate endAt, Authority authority, Integer grade, Integer classNum, HttpServletResponse response)
 		throws IOException {
 		Long schoolId = userFacade.getCurrentUser().getSchool().getId();
