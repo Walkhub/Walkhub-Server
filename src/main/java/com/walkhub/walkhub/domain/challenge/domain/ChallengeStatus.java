@@ -1,7 +1,6 @@
 package com.walkhub.walkhub.domain.challenge.domain;
 
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,12 +12,14 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(ChallengeStatusId.class)
 @Entity
-public class ChallengeStatus extends BaseTimeEntity {
+public class ChallengeStatus {
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,6 +30,9 @@ public class ChallengeStatus extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @NotNull
+    private final LocalDate createdAt = LocalDate.now();
 
     @Builder
     public ChallengeStatus(Challenge challenge, User user) {
