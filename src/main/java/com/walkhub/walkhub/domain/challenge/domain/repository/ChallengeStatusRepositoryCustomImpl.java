@@ -25,7 +25,7 @@ import static com.walkhub.walkhub.domain.user.domain.QSection.section;
 import static com.walkhub.walkhub.domain.user.domain.QUser.user;
 
 @RequiredArgsConstructor
-public class CustomChallengeRepositoryImpl implements CustomChallengeRepository {
+public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 

@@ -8,11 +8,9 @@ import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserDet
 import com.walkhub.walkhub.domain.teacher.service.ConfirmTeacherCodeService;
 import com.walkhub.walkhub.domain.teacher.service.CreateClassService;
 import com.walkhub.walkhub.domain.teacher.service.DeleteClassService;
-import com.walkhub.walkhub.domain.teacher.service.QueryStudentCodeService;
+import com.walkhub.walkhub.domain.teacher.service.DetailsClassService;
 import com.walkhub.walkhub.domain.teacher.service.QueryUserDetailsService;
-import com.walkhub.walkhub.domain.teacher.service.RefreshClassCodeService;
 import com.walkhub.walkhub.domain.teacher.service.VerificationCodeService;
-import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -28,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 
 @RequiredArgsConstructor
 @RequestMapping("/teachers")
@@ -37,8 +36,7 @@ public class TeacherController {
     private final CreateClassService createClassService;
     private final VerificationCodeService verificationCodeService;
     private final DeleteClassService deleteClassService;
-    private final RefreshClassCodeService refreshClassCodeService;
-    private final QueryStudentCodeService queryStudentCodeService;
+    private final DetailsClassService detailsClassService;
     private final QueryUserDetailsService queryUserDetailsService;
     private final ConfirmTeacherCodeService confirmTeacherCodeService;
 
@@ -60,20 +58,15 @@ public class TeacherController {
         deleteClassService.execute(sectionId);
     }
 
-    @PatchMapping("/classes/verification-codes")
-    public CodeResponse refreshClassCode() {
-        return refreshClassCodeService.execute();
-    }
-
-    @GetMapping("/classes")
-    public DetailsClassResponse queryStudentCode() {
-        return queryStudentCodeService.execute();
+    @GetMapping("/classes/{section-id}")
+    public DetailsClassResponse detailsClass(@PathVariable("section-id") Long sectionId) {
+        return detailsClassService.execute(sectionId);
     }
 
     @GetMapping("/users/{user-id}")
-    public QueryUserDetailsResponse queryUserDetails(@PathVariable Long userId,
-        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startAt,
-        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endAt) {
+    public QueryUserDetailsResponse queryUserDetails(@PathVariable("user-id") Long userId,
+                                                     @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startAt,
+                                                     @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endAt) {
         return queryUserDetailsService.execute(userId, startAt, endAt);
     }
 
