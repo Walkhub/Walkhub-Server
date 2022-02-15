@@ -42,6 +42,10 @@ public class School extends BaseTimeEntity {
         this.logoImageUrl = logoImageUrl;
     }
 
+    public void addUserCount() {
+        this.userCount++;
+    }
+
     public void setLogoImage(String logoImageUrl) {
         this.logoImageUrl = logoImageUrl;
     }

@@ -19,6 +19,7 @@ import com.walkhub.walkhub.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -34,6 +35,7 @@ public class UserSignUpService {
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtProperties jwtProperties;
 
+    @Transactional
     public UserTokenResponse execute(UserSignUpRequest request) {
         UserAuthCode code = userAuthCodeRepository.findById(request.getPhoneNumber())
                 .orElseThrow(() -> UserAuthCodeNotFoundException.EXCEPTION);
@@ -58,10 +60,11 @@ public class UserSignUpService {
                 .sex(request.getSex())
                 .isMeasuring(false)
                 .build();
-        HealthInfo healthInfo = user.getHealthInfo();
-
         userRepository.save(user);
 
+        school.addUserCount();
+
+        HealthInfo healthInfo = user.getHealthInfo();
         String accessToken = jwtTokenProvider.generateAccessToken(request.getAccountId());
         String refreshToken = jwtTokenProvider.generateRefreshToken(request.getAccountId());
 
