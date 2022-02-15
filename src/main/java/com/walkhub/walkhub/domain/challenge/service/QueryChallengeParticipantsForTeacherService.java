@@ -19,18 +19,18 @@ public class QueryChallengeParticipantsForTeacherService {
     private final ChallengeStatusRepository challengeStatusRepository;
 
     @Transactional(readOnly = true)
-    public QueryChallengeParticipantsForTeacherResponse execute(Long challengeId, SuccessScope successScope) {
+    public QueryChallengeParticipantsForTeacherResponse execute(Long challengeId, SuccessScope successScope, Long page) {
         Challenge challenge = challengeFacade.getChallengeById(challengeId);
 
         return new QueryChallengeParticipantsForTeacherResponse(
-                queryChallengeParticipantsForTeacherResponseBuilder(challenge, successScope)
+                queryChallengeParticipantsForTeacherResponseBuilder(challenge, successScope, page)
         );
     }
 
     private List<QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants> queryChallengeParticipantsForTeacherResponseBuilder(
-            Challenge challenge, SuccessScope successScope
+            Challenge challenge, SuccessScope successScope, Long page
     ) {
-        return challengeStatusRepository.queryChallengeParticipantsList(challenge, successScope)
+        return challengeStatusRepository.queryChallengeParticipantsList(challenge, successScope, page)
                 .stream()
                 .map(vo -> QueryChallengeParticipantsForTeacherResponse.ChallengeParticipants.builder()
                         .userId(vo.getUserId())

@@ -30,7 +30,8 @@ public class CustomChallengeRepositoryImpl implements CustomChallengeRepository 
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<ChallengeParticipantsVO> queryChallengeParticipantsList(Challenge challenge, SuccessScope successScope) {
+    public List<ChallengeParticipantsVO> queryChallengeParticipantsList(Challenge challenge, SuccessScope successScope, Long page) {
+        final long size = 20L;
         return jpaQueryFactory
                 .selectFrom(user)
                 .join(user.school, school)
@@ -45,6 +46,8 @@ public class CustomChallengeRepositoryImpl implements CustomChallengeRepository 
                         exerciseAnalysis.date.goe(challengeStatus.createdAt),
                         exerciseAnalysis.date.loe(challenge.getEndAt())
                 )
+                .offset(page * size)
+                .limit(size)
                 .orderBy(user.name.asc(), user.id.asc(), exerciseAnalysis.date.asc())
                 .transform(groupBy(user.name, user.id)
                         .list(new QChallengeParticipantsVO(
