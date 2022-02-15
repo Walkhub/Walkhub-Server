@@ -11,6 +11,7 @@ import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.enums.Authority;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +23,7 @@ public class ClassListService {
     private final UserFacade userFacade;
     private final UserRepository userRepository;
 
+    @Transactional(readOnly = true)
     public ClassListResponse execute() {
         User teacher = userFacade.getCurrentUser();
         School school = teacher.getSchool();
@@ -32,6 +34,7 @@ public class ClassListService {
                     User user = userRepository.findBySectionAndAuthority(section, Authority.TEACHER);
                     Integer userCount = userRepository.findAllBySectionAndAuthority(section, Authority.USER).size();
                     return ClassResponse.builder()
+                            .userCount(userCount)
                             .section(SectionResponse.builder()
                                     .sectionId(section.getId())
                                     .grade(section.getGrade())
@@ -42,7 +45,6 @@ public class ClassListService {
                                     .name(user.getName())
                                     .profileImageUrl(user.getProfileImageUrl())
                                     .build())
-                            .userCount(userCount)
                             .build();
                 }).collect(Collectors.toList());
 
