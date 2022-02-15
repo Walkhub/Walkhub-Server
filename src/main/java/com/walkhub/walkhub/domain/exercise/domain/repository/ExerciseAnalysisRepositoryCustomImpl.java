@@ -62,7 +62,7 @@ public class ExerciseAnalysisRepositoryCustomImpl implements ExerciseAnalysisRep
 		switch (userType) {
 			case STUDENT: {
 				builder.and(user.authority.eq(Authority.USER));
-				builder = (nullFilter(builder, grade, classNum));
+				builder.and(nullFilter(grade, classNum));
 				break;
 			}
 			case TEACHER: {
@@ -79,7 +79,9 @@ public class ExerciseAnalysisRepositoryCustomImpl implements ExerciseAnalysisRep
 		return builder;
 	}
 
-	private BooleanBuilder nullFilter(BooleanBuilder builder, Integer grade, Integer classNum) {
+	private BooleanBuilder nullFilter(Integer grade, Integer classNum) {
+		BooleanBuilder builder = new BooleanBuilder();
+
 		if (grade != null) {
 			builder.and(section.grade.eq(grade));
 		}
