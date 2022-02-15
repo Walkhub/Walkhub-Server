@@ -2,8 +2,8 @@ package com.walkhub.walkhub.domain.excel.service;
 
 import com.walkhub.walkhub.domain.excel.presentation.dto.request.PrintExcelRequest;
 import com.walkhub.walkhub.domain.excel.presentation.dto.response.PrintExcelResponse;
+import com.walkhub.walkhub.domain.excel.presentation.dto.response.PrintExcelResponse.PrintExcelVo;
 import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
-import com.walkhub.walkhub.domain.exercise.domain.repository.vo.PrintExcelVo;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

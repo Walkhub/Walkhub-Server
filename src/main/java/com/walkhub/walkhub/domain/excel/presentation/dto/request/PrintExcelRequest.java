@@ -12,12 +12,8 @@ import lombok.NoArgsConstructor;
 public class PrintExcelRequest {
 
 	private LocalDate startAt;
-
 	private LocalDate endAt;
-
 	private UserType userType;
-
 	private Integer grade;
-
 	private Integer classNum;
 }

@@ -9,8 +9,8 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.excel.domain.type.UserType;
 import com.walkhub.walkhub.domain.excel.presentation.dto.request.PrintExcelRequest;
-import com.walkhub.walkhub.domain.exercise.domain.repository.vo.PrintExcelVo;
-import com.walkhub.walkhub.domain.exercise.domain.repository.vo.QPrintExcelVo;
+import com.walkhub.walkhub.domain.excel.presentation.dto.response.PrintExcelResponse.PrintExcelVo;
+import com.walkhub.walkhub.domain.excel.presentation.dto.response.QPrintExcelResponse_PrintExcelVo;
 import com.walkhub.walkhub.global.enums.Authority;
 import java.time.LocalDate;
 import java.util.List;
@@ -31,7 +31,7 @@ public class ExerciseAnalysisRepositoryCustomImpl implements ExerciseAnalysisRep
 		Integer classNum = excelRequest.getClassNum();
 
 		return queryFactory
-			.select(new QPrintExcelVo(
+			.select(new QPrintExcelResponse_PrintExcelVo(
 				user.name,
 				section.grade,
 				section.classNum,
