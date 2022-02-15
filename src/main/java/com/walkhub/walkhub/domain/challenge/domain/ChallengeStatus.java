@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.domain.challenge.domain;
 
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(ChallengeStatusId.class)
 @Entity
-public class ChallengeStatus {
+public class ChallengeStatus extends BaseTimeEntity {
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
