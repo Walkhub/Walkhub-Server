@@ -7,6 +7,7 @@ import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.UserAuthCode;
 import com.walkhub.walkhub.domain.user.domain.repository.UserAuthCodeRepository;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
+import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
 import com.walkhub.walkhub.domain.user.exception.SchoolNotFoundException;
 import com.walkhub.walkhub.domain.user.exception.UnauthorizedUserAuthCodeException;
 import com.walkhub.walkhub.domain.user.exception.UserAuthCodeNotFoundException;
@@ -18,6 +19,7 @@ import com.walkhub.walkhub.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -33,6 +35,7 @@ public class UserSignUpService {
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtProperties jwtProperties;
 
+    @Transactional
     public UserTokenResponse execute(UserSignUpRequest request) {
         UserAuthCode code = userAuthCodeRepository.findById(request.getPhoneNumber())
                 .orElseThrow(() -> UserAuthCodeNotFoundException.EXCEPTION);
@@ -57,9 +60,11 @@ public class UserSignUpService {
                 .sex(request.getSex())
                 .isMeasuring(false)
                 .build();
-
         userRepository.save(user);
 
+        school.addUserCount();
+
+        HealthInfo healthInfo = user.getHealthInfo();
         String accessToken = jwtTokenProvider.generateAccessToken(request.getAccountId());
         String refreshToken = jwtTokenProvider.generateRefreshToken(request.getAccountId());
 
@@ -68,6 +73,9 @@ public class UserSignUpService {
                 .expiredAt(LocalDateTime.now().plusSeconds(jwtProperties.getAccessExp()))
                 .refreshToken(refreshToken)
                 .authority(user.getAuthority())
+                .height(healthInfo.getHeight())
+                .weight(healthInfo.getWeight())
+                .sex(user.getSex())
                 .build();
     }
 }
