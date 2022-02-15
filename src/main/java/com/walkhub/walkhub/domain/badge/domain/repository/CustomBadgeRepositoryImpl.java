@@ -2,7 +2,9 @@ package com.walkhub.walkhub.domain.badge.domain.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.badge.domain.repository.vo.DefaultBadgeVO;
+import com.walkhub.walkhub.domain.badge.domain.repository.vo.MyBadgeVo;
 import com.walkhub.walkhub.domain.badge.domain.repository.vo.QDefaultBadgeVO;
+import com.walkhub.walkhub.domain.badge.domain.repository.vo.QMyBadgeVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -36,18 +38,17 @@ public class CustomBadgeRepositoryImpl implements CustomBadgeRepository {
     }
 
     @Override
-    public List<DefaultBadgeVO> findAllByBadgeCollections(Long userId) {
+    public List<MyBadgeVo> findAllByBadgeCollections(Long userId) {
         return query
-                .select(new QDefaultBadgeVO(
+                .select(new QMyBadgeVo(
                         badge.id,
                         badge.name,
-                        badge.imageUrl
+                        badge.imageUrl,
+                        user.id.eq(userId)
                 ))
                 .from(badge)
-                .leftJoin(badgeCollection)
-                .on(badgeCollection.badge.eq(badge))
-                .leftJoin(user)
-                .on(badgeCollection.user.eq(user))
+                .leftJoin(badgeCollection.badge, badge)
+                .leftJoin(badgeCollection.user, user)
                 .where(user.isNull().or(user.id.eq(userId)))
                 .fetch();
     }
