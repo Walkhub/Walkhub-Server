@@ -3,7 +3,6 @@ package com.walkhub.walkhub.domain.notice.domain;
 import com.walkhub.walkhub.domain.notice.domain.type.Scope;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
-import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import org.hibernate.validator.constraints.Length;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -37,8 +36,8 @@ public class Notice extends BaseTimeEntity {
     private String content;
 
     @NotNull
-    @Length(max = 7)
     @Enumerated(EnumType.STRING)
+    @Column(length = 6)
     private Scope scope;
 
     @ManyToOne(fetch = FetchType.LAZY)

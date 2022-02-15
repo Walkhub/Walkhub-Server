@@ -1,5 +1,7 @@
 package com.walkhub.walkhub.global.security.jwt;
 
+import com.walkhub.walkhub.domain.auth.domain.RefreshToken;
+import com.walkhub.walkhub.domain.auth.domain.repository.RefreshTokenRepository;
 import com.walkhub.walkhub.global.exception.ExpiredJwtException;
 import com.walkhub.walkhub.global.exception.InvalidJwtException;
 import com.walkhub.walkhub.global.security.auth.AuthDetailsService;
@@ -21,13 +23,21 @@ public class JwtTokenProvider {
 
     private final JwtProperties jwtProperties;
     private final AuthDetailsService authDetailsService;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public String generateAccessToken(String id) {
         return generateToken(id, "access", jwtProperties.getAccessExp());
     }
 
     public String generateRefreshToken(String id) {
-        return generateToken(id, "refresh", jwtProperties.getRefreshExp());
+        String refreshToken = generateToken(id, "refresh", jwtProperties.getRefreshExp());
+        refreshTokenRepository.save(RefreshToken.builder()
+            .accountId(id)
+            .token(refreshToken)
+            .timeToLive(jwtProperties.getRefreshExp())
+            .build());
+
+        return refreshToken;
     }
 
     private String generateToken(String id, String type, Long exp) {
@@ -36,7 +46,7 @@ public class JwtTokenProvider {
                 .setSubject(id)
                 .claim("type", type)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + exp))
+                .setExpiration(new Date(System.currentTimeMillis() + exp * 1000))
                 .compact();
     }
 

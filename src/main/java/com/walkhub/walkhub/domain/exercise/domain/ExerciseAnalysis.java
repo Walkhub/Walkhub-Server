@@ -7,7 +7,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -32,18 +39,22 @@ public class ExerciseAnalysis {
     @NotNull
     private LocalDate date;
 
+    @Column(nullable = false)
+    private Double exerciseTime;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
 
     @Builder
-    public ExerciseAnalysis(Double calorie, Integer walkCount,
+    public ExerciseAnalysis(Double calorie, Integer walkCount, Double exerciseTime,
                             Integer distance, LocalDate date, User user) {
         this.calorie = calorie;
         this.walkCount = walkCount;
         this.distance = distance;
         this.date = date;
+        this.exerciseTime = exerciseTime;
         this.user = user;
     }
 

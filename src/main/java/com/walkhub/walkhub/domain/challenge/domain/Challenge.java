@@ -11,7 +11,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -57,18 +56,18 @@ public class Challenge {
     private String award;
 
     @NotNull
-    @Length(max = 6)
     @Enumerated(EnumType.STRING)
+    @Column(length = 6)
     private UserScope userScope;
 
     @NotNull
-    @Length(max = 3)
     @Enumerated(EnumType.STRING)
+    @Column(length = 3)
     private GoalScope goalScope;
 
     @NotNull
-    @Length(max = 8)
     @Enumerated(EnumType.STRING)
+    @Column(length = 8)
     private GoalType goalType;
 
     @NotNull

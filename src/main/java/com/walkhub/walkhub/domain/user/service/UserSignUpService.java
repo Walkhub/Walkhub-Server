@@ -69,6 +69,7 @@ public class UserSignUpService {
                 .accessToken(accessToken)
                 .expiredAt(LocalDateTime.now().plusSeconds(jwtProperties.getAccessExp()))
                 .refreshToken(refreshToken)
+                .authority(user.getAuthority())
                 .height(healthInfo.getHeight())
                 .weight(healthInfo.getWeight())
                 .sex(user.getSex())

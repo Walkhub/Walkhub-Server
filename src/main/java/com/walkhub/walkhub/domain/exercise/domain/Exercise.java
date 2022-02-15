@@ -4,12 +4,11 @@ import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
-import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,11 +20,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import org.hibernate.validator.constraints.Length;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicInsert
 @Entity
 public class Exercise extends BaseTimeEntity {
 
@@ -33,43 +33,35 @@ public class Exercise extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ColumnDefault("0")
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "integer default 0")
     private Integer walkCount;
 
     private LocalDateTime endAt;
 
-    @ColumnDefault("0")
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "integer default 0")
     private Integer distance;
 
-    @ColumnDefault("0")
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "integer default 0")
     private Double calorie;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ColumnDefault("6000")
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "integer default 6000")
     private Integer goal;
 
     @NotNull
-    @Length(max = 8)
     @Enumerated(EnumType.STRING)
     private GoalType goalType;
 
-    @ColumnDefault("0")
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean isExercising;
 
-    @ColumnDefault("0")
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "integer default 0")
     private Long cheeringCount;
 
-    @NotNull
-    @ColumnDefault(DefaultImage.EXERCISE_IMAGE)
+    @Column(nullable = false, columnDefinition = "varchar(255) default " + DefaultImage.EXERCISE_IMAGE)
     private String imageUrl;
 
     @Builder
@@ -77,6 +69,7 @@ public class Exercise extends BaseTimeEntity {
         this.user = user;
         this.goalType = goalType;
         this.goal = goal;
+        this.isExercising = true;
     }
 
     public void closeExercise(Integer walkCount, Integer distance, Double calorie) {
@@ -84,6 +77,7 @@ public class Exercise extends BaseTimeEntity {
         this.distance = distance;
         this.calorie = calorie;
         this.endAt = LocalDateTime.now();
+        this.isExercising = false;
     }
 
     public void addCheeringCount() {
