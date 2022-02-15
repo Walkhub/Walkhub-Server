@@ -18,7 +18,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Integer getParticipantsListByChallengeId(Long challengeId) {
+    public Integer getParticipantsCountByChallengeId(Long challengeId) {
         List<ChallengeStatus> participantsList = queryFactory
                 .select(challengeStatus)
                 .from(challengeStatus)

@@ -23,7 +23,7 @@ public class QueryChallengeParticipantsForStudentService {
         Section section = user.getSection();
 
         return QueryChallengeParticipantsForStudentResponse.builder()
-                .participantCount(challengeStatusRepository.getParticipantsListByChallengeId(challengeId))
+                .participantCount(challengeStatusRepository.getParticipantsCountByChallengeId(challengeId))
                 .relatedChallengeParticipantList(challengeStatusRepository.getRelatedChallengeParticipantsList(challengeId, school, section.getGrade(), section.getClassNum())
                         .stream().map(participants -> QueryChallengeParticipantsForStudentResponse.RelatedChallengeParticipants.builder()
                                 .userId(participants.getUserId())
