@@ -40,6 +40,7 @@ public class SaveOrUpdateExerciseAnalysisService {
                 .distance(request.getDistance())
                 .walkCount(request.getWalkCount())
                 .calorie(request.getCalorie())
+                .exerciseTime(request.getExerciseTime())
                 .user(user)
                 .build();
     }

@@ -32,7 +32,7 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
       
-    - name: Build on Dockerhub
+    - name: Docker Build
       run: docker build -t teamwalkhub/walkhub-server .
 
     - name: Push on Dockerhub

@@ -5,6 +5,8 @@ import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.CreateChal
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChallengeRequest;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeParticipantsForStudentResponse;
+import com.walkhub.walkhub.domain.challenge.service.*;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeParticipantsForTeacherResponse;
 import com.walkhub.walkhub.domain.challenge.service.CreateChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.ParticipateChallengeService;
@@ -41,6 +43,7 @@ public class ChallengeController {
     private final QueryChallengeDetailsService queryChallengeDetailsService;
     private final ParticipateChallengeService participateChallengeService;
     private final QueryParticipatedChallengeListService queryParticipatedChallengeListService;
+    private final QueryChallengeParticipantsForStudentService queryChallengeParticipantsForStudentService;
     private final QueryChallengeParticipantsForTeacherService queryChallengeParticipantsForTeacherService;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -83,10 +86,15 @@ public class ChallengeController {
         return queryParticipatedChallengeListService.execute();
     }
 
+    @GetMapping("/{challenge-id}/participants/students")
+    public QueryChallengeParticipantsForStudentResponse queryChallengeParticipantsForStudent(@PathVariable("challenge-id") Long challengeId) {
+        return queryChallengeParticipantsForStudentService.execute(challengeId);
+    }
+  
     @GetMapping("/{challenge-id}/participants/teachers")
     public QueryChallengeParticipantsForTeacherResponse queryChallengeParticipantsForTeacher(@PathVariable("challenge-id") Long challengeId,
-                                                                                             @RequestParam SuccessScope successScope) {
-        return queryChallengeParticipantsForTeacherService.execute(challengeId, successScope);
+                                                                                             @RequestParam SuccessScope successScope,
+                                                                                             @RequestParam Long page) {
+        return queryChallengeParticipantsForTeacherService.execute(challengeId, successScope, page);
     }
-
 }
