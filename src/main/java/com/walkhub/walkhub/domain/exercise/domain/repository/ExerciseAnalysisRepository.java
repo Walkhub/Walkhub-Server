@@ -10,7 +10,5 @@ import java.util.Optional;
 
 public interface ExerciseAnalysisRepository extends CrudRepository<ExerciseAnalysis, Long> {
     Optional<ExerciseAnalysis> findByUserAndDate(User user, LocalDate date);
-    List<ExerciseAnalysis> findByUser(User user);
     List<ExerciseAnalysis> findAllByUserAndDateBetween(User user, LocalDate startAt, LocalDate endAt);
-    List<ExerciseAnalysis> findAllByDateBetweenAndUser(LocalDate startAt, LocalDate endAt, User user);
 }

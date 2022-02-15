@@ -54,14 +54,19 @@ public class DetailsClassService {
     }
 
     private UserListResponse buildUserListResponse(User user) {
-        Integer walkCount = exerciseAnalysisRepository.findByUserAndDate(user, LocalDate.now())
-                .map(ExerciseAnalysis::getWalkCount)
-                .orElse(0);
+        LocalDate startAt = LocalDate.now().minusDays(7);
+        LocalDate endAt = LocalDate.now();
+        List<ExerciseAnalysis> exerciseAnalyses = exerciseAnalysisRepository.findAllByUserAndDateBetween(user, startAt, endAt);
+
         return UserListResponse.builder()
                 .userId(user.getId())
                 .name(user.getName())
                 .profileImageUrl(user.getProfileImageUrl())
-                .walkCount(walkCount)
+                .number(user.getNumber())
+                .averageWalkCount((int) exerciseAnalyses.stream().mapToInt(ExerciseAnalysis::getWalkCount).average().orElse(0))
+                .totalWalkCount(exerciseAnalyses.stream().mapToInt(ExerciseAnalysis::getWalkCount).sum())
+                .averageDistance((int) exerciseAnalyses.stream().mapToInt(ExerciseAnalysis::getDistance).average().orElse(0))
+                .totalDistance(exerciseAnalyses.stream().mapToInt(ExerciseAnalysis::getDistance).sum())
                 .build();
     }
 }
