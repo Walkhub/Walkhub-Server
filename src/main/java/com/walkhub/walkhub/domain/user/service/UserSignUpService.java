@@ -45,7 +45,7 @@ public class UserSignUpService {
         School school = schoolRepository.findById(request.getSchoolId())
                 .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
 
-        userRepository.save(User.builder()
+        User user = User.builder()
                 .accountId(request.getAccountId())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .phoneNumber(request.getPhoneNumber())
@@ -56,7 +56,9 @@ public class UserSignUpService {
                 .weight(request.getWeight())
                 .sex(request.getSex())
                 .isMeasuring(false)
-                .build());
+                .build();
+
+        userRepository.save(user);
 
         String accessToken = jwtTokenProvider.generateAccessToken(request.getAccountId());
         String refreshToken = jwtTokenProvider.generateRefreshToken(request.getAccountId());
@@ -65,6 +67,7 @@ public class UserSignUpService {
                 .accessToken(accessToken)
                 .expiredAt(LocalDateTime.now().plusSeconds(jwtProperties.getAccessExp()))
                 .refreshToken(refreshToken)
+                .authority(user.getAuthority())
                 .build();
     }
 }
