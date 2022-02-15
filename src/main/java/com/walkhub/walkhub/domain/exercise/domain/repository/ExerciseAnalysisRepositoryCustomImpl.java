@@ -7,6 +7,7 @@ import static com.walkhub.walkhub.domain.user.domain.QSection.section;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.walkhub.walkhub.domain.excel.presentation.dto.request.PrintExcelRequest;
 import com.walkhub.walkhub.domain.exercise.domain.repository.vo.PrintExcelVo;
 import com.walkhub.walkhub.domain.exercise.domain.repository.vo.QPrintExcelVo;
 import com.walkhub.walkhub.global.enums.Authority;
@@ -19,18 +20,17 @@ public class ExerciseAnalysisRepositoryCustomImpl implements ExerciseAnalysisRep
 	private final JPAQueryFactory queryFactory;
 
 	@Override
-	public List<PrintExcelVo> getPrintExcelVoList(LocalDate startAt, LocalDate endAt, Authority authority, Integer grade, Integer classNum, Long schoolId) {
+	public List<PrintExcelVo> getPrintExcelVoList(PrintExcelRequest excelRequest, Long schoolId) {
 
-		BooleanBuilder builder = new BooleanBuilder();
+		 LocalDate startAt = excelRequest.getStartAt();
 
-		if (authority.equals(Authority.STUDENT)) {
-			if (grade != null) {
-				builder.and(section.grade.eq(grade));
-			}
-			if (classNum != null) {
-				builder.and(section.classNum.eq(classNum));
-			}
-		}
+		 LocalDate endAt = excelRequest.getEndAt();
+
+		 Authority authority = excelRequest.getAuthority();
+
+		 Integer grade = excelRequest.getGrade();
+
+		 Integer classNum = excelRequest.getGrade();
 
 		return queryFactory
 			.select(new QPrintExcelVo(
@@ -41,7 +41,8 @@ public class ExerciseAnalysisRepositoryCustomImpl implements ExerciseAnalysisRep
 				exerciseAnalysis.walkCount.sum(),
 				exerciseAnalysis.walkCount.avg().intValue(),
 				exerciseAnalysis.distance.sum(),
-				exerciseAnalysis.distance.avg().intValue()
+				exerciseAnalysis.distance.avg().intValue(),
+				user.authority
 			))
 			.from(exerciseAnalysis)
 			.join(exerciseAnalysis.user, user)
@@ -49,11 +50,29 @@ public class ExerciseAnalysisRepositoryCustomImpl implements ExerciseAnalysisRep
 			.join(user.section, section)
 			.where(
 				school.id.eq(schoolId),
-				user.authority.eq(authority),
 				exerciseAnalysis.date.between(startAt, endAt),
-				builder
+				nullFilter(authority,grade,classNum)
 			)
-			.groupBy(user)
+			.groupBy(user.authority)
 			.fetch();
+	}
+
+	private BooleanBuilder nullFilter(Authority authority, Integer grade, Integer classNum) {
+
+		BooleanBuilder builder = new BooleanBuilder();
+
+		if (authority != null) {
+			builder.and(user.authority.eq(authority));
+
+			if (authority.equals(Authority.USER)) {
+				if (grade != null) {
+					builder.and(section.grade.eq(grade));
+				}
+				if (classNum != null) {
+					builder.and(section.classNum.eq(classNum));
+				}
+			}
+		}
+		return builder;
 	}
 }
