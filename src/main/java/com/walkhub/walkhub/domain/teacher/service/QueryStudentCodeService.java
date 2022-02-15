@@ -32,7 +32,7 @@ public class QueryStudentCodeService {
         List<UserListResponse> result =
                 section.getUsers()
                         .stream()
-                        .filter(user -> user.getAuthority() == Authority.STUDENT)
+                        .filter(user -> user.getAuthority() == Authority.USER)
                         .map(this::buildUserListResponse)
                         .collect(Collectors.toList());
 
