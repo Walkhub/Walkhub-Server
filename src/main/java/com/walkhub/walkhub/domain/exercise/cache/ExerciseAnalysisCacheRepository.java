@@ -5,7 +5,7 @@ import java.util.List;
 public interface ExerciseAnalysisCacheRepository {
     void saveExerciseCache(Long userId, Double walkCount);
 
-    Long getUserTodayRank(Long userId);
+    ExerciseAnalysisDto getUserTodayRank(Long userId);
 
-    List<Long> getUserIdsByRankTop100();
+    List<ExerciseAnalysisDto> getUserIdsByRankTop100();
 }

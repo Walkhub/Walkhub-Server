@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,10 +25,9 @@ public class SchoolController {
     private final SearchSchoolService searchSchoolService;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/logos/{school-id}")
-    public void schoolLogoSetting(@PathVariable(name = "school-id") Long schoolId,
-                                  @RequestBody @Valid SchoolLogoRequest request) {
-        schoolLogoSettingService.execute(schoolId, request);
+    @PatchMapping("/logos")
+    public void schoolLogoSetting(@RequestBody @Valid SchoolLogoRequest request) {
+        schoolLogoSettingService.execute(request);
     }
 
     @GetMapping("/search")

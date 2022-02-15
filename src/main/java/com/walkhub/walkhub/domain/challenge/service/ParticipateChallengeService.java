@@ -36,7 +36,6 @@ public class ParticipateChallengeService {
         ChallengeStatus challengeStatus = ChallengeStatus.builder()
                 .challenge(challenge)
                 .user(user)
-                .successCount(0L)
                 .build();
 
         challengeStatusRepository.save(challengeStatus);
