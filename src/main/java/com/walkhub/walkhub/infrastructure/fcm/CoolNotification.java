@@ -34,7 +34,7 @@ public class CoolNotification implements FcmUtil {
                 FirebaseOptions options = FirebaseOptions.builder()
                         .setCredentials(GoogleCredentials
                                 .fromStream(new ClassPathResource(path)
-                                        .getInputStream()))
+                                        .getInputStream())) 
                         .build();
 
                 if (FirebaseApp.getApps().isEmpty()) {
@@ -49,6 +49,7 @@ public class CoolNotification implements FcmUtil {
 
     @Override
     public void sendNotification(SendDto sendDto, Type type) {
+        String condition = "'notice' in topics || 'challenge' in topics || 'exercise' in topics || 'cheering' in topics";
         Long notificationId = notificationRepository.save(
                 NotificationEntity.builder()
                         .title(sendDto.getTitle())
@@ -60,7 +61,7 @@ public class CoolNotification implements FcmUtil {
                 .putData("notification_id", notificationId.toString())
                 .putData("click_action", sendDto.getClickAction())
                 .putData("value", sendDto.getValue())
-                .setTopic(String.valueOf(type))
+                .setCondition(condition)
                 .setNotification(
                         Notification.builder()
                                 .setTitle(sendDto.getTitle())
