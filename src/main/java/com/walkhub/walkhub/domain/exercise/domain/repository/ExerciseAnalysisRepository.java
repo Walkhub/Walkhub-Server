@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface ExerciseAnalysisRepository extends CrudRepository<ExerciseAnalysis, Long> {
+public interface ExerciseAnalysisRepository extends CrudRepository<ExerciseAnalysis, Long>, ExerciseAnalysisRepositoryCustom {
     Optional<ExerciseAnalysis> findByUserAndDate(User user, LocalDate date);
     List<ExerciseAnalysis> findByUser(User user);
     List<ExerciseAnalysis> findAllByUserAndDateBetween(User user, LocalDate startAt, LocalDate endAt);
