@@ -49,7 +49,6 @@ public class CoolNotification implements FcmUtil {
 
     @Override
     public void sendNotification(SendDto sendDto, Type type) {
-        String condition = "'stock-GOOG' in topics || 'industry-tech' in topics";
         Long notificationId = notificationRepository.save(
                 NotificationEntity.builder()
                         .title(sendDto.getTitle())
@@ -61,7 +60,7 @@ public class CoolNotification implements FcmUtil {
                 .putData("notification_id", notificationId.toString())
                 .putData("click_action", sendDto.getClickAction())
                 .putData("value", sendDto.getValue())
-                .setCondition(condition)
+                .setTopic(String.valueOf(type))
                 .setNotification(
                         Notification.builder()
                                 .setTitle(sendDto.getTitle())
