@@ -3,7 +3,6 @@ package com.walkhub.walkhub.domain.challenge.domain.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QShowChallengeVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeVO;
-import com.walkhub.walkhub.domain.user.domain.QUser;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.UserScope;
 import lombok.RequiredArgsConstructor;
