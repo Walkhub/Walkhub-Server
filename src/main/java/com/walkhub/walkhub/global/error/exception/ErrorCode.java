@@ -21,7 +21,6 @@ public enum ErrorCode {
     INVALID_SCOPE(401, "CHALLENGE-401-1", "Invalid Scope"),
     PASSWORD_MISMATCH(401, "AUTH-401-1", "Password Mismatch"),
     INVALID_ROLE(401, "GLOBAL-401-1", "Invalid Role"),
-    INVALID_VERIFICATION_CODE(401, "GLOBAL-401-2", "Invalid Verification Code"),
 
     FORBIDDEN(403, "COMMON-403-1", "Forbidden"),
 
@@ -31,6 +30,7 @@ public enum ErrorCode {
     SCHOOL_NOT_FOUND(404, "USER-404-4", "School Not Found"),
     SECTION_NOT_FOUND(404, "SECTION-404-1", "Section Not Found"),
     REFRESH_TOKEN_NOT_FOUND(404, "AUTH-404-1", "Refresh Token Not Found"),
+    VERIFICATION_CODE_NOT_FOUND(404, "TEACHER-404-1", "Verification Code Not Found"),
 
     CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge Not Found"),
 
