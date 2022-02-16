@@ -36,8 +36,8 @@ public class CreateClassService {
                 .build();
 
         try {
-            sectionRepository.save(section);
-            user.setSection(section);
+            Section savedSection = sectionRepository.save(section);
+            user.setSection(savedSection);
         } catch (DataIntegrityViolationException e) {
             throw AlreadyCreatedException.EXCEPTION;
         }
