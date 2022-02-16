@@ -19,29 +19,44 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
     private final JPAQueryFactory query;
 
     @Override
-    public List<ShowChallengeVO> queryChallenge(User user1) {
+    public List<ShowChallengeVO> queryChallenge(User userParam) {
         return query
-                .select(new QShowChallengeVO(
-                        challenge.id.as("challengeId"),
-                        challenge.name,
-                        challenge.startAt,
-                        challenge.endAt,
-                        challenge.imageUrl,
-                        challenge.userScope,
-                        challenge.goalScope,
-                        challenge.goalType,
-                        user.id.as("writerId"),
-                        user.name.as("writerName"),
-                        user.profileImageUrl.as("profileImageUrl")
-                ))
+                .select(showChallengeVO())
                 .from(challenge)
                 .join(challenge.user, user)
-                .on(user.eq(user1))
                 .where(
-                        (challenge.userScope.eq(UserScope.ALL).or(challenge.user.school.eq(user1.getSchool()))),
+                        (challenge.userScope.eq(UserScope.ALL).or(challenge.user.school.eq(userParam.getSchool()))),
+                        (challenge.endAt.after(LocalDate.now()))
+                )
+                .fetch();
+    }
+
+    @Override
+    public List<ShowChallengeVO> queryClosedChallenge(User userParam) {
+        return query
+                .select(showChallengeVO())
+                .from(challenge)
+                .join(challenge.user, user)
+                .where(
+                        (challenge.userScope.eq(UserScope.ALL).or(challenge.user.school.eq(userParam.getSchool()))),
                         (challenge.endAt.before(LocalDate.now()))
                 )
                 .fetch();
     }
 
+    private QShowChallengeVO showChallengeVO() {
+        return new QShowChallengeVO(
+                challenge.id.as("challengeId"),
+                challenge.name,
+                challenge.startAt,
+                challenge.endAt,
+                challenge.imageUrl,
+                challenge.userScope,
+                challenge.goalScope,
+                challenge.goalType,
+                user.id.as("writerId"),
+                user.name.as("writerName"),
+                user.profileImageUrl.as("profileImageUrl")
+        );
+    }
 }

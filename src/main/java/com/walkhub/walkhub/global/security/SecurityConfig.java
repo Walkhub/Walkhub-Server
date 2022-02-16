@@ -94,12 +94,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/challenges").hasAnyAuthority("TEACHER", "ROOT", "SU")
                 .antMatchers(HttpMethod.PATCH, "/challenges/{challenge-id}").hasAnyAuthority("TEACHER", "ROOT", "SU")
                 .antMatchers(HttpMethod.DELETE, "/challenges/{challenge-id}").hasAnyAuthority("TEACHER", "ROOT", "SU")
-                .antMatchers(HttpMethod.GET, "/challenges/list").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}").authenticated()
                 .antMatchers(HttpMethod.POST, "/challenges/{challenge-id}").authenticated()
-                .antMatchers(HttpMethod.GET, "/challenges/participated").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants/students").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants/teachers").hasAnyAuthority("TEACHER", "ROOT", "SU")
+                .antMatchers(HttpMethod.GET, "/challenges/list").authenticated()
+                .antMatchers(HttpMethod.GET, "/challenges/list/closed").authenticated()
+                .antMatchers(HttpMethod.GET, "/challenges/participated").authenticated()
 
                 // images
                 .antMatchers(HttpMethod.POST, "/images").permitAll()
