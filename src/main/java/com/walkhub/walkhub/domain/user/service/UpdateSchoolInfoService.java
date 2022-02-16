@@ -1,9 +1,9 @@
 package com.walkhub.walkhub.domain.user.service;
 
+import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeStatusRepository;
 import com.walkhub.walkhub.domain.school.domain.School;
-import com.walkhub.walkhub.domain.school.domain.repository.SchoolRepository;
+import com.walkhub.walkhub.domain.school.facade.SchoolFacade;
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.domain.user.exception.SchoolNotFoundException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateSchoolInfoRequest;
 import lombok.RequiredArgsConstructor;
@@ -15,15 +15,20 @@ import org.springframework.transaction.annotation.Transactional;
 public class UpdateSchoolInfoService {
 
     private final UserFacade userFacade;
-    private final SchoolRepository schoolRepository;
+    private final ChallengeStatusRepository challengeStatusRepository;
+    private final SchoolFacade schoolFacade;
 
     @Transactional
     public void execute(UpdateSchoolInfoRequest request) {
         User user = userFacade.getCurrentUser();
+        School school = schoolFacade.getSchoolById(request.getSchoolId());
 
-        School school = schoolRepository.findById(request.getSchoolId())
-                .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
-
+        user.setSection(null);
         user.setSchool(school);
+        user.getSchool().minusUserCount();
+        school.addUserCount();
+
+
+        challengeStatusRepository.resignParticipatedChallenge(user);
     }
 }

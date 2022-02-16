@@ -52,11 +52,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/users/{user-id}").authenticated()
                 .antMatchers(HttpMethod.GET, "/users").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users").authenticated()
-                .antMatchers(HttpMethod.POST, "/users/classes/{section-id}").authenticated()
+                .antMatchers(HttpMethod.POST, "/users/classes").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/users/classes").hasAuthority("USER")
                 .antMatchers(HttpMethod.GET, "/users/accounts/{phone-number}").permitAll()
                 .antMatchers(HttpMethod.PATCH, "/users/health").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users/goal").authenticated()
-                .antMatchers(HttpMethod.PATCH, "/users/school").authenticated()
+                .antMatchers(HttpMethod.PATCH, "/users/schools").authenticated()
                 .antMatchers(HttpMethod.GET, "/users/levels/lists").authenticated()
 
 
@@ -94,12 +95,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/challenges").hasAnyAuthority("TEACHER", "ROOT", "SU")
                 .antMatchers(HttpMethod.PATCH, "/challenges/{challenge-id}").hasAnyAuthority("TEACHER", "ROOT", "SU")
                 .antMatchers(HttpMethod.DELETE, "/challenges/{challenge-id}").hasAnyAuthority("TEACHER", "ROOT", "SU")
-                .antMatchers(HttpMethod.GET, "/challenges/list").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}").authenticated()
                 .antMatchers(HttpMethod.POST, "/challenges/{challenge-id}").authenticated()
-                .antMatchers(HttpMethod.GET, "/challenges/participated").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants/students").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants/teachers").hasAnyAuthority("TEACHER", "ROOT", "SU")
+                .antMatchers(HttpMethod.GET, "/challenges/list").authenticated()
+                .antMatchers(HttpMethod.GET, "/challenges/list/closed").authenticated()
+                .antMatchers(HttpMethod.GET, "/challenges/participated").authenticated()
 
                 // images
                 .antMatchers(HttpMethod.POST, "/images").permitAll()
@@ -112,10 +114,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/teachers/verification-codes").hasAuthority("ROOT")
                 .antMatchers(HttpMethod.PATCH, "/teachers/verification-codes").hasAuthority("USER")
                 .antMatchers(HttpMethod.POST, "/teachers/classes").hasAnyAuthority("TEACHER", "ROOT")
+                .antMatchers(HttpMethod.GET, "/teachers/classes/lists").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.DELETE, "/teachers/classes/{section-id}").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.GET, "/teachers/classes").hasAuthority("TEACHER")
                 .antMatchers(HttpMethod.GET, "/teachers/users/{user-id}").hasAnyAuthority("TEACHER")
                 .antMatchers(HttpMethod.GET, "/teachers/users").hasAnyAuthority("TEACHER", "ROOT")
+                .antMatchers(HttpMethod.PATCH, "/teachers/schools").hasAuthority("TEACHER")
                 .antMatchers(HttpMethod.GET, "/teachers/students/verification-codes").hasAnyAuthority("TEACHER")
                 .antMatchers(HttpMethod.PATCH, "/teachers/classes/verification-codes").hasAuthority("TEACHER")
 
@@ -129,8 +133,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // socket.io
                 .antMatchers(HttpMethod.GET, "/socket.io").authenticated()
 
-                // excel
-                .antMatchers(HttpMethod.GET, "/excel").hasAnyAuthority("TEACHER", "ROOT")
                 .anyRequest().denyAll()
 
                 .and()

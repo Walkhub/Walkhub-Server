@@ -8,19 +8,16 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QRelatedChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QShowChallengeVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.*;
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
 import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.global.enums.UserScope;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
@@ -114,7 +111,19 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     @Override
-    public List<ShowChallengeVO> getAllChallengesByUser(User user1) {
+    public void deleteNotOverChallengeStatusByUserId(Long userId) {
+        queryFactory
+                .delete(challengeStatus)
+                .where(
+                        (challengeStatus.challenge.userScope.eq(UserScope.CLASS).or(challengeStatus.challenge.userScope.eq(UserScope.GRADE)))
+                                .and(challengeStatus.challenge.endAt.after(LocalDate.now()))
+                                .and(challengeStatus.user.id.eq(userId))
+                )
+                .execute();
+  }
+
+  @Override
+  public List<ShowChallengeVO> getAllChallengesByUser(User user1) {
         return queryFactory
                 .select(new QShowChallengeVO(
                         challenge.id.as("challengeId"),
@@ -203,5 +212,16 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
         return exerciseAnalysis.date.goe(challenge.getStartAt())
                 .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
                 .and(exerciseAnalysis.date.loe(challenge.getEndAt()));
+    }
+
+    @Override
+    public void resignParticipatedChallenge(User user) {
+        queryFactory.delete(challengeStatus)
+                .where(challengeStatus.user.eq(user)
+                        .and(isChallengeFinished().not()));
+    }
+
+    private BooleanExpression isChallengeFinished() {
+        return challengeStatus.challenge.endAt.before(LocalDate.now());
     }
 }
