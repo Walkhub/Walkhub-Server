@@ -1,6 +1,6 @@
 package com.walkhub.walkhub.domain.auth.presentation;
 
-import com.walkhub.walkhub.domain.auth.presentation.dto.request.CHeckAuthCodeRequest;
+import com.walkhub.walkhub.domain.auth.presentation.dto.request.CheckAuthCodeRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.CheckAccountIdRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.SignInRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserAccessTokenResponse;
@@ -46,7 +46,7 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/verification-codes", method = RequestMethod.HEAD)
-    public void checkAuthCodeExists(@RequestBody @Valid CHeckAuthCodeRequest request) {
+    public void checkAuthCodeExists(@RequestBody @Valid CheckAuthCodeRequest request) {
         checkAuthCodeExistsService.execute(request);
     }
 }
