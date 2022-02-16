@@ -12,6 +12,9 @@ import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengePartic
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QChallengeParticipantsVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QRelatedChallengeParticipantsVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QShowChallengeVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeVO;
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
 import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
@@ -24,6 +27,7 @@ import java.util.List;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.jpa.JPAExpressions.select;
+import static com.walkhub.walkhub.domain.challenge.domain.QChallenge.challenge;
 import static com.walkhub.walkhub.domain.challenge.domain.QChallengeStatus.challengeStatus;
 import static com.walkhub.walkhub.domain.exercise.domain.QExerciseAnalysis.exerciseAnalysis;
 import static com.walkhub.walkhub.domain.school.domain.QSchool.school;
@@ -109,6 +113,30 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                                 GroupBy.list(exerciseAnalysis.date))
                         )
                 );
+    }
+
+    @Override
+    public List<ShowChallengeVO> getAllChallengesByUser(User user1) {
+        return queryFactory
+                .select(new QShowChallengeVO(
+                        challenge.id.as("challengeId"),
+                        challenge.name,
+                        challenge.startAt,
+                        challenge.endAt,
+                        challenge.imageUrl,
+                        challenge.userScope,
+                        challenge.goalScope,
+                        challenge.goalType,
+                        user.id.as("userId"),
+                        user.name.as("writerName"),
+                        user.profileImageUrl.as("profileImageUrl")
+                ))
+                .from(challenge)
+                .join(challenge.user, user)
+                .join(challengeStatus)
+                .on(challengeStatus.challenge.eq(challenge))
+                .where(challengeStatus.user.eq(user1))
+                .fetch();
     }
 
     private BooleanExpression successScopeFilter(Challenge challenge, SuccessScope successScope) {

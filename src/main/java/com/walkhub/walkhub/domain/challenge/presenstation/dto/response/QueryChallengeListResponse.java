@@ -19,7 +19,7 @@ public class QueryChallengeListResponse {
 	@Getter
 	@Builder
 	public static class ChallengeResponse {
-		private final Long id;
+		private final Long challengeId;
 		private final String name;
 		private final LocalDate startAt;
 		private final LocalDate endAt;

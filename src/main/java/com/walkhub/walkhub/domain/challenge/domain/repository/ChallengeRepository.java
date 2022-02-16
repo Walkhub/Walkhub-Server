@@ -9,9 +9,8 @@ import java.util.List;
 import com.walkhub.walkhub.domain.user.domain.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
-public interface ChallengeRepository extends CrudRepository<Challenge, Long> {
+public interface ChallengeRepository extends CrudRepository<Challenge, Long>, ChallengeRepositoryCustom {
 
 	@Query("select c from Challenge c where c.user.school = :school")
 	List<Challenge> findAllBySchool(@Param("school") School school);
@@ -19,4 +18,5 @@ public interface ChallengeRepository extends CrudRepository<Challenge, Long> {
 	List<Challenge> findAllByUser(User user);
 
 	void deleteAllByUserAndEndAtAfter(User user, LocalDate now);
+
 }
