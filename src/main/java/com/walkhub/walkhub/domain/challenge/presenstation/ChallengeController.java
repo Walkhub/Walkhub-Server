@@ -39,6 +39,7 @@ public class ChallengeController {
     private final RemoveChallengeService removeChallengeService;
     private final CreateChallengeService createChallengeService;
     private final QueryChallengeListService queryChallengeListService;
+    private final QueryClosesChallengeService queryClosesChallengeService;
     private final UpdateChallengeService updateChallengeService;
     private final QueryChallengeDetailsService queryChallengeDetailsService;
     private final ParticipateChallengeService participateChallengeService;
@@ -61,6 +62,11 @@ public class ChallengeController {
     @GetMapping("/lists")
     public QueryChallengeListResponse queryChallengeList() {
         return queryChallengeListService.execute();
+    }
+
+    @GetMapping("/lists/closed")
+    public QueryChallengeListResponse queryClosedChallengeList() {
+        return queryClosesChallengeService.execute();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

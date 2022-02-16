@@ -1,28 +1,29 @@
 package com.walkhub.walkhub.domain.challenge.domain.repository;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QRelatedChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.school.domain.School;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QChallengeParticipantsVO;
+import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.*;
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
 import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
+import com.walkhub.walkhub.domain.school.domain.School;
+import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.global.enums.UserScope;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import static com.walkhub.walkhub.domain.challenge.domain.QChallengeStatus.challengeStatus;
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.jpa.JPAExpressions.select;
+import static com.walkhub.walkhub.domain.challenge.domain.QChallenge.challenge;
+import static com.walkhub.walkhub.domain.challenge.domain.QChallengeStatus.challengeStatus;
 import static com.walkhub.walkhub.domain.exercise.domain.QExerciseAnalysis.exerciseAnalysis;
 import static com.walkhub.walkhub.domain.school.domain.QSchool.school;
 import static com.walkhub.walkhub.domain.user.domain.QSection.section;
@@ -97,38 +98,74 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                                 user.profileImageUrl,
                                 user.school.name.as("schoolName"),
                                 Expressions.asNumber(select(exerciseAnalysis.count())
-                                        .from(exerciseAnalysis)
-                                        .where(
-                                                exerciseAnalysis.user.eq(user),
-                                                isChallengeSuccessFilter(challenge),
-                                                challengeDateFilter(challenge)
-                                        ))
+                                                .from(exerciseAnalysis)
+                                                .where(
+                                                        exerciseAnalysis.user.eq(user),
+                                                        isChallengeSuccessFilter(challenge),
+                                                        challengeDateFilter(challenge)
+                                                ))
                                         .goe(challenge.getSuccessStandard()).as("isSuccess"),
                                 GroupBy.list(exerciseAnalysis.date))
                         )
                 );
     }
 
+    @Override
+    public void deleteNotOverChallengeStatusByUserId(Long userId) {
+        queryFactory
+                .delete(challengeStatus)
+                .where(
+                        (challengeStatus.challenge.userScope.eq(UserScope.CLASS).or(challengeStatus.challenge.userScope.eq(UserScope.GRADE)))
+                                .and(challengeStatus.challenge.endAt.after(LocalDate.now()))
+                                .and(challengeStatus.user.id.eq(userId))
+                )
+                .execute();
+  }
+
+  @Override
+  public List<ShowChallengeVO> getAllChallengesByUser(User user1) {
+        return queryFactory
+                .select(new QShowChallengeVO(
+                        challenge.id.as("challengeId"),
+                        challenge.name,
+                        challenge.startAt,
+                        challenge.endAt,
+                        challenge.imageUrl,
+                        challenge.userScope,
+                        challenge.goalScope,
+                        challenge.goalType,
+                        user.id.as("userId"),
+                        user.name.as("writerName"),
+                        user.profileImageUrl.as("profileImageUrl")
+                ))
+                .from(challenge)
+                .join(challenge.user, user)
+                .join(challengeStatus)
+                .on(challengeStatus.challenge.eq(challenge))
+                .where(challengeStatus.user.eq(user1))
+                .fetch();
+    }
+
     private BooleanExpression successScopeFilter(Challenge challenge, SuccessScope successScope) {
         switch (successScope) {
             case TRUE: {
                 return Expressions.asNumber(select(exerciseAnalysis.count())
-                        .from(exerciseAnalysis)
-                        .where(
-                                exerciseAnalysis.user.eq(user),
-                                isChallengeSuccessFilter(challenge),
-                                challengeDateFilter(challenge)
-                        ))
+                                .from(exerciseAnalysis)
+                                .where(
+                                        exerciseAnalysis.user.eq(user),
+                                        isChallengeSuccessFilter(challenge),
+                                        challengeDateFilter(challenge)
+                                ))
                         .goe(challenge.getSuccessStandard());
             }
             case FALSE: {
                 return Expressions.asNumber(select(exerciseAnalysis.count())
-                        .from(exerciseAnalysis)
-                        .where(
-                                exerciseAnalysis.user.eq(user),
-                                isChallengeSuccessFilter(challenge),
-                                challengeDateFilter(challenge)
-                        ))
+                                .from(exerciseAnalysis)
+                                .where(
+                                        exerciseAnalysis.user.eq(user),
+                                        isChallengeSuccessFilter(challenge),
+                                        challengeDateFilter(challenge)
+                                ))
                         .lt(challenge.getSuccessStandard());
             }
             default: {
@@ -175,5 +212,16 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
         return exerciseAnalysis.date.goe(challenge.getStartAt())
                 .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
                 .and(exerciseAnalysis.date.loe(challenge.getEndAt()));
+    }
+
+    @Override
+    public void resignParticipatedChallenge(User user) {
+        queryFactory.delete(challengeStatus)
+                .where(challengeStatus.user.eq(user)
+                        .and(isChallengeFinished().not()));
+    }
+
+    private BooleanExpression isChallengeFinished() {
+        return challengeStatus.challenge.endAt.before(LocalDate.now());
     }
 }

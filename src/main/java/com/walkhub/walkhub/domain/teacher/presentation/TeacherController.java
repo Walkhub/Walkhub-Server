@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.teacher.presentation;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.CreateClassRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.QueryUserListRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.TeacherCodeRequest;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.request.UpdateTeacherSchoolRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CodeResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserListResponse;
@@ -10,6 +11,7 @@ import com.walkhub.walkhub.domain.teacher.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.DetailsClassResponse;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.TokenResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserDetailsResponse;
 import com.walkhub.walkhub.domain.teacher.service.ClassListService;
 import com.walkhub.walkhub.domain.teacher.service.ConfirmTeacherCodeService;
@@ -48,6 +50,7 @@ public class TeacherController {
     private final QueryUserDetailsService queryUserDetailsService;
     private final ConfirmTeacherCodeService confirmTeacherCodeService;
     private final ClassListService classListService;
+    private final UpdateTeacherSchoolService updateTeacherSchoolService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/classes")
@@ -84,14 +87,19 @@ public class TeacherController {
         return queryUserDetailsService.execute(userId, startAt, endAt);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/verification-codes")
-    public void confirmTeacherCode(@RequestBody TeacherCodeRequest teacherCodeRequest) {
-        confirmTeacherCodeService.execute(teacherCodeRequest);
+    public TokenResponse confirmTeacherCode(@RequestBody TeacherCodeRequest teacherCodeRequest) {
+        return confirmTeacherCodeService.execute(teacherCodeRequest);
     }
 
     @GetMapping("/classes/lists")
     public ClassListResponse classList() {
         return classListService.execute();
+    }
+
+    @PatchMapping("/schools")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateTeacherSchool(@Valid @RequestBody UpdateTeacherSchoolRequest request) {
+        updateTeacherSchoolService.execute(request);
     }
 }

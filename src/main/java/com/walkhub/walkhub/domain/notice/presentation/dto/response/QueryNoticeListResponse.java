@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @AllArgsConstructor
@@ -19,6 +20,8 @@ public class QueryNoticeListResponse {
 		private final Long id;
 		private final String title;
 		private final String content;
+
+		@DateTimeFormat(pattern = "yyyy-MM-ddThh:mm:SS")
 		private final LocalDateTime createdAt;
 		private final Writer writer;
 	}
