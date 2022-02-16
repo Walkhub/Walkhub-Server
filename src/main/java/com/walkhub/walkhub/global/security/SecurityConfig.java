@@ -51,11 +51,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/users/{user-id}").authenticated()
                 .antMatchers(HttpMethod.GET, "/users").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users").authenticated()
-                .antMatchers(HttpMethod.POST,"/users/classes/{section-id}").authenticated()
+                .antMatchers(HttpMethod.POST, "/users/classes/{section-id}").authenticated()
                 .antMatchers(HttpMethod.GET, "/users/accounts/{phone-number}").permitAll()
-                .antMatchers(HttpMethod.PATCH, "/users/healths").authenticated()
+                .antMatchers(HttpMethod.PATCH, "/users/health").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users/goal").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users/school").authenticated()
+                .antMatchers(HttpMethod.GET, "/users/levels/lists").authenticated()
+
 
                 // badges
                 .antMatchers(HttpMethod.GET, "/badges/{user-id}").authenticated()
@@ -102,8 +104,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/images").permitAll()
 
                 // schools
-                .antMatchers(HttpMethod.PATCH, "/schools/logos/{school-id}").hasAuthority("ROOT")
-                .antMatchers(HttpMethod.GET, "/schools/search").authenticated()
+                .antMatchers(HttpMethod.PATCH, "/schools/logos").hasAuthority("ROOT")
+                .antMatchers(HttpMethod.GET, "/schools/search").permitAll()
 
                 // teachers
                 .antMatchers(HttpMethod.POST, "/teachers/verification-codes").hasAuthority("ROOT")
@@ -121,11 +123,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/su/accounts/{school-id}").hasAuthority("SU")
 
                 //excel
-                .antMatchers(HttpMethod.GET,"/excel").hasAnyAuthority("TEACHER", "ROOT")
+                .antMatchers(HttpMethod.GET, "/excel").hasAnyAuthority("TEACHER", "ROOT")
 
                 // socket.io
                 .antMatchers(HttpMethod.GET, "/socket.io").authenticated()
 
+                // excel
+                .antMatchers(HttpMethod.GET, "/excel").hasAnyAuthority("TEACHER", "ROOT")
                 .anyRequest().denyAll()
 
                 .and()

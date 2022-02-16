@@ -30,6 +30,7 @@ public class CalorieLevelListService {
     private CalorieLevelListResponse.CalorieLevelResponse calorieLevelResponse(CalorieLevel calorieLevel) {
         return CalorieLevelListResponse.CalorieLevelResponse.builder()
                 .levelId(calorieLevel.getId())
+                .level(calorieLevel.getLevel())
                 .foodImageUrl(calorieLevel.getFoodImageUrl())
                 .foodName(calorieLevel.getFoodName())
                 .calorie(calorieLevel.getCalorie())

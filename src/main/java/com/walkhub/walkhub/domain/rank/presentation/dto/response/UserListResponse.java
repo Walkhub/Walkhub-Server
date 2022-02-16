@@ -17,7 +17,7 @@ public class UserListResponse {
     public static class UserSearchResponse {
         private final Long userId;
         private final String name;
-        private final Integer rank;
+        private final Integer ranking;
         private final Integer grade;
         private final Integer classNum;
         private final String profileImageUrl;
