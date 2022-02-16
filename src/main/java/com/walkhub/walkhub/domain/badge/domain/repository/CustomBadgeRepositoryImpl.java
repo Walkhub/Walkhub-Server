@@ -33,7 +33,6 @@ public class CustomBadgeRepositoryImpl implements CustomBadgeRepository {
                 .on(badgeCollection.badge.eq(badge))
                 .leftJoin(user)
                 .on(badgeCollection.user.eq(user))
-                .where(user.isNull().or(user.id.eq(userId).not()))
                 .fetch();
     }
 
@@ -49,7 +48,7 @@ public class CustomBadgeRepositoryImpl implements CustomBadgeRepository {
                 .from(badge)
                 .leftJoin(badgeCollection.badge, badge)
                 .leftJoin(badgeCollection.user, user)
-                .on(user.id.eq(userId))
+                .groupBy(badge.id) p
                 .fetch();
     }
 
