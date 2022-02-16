@@ -2,8 +2,6 @@ package com.walkhub.walkhub.domain.teacher.service;
 
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.QueryUserListRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserListResponse;
-import com.walkhub.walkhub.domain.teacher.type.AuthorityScope;
-import com.walkhub.walkhub.domain.teacher.type.SortStandard;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
