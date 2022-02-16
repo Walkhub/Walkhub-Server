@@ -37,11 +37,11 @@ public class QueryUserRankListByMySchoolService {
                 userRankList.add(buildDayUsersRankResponse(users));
             }
         } else if (scope.equals(UserRankScope.ALL)) {
-            myRank = buildWeekOrMonthMyRankResponse(user.getId(), null, dateType, date);
+            myRank = buildWeekOrMonthMyRankResponse(user.getId(), null, null, dateType, date);
             List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), user.getSection().getGrade(), null, dateType, date);
             userRankList = userRankFacade.buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
         } else if (scope.equals(UserRankScope.CLASS)) {
-            myRank = buildWeekOrMonthMyRankResponse(user.getId(), user.getSection().getClassNum(), dateType, date);
+            myRank = buildWeekOrMonthMyRankResponse(user.getId(), user.getSection().getGrade(), user.getSection().getClassNum(), dateType, date);
             List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), user.getSection().getGrade(), user.getSection().getClassNum(), dateType, date);
             userRankList = userRankFacade.buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
         }
@@ -80,8 +80,8 @@ public class QueryUserRankListByMySchoolService {
                 .build();
     }
 
-    private UserRankListResponse.UserRankResponse buildWeekOrMonthMyRankResponse(Long userId, Integer classNum, DateType dateType, LocalDate date) {
-        UserRankVO myRank = userRankRepository.getMyRankByUserId(userId, classNum, dateType, date);
+    private UserRankListResponse.UserRankResponse buildWeekOrMonthMyRankResponse(Long userId, Integer grade, Integer classNum, DateType dateType, LocalDate date) {
+        UserRankVO myRank = userRankRepository.getMyRankByUserId(userId, grade, classNum, dateType, date);
         if (myRank == null) {
             return null;
         }
