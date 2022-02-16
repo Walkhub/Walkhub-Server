@@ -23,7 +23,7 @@ public class UpdateChallengeRequest {
     private String imageUrl;
 
     @NotNull(message = "start_at은 Null일 수 없습니다.")
-    @FutureOrPresent
+    @FutureOrPresent(message = "start_at은 과거일 수 없습니다.")
     private LocalDate startAt;
 
     @NotNull(message = "end_at은 Null일 수 없습니다.")
