@@ -45,7 +45,7 @@ public class AuthController {
         checkAccountIdExistsService.execute(request);
     }
 
-    @RequestMapping(value = "verification-codes", method = RequestMethod.HEAD)
+    @RequestMapping(value = "/verification-codes", method = RequestMethod.HEAD)
     public void checkAuthCodeExists(@RequestBody @Valid CHeckAuthCodeRequest request) {
         checkAuthCodeExistsService.execute(request);
     }
