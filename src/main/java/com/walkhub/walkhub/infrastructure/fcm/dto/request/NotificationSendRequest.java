@@ -1,4 +1,4 @@
-package com.walkhub.walkhub.infrastructure.fcm.dto;
+package com.walkhub.walkhub.infrastructure.fcm.dto.request;
 
 import com.walkhub.walkhub.domain.notification.domain.type.Type;
 import com.walkhub.walkhub.domain.user.domain.User;
@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class SendDto {
+public class NotificationSendRequest {
     private final User user;
     private final String title;
     private final String content;

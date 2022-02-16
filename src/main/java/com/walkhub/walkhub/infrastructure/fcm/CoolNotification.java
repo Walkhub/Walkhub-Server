@@ -6,7 +6,7 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.*;
 import com.walkhub.walkhub.domain.notification.domain.NotificationEntity;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationRepository;
-import com.walkhub.walkhub.infrastructure.fcm.dto.SendDto;
+import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationSendRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,26 +47,26 @@ public class CoolNotification implements FcmUtil {
     }
 
     @Override
-    public void sendNotification(SendDto sendDto) {
+    public void sendNotification(NotificationSendRequest request) {
         String condition = "'notice' in topics || 'challenge' in topics || 'exercise' in topics || 'cheering' in topics";
         Long notificationId = notificationRepository.save(
                 NotificationEntity.builder()
-                        .title(sendDto.getTitle())
-                        .content(sendDto.getContent())
-                        .type(sendDto.getType())
-                        .value(sendDto.getValue())
-                        .userScope(sendDto.getUserScope())
+                        .title(request.getTitle())
+                        .content(request.getContent())
+                        .type(request.getType())
+                        .value(request.getValue())
+                        .userScope(request.getUserScope())
                         .build()
         ).getId();
 
         Message message = Message.builder()
                 .putData("notification-id", notificationId.toString())
-                .putData("click_action", sendDto.getClickAction())
+                .putData("click_action", request.getClickAction())
                 .setCondition(condition)
                 .setNotification(
                         Notification.builder()
-                                .setTitle(sendDto.getTitle())
-                                .setBody(sendDto.getContent())
+                                .setTitle(request.getTitle())
+                                .setBody(request.getContent())
                                 .build()
                 )
                 .setApnsConfig(ApnsConfig.builder()
