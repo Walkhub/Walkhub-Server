@@ -20,7 +20,7 @@ public class QueryNotificationListResponse {
         private final String title;
         private final String content;
         private final Type type;
-        private final Long value;
+        private final String value;
         private final boolean isRead;
     }
 }

@@ -30,13 +30,13 @@ public class CoolNotification implements FcmUtil {
     @Override
     public void initialize() {
         try {
-                FirebaseOptions options = FirebaseOptions.builder()
-                        .setCredentials(GoogleCredentials
-                                .fromStream(new ClassPathResource(path)
-                                        .getInputStream())) 
-                        .build();
+            FirebaseOptions options = FirebaseOptions.builder()
+                    .setCredentials(GoogleCredentials
+                            .fromStream(new ClassPathResource(path)
+                                    .getInputStream()))
+                    .build();
 
-                if (FirebaseApp.getApps().isEmpty()) {
+            if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
                 log.info("Firebase application has been initialized");
             }
@@ -53,13 +53,15 @@ public class CoolNotification implements FcmUtil {
                 NotificationEntity.builder()
                         .title(sendDto.getTitle())
                         .content(sendDto.getContent())
+                        .type(sendDto.getType())
+                        .value(sendDto.getValue())
+                        .userScope(sendDto.getUserScope())
                         .build()
         ).getId();
 
         Message message = Message.builder()
-                .putData("notification_id", notificationId.toString())
+                .putData("notification-id", notificationId.toString())
                 .putData("click_action", sendDto.getClickAction())
-                .putData("value", sendDto.getValue())
                 .setCondition(condition)
                 .setNotification(
                         Notification.builder()
