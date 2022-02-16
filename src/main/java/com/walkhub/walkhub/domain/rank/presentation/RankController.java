@@ -7,6 +7,7 @@ import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListRespons
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
 import com.walkhub.walkhub.domain.rank.service.QueryUserRankListByMySchoolService;
 import com.walkhub.walkhub.domain.rank.service.QuerySchoolRankService;
+import com.walkhub.walkhub.domain.rank.service.QueryUserRankListService;
 import com.walkhub.walkhub.domain.rank.service.UserSearchService;
 import com.walkhub.walkhub.global.enums.DateType;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class RankController {
     private final UserSearchService userSearchService;
     private final QueryUserRankListByMySchoolService queryUserRankListByMySchoolService;
     private final QuerySchoolRankService querySchoolRankService;
+    private final QueryUserRankListService queryUserRankListService;
 
     @GetMapping("/users/search/{school-id}")
     public UserListResponse userSearch(@PathVariable("school-id") Long schoolId,
@@ -40,5 +42,11 @@ public class RankController {
     @GetMapping("/users/my-school")
     public UserRankListResponse queryUserRankListByMySchool(@RequestParam UserRankScope scope, @RequestParam DateType dateType) {
         return queryUserRankListByMySchoolService.execute(scope, dateType);
+    }
+
+    @GetMapping("/users/{school-id}")
+    public UserRankListResponse queryUserRankList(@RequestParam DateType dateType,
+                                                  @PathVariable("school-id") Long schoolId) {
+        return queryUserRankListService.execute(schoolId, dateType);
     }
 }
