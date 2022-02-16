@@ -53,8 +53,6 @@ spring:
     jdbc:
       initialize-schema: always
       table-prefix: BATCH_
-  profiles:
-    active: local
 
 coolsms:
   key: ${SMS_KEY}
