@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @Builder
@@ -22,6 +23,7 @@ public class QueryUserDetailsResponse {
 	@Builder
 	public static class ExerciseResponse {
 		private final String imageUrl;
+		@DateTimeFormat(pattern = "yyyy-MM-ddThh:mm:SS")
 		private final LocalDateTime startAt;
 		private final BigDecimal latitude;
 		private final BigDecimal longitude;
