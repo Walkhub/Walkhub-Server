@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class NotificationSendRequest {
+public class NotificationRequest {
     private final User user;
     private final String title;
     private final String content;
