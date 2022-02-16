@@ -118,4 +118,8 @@ public class Challenge {
     public boolean isWriter(Long userId) {
         return user.getId().equals(userId);
     }
+
+    public void setUserNull() {
+        this.user = null;
+    }
 }
