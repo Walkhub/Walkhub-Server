@@ -18,6 +18,7 @@ import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.global.enums.UserScope;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Modifying;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -112,6 +113,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     @Override
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
     public void deleteNotOverChallengeStatusByUserId(Long userId) {
         queryFactory
                 .delete(challengeStatus)
