@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.teacher.service;
 
+import com.walkhub.walkhub.domain.teacher.presentation.dto.request.QueryUserListRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserListResponse;
 import com.walkhub.walkhub.domain.teacher.type.AuthorityScope;
 import com.walkhub.walkhub.domain.teacher.type.SortStandard;
@@ -16,9 +17,9 @@ public class QueryUserListService {
     private final UserRepository userRepository;
     private final UserFacade userFacade;
 
-    public QueryUserListResponse execute(Integer page, AuthorityScope scope, SortStandard sort, Integer grade, Integer classNum) {
+    public QueryUserListResponse execute(QueryUserListRequest request) {
         return QueryUserListResponse.builder()
-                .userList(userRepository.queryUserList(page, scope, sort, grade, classNum, userFacade.getCurrentUser())
+                .userList(userRepository.queryUserList(request.getPage(), request.getScope(), request.getSort(), request.getGrade(), request.getClassNum(), userFacade.getCurrentUser())
                         .stream().map(users -> QueryUserListResponse.UserListInfo.builder()
                                 .userId(users.getUserId())
                                 .name(users.getName())

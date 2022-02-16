@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.domain.teacher.presentation;
 
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.CreateClassRequest;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.request.QueryUserListRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.TeacherCodeRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CodeResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserListResponse;
@@ -18,7 +19,9 @@ import com.walkhub.walkhub.domain.teacher.service.QueryStudentCodeService;
 import com.walkhub.walkhub.domain.teacher.service.QueryUserDetailsService;
 import com.walkhub.walkhub.domain.teacher.service.RefreshClassCodeService;
 import com.walkhub.walkhub.domain.teacher.service.VerificationCodeService;
+
 import java.time.LocalDate;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,12 +74,8 @@ public class TeacherController {
     }
 
     @GetMapping("/users")
-    public QueryUserListResponse queryUserList(@RequestParam Integer page,
-                                               @RequestParam AuthorityScope scope,
-                                               @RequestParam SortStandard sort,
-                                               @RequestParam(required = false) Integer grade,
-                                               @RequestParam(required = false) Integer classNum) {
-        return queryUserListService.execute(page, scope, sort, grade, classNum);
+    public QueryUserListResponse queryUserList(QueryUserListRequest request) {
+        return queryUserListService.execute(request);
     }
 
     @GetMapping("/classes")
@@ -86,8 +85,8 @@ public class TeacherController {
 
     @GetMapping("/users/{user-id}")
     public QueryUserDetailsResponse queryUserDetails(@PathVariable Long userId,
-        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startAt,
-        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endAt) {
+                                                     @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startAt,
+                                                     @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endAt) {
         return queryUserDetailsService.execute(userId, startAt, endAt);
     }
 
