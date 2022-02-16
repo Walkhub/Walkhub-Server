@@ -6,7 +6,6 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.*;
 import com.walkhub.walkhub.domain.notification.domain.NotificationEntity;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationRepository;
-import com.walkhub.walkhub.domain.notification.domain.type.Type;
 import com.walkhub.walkhub.infrastructure.fcm.dto.SendDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +47,7 @@ public class CoolNotification implements FcmUtil {
     }
 
     @Override
-    public void sendNotification(SendDto sendDto, Type type) {
+    public void sendNotification(SendDto sendDto) {
         String condition = "'notice' in topics || 'challenge' in topics || 'exercise' in topics || 'cheering' in topics";
         Long notificationId = notificationRepository.save(
                 NotificationEntity.builder()
