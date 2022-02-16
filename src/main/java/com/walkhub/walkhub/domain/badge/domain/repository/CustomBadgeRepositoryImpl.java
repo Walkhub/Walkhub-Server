@@ -38,7 +38,6 @@ public class CustomBadgeRepositoryImpl implements CustomBadgeRepository {
 
     @Override
     public List<MyBadgeVo> findAllByBadgeCollections(Long userId) {
-        Object max;
         return query
                 .select(new QMyBadgeVo(
                         badge.id,
