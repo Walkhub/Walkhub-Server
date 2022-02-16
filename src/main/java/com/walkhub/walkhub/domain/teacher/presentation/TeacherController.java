@@ -5,6 +5,7 @@ import com.walkhub.walkhub.domain.teacher.presentation.dto.request.TeacherCodeRe
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CodeResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.DetailsClassResponse;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.TokenResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserDetailsResponse;
 import com.walkhub.walkhub.domain.teacher.service.ClassListService;
 import com.walkhub.walkhub.domain.teacher.service.ConfirmTeacherCodeService;
@@ -75,8 +76,8 @@ public class TeacherController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/verification-codes")
-    public void confirmTeacherCode(@RequestBody TeacherCodeRequest teacherCodeRequest) {
-        confirmTeacherCodeService.execute(teacherCodeRequest);
+    public TokenResponse confirmTeacherCode(@RequestBody TeacherCodeRequest teacherCodeRequest) {
+        return confirmTeacherCodeService.execute(teacherCodeRequest);
     }
 
     @GetMapping("/classes/lists")
