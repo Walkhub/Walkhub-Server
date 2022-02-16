@@ -11,7 +11,6 @@ import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeParticipantsVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QChallengeParticipantsVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QRelatedChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QShowChallengeVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeVO;
@@ -19,10 +18,9 @@ import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
 import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.school.domain.School;
-import com.walkhub.walkhub.global.enums.UserScope;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.global.enums.UserScope;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.Modifying;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -118,7 +116,6 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     @Override
-    @Modifying(flushAutomatically = true, clearAutomatically = true)
     public void deleteNotOverChallengeStatusByUserId(Long userId) {
         queryFactory
                 .delete(challengeStatus)
@@ -129,7 +126,8 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 )
                 .execute();
   }
-  
+
+  @Override
   public List<ShowChallengeVO> getAllChallengesByUser(User user1) {
         return queryFactory
                 .select(new QShowChallengeVO(
