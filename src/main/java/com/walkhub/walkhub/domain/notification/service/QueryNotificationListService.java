@@ -42,7 +42,7 @@ public class QueryNotificationListService {
                 .title(notificationEntity.getTitle())
                 .content(notificationEntity.getContent())
                 .type(notificationEntity.getType())
-                .value(notificationEntity.getValue())
+                .data(notificationEntity.getData())
                 .isRead(notificationList.getIsRead())
                 .build();
     }

@@ -41,7 +41,7 @@ public class NotificationEntity extends BaseTimeEntity {
     private Type type;
 
     @Column(nullable = false)
-    private String value;
+    private String data;
 
     @NotNull
     @Length(max = 6)
@@ -49,11 +49,11 @@ public class NotificationEntity extends BaseTimeEntity {
     private UserScope userScope;
 
     @Builder
-    public NotificationEntity(String title, String content, Type type, String value, UserScope userScope) {
+    public NotificationEntity(String title, String content, Type type, String data, UserScope userScope) {
         this.title = title;
         this.content = content;
         this.type = type;
-        this.value = value;
+        this.data = data;
         this.userScope = userScope;
     }
 
