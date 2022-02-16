@@ -74,7 +74,7 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
     }
 
     private BooleanExpression gradeEq(Integer grade) {
-        return grade != null ? userRank.grade.eq(grade) : userRank.scopeType.eq("SCHOOL");
+        return grade != null ? userRank.grade.eq(grade) : null;
     }
 
     private BooleanExpression classNumEq(Integer classNum) {
