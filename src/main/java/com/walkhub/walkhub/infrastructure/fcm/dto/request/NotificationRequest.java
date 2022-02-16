@@ -12,7 +12,7 @@ public class NotificationRequest {
     private final User user;
     private final String title;
     private final String content;
-    private final String value;
+    private final String data;
     private final Type type;
     private final UserScope userScope;
     private final String clickAction;

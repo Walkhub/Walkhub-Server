@@ -54,7 +54,7 @@ public class CoolNotification implements FcmUtil {
                         .title(request.getTitle())
                         .content(request.getContent())
                         .type(request.getType())
-                        .value(request.getValue())
+                        .data(request.getData())
                         .userScope(request.getUserScope())
                         .build()
         ).getId();
