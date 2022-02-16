@@ -169,10 +169,14 @@ public class User extends BaseTimeEntity {
     }
 
     public Section getSection() {
-        if (section == null) {
+        if (!hasSection()) {
             throw SectionNotFoundException.EXCEPTION;
         }
-        return section;
+        return this.section;
+    }
+
+    public boolean hasSection() {
+        return this.section != null;
     }
 
     public void setMaxLevel(CalorieLevel calorieLevel) {

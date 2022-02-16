@@ -18,7 +18,6 @@ public enum ErrorCode {
     EXPIRED_JWT(401, "COMMON-401-1", "Expired Jwt"),
     INVALID_JWT(401, "COMMON-401-2", "Invalid Jwt"),
     UNAUTHORIZED_USER_AUTH_CODE(401, "USER-401-1", "Unauthorized User AuthCode"),
-    CLASS_CODE_NOT_MATCH(401, "USER-401-2", "Class Code Not Match"),
     INVALID_SCOPE(401, "CHALLENGE-401-1", "Invalid Scope"),
     PASSWORD_MISMATCH(401, "AUTH-401-1", "Password Mismatch"),
     INVALID_ROLE(401, "GLOBAL-401-1", "Invalid Role"),

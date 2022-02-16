@@ -87,10 +87,9 @@ public class UserController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/classes/{section-id}")
-    public void joinSection(@PathVariable(name = "section-id") Long sectionId,
-                            @RequestBody @Valid JoinSectionRequest request) {
-        joinSectionService.execute(sectionId, request);
+    @PostMapping("/classes")
+    public void joinSection(@RequestBody @Valid JoinSectionRequest request) {
+        joinSectionService.execute(request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
