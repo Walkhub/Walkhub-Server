@@ -38,16 +38,17 @@ public class CustomBadgeRepositoryImpl implements CustomBadgeRepository {
 
     @Override
     public List<MyBadgeVo> findAllByBadgeCollections(Long userId) {
+        Object max;
         return query
                 .select(new QMyBadgeVo(
                         badge.id,
                         badge.name,
                         badge.imageUrl,
-                        user.id.eq(userId)
+                        user.id.max().eq(userId)
                 ))
                 .from(badge)
-                .leftJoin(badgeCollection.badge, badge)
-                .leftJoin(badgeCollection.user, user)
+                .leftJoin(badge.badgeCollections, badgeCollection)
+                .leftJoin(badgeCollection.user, user).on(user.id.eq(userId))
                 .groupBy(badge.id)
                 .fetch();
     }
