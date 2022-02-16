@@ -22,7 +22,7 @@ public class QueryUserRankListService {
     @Transactional(readOnly = true)
     public UserRankListResponse execute(Long schoolId, DateType dateType) {
         LocalDate now = LocalDate.now();
-        List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(schoolId, null, dateType, now);
+        List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(schoolId, null, null, dateType, now);
         List<UserRankListResponse.UserRankResponse> rankList = userRankFacade.buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
 
         return UserRankListResponse.builder()

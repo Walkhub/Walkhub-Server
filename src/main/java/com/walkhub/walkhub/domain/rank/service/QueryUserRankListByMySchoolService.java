@@ -38,11 +38,11 @@ public class QueryUserRankListByMySchoolService {
             }
         } else if (scope.equals(UserRankScope.ALL)) {
             myRank = buildWeekOrMonthMyRankResponse(user.getId(), null, dateType, date);
-            List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), null, dateType, date);
+            List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), user.getSection().getGrade(), null, dateType, date);
             userRankList = userRankFacade.buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
         } else if (scope.equals(UserRankScope.CLASS)) {
             myRank = buildWeekOrMonthMyRankResponse(user.getId(), user.getSection().getClassNum(), dateType, date);
-            List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), user.getSection().getClassNum(), dateType, date);
+            List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), user.getSection().getGrade(), user.getSection().getClassNum(), dateType, date);
             userRankList = userRankFacade.buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
         }
         return UserRankListResponse.builder()

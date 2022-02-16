@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface UserRankRepositoryCustom {
     UserRankVO getMyRankByUserId(Long userId, Integer classNum, DateType dateType, LocalDate date);
-    List<UserRankVO> getUserRankListBySchoolId(Long schoolId, Integer classNum, DateType dateType, LocalDate date);
+    List<UserRankVO> getUserRankListBySchoolId(Long schoolId, Integer grade, Integer classNum, DateType dateType, LocalDate date);
 }
