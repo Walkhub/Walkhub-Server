@@ -5,7 +5,6 @@ import com.walkhub.walkhub.domain.user.domain.type.Sex;
 import com.walkhub.walkhub.global.enums.Authority;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
