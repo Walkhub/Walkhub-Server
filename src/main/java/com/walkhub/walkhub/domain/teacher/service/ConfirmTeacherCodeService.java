@@ -4,7 +4,7 @@ import com.walkhub.walkhub.domain.teacher.presentation.dto.request.TeacherCodeRe
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.TokenResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
-import com.walkhub.walkhub.global.exception.InvalidVerificationCodeException;
+import com.walkhub.walkhub.global.exception.VerificationCodeNotFoundException;
 import com.walkhub.walkhub.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,13 +22,16 @@ public class ConfirmTeacherCodeService {
         User user = userFacade.getCurrentUser();
 
         if (!user.getSchool().getAuthCode().equals(request.getCode())) {
-            throw InvalidVerificationCodeException.EXCEPTION;
+            throw VerificationCodeNotFoundException.EXCEPTION;
         }
         user.setAuthorityTeacher();
 
         String accessToken = jwtTokenProvider.generateAccessToken(user.getAccountId());
         String refreshToken = jwtTokenProvider.generateRefreshToken(user.getAccountId());
 
-        return new TokenResponse(accessToken, refreshToken);
+        return TokenResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
     }
 }
