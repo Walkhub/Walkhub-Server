@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.auth.presentation.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.walkhub.walkhub.domain.user.domain.type.Sex;
 import com.walkhub.walkhub.global.enums.Authority;
 import lombok.Builder;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 public class UserTokenResponse {
 
     private final String accessToken;
-    @DateTimeFormat(pattern = "yyyy-MM-ddThh:mm:SS")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:SS")
     private final LocalDateTime expiredAt;
     private final String refreshToken;
     private final Authority authority;
