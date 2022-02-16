@@ -1,7 +1,5 @@
 package com.walkhub.walkhub.domain.auth.service;
 
-import com.walkhub.walkhub.domain.auth.domain.RefreshToken;
-import com.walkhub.walkhub.domain.auth.domain.repository.RefreshTokenRepository;
 import com.walkhub.walkhub.domain.auth.exception.PasswordMismatchException;
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.SignInRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
@@ -24,7 +22,6 @@ public class UserSignInService {
 
     private final UserRepository userRepository;
     private final JwtProperties jwtProperties;
-    private final RefreshTokenRepository refreshTokenRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
 
@@ -41,14 +38,6 @@ public class UserSignInService {
 
         String accessToken = jwtTokenProvider.generateAccessToken(user.getAccountId());
         String refreshToken = jwtTokenProvider.generateRefreshToken(user.getAccountId());
-
-        refreshTokenRepository.save(
-                RefreshToken.builder()
-                        .accountId(user.getAccountId())
-                        .token(refreshToken)
-                        .timeToLive(jwtProperties.getRefreshExp())
-                        .build()
-        );
 
         return UserTokenResponse.builder()
                 .accessToken(accessToken)

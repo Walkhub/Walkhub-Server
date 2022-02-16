@@ -9,6 +9,6 @@ public class InvalidVerificationCodeException extends WalkhubException {
 		new InvalidVerificationCodeException();
 
 	private InvalidVerificationCodeException() {
-		super(ErrorCode.INVALID_VERIFICATION_CODE);
+		super(ErrorCode.VERIFICATION_CODE_NOT_FOUND);
 	}
 }
