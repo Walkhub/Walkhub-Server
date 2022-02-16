@@ -34,7 +34,7 @@ public class SchoolDetailsInfoService {
         );
 
         return SchoolDetailsInfoResponse.builder()
-                .totalUserCount(school.getUserCount())
+                .userCount(school.getUserCount())
                 .weekTotalWalkCount(weekSchoolRanks.getWalkCount())
                 .monthTotalWalkCount(monthSchoolRanks.getWalkCount())
                 .weekRanking(weekSchoolRanks.getRanking())
