@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.challenge.facade;
 
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeRepository;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeVO;
 import com.walkhub.walkhub.domain.challenge.exception.ChallengeNotFoundException;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse.ChallengeResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse.Writer;
@@ -20,21 +21,21 @@ public class ChallengeFacade {
                 .orElseThrow(() -> ChallengeNotFoundException.EXCEPTION);
     }
 
-    public ChallengeResponse challengeResponseBuilder(Challenge challenge) {
+    public ChallengeResponse challengeResponseBuilder(ShowChallengeVO vo) {
         return ChallengeResponse.builder()
-            .id(challenge.getId())
-            .name(challenge.getName())
-            .startAt(challenge.getStartAt())
-            .endAt(challenge.getEndAt())
-            .imageUrl(challenge.getImageUrl())
-            .userScope(challenge.getUserScope())
-            .goalScope(challenge.getGoalScope())
-            .goalType(challenge.getGoalType())
-            .writer(Writer.builder()
-                .userId(challenge.getUser().getId())
-                .name(challenge.getUser().getName())
-                .profileImageUrl(challenge.getUser().getProfileImageUrl())
-                .build())
-            .build();
+                .challengeId(vo.getChallengeId())
+                .name(vo.getName())
+                .startAt(vo.getStartAt())
+                .endAt(vo.getEndAt())
+                .imageUrl(vo.getImageUrl())
+                .userScope(vo.getUserScope())
+                .goalScope(vo.getGoalScope())
+                .goalType(vo.getGoalType())
+                .writer(Writer.builder()
+                        .userId(vo.getChallengeId())
+                        .name(vo.getWriterName())
+                        .profileImageUrl(vo.getProfileImageUrl())
+                        .build())
+                .build();
     }
 }
