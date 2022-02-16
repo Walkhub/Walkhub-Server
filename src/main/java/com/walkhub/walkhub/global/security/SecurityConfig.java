@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.global.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.walkhub.walkhub.global.error.CustomAuthenticationEntryPoint;
 import com.walkhub.walkhub.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -131,6 +132,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // excel
                 .antMatchers(HttpMethod.GET, "/excel").hasAnyAuthority("TEACHER", "ROOT")
                 .anyRequest().denyAll()
+
+                .and()
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint(objectMapper))
 
                 .and()
                 .apply(new FilterConfig(jwtTokenProvider, objectMapper));

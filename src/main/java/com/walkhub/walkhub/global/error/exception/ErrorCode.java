@@ -23,6 +23,8 @@ public enum ErrorCode {
     INVALID_ROLE(401, "GLOBAL-401-1", "Invalid Role"),
     INVALID_VERIFICATION_CODE(401, "GLOBAL-401-2", "Invalid Verification Code"),
 
+    FORBIDDEN(403, "COMMON-403-1", "Forbidden"),
+
     USER_NOT_FOUND(404, "USER-404-1", "User Not Found"),
     USER_AUTH_CODE_NOT_FOUND(404, "USER-404-2", "User AuthCode Not Found"),
     CREDENTIALS_NOT_FOUND(404, "USER-404-3", "Credentials Not Found"),
