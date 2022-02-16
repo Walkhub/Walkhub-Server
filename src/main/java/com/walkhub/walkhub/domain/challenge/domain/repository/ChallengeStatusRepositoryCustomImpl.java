@@ -14,6 +14,7 @@ import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.global.enums.UserScope;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
@@ -110,7 +111,19 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     @Override
-    public List<ShowChallengeVO> getAllChallengesByUser(User user1) {
+    public void deleteNotOverChallengeStatusByUserId(Long userId) {
+        queryFactory
+                .delete(challengeStatus)
+                .where(
+                        (challengeStatus.challenge.userScope.eq(UserScope.CLASS).or(challengeStatus.challenge.userScope.eq(UserScope.GRADE)))
+                                .and(challengeStatus.challenge.endAt.after(LocalDate.now()))
+                                .and(challengeStatus.user.id.eq(userId))
+                )
+                .execute();
+  }
+
+  @Override
+  public List<ShowChallengeVO> getAllChallengesByUser(User user1) {
         return queryFactory
                 .select(new QShowChallengeVO(
                         challenge.id.as("challengeId"),

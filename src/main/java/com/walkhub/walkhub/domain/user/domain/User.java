@@ -183,4 +183,8 @@ public class User extends BaseTimeEntity {
         this.maxLevel = calorieLevel;
     }
 
+    public void setSectionNull() {
+        this.section = null;
+    }
+
 }
