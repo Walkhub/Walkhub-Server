@@ -19,7 +19,7 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
     private static final Long LIMIT = 100L;
 
     @Override
-    public UserRankVO getMyRankByUserId(Long userId, Integer classNum, DateType dateType, LocalDate date) {
+    public UserRankVO getMyRankByUserId(Long userId, Integer grade, Integer classNum, DateType dateType, LocalDate date) {
         return queryFactory
                 .select(new QUserRankVO(
                         userRank.userId,
@@ -41,7 +41,7 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
     }
 
     @Override
-    public List<UserRankVO> getUserRankListBySchoolId(Long schoolId, Integer classNum, DateType dateType, LocalDate date) {
+    public List<UserRankVO> getUserRankListBySchoolId(Long schoolId, Integer grade, Integer classNum, DateType dateType, LocalDate date) {
         return queryFactory
                 .select(new QUserRankVO(
                         userRank.userId,
@@ -55,6 +55,7 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
                 .from(userRank)
                 .where(
                         schoolIdEq(schoolId),
+                        gradeEq(grade),
                         classNumEq(classNum),
                         dateTypeEq(dateType),
                         createdAtEq(date)
@@ -70,6 +71,10 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
 
     private BooleanExpression schoolIdEq(Long schoolId) {
         return schoolId != null ? userRank.schoolId.eq(schoolId) : null;
+    }
+
+    private BooleanExpression gradeEq(Integer grade) {
+        return grade != null ? userRank.grade.eq(grade) : null;
     }
 
     private BooleanExpression classNumEq(Integer classNum) {

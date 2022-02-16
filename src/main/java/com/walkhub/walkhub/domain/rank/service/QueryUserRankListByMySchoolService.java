@@ -5,6 +5,7 @@ import com.walkhub.walkhub.domain.exercise.cache.ExerciseAnalysisDto;
 import com.walkhub.walkhub.domain.rank.domain.repository.UserRankRepository;
 import com.walkhub.walkhub.domain.rank.domain.repository.vo.UserRankVO;
 import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
+import com.walkhub.walkhub.domain.rank.facade.UserRankFacade;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -23,6 +23,7 @@ public class QueryUserRankListByMySchoolService {
     private final UserRankRepository userRankRepository;
     private final ExerciseAnalysisCacheRepository exerciseAnalysisCacheRepository;
     private final UserFacade userFacade;
+    private final UserRankFacade userRankFacade;
 
     public UserRankListResponse execute(UserRankScope scope, DateType dateType) {
         User user = userFacade.getCurrentUser();
@@ -36,13 +37,13 @@ public class QueryUserRankListByMySchoolService {
                 userRankList.add(buildDayUsersRankResponse(users));
             }
         } else if (scope.equals(UserRankScope.ALL)) {
-            myRank = buildWeekOrMonthMyRankResponse(user.getId(), null, dateType, date);
-            List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), null, dateType, date);
-            userRankList = buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
+            myRank = buildWeekOrMonthMyRankResponse(user.getId(), null, null, dateType, date);
+            List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), user.getSection().getGrade(), null, dateType, date);
+            userRankList = userRankFacade.buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
         } else if (scope.equals(UserRankScope.CLASS)) {
-            myRank = buildWeekOrMonthMyRankResponse(user.getId(), user.getSection().getClassNum(), dateType, date);
-            List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), user.getSection().getClassNum(), dateType, date);
-            userRankList = buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
+            myRank = buildWeekOrMonthMyRankResponse(user.getId(), user.getSection().getGrade(), user.getSection().getClassNum(), dateType, date);
+            List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), user.getSection().getGrade(), user.getSection().getClassNum(), dateType, date);
+            userRankList = userRankFacade.buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
         }
         return UserRankListResponse.builder()
                 .myRank(myRank)
@@ -79,8 +80,8 @@ public class QueryUserRankListByMySchoolService {
                 .build();
     }
 
-    private UserRankListResponse.UserRankResponse buildWeekOrMonthMyRankResponse(Long userId, Integer classNum, DateType dateType, LocalDate date) {
-        UserRankVO myRank = userRankRepository.getMyRankByUserId(userId, classNum, dateType, date);
+    private UserRankListResponse.UserRankResponse buildWeekOrMonthMyRankResponse(Long userId, Integer grade, Integer classNum, DateType dateType, LocalDate date) {
+        UserRankVO myRank = userRankRepository.getMyRankByUserId(userId, grade, classNum, dateType, date);
         if (myRank == null) {
             return null;
         }
@@ -93,19 +94,5 @@ public class QueryUserRankListByMySchoolService {
                 .profileImageUrl(myRank.getProfileImageUrl())
                 .walkCount(myRank.getWalkCount())
                 .build();
-    }
-
-    private List<UserRankListResponse.UserRankResponse> buildWeekOrMonthUsersRankResponse(List<UserRankVO> userRanks) {
-        return userRanks.stream()
-                .map(userRank -> UserRankListResponse.UserRankResponse.builder()
-                        .userId(userRank.getUserId())
-                        .name(userRank.getName())
-                        .grade(userRank.getGrade())
-                        .classNum(userRank.getClassNum())
-                        .ranking(userRank.getRanking())
-                        .profileImageUrl(userRank.getProfileImageUrl())
-                        .walkCount(userRank.getWalkCount())
-                        .build()
-                ).collect(Collectors.toList());
     }
 }
