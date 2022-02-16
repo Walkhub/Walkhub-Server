@@ -8,12 +8,7 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QRelatedChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QShowChallengeVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.*;
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
 import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
@@ -217,5 +212,16 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
         return exerciseAnalysis.date.goe(challenge.getStartAt())
                 .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
                 .and(exerciseAnalysis.date.loe(challenge.getEndAt()));
+    }
+
+    @Override
+    public void resignParticipatedChallenge(User user) {
+        queryFactory.delete(challengeStatus)
+                .where(challengeStatus.user.eq(user)
+                        .and(isChallengeFinished().not()));
+    }
+
+    private BooleanExpression isChallengeFinished() {
+        return challengeStatus.challenge.endAt.before(LocalDate.now());
     }
 }

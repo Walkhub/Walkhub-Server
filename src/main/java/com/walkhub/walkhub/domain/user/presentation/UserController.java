@@ -102,7 +102,7 @@ public class UserController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/school")
+    @PatchMapping("/schools")
     public void updateSchoolInfo(@RequestBody @Valid UpdateSchoolInfoRequest request) {
         updateSchoolInfoService.execute(request);
     }

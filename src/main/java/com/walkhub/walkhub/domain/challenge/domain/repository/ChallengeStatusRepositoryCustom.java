@@ -15,5 +15,6 @@ public interface ChallengeStatusRepositoryCustom {
     List<RelatedChallengeParticipantsVO> getRelatedChallengeParticipantsList(Long challengeId, School school, Integer grade, Integer classNum);
     List<ChallengeParticipantsVO> queryChallengeParticipantsList(Challenge challenge, SuccessScope successScope, Long page);
     void deleteNotOverChallengeStatusByUserId(Long userId);
+    void resignParticipatedChallenge(User user);
     List<ShowChallengeVO> getAllChallengesByUser(User user);
 }
