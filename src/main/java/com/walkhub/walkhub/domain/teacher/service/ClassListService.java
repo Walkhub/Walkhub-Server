@@ -8,6 +8,7 @@ import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListRes
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
+import com.walkhub.walkhub.domain.user.exception.AlreadyJoinedException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.enums.Authority;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,11 @@ public class ClassListService {
     @Transactional(readOnly = true)
     public ClassListResponse execute() {
         User user = userFacade.getCurrentUser();
+
+        if (user.hasSection()) {
+            throw AlreadyJoinedException.EXCEPTION;
+        }
+
         School school = user.getSchool();
 
         List<ClassResponse> classList = school.getSections()
