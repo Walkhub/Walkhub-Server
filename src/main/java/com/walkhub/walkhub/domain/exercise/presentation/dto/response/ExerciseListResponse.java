@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @AllArgsConstructor
@@ -18,6 +19,8 @@ public class ExerciseListResponse {
 	public static class ExerciseResponse {
 		private final Long exerciseId;
 		private final String imageUrl;
+
+		@DateTimeFormat(pattern = "yyyy-MM-ddThh:mm:SS")
 		private final LocalDateTime startAt;
 		private final BigDecimal latitude;
 		private final BigDecimal longitude;
