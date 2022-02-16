@@ -74,7 +74,6 @@ public class TeacherController {
         return queryUserDetailsService.execute(userId, startAt, endAt);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/verification-codes")
     public TokenResponse confirmTeacherCode(@RequestBody TeacherCodeRequest teacherCodeRequest) {
         return confirmTeacherCodeService.execute(teacherCodeRequest);
