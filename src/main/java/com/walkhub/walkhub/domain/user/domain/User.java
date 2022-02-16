@@ -175,7 +175,7 @@ public class User extends BaseTimeEntity {
         return this.section;
     }
 
-    public Boolean hasSection() {
+    public boolean hasSection() {
         return this.section != null;
     }
 
