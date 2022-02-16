@@ -28,7 +28,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class UserRankJob {
 
-    private static final Integer CHUNK_SIZE = 100;
+    private static final Integer CHUNK_SIZE = 50000;
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
