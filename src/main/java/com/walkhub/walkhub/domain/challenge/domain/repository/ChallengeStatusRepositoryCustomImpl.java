@@ -114,7 +114,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     @Override
-    public List<ShowChallengeVO> getUser(User user1) {
+    public List<ShowChallengeVO> getAllChallengesByUser(User user1) {
         return queryFactory
                 .select(new QShowChallengeVO(
                         challenge.id.as("challengeId"),
