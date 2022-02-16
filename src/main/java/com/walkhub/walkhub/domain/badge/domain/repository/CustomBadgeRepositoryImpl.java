@@ -48,7 +48,7 @@ public class CustomBadgeRepositoryImpl implements CustomBadgeRepository {
                 .from(badge)
                 .leftJoin(badgeCollection.badge, badge)
                 .leftJoin(badgeCollection.user, user)
-                .groupBy(badge.id) p
+                .groupBy(badge.id)
                 .fetch();
     }
 
