@@ -84,10 +84,10 @@ public class ExerciseAnalysisRepositoryCustomImpl implements ExerciseAnalysisRep
 
 		if (grade != null) {
 			builder.and(section.grade.eq(grade));
-		}
 
-		if (classNum != null) {
-			builder.and(section.classNum.eq(classNum));
+			if (classNum != null) {
+				builder.and(section.classNum.eq(classNum));
+			}
 		}
 
 		return builder;
