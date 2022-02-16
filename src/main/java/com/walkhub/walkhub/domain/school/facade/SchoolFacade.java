@@ -16,4 +16,9 @@ public class SchoolFacade {
         return schoolRepository.findById(schoolId)
                 .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
     }
+
+    public School getSchoolByAuthCode(String authCode) {
+        return schoolRepository.findByAuthCode(authCode)
+                .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
+    }
 }
