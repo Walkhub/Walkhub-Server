@@ -33,7 +33,7 @@ public class Section extends BaseTimeEntity {
     @JoinColumn(name = "school_id")
     private School school;
 
-    @OneToMany(mappedBy = "section", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "section")
     private List<User> users;
 
     @Builder

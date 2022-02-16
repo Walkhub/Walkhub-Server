@@ -7,6 +7,7 @@ import com.walkhub.walkhub.domain.school.facade.SchoolFacade;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.UpdateTeacherSchoolRequest;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.SectionRepository;
+import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class UpdateTeacherSchoolService {
     private final SchoolFacade schoolFacade;
     private final ChallengeRepository challengeRepository;
     private final SectionRepository sectionRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void execute(UpdateTeacherSchoolRequest request) {
@@ -37,6 +39,7 @@ public class UpdateTeacherSchoolService {
         user.setSchool(school);
 
         if (user.hasSection()) {
+            userRepository.setUserSectionNull(user.getSection());
             sectionRepository.delete(user.getSection());
         }
 
