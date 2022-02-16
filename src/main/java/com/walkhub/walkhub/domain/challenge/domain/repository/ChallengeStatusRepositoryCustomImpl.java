@@ -1,28 +1,32 @@
 package com.walkhub.walkhub.domain.challenge.domain.repository;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QRelatedChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.school.domain.School;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
+import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeParticipantsVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QChallengeParticipantsVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QRelatedChallengeParticipantsVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QShowChallengeVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeVO;
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
 import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
+import com.walkhub.walkhub.domain.school.domain.School;
+import com.walkhub.walkhub.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-import static com.walkhub.walkhub.domain.challenge.domain.QChallengeStatus.challengeStatus;
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.jpa.JPAExpressions.select;
+import static com.walkhub.walkhub.domain.challenge.domain.QChallenge.challenge;
+import static com.walkhub.walkhub.domain.challenge.domain.QChallengeStatus.challengeStatus;
 import static com.walkhub.walkhub.domain.exercise.domain.QExerciseAnalysis.exerciseAnalysis;
 import static com.walkhub.walkhub.domain.school.domain.QSchool.school;
 import static com.walkhub.walkhub.domain.user.domain.QSection.section;
@@ -97,38 +101,62 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                                 user.profileImageUrl,
                                 user.school.name.as("schoolName"),
                                 Expressions.asNumber(select(exerciseAnalysis.count())
-                                        .from(exerciseAnalysis)
-                                        .where(
-                                                exerciseAnalysis.user.eq(user),
-                                                isChallengeSuccessFilter(challenge),
-                                                challengeDateFilter(challenge)
-                                        ))
+                                                .from(exerciseAnalysis)
+                                                .where(
+                                                        exerciseAnalysis.user.eq(user),
+                                                        isChallengeSuccessFilter(challenge),
+                                                        challengeDateFilter(challenge)
+                                                ))
                                         .goe(challenge.getSuccessStandard()).as("isSuccess"),
                                 GroupBy.list(exerciseAnalysis.date))
                         )
                 );
     }
 
+    @Override
+    public List<ShowChallengeVO> getAllChallengesByUser(User user1) {
+        return queryFactory
+                .select(new QShowChallengeVO(
+                        challenge.id.as("challengeId"),
+                        challenge.name,
+                        challenge.startAt,
+                        challenge.endAt,
+                        challenge.imageUrl,
+                        challenge.userScope,
+                        challenge.goalScope,
+                        challenge.goalType,
+                        user.id.as("userId"),
+                        user.name.as("writerName"),
+                        user.profileImageUrl.as("profileImageUrl")
+                ))
+                .from(challenge)
+                .join(challenge.user, user)
+                .join(challengeStatus)
+                .on(challengeStatus.challenge.eq(challenge))
+                .where(challengeStatus.user.eq(user1))
+                .fetch();
+    }
+
     private BooleanExpression successScopeFilter(Challenge challenge, SuccessScope successScope) {
         switch (successScope) {
             case TRUE: {
                 return Expressions.asNumber(select(exerciseAnalysis.count())
-                        .from(exerciseAnalysis)
-                        .where(
-                                exerciseAnalysis.user.eq(user),
-                                isChallengeSuccessFilter(challenge),
-                                challengeDateFilter(challenge)
-                        ))
+                                .from(exerciseAnalysis)
+                                .where(
+                                        exerciseAnalysis.user.eq(user),
+                                        isChallengeSuccessFilter(challenge),
+                                        challengeDateFilter(challenge)
+                                ))
                         .goe(challenge.getSuccessStandard());
             }
             case FALSE: {
                 return Expressions.asNumber(select(exerciseAnalysis.count())
-                        .from(exerciseAnalysis)
-                        .where(
-                                exerciseAnalysis.user.eq(user),
-                                isChallengeSuccessFilter(challenge),
-                                challengeDateFilter(challenge)
-                        ))
+                                .from(exerciseAnalysis)
+                                .where(
+                                        exerciseAnalysis.user.eq(user),
+                                        isChallengeSuccessFilter(challenge),
+                                        challengeDateFilter(challenge)
+                                ))
                         .lt(challenge.getSuccessStandard());
             }
             default: {
