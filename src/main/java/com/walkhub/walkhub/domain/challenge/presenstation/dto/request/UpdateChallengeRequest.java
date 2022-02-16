@@ -5,6 +5,7 @@ import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -22,9 +23,11 @@ public class UpdateChallengeRequest {
     private String imageUrl;
 
     @NotNull(message = "start_at은 Null일 수 없습니다.")
+    @FutureOrPresent
     private LocalDate startAt;
 
     @NotNull(message = "end_at은 Null일 수 없습니다.")
+    @FutureOrPresent(message = "end_at은 과거일 수 없습니다.")
     private LocalDate endAt;
 
     @NotBlank(message = "award는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
