@@ -18,7 +18,7 @@ public class CalorieLevelListResponse {
         private final Long levelId;
         private final String foodImageUrl;
         private final String foodName;
-        private final Integer calorie;
+        private final Double calorie;
         private final Integer size;
         private final Integer level;
         private final String message;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walkhub.walkhub.global.error.exception.ErrorCode;
 import com.walkhub.walkhub.global.error.exception.WalkhubException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 @RequiredArgsConstructor
 public class ExceptionFilter extends OncePerRequestFilter {
 
@@ -23,6 +25,7 @@ public class ExceptionFilter extends OncePerRequestFilter {
         } catch (WalkhubException e) {
             sendErrorMessage(response, e.getErrorCode());
         } catch (Exception e) {
+            logger.error(e);
             sendErrorMessage(response, ErrorCode.INTERNAL_SERVER_ERROR);
         }
     }

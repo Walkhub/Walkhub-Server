@@ -1,7 +1,7 @@
-package com.walkhub.walkhub.domain.user.service;
+package com.walkhub.walkhub.domain.calorielevel.service;
 
-import com.walkhub.walkhub.domain.user.domain.CalorieLevel;
-import com.walkhub.walkhub.domain.user.domain.repository.CalorieLevelRepository;
+import com.walkhub.walkhub.domain.calorielevel.domain.CalorieLevel;
+import com.walkhub.walkhub.domain.calorielevel.domain.repository.CalorieLevelRepository;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.CalorieLevelListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +30,7 @@ public class CalorieLevelListService {
     private CalorieLevelListResponse.CalorieLevelResponse calorieLevelResponse(CalorieLevel calorieLevel) {
         return CalorieLevelListResponse.CalorieLevelResponse.builder()
                 .levelId(calorieLevel.getId())
+                .level(calorieLevel.getLevel())
                 .foodImageUrl(calorieLevel.getFoodImageUrl())
                 .foodName(calorieLevel.getFoodName())
                 .calorie(calorieLevel.getCalorie())
