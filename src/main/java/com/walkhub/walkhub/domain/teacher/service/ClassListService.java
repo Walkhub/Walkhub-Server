@@ -29,7 +29,7 @@ public class ClassListService {
     public ClassListResponse execute() {
         User user = userFacade.getCurrentUser();
 
-        if (!user.hasSection()) {
+        if (user.hasSection()) {
             throw AlreadyJoinedException.EXCEPTION;
         }
 
