@@ -14,5 +14,5 @@ public interface ChallengeStatusRepositoryCustom {
     Integer getParticipantsCountByChallengeId(Long challengeId);
     List<RelatedChallengeParticipantsVO> getRelatedChallengeParticipantsList(Long challengeId, School school, Integer grade, Integer classNum);
     List<ChallengeParticipantsVO> queryChallengeParticipantsList(Challenge challenge, SuccessScope successScope, Long page);
-    List<ShowChallengeVO> getUser(User user);
+    List<ShowChallengeVO> getAllChallengesByUser(User user);
 }

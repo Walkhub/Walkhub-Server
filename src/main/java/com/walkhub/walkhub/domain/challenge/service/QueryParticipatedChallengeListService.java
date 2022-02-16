@@ -23,7 +23,7 @@ public class QueryParticipatedChallengeListService {
     @Transactional(readOnly = true)
     public QueryChallengeListResponse execute() {
 
-        List<ChallengeResponse> challengeResponseList = challengeStatusRepository.getUser(userFacade.getCurrentUser())
+        List<ChallengeResponse> challengeResponseList = challengeStatusRepository.getAllChallengesByUser(userFacade.getCurrentUser())
                 .stream()
                 .map(challengeFacade::challengeResponseBuilder)
                 .collect(Collectors.toList());
