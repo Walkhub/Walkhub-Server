@@ -2,18 +2,13 @@ package com.walkhub.walkhub.domain.teacher.presentation;
 
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.CreateClassRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.TeacherCodeRequest;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.request.UpdateTeacherSchoolRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CodeResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.DetailsClassResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.TokenResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserDetailsResponse;
-import com.walkhub.walkhub.domain.teacher.service.ClassListService;
-import com.walkhub.walkhub.domain.teacher.service.ConfirmTeacherCodeService;
-import com.walkhub.walkhub.domain.teacher.service.CreateClassService;
-import com.walkhub.walkhub.domain.teacher.service.DeleteClassService;
-import com.walkhub.walkhub.domain.teacher.service.DetailsClassService;
-import com.walkhub.walkhub.domain.teacher.service.QueryUserDetailsService;
-import com.walkhub.walkhub.domain.teacher.service.VerificationCodeService;
+import com.walkhub.walkhub.domain.teacher.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -43,6 +38,7 @@ public class TeacherController {
     private final QueryUserDetailsService queryUserDetailsService;
     private final ConfirmTeacherCodeService confirmTeacherCodeService;
     private final ClassListService classListService;
+    private final UpdateTeacherSchoolService updateTeacherSchoolService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/classes")
@@ -82,6 +78,12 @@ public class TeacherController {
     @GetMapping("/classes/lists")
     public ClassListResponse classList() {
         return classListService.execute();
+    }
+
+    @PatchMapping("/schools")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateTeacherSchool(@Valid @RequestBody UpdateTeacherSchoolRequest request) {
+        updateTeacherSchoolService.execute(request);
     }
 
 }

@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/users/accounts/{phone-number}").permitAll()
                 .antMatchers(HttpMethod.PATCH, "/users/health").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users/goal").authenticated()
-                .antMatchers(HttpMethod.PATCH, "/users/school").authenticated()
+                .antMatchers(HttpMethod.PATCH, "/users/schools").authenticated()
                 .antMatchers(HttpMethod.GET, "/users/levels/lists").authenticated()
 
 
@@ -116,6 +116,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/teachers/classes").hasAuthority("TEACHER")
                 .antMatchers(HttpMethod.GET, "/teachers/users/{user-id}").hasAnyAuthority("TEACHER")
                 .antMatchers(HttpMethod.GET, "/teachers/users").hasAnyAuthority("TEACHER", "ROOT")
+                .antMatchers(HttpMethod.PATCH, "/teachers/schools").hasAuthority("TEACHER")
                 .antMatchers(HttpMethod.GET, "/teachers/students/verification-codes").hasAnyAuthority("TEACHER")
                 .antMatchers(HttpMethod.PATCH, "/teachers/classes/verification-codes").hasAuthority("TEACHER")
 
