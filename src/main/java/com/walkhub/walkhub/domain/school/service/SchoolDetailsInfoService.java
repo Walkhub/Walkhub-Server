@@ -6,7 +6,6 @@ import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.school.facade.SchoolFacade;
 import com.walkhub.walkhub.domain.school.presentation.dto.response.SchoolDetailsInfoResponse;
 import com.walkhub.walkhub.global.enums.DateType;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
