@@ -24,38 +24,40 @@ public class QuerySchoolRankService {
 
 	@Transactional(readOnly = true)
 	public SchoolRankResponse execute(SchoolDateType dateType) {
-		LocalDate localDate = LocalDate.now();
-		if (dateType.equals(SchoolDateType.MONTH)) {
-			localDate = localDate.minusMonths(1);
-		} else {
-			localDate = localDate.minusWeeks(1);
-		}
-
 		User user = userFacade.getCurrentUser();
-		SchoolRank mySchoolRank = schoolRankRepository.
-			findBySchoolIdAndDateTypeAndCreatedAtBetween(user.getSchool().getId(), dateType.toString(), localDate, LocalDate.now());
 
-		MySchoolResponse mySchoolResponse = MySchoolResponse.builder()
-			.schoolId(mySchoolRank.getSchoolId())
-			.name(mySchoolRank.getName())
-			.logoImageUrl(mySchoolRank.getLogoImageUrl())
-			.grade(user.getSection().getGrade())
-			.classNum(user.getSection().getClassNum())
-			.build();
+		MySchoolResponse mySchoolResponse = schoolRankRepository.
+			findBySchoolIdAndDateTypeAndCreatedAtBetween(user.getSchool().getId(), dateType.toString(), LocalDate.now().minusWeeks(1), LocalDate.now())
+			.map(schoolRank -> mySchoolResponseBuilder(schoolRank, user))
+			.orElse(null);
 
 		List<SchoolResponse> schoolResponseList = schoolRankRepository
-			.findAllByDateTypeAndCreatedAtBetweenOrderByRankingAsc(dateType.toString(), localDate, LocalDate.now())
+			.findAllByDateTypeAndCreatedAtBetweenOrderByRankingAsc(dateType.toString(), LocalDate.now().minusWeeks(1), LocalDate.now())
 			.stream()
-			.map(schoolRank -> SchoolResponse.builder()
-				.schoolId(schoolRank.getSchoolId())
-				.name(schoolRank.getName())
-				.ranking(schoolRank.getRanking())
-				.studentCount(schoolRank.getUserCount())
-				.logoImageUrl(schoolRank.getLogoImageUrl())
-				.walkCount(schoolRank.getWalkCount())
-				.build())
+			.map(this::schoolResponseBuilder)
 			.collect(Collectors.toList());
 
 		return new SchoolRankResponse(mySchoolResponse, schoolResponseList);
+	}
+
+	private MySchoolResponse mySchoolResponseBuilder(SchoolRank schoolRank, User user) {
+		return MySchoolResponse.builder()
+			.schoolId(schoolRank.getSchoolId())
+			.name(schoolRank.getName())
+			.logoImageUrl(schoolRank.getLogoImageUrl())
+			.grade(user.getSection().getGrade())
+			.classNum(user.getSection().getClassNum())
+			.build();
+	}
+
+	private SchoolResponse schoolResponseBuilder(SchoolRank schoolRank) {
+		return SchoolResponse.builder()
+			.schoolId(schoolRank.getSchoolId())
+			.name(schoolRank.getName())
+			.ranking(schoolRank.getRanking())
+			.studentCount(schoolRank.getUserCount())
+			.logoImageUrl(schoolRank.getLogoImageUrl())
+			.walkCount(schoolRank.getWalkCount())
+			.build();
 	}
 }
