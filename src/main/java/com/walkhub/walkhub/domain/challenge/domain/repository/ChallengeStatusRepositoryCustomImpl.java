@@ -217,15 +217,4 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
                 .and(exerciseAnalysis.date.loe(challenge.getEndAt()));
     }
-
-    @Override
-    public void resignParticipatedChallenge(User user) {
-        queryFactory.delete(challengeStatus)
-                .where(challengeStatus.user.eq(user)
-                        .and(isChallengeFinished().not()));
-    }
-
-    private BooleanExpression isChallengeFinished() {
-        return challengeStatus.challenge.endAt.before(LocalDate.now());
-    }
 }
