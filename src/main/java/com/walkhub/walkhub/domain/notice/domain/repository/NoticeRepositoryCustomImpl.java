@@ -15,7 +15,8 @@ import static com.walkhub.walkhub.domain.user.domain.QUser.user;
 import static com.walkhub.walkhub.domain.school.domain.QSchool.school;
 
 @RequiredArgsConstructor
-public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom{
+public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
+
 	private final JPAQueryFactory queryFactory;
 
 	@Override
@@ -23,16 +24,16 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom{
 		long size = 3;
 		return queryFactory
 			.select(new QQueryNoticeListResponse_NoticeResponse(
-					notice.id,
-					notice.title,
-					notice.content,
-					notice.createdAt,
-					new QQueryNoticeListResponse_Writer(
-						user.id,
-						user.name,
-						user.profileImageUrl
-					))
-				)
+				notice.id,
+				notice.title,
+				notice.content,
+				notice.createdAt,
+				new QQueryNoticeListResponse_Writer(
+					user.id,
+					user.name,
+					user.profileImageUrl
+				))
+			)
 			.from(notice)
 			.join(notice.user, user)
 			.join(user.school, school)
