@@ -29,6 +29,6 @@ public class UpdateSchoolInfoService {
         school.addUserCount();
 
 
-        challengeStatusRepository.resignParticipatedChallenge(user);
+        challengeStatusRepository.deleteNotOverChallengeStatusByUserId(user.getId());
     }
 }
