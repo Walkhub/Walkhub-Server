@@ -12,6 +12,6 @@ public class UserAccessTokenResponse {
 
     private final String accessToken;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:SS")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
     private final LocalDateTime expiredAt;
 }
