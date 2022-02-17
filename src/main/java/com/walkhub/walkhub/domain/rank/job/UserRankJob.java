@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.ArgumentPreparedStatementSetter;
 import org.springframework.jdbc.core.SqlParameter;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.sql.Types;
 import java.time.LocalDate;
@@ -32,7 +31,6 @@ public class UserRankJob {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
-    private final EntityManagerFactory em;
     private final DataSource dataSource;
 
     @Bean
@@ -190,7 +188,7 @@ public class UserRankJob {
     public JdbcBatchItemWriter<UserRank> userRankWriter(@Value("#{jobParameters[jobKey]}") String jobKey) {
         JdbcBatchItemWriter<UserRank> writer = new JdbcBatchItemWriterBuilder<UserRank>()
                 .dataSource(dataSource)
-                .sql("CALL SAVE_USER_RANK(:user_id, :created_at, :date_type, :scope_type, :school_id, :name, :grade, :class_num, :profile_image_url, :ranking, :walk_count)")
+                .sql("CALL SAVE_USER_RANK(:userId, :createdAt, :dateType, :scopeType, :schoolId, :name, :grade, :classNum, :profileImageUrl, :ranking, :walkCount)")
                 .beanMapped()
                 .build();
 
