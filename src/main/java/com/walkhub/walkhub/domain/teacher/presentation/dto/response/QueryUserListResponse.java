@@ -20,6 +20,10 @@ public class QueryUserListResponse {
         private final Integer grade;
         private final Integer classNum;
         private final Integer number;
+        private final Double averageWalkCount;
+        private final Integer totalWalkCount;
+        private final Double averageDistance;
+        private final Integer totalDistance;
         private final Boolean isTeacher;
     }
 }

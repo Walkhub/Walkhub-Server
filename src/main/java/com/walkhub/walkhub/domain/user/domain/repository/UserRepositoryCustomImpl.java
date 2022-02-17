@@ -2,6 +2,7 @@ package com.walkhub.walkhub.domain.user.domain.repository;
 
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.MathExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.teacher.type.AuthorityScope;
 import com.walkhub.walkhub.domain.teacher.type.SortStandard;
@@ -11,6 +12,7 @@ import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.Authority;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.walkhub.walkhub.domain.exercise.domain.QExerciseAnalysis.exerciseAnalysis;
@@ -31,6 +33,10 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                         user.section.grade,
                         user.section.classNum,
                         user.number,
+                        MathExpressions.round(exerciseAnalysis.walkCount.avg(), 1).as("averageWalkCount"),
+                        exerciseAnalysis.walkCount.sum().as("totalWalkCount"),
+                        MathExpressions.round(exerciseAnalysis.distance.avg(), 1).as("averageDistance"),
+                        exerciseAnalysis.distance.sum().as("totalDistance"),
                         user.authority.eq(Authority.TEACHER).as("isTeacher")
                 ))
                 .from(user)
@@ -39,9 +45,10 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                         user.school.eq(currentUser.getSchool()),
                         buildFilteringCondition(scope),
                         gradeEq(grade),
-                        classNumEq(classNum)
+                        classNumEq(classNum),
+                        exerciseAnalysis.date.after(LocalDate.now().minusDays(7))
                 )
-                .offset((long)page * size)
+                .offset((long) page * size)
                 .limit(size)
                 .orderBy(buildSortCondition(sort))
                 .groupBy(user.id)
@@ -93,7 +100,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                         user.authority.asc()
                 };
             default:
-                return new OrderSpecifier[] {};
+                return new OrderSpecifier[]{};
         }
     }
 }
