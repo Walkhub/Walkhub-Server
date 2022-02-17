@@ -21,7 +21,7 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
 
 	@Override
 	public List<NoticeResponse> queryNoticeByScopeAndPage(Scope scope, Integer page, School userSchool) {
-		long size = 3;
+		long size = 10;
 		return queryFactory
 			.select(new QQueryNoticeListResponse_NoticeResponse(
 				notice.id,
