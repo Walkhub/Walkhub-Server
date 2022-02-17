@@ -116,7 +116,7 @@ public class User extends BaseTimeEntity {
     @Builder
     public User(String accountId, String password, String phoneNumber, String name,
                 Authority authority, Section section, School school, boolean isMeasuring,
-                Integer weight, BigDecimal height, Sex sex) {
+                Integer weight, BigDecimal height, Sex sex, Badge badge) {
         this.accountId = accountId;
         this.password = password;
         this.phoneNumber = phoneNumber;
@@ -128,6 +128,7 @@ public class User extends BaseTimeEntity {
         this.healthInfo = new HealthInfo(weight, height);
         this.dailyWalkCountGoal = 10000;
         this.sex = sex;
+        this.badge = badge;
     }
 
     public void setDeviceToken(String deviceToken) {
