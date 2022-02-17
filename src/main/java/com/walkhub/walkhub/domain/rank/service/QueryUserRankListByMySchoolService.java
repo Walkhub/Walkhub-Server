@@ -7,6 +7,7 @@ import com.walkhub.walkhub.domain.rank.domain.repository.vo.UserRankVO;
 import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
 import com.walkhub.walkhub.domain.rank.facade.UserRankFacade;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
+import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.enums.DateType;
@@ -27,12 +28,13 @@ public class QueryUserRankListByMySchoolService {
 
     public UserRankListResponse execute(UserRankScope scope, DateType dateType) {
         User user = userFacade.getCurrentUser();
+        School school = user.getSchool();
         LocalDate date = LocalDate.now();
         UserRankListResponse.UserRankResponse myRank = null;
         List<UserRankListResponse.UserRankResponse> userRankList = new ArrayList<>();
         if (dateType.equals(DateType.DAY)) {
             myRank = buildDayMyRankResponse(user);
-            List<ExerciseAnalysisDto> usersDayRank = exerciseAnalysisCacheRepository.getUserIdsByRankTop100();
+            List<ExerciseAnalysisDto> usersDayRank = exerciseAnalysisCacheRepository.getUserIdsByRankTop100(school.getId());
             for (ExerciseAnalysisDto users : usersDayRank) {
                 userRankList.add(buildDayUsersRankResponse(users));
             }
@@ -52,7 +54,7 @@ public class QueryUserRankListByMySchoolService {
     }
 
     private UserRankListResponse.UserRankResponse buildDayMyRankResponse(User user) {
-        ExerciseAnalysisDto exerciseAnalysisDto = exerciseAnalysisCacheRepository.getUserTodayRank(user.getId());
+        ExerciseAnalysisDto exerciseAnalysisDto = exerciseAnalysisCacheRepository.getUserTodayRank(user.getSchool().getId(), user.getId());
         if (exerciseAnalysisDto == null) {
             return null;
         }

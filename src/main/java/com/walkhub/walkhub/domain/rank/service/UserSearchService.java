@@ -43,7 +43,7 @@ public class UserSearchService {
     }
 
     private UserListResponse.UserSearchResponse buildDayUserSearchResponse(User user) {
-        ExerciseAnalysisDto exerciseAnalysisDto = exerciseAnalysisCacheRepository.getUserTodayRank(user.getId());
+        ExerciseAnalysisDto exerciseAnalysisDto = exerciseAnalysisCacheRepository.getUserTodayRank(user.getSchool().getId(), user.getId());
 
         return UserListResponse.UserSearchResponse.builder()
                 .userId(user.getId())

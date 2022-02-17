@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.exercise.service;
 
+import com.walkhub.walkhub.domain.exercise.cache.ExerciseAnalysisCacheRepository;
 import com.walkhub.walkhub.domain.exercise.domain.ExerciseAnalysis;
 import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.SaveExerciseAnalysisRequest;
@@ -16,11 +17,13 @@ import java.util.Optional;
 public class SaveOrUpdateExerciseAnalysisService {
 
     private final ExerciseAnalysisRepository exerciseAnalysisRepository;
+    private final ExerciseAnalysisCacheRepository exerciseAnalysisCacheRepository;
     private final UserFacade userFacade;
 
     @Transactional
     public void execute(SaveExerciseAnalysisRequest request) {
         User user = userFacade.getCurrentUser();
+        exerciseAnalysisCacheRepository.saveExerciseCache(user.getSchool().getId(), user.getId(), request.getWalkCount().doubleValue());
         ExerciseAnalysis exerciseAnalysisToSave = buildOrUpdateExerciseAnalysis(request, user);
         exerciseAnalysisRepository.save(exerciseAnalysisToSave);
     }
