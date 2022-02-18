@@ -61,9 +61,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         user.school.eq(school)
                 )
                 .orderBy(
-                        section.grade.subtract(grade).abs().asc(),
-                        section.classNum.subtract(classNum).abs().asc(),
-                        user.school.id.subtract(school.getId()).abs().asc()
+                        section.grade.subtract(grade).abs().add(section.classNum.subtract(classNum).abs()).add(user.school.id.subtract(school.getId()).abs()).asc()
                 )
                 .limit(3)
                 .fetch();
