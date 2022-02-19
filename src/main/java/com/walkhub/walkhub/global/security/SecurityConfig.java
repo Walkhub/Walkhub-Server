@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/users/{user-id}").authenticated()
                 .antMatchers(HttpMethod.GET, "/users").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users").authenticated()
-                .antMatchers(HttpMethod.POST, "/users/classes").authenticated()
+                .antMatchers(HttpMethod.POST, "/users/classes").hasAuthority("USER")
                 .antMatchers(HttpMethod.DELETE, "/users/classes").hasAuthority("USER")
                 .antMatchers(HttpMethod.GET, "/users/accounts/{phone-number}").permitAll()
                 .antMatchers(HttpMethod.PATCH, "/users/health").authenticated()
