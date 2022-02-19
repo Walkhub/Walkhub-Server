@@ -30,8 +30,8 @@ public class NoticeController {
     private final DeleteNoticeService deleteNoticeService;
 
     @GetMapping("/list")
-    public QueryNoticeListResponse queryNoticeList(@RequestParam Scope scope) {
-        return queryNoticeListService.execute(scope);
+    public QueryNoticeListResponse queryNoticeList(@RequestParam Scope scope, @RequestParam Integer page) {
+        return queryNoticeListService.execute(scope, page);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
