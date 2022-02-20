@@ -1,7 +1,6 @@
 package com.walkhub.walkhub.domain.challenge.domain.repository;
 
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeParticipantsVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeProgressVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeVO;

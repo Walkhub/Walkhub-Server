@@ -27,8 +27,6 @@ public class TokenRefreshService {
         redisRefreshToken.updateExp(jwtProperties.getRefreshExp());
 
         String accessToken = jwtTokenProvider.generateAccessToken(redisRefreshToken.getAccountId());
-        System.out.println(LocalDateTime.now());
-        System.out.println(LocalDateTime.now().plusSeconds(jwtProperties.getAccessExp()));
         return UserAccessTokenResponse.builder()
                 .accessToken(accessToken)
                 .expiredAt(LocalDateTime.now().plusSeconds(jwtProperties.getAccessExp()))
