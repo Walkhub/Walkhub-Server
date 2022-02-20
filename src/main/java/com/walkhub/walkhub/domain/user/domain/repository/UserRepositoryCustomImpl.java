@@ -80,24 +80,24 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         switch (sort) {
             case NAME:
                 return new OrderSpecifier[]{
-                        user.name.asc(), user.authority.asc()
+                        user.authority.asc(), user.name.asc()
                 };
             case GCN:
                 return new OrderSpecifier[]{
+                        user.authority.asc(),
                         user.section.grade.asc(),
                         user.section.classNum.asc(),
-                        user.number.asc(),
-                        user.authority.asc()
+                        user.number.asc()
                 };
             case WALK_COUNT:
                 return new OrderSpecifier[]{
-                        exerciseAnalysis.walkCount.desc(),
-                        user.authority.asc()
+                        user.authority.asc(),
+                        exerciseAnalysis.walkCount.desc()
                 };
             case DISTANCE:
                 return new OrderSpecifier[]{
-                        exerciseAnalysis.distance.desc(),
-                        user.authority.asc()
+                        user.authority.asc(),
+                        exerciseAnalysis.distance.desc()
                 };
             default:
                 return new OrderSpecifier[]{};
