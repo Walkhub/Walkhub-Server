@@ -1,10 +1,12 @@
 package com.walkhub.walkhub.domain.challenge.presenstation;
 
-import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.CreateChallengeRequest;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.QueryChallengeProgressRequest;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChallengeRequest;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.*;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsResponse;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeParticipantsForStudentResponse;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeProgressResponse;
 import com.walkhub.walkhub.domain.challenge.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,7 +28,6 @@ public class ChallengeController {
     private final ParticipateChallengeService participateChallengeService;
     private final QueryParticipatedChallengeListService queryParticipatedChallengeListService;
     private final QueryChallengeParticipantsForStudentService queryChallengeParticipantsForStudentService;
-    private final QueryChallengeParticipantsForTeacherService queryChallengeParticipantsForTeacherService;
     private final QueryChallengeProgressService challengeProgressService;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -77,13 +78,6 @@ public class ChallengeController {
     @GetMapping("/{challenge-id}/participants/students")
     public QueryChallengeParticipantsForStudentResponse queryChallengeParticipantsForStudent(@PathVariable("challenge-id") Long challengeId) {
         return queryChallengeParticipantsForStudentService.execute(challengeId);
-    }
-
-    @GetMapping("/{challenge-id}/participants/teachers")
-    public QueryChallengeParticipantsForTeacherResponse queryChallengeParticipantsForTeacher(@PathVariable("challenge-id") Long challengeId,
-                                                                                             @RequestParam SuccessScope successScope,
-                                                                                             @RequestParam Long page) {
-        return queryChallengeParticipantsForTeacherService.execute(challengeId, successScope, page);
     }
 
     @GetMapping("/{challenge-id}/progress")

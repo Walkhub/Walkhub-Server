@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.challenge.domain.repository;
 
-import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -26,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.jpa.JPAExpressions.select;
 import static com.walkhub.walkhub.domain.challenge.domain.QChallenge.challenge;
 import static com.walkhub.walkhub.domain.challenge.domain.QChallengeStatus.challengeStatus;
@@ -78,47 +76,6 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     @Override
-    public List<ChallengeParticipantsVO> queryChallengeParticipantsList(Challenge challenge, SuccessScope successScope, Long page) {
-        final long size = 20L;
-        return queryFactory
-                .selectFrom(user)
-                .join(user.school, school)
-                .leftJoin(user.section, section)
-                .join(user.exerciseAnalyses, exerciseAnalysis)
-                .join(user.challengeStatuses, challengeStatus)
-                .join(challengeStatus.challenge)
-                .on(challengeStatus.challenge.eq(challenge))
-                .where(
-                        successScopeFilter(challenge, successScope),
-                        isChallengeSuccessFilter(challenge),
-                        challengeDateFilter(challenge)
-                )
-                .offset(page * size)
-                .limit(size)
-                .orderBy(user.name.asc(), user.id.asc(), exerciseAnalysis.date.asc())
-                .transform(groupBy(user.name, user.id)
-                        .list(new QChallengeParticipantsVO(
-                                user.id.as("userId"),
-                                user.section.grade,
-                                user.section.classNum,
-                                user.number,
-                                user.name,
-                                user.profileImageUrl,
-                                user.school.name.as("schoolName"),
-                                Expressions.asNumber(select(exerciseAnalysis.count())
-                                                .from(exerciseAnalysis)
-                                                .where(
-                                                        exerciseAnalysis.user.eq(user),
-                                                        isChallengeSuccessFilter(challenge),
-                                                        challengeDateFilter(challenge)
-                                                ))
-                                        .goe(challenge.getSuccessStandard()).as("isSuccess"),
-                                GroupBy.list(exerciseAnalysis.date))
-                        )
-                );
-    }
-
-    @Override
     public void deleteNotOverChallengeStatusByUserId(Long userId) {
         queryFactory
                 .delete(challengeStatus)
@@ -152,34 +109,6 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .on(challengeStatus.challenge.eq(challenge))
                 .where(challengeStatus.user.eq(user1))
                 .fetch();
-    }
-
-    private BooleanExpression successScopeFilter(Challenge challenge, SuccessScope successScope) {
-        switch (successScope) {
-            case TRUE: {
-                return Expressions.asNumber(select(exerciseAnalysis.count())
-                                .from(exerciseAnalysis)
-                                .where(
-                                        exerciseAnalysis.user.eq(user),
-                                        isChallengeSuccessFilter(challenge),
-                                        challengeDateFilter(challenge)
-                                ))
-                        .goe(challenge.getSuccessStandard());
-            }
-            case FALSE: {
-                return Expressions.asNumber(select(exerciseAnalysis.count())
-                                .from(exerciseAnalysis)
-                                .where(
-                                        exerciseAnalysis.user.eq(user),
-                                        isChallengeSuccessFilter(challenge),
-                                        challengeDateFilter(challenge)
-                                ))
-                        .lt(challenge.getSuccessStandard());
-            }
-            default: {
-                return null;
-            }
-        }
     }
 
     private BooleanExpression isChallengeSuccessFilter(Challenge challenge) {
