@@ -11,18 +11,7 @@ import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequ
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
-import com.walkhub.walkhub.domain.user.service.ExitSectionService;
-import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
-import com.walkhub.walkhub.domain.user.service.JoinSectionService;
-import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
-import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
-import com.walkhub.walkhub.domain.user.service.SearchAccountIdService;
-import com.walkhub.walkhub.domain.user.service.UpdateGoalWalkCountService;
-import com.walkhub.walkhub.domain.user.service.UpdatePasswordService;
-import com.walkhub.walkhub.domain.user.service.UpdateSchoolInfoService;
-import com.walkhub.walkhub.domain.user.service.UpdateUserInfoService;
-import com.walkhub.walkhub.domain.user.service.UserAuthCodeService;
-import com.walkhub.walkhub.domain.user.service.UserSignUpService;
+import com.walkhub.walkhub.domain.user.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -54,6 +43,7 @@ public class UserController {
     private final SearchAccountIdService searchAccountIdService;
     private final UpdateGoalWalkCountService updateGoalWalkCountService;
     private final ExitSectionService exitSectionService;
+    private final RemoveAccountService removeAccountService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
@@ -124,4 +114,9 @@ public class UserController {
         exitSectionService.execute();
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping
+    public void removeAccount() {
+        removeAccountService.execute();
+    }
 }
