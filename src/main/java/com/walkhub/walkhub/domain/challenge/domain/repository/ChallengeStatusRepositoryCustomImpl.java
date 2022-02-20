@@ -79,10 +79,14 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     public void deleteNotOverChallengeStatusByUserId(Long userId) {
         queryFactory
                 .delete(challengeStatus)
-                .where(
-                        (challengeStatus.challenge.userScope.eq(UserScope.CLASS).or(challengeStatus.challenge.userScope.eq(UserScope.GRADE)))
-                                .and(challengeStatus.challenge.endAt.after(LocalDate.now()))
-                                .and(challengeStatus.user.id.eq(userId))
+                .where(challengeStatus.user.id.eq(userId),
+                        challengeStatus.challenge.id.in(
+                                JPAExpressions
+                                        .select(challenge.id)
+                                        .from(challenge)
+                                        .where(challenge.userScope.eq(UserScope.CLASS).or(challenge.userScope.eq(UserScope.GRADE)))
+                                        .where(challenge.endAt.after(LocalDate.now()).and(challengeStatus.user.id.eq(userId)))
+                        )
                 )
                 .execute();
     }
@@ -150,18 +154,6 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
                 .and(exerciseAnalysis.date.loe(challenge.getEndAt()));
     }
-
-    @Override
-    public void resignParticipatedChallenge(User user) {
-        queryFactory.delete(challengeStatus)
-                .where(challengeStatus.user.eq(user)
-                        .and(isChallengeFinished().not()));
-    }
-
-    private BooleanExpression isChallengeFinished() {
-        return challengeStatus.challenge.endAt.before(LocalDate.now());
-    }
-
 
     @Override
     public List<ChallengeProgressVO> queryChallengeProgress(

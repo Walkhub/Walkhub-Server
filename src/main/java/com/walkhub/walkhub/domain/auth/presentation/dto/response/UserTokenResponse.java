@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class UserTokenResponse {
 
     private final String accessToken;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:SS")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
     private final LocalDateTime expiredAt;
     private final String refreshToken;
     private final Authority authority;

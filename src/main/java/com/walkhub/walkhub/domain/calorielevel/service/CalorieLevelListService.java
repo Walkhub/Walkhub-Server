@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.calorielevel.service;
 import com.walkhub.walkhub.domain.calorielevel.domain.CalorieLevel;
 import com.walkhub.walkhub.domain.calorielevel.domain.repository.CalorieLevelRepository;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.CalorieLevelListResponse;
+import com.walkhub.walkhub.domain.user.presentation.dto.response.CalorieLevelListResponse.CalorieLevelResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,7 @@ public class CalorieLevelListService {
 
     @Transactional(readOnly = true)
     public CalorieLevelListResponse execute() {
-        List<CalorieLevelListResponse.CalorieLevelResponse> results =
+        List<CalorieLevelResponse> results =
                 calorieLevelRepository.findAllBy()
                         .stream()
                         .map(this::calorieLevelResponse)
@@ -27,8 +28,8 @@ public class CalorieLevelListService {
         return new CalorieLevelListResponse(results);
     }
 
-    private CalorieLevelListResponse.CalorieLevelResponse calorieLevelResponse(CalorieLevel calorieLevel) {
-        return CalorieLevelListResponse.CalorieLevelResponse.builder()
+    private CalorieLevelResponse calorieLevelResponse(CalorieLevel calorieLevel) {
+        return CalorieLevelResponse.builder()
                 .levelId(calorieLevel.getId())
                 .level(calorieLevel.getLevel())
                 .foodImageUrl(calorieLevel.getFoodImageUrl())

@@ -16,8 +16,7 @@ import java.util.List;
 public interface ChallengeStatusRepositoryCustom {
     Integer getParticipantsCountByChallengeId(Long challengeId);
     List<RelatedChallengeParticipantsVO> getRelatedChallengeParticipantsList(Long challengeId, School school, Integer grade, Integer classNum);
-    void deleteNotOverChallengeStatusByUserId(Long userId);
-    void resignParticipatedChallenge(User user);
-    List<ShowChallengeVO> getAllChallengesByUser(User user);
     List<ChallengeProgressVO> queryChallengeProgress(Challenge challenge, ChallengeParticipantsScope participantsScope, ChallengeParticipantsOrder participantsOrder, SuccessScope successScope, Long page);
+    List<ShowChallengeVO> getAllChallengesByUser(User user);
+    void deleteNotOverChallengeStatusByUserId(Long userId);
 }
