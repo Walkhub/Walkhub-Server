@@ -195,12 +195,13 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     private BooleanExpression userScopeFilter(ChallengeParticipantsScope challengeParticipantsScope) {
-        if (challengeParticipantsScope == ChallengeParticipantsScope.STUDENT) {
-            return user.authority.eq(Authority.USER);
-        } else if (challengeParticipantsScope == ChallengeParticipantsScope.TEACHER) {
-            return user.authority.eq(Authority.TEACHER);
-        } else {
-            return null;
+        switch (challengeParticipantsScope) {
+            case STUDENT:
+                return user.authority.eq(Authority.USER);
+            case TEACHER:
+                return user.authority.eq(Authority.TEACHER);
+            default:
+                return null;
         }
     }
 
