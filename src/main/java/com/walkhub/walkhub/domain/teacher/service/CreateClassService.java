@@ -35,12 +35,12 @@ public class CreateClassService {
                 .classCode(classCode)
                 .build();
 
-        try {
-            Section savedSection = sectionRepository.save(section);
-            user.setSection(savedSection);
-        } catch (DataIntegrityViolationException e) {
+        if (user.hasSection() || sectionRepository.findBySchoolAndGradeAndClassNum(userSchool, grade, classNum).isPresent()) {
             throw AlreadyCreatedException.EXCEPTION;
         }
+
+        Section savedSection = sectionRepository.save(section);
+        user.setSection(savedSection);
 
         return new CodeResponse(classCode);
     }
