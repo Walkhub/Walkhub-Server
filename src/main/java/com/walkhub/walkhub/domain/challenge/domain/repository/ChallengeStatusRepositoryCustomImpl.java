@@ -220,15 +220,16 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     private OrderSpecifier<?> challengeParticipantsOrder(ChallengeParticipantsOrder challengeParticipantsOrder) {
-        if (challengeParticipantsOrder == ChallengeParticipantsOrder.USER_NAME ||
-                challengeParticipantsOrder == null) {
-            return new OrderSpecifier<>(Order.ASC, user.name);
-        } else if (challengeParticipantsOrder == ChallengeParticipantsOrder.PROGRESS) {
-            return new OrderSpecifier<>(Order.DESC, exerciseAnalysis.walkCount.sum().divide(exerciseAnalysis.date.count()));
-        } else if (challengeParticipantsOrder == ChallengeParticipantsOrder.SCHOOL_NAME) {
-            return new OrderSpecifier<>(Order.ASC, school.name);
-        } else {
-            return new OrderSpecifier<>(Order.DESC, exerciseAnalysis.date.max());
+        switch (challengeParticipantsOrder) {
+            case SUCCESS_DATE:
+                return new OrderSpecifier<>(Order.DESC, exerciseAnalysis.date.max());
+            case PROGRESS:
+                return new OrderSpecifier<>(Order.DESC, exerciseAnalysis.walkCount.sum().divide(exerciseAnalysis.date.count()));
+            case SCHOOL_NAME:
+                return new OrderSpecifier<>(Order.ASC, school.name);
+            default:
+                return new OrderSpecifier<>(Order.ASC, user.name);
+
         }
     }
 }
