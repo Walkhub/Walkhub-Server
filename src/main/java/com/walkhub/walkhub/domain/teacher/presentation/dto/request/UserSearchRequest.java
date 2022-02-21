@@ -2,9 +2,11 @@ package com.walkhub.walkhub.domain.teacher.presentation.dto.request;
 
 import com.walkhub.walkhub.domain.teacher.type.AuthorityScope;
 import com.walkhub.walkhub.domain.teacher.type.SortStandard;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Data
+@Getter
+@AllArgsConstructor
 public class UserSearchRequest {
     private AuthorityScope scope;
     private SortStandard sort;
