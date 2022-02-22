@@ -55,12 +55,48 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public List<UserListInfoVO> searchUser(AuthorityScope scope, SortStandard sort, Integer grade, Integer classNum, User currentUser, String name) {
+        return queryFactory
+                .select(new QUserListInfoVO(
+                        user.id.as("userId"),
+                        user.name,
+                        user.profileImageUrl,
+                        user.section.grade,
+                        user.section.classNum,
+                        user.number,
+                        MathExpressions.round(exerciseAnalysis.walkCount.avg(), 1).as("averageWalkCount"),
+                        exerciseAnalysis.walkCount.sum().as("totalWalkCount"),
+                        MathExpressions.round(exerciseAnalysis.distance.avg(), 1).as("averageDistance"),
+                        exerciseAnalysis.distance.sum().as("totalDistance"),
+                        user.authority.eq(Authority.TEACHER).as("isTeacher")
+                ))
+                .from(user)
+                .join(user.exerciseAnalyses, exerciseAnalysis)
+                .where(
+                        user.school.eq(currentUser.getSchool()),
+                        buildFilteringCondition(scope),
+                        gradeEq(grade),
+                        classNumEq(classNum),
+                        nameEq(name),
+                        exerciseAnalysis.date.after(LocalDate.now().minusDays(7))
+                )
+                .orderBy(buildSortCondition(sort))
+                .groupBy(user.id)
+                .fetch();
+
+    }
+
     private BooleanExpression gradeEq(Integer grade) {
         return grade != null ? user.section.grade.eq(grade) : null;
     }
 
     private BooleanExpression classNumEq(Integer classNum) {
         return classNum != null ? user.section.classNum.eq(classNum) : null;
+    }
+
+    private BooleanExpression nameEq(String name) {
+        return name.isEmpty() ? user.name.contains(name) : null;
     }
 
     private BooleanExpression buildFilteringCondition(AuthorityScope scope) {
