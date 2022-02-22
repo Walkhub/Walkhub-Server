@@ -79,8 +79,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // notices
                 .antMatchers(HttpMethod.GET, "/notices/list").authenticated()
-                .antMatchers(HttpMethod.POST, "/notices").hasAnyAuthority("TEACHER", "ROOT", "SU")
-                .antMatchers(HttpMethod.DELETE, "/notices/{notice-id}").hasAnyAuthority("TEACHER", "ROOT", "SU")
+                .antMatchers(HttpMethod.POST, "/notices").hasAnyAuthority("ROOT", "SU")
+                .antMatchers(HttpMethod.DELETE, "/notices/{notice-id}").hasAnyAuthority("ROOT", "SU")
 
                 // notifications
                 .antMatchers(HttpMethod.GET, "/notifications").authenticated()
@@ -116,7 +116,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/teachers/verification-codes").hasAuthority("ROOT")
                 .antMatchers(HttpMethod.PATCH, "/teachers/verification-codes").hasAuthority("USER")
                 .antMatchers(HttpMethod.GET, "/teachers/users/search").hasAnyAuthority("TEACHER", "ROOT")
-                .antMatchers(HttpMethod.GET,"/teachers/users").hasAnyAuthority("TEACHER", "ROOT")
+                .antMatchers(HttpMethod.GET, "/teachers/users").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.POST, "/teachers/classes").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.GET, "/teachers/classes/lists").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.DELETE, "/teachers/classes/{section-id}").hasAnyAuthority("TEACHER", "ROOT")
@@ -128,8 +128,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PATCH, "/teachers/classes/verification-codes").hasAuthority("TEACHER")
 
                 // su
-                .antMatchers(HttpMethod.GET,"/su").hasAuthority("SU")
-                .antMatchers(HttpMethod.POST,"/su/accounts/{school-id}").hasAuthority("SU")
+                .antMatchers(HttpMethod.GET, "/su").hasAuthority("SU")
+                .antMatchers(HttpMethod.POST, "/su/accounts/{school-id}").hasAuthority("SU")
 
                 //excel
                 .antMatchers(HttpMethod.GET, "/excel").hasAnyAuthority("TEACHER", "ROOT")
