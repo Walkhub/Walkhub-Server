@@ -96,7 +96,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     }
 
     private BooleanExpression nameEq(String name) {
-        return name.isEmpty() ? user.name.contains(name) : null;
+        return name.isEmpty() ? null : user.name.contains(name);
     }
 
     private BooleanExpression buildFilteringCondition(AuthorityScope scope) {
