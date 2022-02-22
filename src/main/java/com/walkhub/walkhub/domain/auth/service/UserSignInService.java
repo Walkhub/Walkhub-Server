@@ -14,7 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @RequiredArgsConstructor
 @Service
@@ -41,7 +42,7 @@ public class UserSignInService {
 
         return UserTokenResponse.builder()
                 .accessToken(accessToken)
-                .expiredAt(LocalDateTime.now().plusSeconds(jwtProperties.getAccessExp()))
+                .expiredAt(ZonedDateTime.now().plusSeconds(jwtProperties.getAccessExp()))
                 .refreshToken(refreshToken)
                 .authority(user.getAuthority())
                 .height(healthInfo.getHeight())
