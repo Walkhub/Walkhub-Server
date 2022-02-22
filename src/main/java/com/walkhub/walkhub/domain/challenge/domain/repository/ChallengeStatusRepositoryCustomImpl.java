@@ -2,10 +2,7 @@ package com.walkhub.walkhub.domain.challenge.domain.repository;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberExpression;
-import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
@@ -179,7 +176,10 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         ).intValue(),
                         getChallengeProgress(challenge).multiply(100).round().longValue(),
                         exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()),
-                        exerciseAnalysis.date.max()))
+                        new CaseBuilder()
+                                .when(exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()))
+                                .then(exerciseAnalysis.date.max())
+                                .otherwise(Expressions.nullExpression())))
                 .from(user)
                 .offset(page == null ? 0 : page * PARTICIPANTS_SIZE)
                 .limit(PARTICIPANTS_SIZE)
