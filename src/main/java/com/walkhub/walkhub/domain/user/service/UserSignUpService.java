@@ -24,7 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @RequiredArgsConstructor
 @Service
@@ -50,24 +50,24 @@ public class UserSignUpService {
         userFacade.checkUserExists(request.getAccountId());
 
         Badge defaultTitleBadge = badgeRepository.findById(1L)
-            .orElseThrow(() -> DefaultTitleBadgeNotFound.EXCEPTION);
+                .orElseThrow(() -> DefaultTitleBadgeNotFound.EXCEPTION);
 
         School school = schoolRepository.findById(request.getSchoolId())
                 .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
 
         User user = User.builder()
-            .accountId(request.getAccountId())
-            .password(passwordEncoder.encode(request.getPassword()))
-            .phoneNumber(request.getPhoneNumber())
-            .authority(Authority.USER)
-            .name(request.getName())
-            .school(school)
-            .height(request.getHeight())
-            .weight(request.getWeight())
-            .sex(request.getSex())
-            .isMeasuring(false)
-            .badge(defaultTitleBadge)
-            .build();
+                .accountId(request.getAccountId())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .phoneNumber(request.getPhoneNumber())
+                .authority(Authority.USER)
+                .name(request.getName())
+                .school(school)
+                .height(request.getHeight())
+                .weight(request.getWeight())
+                .sex(request.getSex())
+                .isMeasuring(false)
+                .badge(defaultTitleBadge)
+                .build();
         userRepository.save(user);
 
         school.addUserCount();
@@ -78,7 +78,7 @@ public class UserSignUpService {
 
         return UserTokenResponse.builder()
                 .accessToken(accessToken)
-                .expiredAt(LocalDateTime.now().plusSeconds(jwtProperties.getAccessExp()))
+                .expiredAt(ZonedDateTime.now().plusSeconds(jwtProperties.getAccessExp()))
                 .refreshToken(refreshToken)
                 .authority(user.getAuthority())
                 .height(healthInfo.getHeight())
