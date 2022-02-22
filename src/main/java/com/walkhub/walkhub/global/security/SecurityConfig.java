@@ -114,6 +114,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // teachers
                 .antMatchers(HttpMethod.POST, "/teachers/verification-codes").hasAuthority("ROOT")
                 .antMatchers(HttpMethod.PATCH, "/teachers/verification-codes").hasAuthority("USER")
+                .antMatchers(HttpMethod.GET, "/teachers/users/search").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.GET,"/teachers/users").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.POST, "/teachers/classes").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.GET, "/teachers/classes/lists").hasAnyAuthority("TEACHER", "ROOT")
@@ -121,7 +122,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/teachers/classes").hasAuthority("TEACHER")
                 .antMatchers(HttpMethod.GET, "/teachers/users/{user-id}").hasAnyAuthority("TEACHER")
                 .antMatchers(HttpMethod.GET, "/teachers/users").hasAnyAuthority("TEACHER", "ROOT")
-                .antMatchers(HttpMethod.GET, "/teachers/users/search").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.PATCH, "/teachers/schools").hasAuthority("TEACHER")
                 .antMatchers(HttpMethod.GET, "/teachers/students/verification-codes").hasAnyAuthority("TEACHER")
                 .antMatchers(HttpMethod.PATCH, "/teachers/classes/verification-codes").hasAuthority("TEACHER")
