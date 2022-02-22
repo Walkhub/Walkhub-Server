@@ -10,18 +10,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -36,7 +27,7 @@ public class Exercise extends BaseTimeEntity {
     @Column(nullable = false, columnDefinition = "integer default 0")
     private Integer walkCount;
 
-    private LocalDateTime endAt;
+    private ZonedDateTime endAt;
 
     @Column(nullable = false, columnDefinition = "integer default 0")
     private Integer distance;
@@ -76,7 +67,7 @@ public class Exercise extends BaseTimeEntity {
         this.walkCount = walkCount;
         this.distance = distance;
         this.calorie = calorie;
-        this.endAt = LocalDateTime.now();
+        this.endAt = ZonedDateTime.now();
         this.isExercising = false;
     }
 
