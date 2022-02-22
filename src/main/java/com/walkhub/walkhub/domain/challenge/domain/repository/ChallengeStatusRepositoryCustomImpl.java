@@ -196,24 +196,22 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     private BooleanExpression userScopeFilter(ChallengeParticipantsScope challengeParticipantsScope) {
-        switch (challengeParticipantsScope) {
-            case STUDENT:
-                return user.authority.eq(Authority.USER);
-            case TEACHER:
-                return user.authority.eq(Authority.TEACHER);
-            default:
-                return null;
+        if (challengeParticipantsScope == ChallengeParticipantsScope.STUDENT) {
+            return user.authority.eq(Authority.USER);
+        } else if (challengeParticipantsScope == ChallengeParticipantsScope.TEACHER) {
+            return user.authority.eq(Authority.TEACHER);
+        } else {
+            return null;
         }
     }
 
     private BooleanExpression challengeSuccessFilter(SuccessScope successScope, Challenge challenge) {
-        switch (successScope) {
-            case TRUE:
-                return exerciseAnalysis.date.count().goe(challenge.getSuccessStandard());
-            case FALSE:
-                return exerciseAnalysis.date.count().lt(challenge.getSuccessStandard());
-            default:
-                return null;
+        if (successScope == SuccessScope.TRUE) {
+            return exerciseAnalysis.date.count().goe(challenge.getSuccessStandard());
+        } else if (successScope == SuccessScope.FALSE) {
+            return exerciseAnalysis.date.count().lt(challenge.getSuccessStandard());
+        } else {
+            return null;
         }
     }
 
@@ -233,16 +231,14 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     private OrderSpecifier<?> challengeParticipantsOrder(ChallengeParticipantsOrder challengeParticipantsOrder) {
-        switch (challengeParticipantsOrder) {
-            case SUCCESS_DATE:
-                return new OrderSpecifier<>(Order.DESC, exerciseAnalysis.date.max());
-            case PROGRESS:
-                return new OrderSpecifier<>(Order.DESC, exerciseAnalysis.walkCount.sum().divide(exerciseAnalysis.date.count()));
-            case SCHOOL_NAME:
-                return new OrderSpecifier<>(Order.ASC, school.name);
-            default:
-                return new OrderSpecifier<>(Order.ASC, user.name);
-
+        if (challengeParticipantsOrder == ChallengeParticipantsOrder.SUCCESS_DATE) {
+            return new OrderSpecifier<>(Order.DESC, exerciseAnalysis.date.max());
+        } else if (challengeParticipantsOrder == ChallengeParticipantsOrder.PROGRESS) {
+            return new OrderSpecifier<>(Order.DESC, exerciseAnalysis.walkCount.sum().divide(exerciseAnalysis.date.count()));
+        } else if (challengeParticipantsOrder == ChallengeParticipantsOrder.SCHOOL_NAME) {
+            return new OrderSpecifier<>(Order.ASC, school.name);
+        } else {
+            return new OrderSpecifier<>(Order.ASC, user.name);
         }
     }
 }
