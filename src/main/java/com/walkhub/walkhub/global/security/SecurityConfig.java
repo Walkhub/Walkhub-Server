@@ -61,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 //levels
                 .antMatchers(HttpMethod.GET, "/levels/lists").authenticated()
+                .antMatchers(HttpMethod.PATCH, "/levels/{level-id}").authenticated()
 
                 // badges
                 .antMatchers(HttpMethod.GET, "/badges/{user-id}").authenticated()
