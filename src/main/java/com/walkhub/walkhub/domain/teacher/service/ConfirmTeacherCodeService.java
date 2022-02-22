@@ -25,6 +25,7 @@ public class ConfirmTeacherCodeService {
             throw VerificationCodeNotFoundException.EXCEPTION;
         }
         user.setAuthorityTeacher();
+        user.setSectionNull();
 
         String accessToken = jwtTokenProvider.generateAccessToken(user.getAccountId());
         String refreshToken = jwtTokenProvider.generateRefreshToken(user.getAccountId());
