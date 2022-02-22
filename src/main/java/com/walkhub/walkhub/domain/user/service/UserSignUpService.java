@@ -1,6 +1,8 @@
 package com.walkhub.walkhub.domain.user.service;
 
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
+import com.walkhub.walkhub.domain.badge.domain.Badge;
+import com.walkhub.walkhub.domain.badge.domain.repository.BadgeRepository;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.school.domain.repository.SchoolRepository;
 import com.walkhub.walkhub.domain.user.domain.User;
@@ -8,6 +10,7 @@ import com.walkhub.walkhub.domain.user.domain.UserAuthCode;
 import com.walkhub.walkhub.domain.user.domain.repository.UserAuthCodeRepository;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
+import com.walkhub.walkhub.domain.user.exception.DefaultTitleBadgeNotFound;
 import com.walkhub.walkhub.domain.user.exception.SchoolNotFoundException;
 import com.walkhub.walkhub.domain.user.exception.UnauthorizedUserAuthCodeException;
 import com.walkhub.walkhub.domain.user.exception.UserAuthCodeNotFoundException;
@@ -34,6 +37,7 @@ public class UserSignUpService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtProperties jwtProperties;
+    private final BadgeRepository badgeRepository;
 
     @Transactional
     public UserTokenResponse execute(UserSignUpRequest request) {
@@ -45,21 +49,25 @@ public class UserSignUpService {
 
         userFacade.checkUserExists(request.getAccountId());
 
+        Badge defaultTitleBadge = badgeRepository.findById(1L)
+            .orElseThrow(() -> DefaultTitleBadgeNotFound.EXCEPTION);
+
         School school = schoolRepository.findById(request.getSchoolId())
                 .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
 
         User user = User.builder()
-                .accountId(request.getAccountId())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .phoneNumber(request.getPhoneNumber())
-                .authority(Authority.USER)
-                .name(request.getName())
-                .school(school)
-                .height(request.getHeight())
-                .weight(request.getWeight())
-                .sex(request.getSex())
-                .isMeasuring(false)
-                .build();
+            .accountId(request.getAccountId())
+            .password(passwordEncoder.encode(request.getPassword()))
+            .phoneNumber(request.getPhoneNumber())
+            .authority(Authority.USER)
+            .name(request.getName())
+            .school(school)
+            .height(request.getHeight())
+            .weight(request.getWeight())
+            .sex(request.getSex())
+            .isMeasuring(false)
+            .badge(defaultTitleBadge)
+            .build();
         userRepository.save(user);
 
         school.addUserCount();

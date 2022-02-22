@@ -35,16 +35,16 @@ public class Badge extends BaseTimeEntity {
     private String imageUrl;
 
     @NotNull
-    private String condition;
+    private String unlockCondition;
   
     @OneToMany(mappedBy = "badge", cascade = CascadeType.REMOVE)
     private List<BadgeCollection> badgeCollections;
 
     @Builder
     public Badge(String name, String imageUrl,
-                 String condition) {
+                 String unlockCondition) {
         this.name = name;
         this.imageUrl = imageUrl;
-        this.condition = condition;
+        this.unlockCondition = unlockCondition;
     }
 }

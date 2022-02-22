@@ -6,19 +6,19 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UserRankInfo {
-    private Long userId;
+    private final Long userId;
 
-    private String name;
+    private final String name;
 
-    private Long schoolId;
+    private final Long schoolId;
 
-    private Integer grade;
+    private final Integer grade;
 
-    private Integer classNum;
+    private final Integer classNum;
 
-    private String profileImageUrl;
+    private final String profileImageUrl;
 
-    private Integer walkCount;
+    private final Integer walkCount;
 
-    private Integer ranking;
+    private final Integer ranking;
 }

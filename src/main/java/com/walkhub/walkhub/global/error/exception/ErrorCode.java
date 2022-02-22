@@ -53,7 +53,9 @@ public enum ErrorCode {
     ALREADY_EXERCISING(409, "EXERCISE-409-1", "Already Exercising"),
 
     REDIS_TRANSACTION_EXCEPTION(500, "REDIS-500-1", "Cannot Read Cache From Redis"),
-    INTERNAL_SERVER_ERROR(500, "SERVER-500-1", "Internal Server Error");
+    INTERNAL_SERVER_ERROR(500, "SERVER-500-1", "Internal Server Error"),
+
+    DEFAULT_TITLE_BADGE_NOT_FOUND(503, "SERVER-503-1", "Contact The Server Developer");
 
     private final int status;
     private final String code;

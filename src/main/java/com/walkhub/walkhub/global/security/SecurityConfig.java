@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/users/{user-id}").authenticated()
                 .antMatchers(HttpMethod.GET, "/users").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users").authenticated()
-                .antMatchers(HttpMethod.POST, "/users/classes").authenticated()
+                .antMatchers(HttpMethod.POST, "/users/classes").hasAuthority("USER")
                 .antMatchers(HttpMethod.DELETE, "/users/classes").hasAuthority("USER")
                 .antMatchers(HttpMethod.GET, "/users/accounts/{phone-number}").permitAll()
                 .antMatchers(HttpMethod.PATCH, "/users/health").authenticated()
@@ -61,6 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/users/levels/lists").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/users").authenticated()
 
+                //levels
+                .antMatchers(HttpMethod.GET, "/levels/lists").authenticated()
 
                 // badges
                 .antMatchers(HttpMethod.GET, "/badges/{user-id}").authenticated()
@@ -114,7 +116,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // teachers
                 .antMatchers(HttpMethod.POST, "/teachers/verification-codes").hasAuthority("ROOT")
                 .antMatchers(HttpMethod.PATCH, "/teachers/verification-codes").hasAuthority("USER")
-                .antMatchers(HttpMethod.POST, "/teachers/classes").hasAuthority("TEACHER")
+                .antMatchers(HttpMethod.GET,"/teachers/users").hasAnyAuthority("TEACHER", "ROOT")
+                .antMatchers(HttpMethod.POST, "/teachers/classes").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.GET, "/teachers/classes/lists").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.DELETE, "/teachers/classes/{section-id}").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.GET, "/teachers/classes").hasAuthority("TEACHER")
