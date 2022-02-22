@@ -189,7 +189,8 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .join(user.challengeStatuses, challengeStatus)
                 .where(userScopeFilter(participantsScope),
                         isChallengeSuccessFilter(challenge),
-                        challengeDateFilter(challenge))
+                        challengeDateFilter(challenge),
+                        challengeSuccessFilter(successScope, challenge))
                 .orderBy(challengeParticipantsOrder(participantsOrder))
                 .fetch();
     }
@@ -200,6 +201,17 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 return user.authority.eq(Authority.USER);
             case TEACHER:
                 return user.authority.eq(Authority.TEACHER);
+            default:
+                return null;
+        }
+    }
+
+    private BooleanExpression challengeSuccessFilter(SuccessScope successScope, Challenge challenge) {
+        switch (successScope) {
+            case TRUE:
+                return exerciseAnalysis.date.count().goe(challenge.getSuccessStandard());
+            case FALSE:
+                return exerciseAnalysis.date.count().lt(challenge.getSuccessStandard());
             default:
                 return null;
         }
