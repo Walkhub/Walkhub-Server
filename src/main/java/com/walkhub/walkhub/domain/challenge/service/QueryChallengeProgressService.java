@@ -61,7 +61,7 @@ public class QueryChallengeProgressService {
     }
 
     private QueryChallengeProgressResponse.UserChallengeProgressResponse buildUserChallengeProgressResponse(ChallengeProgressVO vo) {
-        if (vo.getUserId() != null) {
+        if (vo.getUserId() == null) {
             return null;
         }
         return QueryChallengeProgressResponse.UserChallengeProgressResponse.builder()
