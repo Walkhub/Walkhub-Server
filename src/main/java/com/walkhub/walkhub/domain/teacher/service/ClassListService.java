@@ -56,6 +56,7 @@ public class ClassListService {
                         .profileImageUrl(teacher.getProfileImageUrl())
                         .build())
                 .build();
+
     }
 }
 
