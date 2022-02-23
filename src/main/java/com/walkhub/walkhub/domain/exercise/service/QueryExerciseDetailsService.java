@@ -7,6 +7,7 @@ import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerci
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerciseDetailsResponse.ExerciseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ public class QueryExerciseDetailsService {
     private final ExerciseFacade exerciseFacade;
     private final LocationRepository locationRepository;
 
+    @Transactional(readOnly = true)
     public QueryExerciseDetailsResponse execute(Long exerciseId) {
         Exercise exercise = exerciseFacade.getById(exerciseId);
 
