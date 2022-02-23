@@ -32,7 +32,7 @@ public class ClassListService {
                 .map(this::buildClassResponse)
                 .collect(Collectors.toList());
 
-        return new ClassListResponse(school.getAuthCode(), classList);
+        return new ClassListResponse(user.getSchool().getAuthCode(), classList);
     }
 
     private ClassResponse buildClassResponse(User teacher) {
