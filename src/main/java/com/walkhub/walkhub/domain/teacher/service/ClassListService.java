@@ -40,7 +40,7 @@ public class ClassListService {
                 .map(this::buildClassList)
                 .collect(Collectors.toList());
 
-        return new ClassListResponse(classList);
+        return new ClassListResponse(school.getAuthCode(), classList);
     }
 
     private ClassResponse buildClassList(Section section) {
