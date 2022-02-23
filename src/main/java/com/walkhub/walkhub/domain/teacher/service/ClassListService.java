@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.teacher.service;
 
-import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListResponse.ClassResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListResponse.SectionResponse;
@@ -8,7 +7,6 @@ import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListRes
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
-import com.walkhub.walkhub.domain.user.exception.AlreadyJoinedException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.enums.Authority;
 import lombok.RequiredArgsConstructor;
@@ -28,26 +26,25 @@ public class ClassListService {
     @Transactional(readOnly = true)
     public ClassListResponse execute() {
         User user = userFacade.getCurrentUser();
+        List<User> teachers = userRepository.findAllBySchoolAndAuthority(user.getSchool(), Authority.TEACHER);
 
-        if (user.hasSection()) {
-            throw AlreadyJoinedException.EXCEPTION;
-        }
-
-        School school = user.getSchool();
-
-        List<ClassResponse> classList = school.getSections()
-                .stream()
-                .map(this::buildClassList)
+        List<ClassResponse> classList = teachers.stream()
+                .map(this::buildClassResponse)
                 .collect(Collectors.toList());
 
         return new ClassListResponse(classList);
     }
 
-    private ClassResponse buildClassList(Section section) {
-        User teacher = userRepository.findBySectionAndAuthority(section, Authority.TEACHER);
-        Integer userCount = userRepository.findAllBySectionAndAuthority(section, Authority.USER).size();
+    private ClassResponse buildClassResponse(User teacher) {
+        Section section;
+
+        if (teacher.hasSection()) {
+            section = teacher.getSection();
+        } else {
+            section = Section.builder().build();
+        }
+
         return ClassResponse.builder()
-                .userCount(userCount)
                 .section(SectionResponse.builder()
                         .sectionId(section.getId())
                         .grade(section.getGrade())
