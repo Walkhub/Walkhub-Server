@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class QueryExerciseDetailsResponse {
 
-    private final String imageUrl;
+    private final String certifyingShot;
     private final List<ExerciseResponse> exerciseList;
 
     @Getter
