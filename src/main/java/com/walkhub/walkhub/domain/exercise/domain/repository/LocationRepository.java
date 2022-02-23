@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface LocationRepository extends CrudRepository<Location, LocationId> {
 	Location findTop1ByExerciseOrderBySequenceDesc(Exercise exercise);
-	List<Location> findAllByExerciseOrderBySequence(Exercise exercise);
+	List<Location> findAllByExercise(Exercise exercise);
 }

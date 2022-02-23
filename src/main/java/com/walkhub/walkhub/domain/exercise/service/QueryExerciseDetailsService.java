@@ -23,7 +23,7 @@ public class QueryExerciseDetailsService {
     public QueryExerciseDetailsResponse execute(Long exerciseId) {
         Exercise exercise = exerciseFacade.getById(exerciseId);
 
-        List<ExerciseResponse> locations = locationRepository.findAllByExerciseOrderBySequence(exercise)
+        List<ExerciseResponse> locations = locationRepository.findAllByExercise(exercise)
                 .stream()
                 .map(location -> ExerciseResponse.builder()
                         .order(location.getSequence())
