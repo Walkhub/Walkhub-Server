@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ClassListResponse {
 
+    private final String authCode;
     private final List<ClassResponse> classList;
 
     @Getter
