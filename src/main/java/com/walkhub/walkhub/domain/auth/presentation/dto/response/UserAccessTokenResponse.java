@@ -12,6 +12,6 @@ public class UserAccessTokenResponse {
 
     private final String accessToken;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private final ZonedDateTime expiredAt;
 }

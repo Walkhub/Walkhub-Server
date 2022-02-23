@@ -23,7 +23,7 @@ public class QueryNoticeListResponse {
         private final String title;
         private final String content;
 
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private final ZonedDateTime createdAt;
         private final Writer writer;
 
