@@ -16,7 +16,6 @@ public class ClassListResponse {
     @Getter
     @Builder
     public static class ClassResponse {
-        private final Integer userCount;
         private final SectionResponse section;
         private final TeacherResponse teacher;
     }
