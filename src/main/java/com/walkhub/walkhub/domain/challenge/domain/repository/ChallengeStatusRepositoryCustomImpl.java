@@ -1,26 +1,27 @@
 package com.walkhub.walkhub.domain.challenge.domain.repository;
 
-import com.querydsl.core.group.GroupBy;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.*;
+import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsOrder;
+import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsScope;
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
 import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.global.enums.UserScope;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.jpa.JPAExpressions.select;
 import static com.walkhub.walkhub.domain.challenge.domain.QChallenge.challenge;
 import static com.walkhub.walkhub.domain.challenge.domain.QChallengeStatus.challengeStatus;
@@ -31,6 +32,8 @@ import static com.walkhub.walkhub.domain.user.domain.QUser.user;
 
 @RequiredArgsConstructor
 public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepositoryCustom {
+    private static final int PARTICIPANTS_SIZE = 9;
+
     private final JPAQueryFactory queryFactory;
 
     @Override
@@ -67,47 +70,6 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 )
                 .limit(3)
                 .fetch();
-    }
-
-    @Override
-    public List<ChallengeParticipantsVO> queryChallengeParticipantsList(Challenge challenge, SuccessScope successScope, Long page) {
-        final long size = 20L;
-        return queryFactory
-                .selectFrom(user)
-                .join(user.school, school)
-                .leftJoin(user.section, section)
-                .join(user.exerciseAnalyses, exerciseAnalysis)
-                .join(user.challengeStatuses, challengeStatus)
-                .join(challengeStatus.challenge)
-                .on(challengeStatus.challenge.eq(challenge))
-                .where(
-                        successScopeFilter(challenge, successScope),
-                        isChallengeSuccessFilter(challenge),
-                        challengeDateFilter(challenge)
-                )
-                .offset(page * size)
-                .limit(size)
-                .orderBy(user.name.asc(), user.id.asc(), exerciseAnalysis.date.asc())
-                .transform(groupBy(user.name, user.id)
-                        .list(new QChallengeParticipantsVO(
-                                user.id.as("userId"),
-                                user.section.grade,
-                                user.section.classNum,
-                                user.number,
-                                user.name,
-                                user.profileImageUrl,
-                                user.school.name.as("schoolName"),
-                                Expressions.asNumber(select(exerciseAnalysis.count())
-                                        .from(exerciseAnalysis)
-                                        .where(
-                                                exerciseAnalysis.user.eq(user),
-                                                isChallengeSuccessFilter(challenge),
-                                                challengeDateFilter(challenge)
-                                        ))
-                                        .goe(challenge.getSuccessStandard()).as("isSuccess"),
-                                GroupBy.list(exerciseAnalysis.date))
-                        )
-                );
     }
 
     @Override
@@ -150,34 +112,6 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .fetch();
     }
 
-    private BooleanExpression successScopeFilter(Challenge challenge, SuccessScope successScope) {
-        switch (successScope) {
-            case TRUE: {
-                return Expressions.asNumber(select(exerciseAnalysis.count())
-                        .from(exerciseAnalysis)
-                        .where(
-                                exerciseAnalysis.user.eq(user),
-                                isChallengeSuccessFilter(challenge),
-                                challengeDateFilter(challenge)
-                        ))
-                        .goe(challenge.getSuccessStandard());
-            }
-            case FALSE: {
-                return Expressions.asNumber(select(exerciseAnalysis.count())
-                        .from(exerciseAnalysis)
-                        .where(
-                                exerciseAnalysis.user.eq(user),
-                                isChallengeSuccessFilter(challenge),
-                                challengeDateFilter(challenge)
-                        ))
-                        .lt(challenge.getSuccessStandard());
-            }
-            default: {
-                return null;
-            }
-        }
-    }
-
     private BooleanExpression isChallengeSuccessFilter(Challenge challenge) {
         if (challenge.getGoalScope() == GoalScope.DAY) {
             return isChallengeSuccessInDayScope(challenge);
@@ -216,5 +150,95 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
         return exerciseAnalysis.date.goe(challenge.getStartAt())
                 .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
                 .and(exerciseAnalysis.date.loe(challenge.getEndAt()));
+    }
+
+    @Override
+    public List<ChallengeProgressVO> queryChallengeProgress(
+            Challenge challenge,
+            ChallengeParticipantsScope participantsScope,
+            ChallengeParticipantsOrder participantsOrder,
+            SuccessScope successScope,
+            Long page
+    ) {
+        return queryFactory.select(new QChallengeProgressVO(
+                        user.id,
+                        user.name,
+                        section.grade,
+                        section.classNum,
+                        user.number,
+                        school.name,
+                        user.profileImageUrl,
+                        Expressions.asNumber(
+                                select(exerciseAnalysis.walkCount.sum())
+                                        .from(exerciseAnalysis)
+                                        .where(exerciseAnalysis.user.eq(user),
+                                                challengeDateFilter(challenge))
+                        ).intValue(),
+                        getChallengeProgress(challenge).multiply(100).round().longValue(),
+                        exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()),
+                        new CaseBuilder()
+                                .when(exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()))
+                                .then(exerciseAnalysis.date.max())
+                                .otherwise(Expressions.nullExpression())))
+                .from(user)
+                .offset(page == null ? 0 : page * PARTICIPANTS_SIZE)
+                .limit(PARTICIPANTS_SIZE)
+                .leftJoin(user.section, section)
+                .join(user.school, school)
+                .join(user.exerciseAnalyses, exerciseAnalysis)
+                .join(user.challengeStatuses, challengeStatus)
+                .where(userScopeFilter(participantsScope),
+                        isChallengeSuccessFilter(challenge),
+                        challengeDateFilter(challenge),
+                        challengeSuccessFilter(successScope, challenge))
+                .orderBy(challengeParticipantsOrder(participantsOrder))
+                .fetch();
+    }
+
+    private BooleanExpression userScopeFilter(ChallengeParticipantsScope challengeParticipantsScope) {
+        if (challengeParticipantsScope == ChallengeParticipantsScope.STUDENT) {
+            return user.authority.eq(Authority.USER);
+        } else if (challengeParticipantsScope == ChallengeParticipantsScope.TEACHER) {
+            return user.authority.eq(Authority.TEACHER);
+        } else {
+            return null;
+        }
+    }
+
+    private BooleanExpression challengeSuccessFilter(SuccessScope successScope, Challenge challenge) {
+        if (successScope == SuccessScope.TRUE) {
+            return exerciseAnalysis.date.count().goe(challenge.getSuccessStandard());
+        } else if (successScope == SuccessScope.FALSE) {
+            return exerciseAnalysis.date.count().lt(challenge.getSuccessStandard());
+        } else {
+            return null;
+        }
+    }
+
+    private NumberExpression<Long> getChallengeProgress(Challenge challenge) {
+        NumberExpression<Integer> successProgress;
+
+        if (challenge.getGoalScope() == GoalScope.ALL) {
+            if (challenge.getGoalType() == GoalType.DISTANCE) {
+                successProgress = exerciseAnalysis.distance.sum();
+            } else {
+                successProgress = exerciseAnalysis.walkCount.sum();
+            }
+            return successProgress.divide(challenge.getGoal()).longValue();
+        } else {
+            return exerciseAnalysis.date.count().divide(challenge.getSuccessStandard());
+        }
+    }
+
+    private OrderSpecifier<?> challengeParticipantsOrder(ChallengeParticipantsOrder challengeParticipantsOrder) {
+        if (challengeParticipantsOrder == ChallengeParticipantsOrder.SUCCESS_DATE) {
+            return new OrderSpecifier<>(Order.DESC, exerciseAnalysis.date.max());
+        } else if (challengeParticipantsOrder == ChallengeParticipantsOrder.PROGRESS) {
+            return new OrderSpecifier<>(Order.DESC, exerciseAnalysis.walkCount.sum().divide(exerciseAnalysis.date.count()));
+        } else if (challengeParticipantsOrder == ChallengeParticipantsOrder.SCHOOL_NAME) {
+            return new OrderSpecifier<>(Order.ASC, school.name);
+        } else {
+            return new OrderSpecifier<>(Order.ASC, user.name);
+        }
     }
 }
