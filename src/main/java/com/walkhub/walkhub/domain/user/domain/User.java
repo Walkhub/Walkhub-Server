@@ -138,7 +138,6 @@ public class User extends BaseTimeEntity {
     public void updateUser(UpdateUserInfoRequest request) {
         this.name = request.getName();
         this.profileImageUrl = request.getProfileImageUrl();
-        this.sex = request.getSex();
     }
 
     public void setBadge(Badge badge) {
