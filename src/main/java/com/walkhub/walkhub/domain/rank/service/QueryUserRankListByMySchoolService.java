@@ -32,7 +32,7 @@ public class QueryUserRankListByMySchoolService {
 
         if (dateType.equals(DateType.DAY)) {
             userRankListResponse = buildDayRankResponse(user);
-        } else if (scope.equals(UserRankScope.ALL)) {
+        } else if (scope.equals(UserRankScope.SCHOOL)) {
             userRankListResponse = buildWeekOrMonthRankResponse(user, null, null, dateType, date);
         } else if (scope.equals(UserRankScope.CLASS)) {
             userRankListResponse = buildWeekOrMonthRankResponse(user, user.getSection().getGrade(), user.getSection().getClassNum(), dateType, date);
@@ -82,8 +82,6 @@ public class QueryUserRankListByMySchoolService {
         return UserRankListResponse.UserRankResponse.builder()
                 .userId(user.getId())
                 .name(user.getName())
-                .grade(user.getSection().getGrade())
-                .classNum(user.getSection().getClassNum())
                 .ranking(exerciseAnalysisDto.getRanking())
                 .profileImageUrl(user.getProfileImageUrl())
                 .walkCount(exerciseAnalysisDto.getWalkCount())
@@ -96,8 +94,6 @@ public class QueryUserRankListByMySchoolService {
         return UserRankListResponse.UserRankResponse.builder()
                 .userId(user.getId())
                 .name(user.getName())
-                .grade(user.getSection().getGrade())
-                .classNum(user.getSection().getClassNum())
                 .ranking(dayRank.getRanking())
                 .profileImageUrl(user.getProfileImageUrl())
                 .walkCount(dayRank.getWalkCount())
@@ -113,8 +109,6 @@ public class QueryUserRankListByMySchoolService {
         return UserRankListResponse.UserRankResponse.builder()
                 .userId(myRank.getUserId())
                 .name(myRank.getName())
-                .grade(myRank.getGrade())
-                .classNum(myRank.getClassNum())
                 .ranking(myRank.getRanking())
                 .profileImageUrl(myRank.getProfileImageUrl())
                 .walkCount(myRank.getWalkCount())
