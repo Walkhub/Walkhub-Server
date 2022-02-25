@@ -7,7 +7,6 @@ import com.walkhub.walkhub.domain.rank.domain.repository.vo.UserRankVO;
 import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
 import com.walkhub.walkhub.domain.rank.facade.UserRankFacade;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
-import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.enums.DateType;
@@ -110,7 +109,7 @@ public class QueryUserRankListByMySchoolService {
         if (myRank == null) {
             return null;
         }
-        
+
         return UserRankListResponse.UserRankResponse.builder()
                 .userId(myRank.getUserId())
                 .name(myRank.getName())
