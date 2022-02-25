@@ -1,5 +1,7 @@
 package com.walkhub.walkhub.domain.rank.domain;
 
+import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
+import com.walkhub.walkhub.global.enums.DateType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,10 +25,12 @@ public class UserRank {
     private LocalDate createdAt;
 
     @Id
-    private String dateType;
+    @Enumerated(EnumType.STRING)
+    private DateType dateType;
 
     @Id
-    private String scopeType;
+    @Enumerated(EnumType.STRING)
+    private UserRankScope scopeType;
 
     @Column(length = 20, nullable = false)
     private String name;
