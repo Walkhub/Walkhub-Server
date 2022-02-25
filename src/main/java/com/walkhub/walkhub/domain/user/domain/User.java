@@ -83,6 +83,7 @@ public class User extends BaseTimeEntity {
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Setter
     private Sex sex;
 
     @OneToOne(fetch = FetchType.LAZY)
