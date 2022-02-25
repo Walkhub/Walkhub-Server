@@ -21,4 +21,20 @@ public final class RankJobConstant {
     public static final String SELECT_PROCEDURE_NAME = "SELECT_SCHOOL_RANK_BY_DATETYPE";
     public static final String SQL_SAVE_SCHOOL_RANK = "CALL SAVE_SCHOOL_RANK(:schoolId, :createdAt, :dateType, :name, :logoImageUrl, :userCount,:walkCount, :ranking)";
 
+    // user rank
+    public static final String USER_RANK_JOB = "userRankJob";
+    public static final String WEEK_USER_SCHOOL_RANK_STEP = "weekUserSchoolRankStep";
+    public static final String MONTH_USER_SCHOOL_RANK_STEP = "monthUserSchoolRankStep";
+    public static final String WEEK_USER_CLASS_RANK_STEP = "weekUserClassRankStep";
+    public static final String MONTH_USER_CLASS_RANK_STEP = "monthUserClassRankStep";
+
+    public static final String WEEK_USER_SCHOOL_RANK_READER = "weekUserSchoolRankReader";
+    public static final String MONTH_USER_SCHOOL_RANK_READER = "monthUserSchoolRankReader";
+    public static final String WEEK_USER_CLASS_RANK_READER = "weekUserClassRankReader";
+    public static final String MONTH_USER_CLASS_RANK_READER = "monthUserClassRankReader";
+
+    public static final String SELECT_BY_SCHOOL_PROCEDURE = "SELECT_USER_RANK_BY_SCHOOL";
+    public static final String SELECT_BY_CLASS_PROCEDURE = "SELECT_USER_RANK_BY_CLASS";
+    public static final String CALL_SAVE_PROCEDURE = "CALL SAVE_USER_RANK(:userId, :createdAt, :dateType, :scopeType, :schoolId, :name, :grade, :classNum, :profileImageUrl, :ranking, :walkCount)";
+
 }

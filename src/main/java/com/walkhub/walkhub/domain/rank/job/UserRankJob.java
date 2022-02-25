@@ -23,11 +23,11 @@ import javax.sql.DataSource;
 import java.sql.Types;
 import java.time.LocalDate;
 
+import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.*;
+
 @Configuration
 @RequiredArgsConstructor
 public class UserRankJob {
-
-    private static final Integer CHUNK_SIZE = 100;
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
@@ -35,89 +35,89 @@ public class UserRankJob {
 
     @Bean
     public Job userJob() {
-        return jobBuilderFactory.get("userRankJob")
-                .start(weeklyUserSchoolRankStep(null))
-                .next(monthlyUserSchoolRankStep(null))
-                .next(weeklyUserClassRankStep(null))
-                .next(monthlyUserClassRankStep(null))
+        return jobBuilderFactory.get(USER_RANK_JOB)
+                .start(weekUserSchoolRankStep(null))
+                .next(monthUserSchoolRankStep(null))
+                .next(weekUserClassRankStep(null))
+                .next(monthUserClassRankStep(null))
                 .build();
     }
 
     @Bean
     @JobScope
-    public Step weeklyUserSchoolRankStep(@Value("#{jobParameters[jobKey]}") String jobKey) {
-        return stepBuilderFactory.get("weeklyUserSchoolRankStep")
+    public Step weekUserSchoolRankStep(@Value("#{jobParameters[jobKey]}") String jobKey) {
+        return stepBuilderFactory.get(WEEK_USER_SCHOOL_RANK_STEP)
                 .<UserRankInfo, UserRank>chunk(CHUNK_SIZE)
-                .reader(weeklyUserSchoolRankReader(null))
-                .processor(weeklyUserSchoolRankProcessor(null))
+                .reader(weekUserSchoolRankReader(null))
+                .processor(weekUserSchoolRankProcessor(null))
                 .writer(userRankWriter(null))
                 .build();
     }
 
     @Bean
     @JobScope
-    public Step monthlyUserSchoolRankStep(@Value("#{jobParameters[jobKey]}") String jobKey) {
-        return stepBuilderFactory.get("monthlyUserSchoolRankStep")
+    public Step monthUserSchoolRankStep(@Value("#{jobParameters[jobKey]}") String jobKey) {
+        return stepBuilderFactory.get(MONTH_USER_SCHOOL_RANK_STEP)
                 .<UserRankInfo, UserRank>chunk(CHUNK_SIZE)
-                .reader(monthlyUserSchoolRankReader(null))
-                .processor(monthlyUserSchoolRankProcessor(null))
+                .reader(monthUserSchoolRankReader(null))
+                .processor(monthUserSchoolRankProcessor(null))
                 .writer(userRankWriter(null))
                 .build();
     }
 
     @Bean
     @JobScope
-    public Step weeklyUserClassRankStep(@Value("#{jobParameters[jobKey]}") String jobKey) {
-        return stepBuilderFactory.get("weeklyUserClassRankStep")
+    public Step weekUserClassRankStep(@Value("#{jobParameters[jobKey]}") String jobKey) {
+        return stepBuilderFactory.get(WEEK_USER_CLASS_RANK_STEP)
                 .<UserRankInfo, UserRank>chunk(CHUNK_SIZE)
-                .reader(weeklyUserClassRankReader(null))
-                .processor(weeklyUserClassRankProcessor(null))
+                .reader(weekUserClassRankReader(null))
+                .processor(weekUserClassRankProcessor(null))
                 .writer(userRankWriter(null))
                 .build();
     }
 
     @Bean
     @JobScope
-    public Step monthlyUserClassRankStep(@Value("#{jobParameters[jobKey]}") String jobKey) {
-        return stepBuilderFactory.get("monthlyUserClassRankStep")
+    public Step monthUserClassRankStep(@Value("#{jobParameters[jobKey]}") String jobKey) {
+        return stepBuilderFactory.get(MONTH_USER_CLASS_RANK_STEP)
                 .<UserRankInfo, UserRank>chunk(CHUNK_SIZE)
-                .reader(monthlyUserClassRankReader(null))
-                .processor(monthlyUserClassRankProcessor(null))
+                .reader(monthUserClassRankReader(null))
+                .processor(monthUserClassRankProcessor(null))
                 .writer(userRankWriter(null))
                 .build();
     }
 
     @Bean
     @StepScope
-    public StoredProcedureItemReader<UserRankInfo> weeklyUserSchoolRankReader(@Value("#{jobParameters[stepKey]}") Integer type) {
-        return callProcedure("weeklyUserSchoolRankReader", "SELECT_USER_RANK_BY_SCHOOL", 7);
+    public StoredProcedureItemReader<UserRankInfo> weekUserSchoolRankReader(@Value("#{jobParameters[stepKey]}") Integer type) {
+        return callProcedure(WEEK_USER_SCHOOL_RANK_READER, SELECT_BY_SCHOOL_PROCEDURE, 7);
     }
 
     @Bean
     @StepScope
-    public StoredProcedureItemReader<UserRankInfo> monthlyUserSchoolRankReader(@Value("#{jobParameters[stepKey]}") Integer type) {
-        return callProcedure("monthlyUserSchoolRankReader", "SELECT_USER_RANK_BY_SCHOOL", 28);
+    public StoredProcedureItemReader<UserRankInfo> monthUserSchoolRankReader(@Value("#{jobParameters[stepKey]}") Integer type) {
+        return callProcedure(MONTH_USER_SCHOOL_RANK_READER, SELECT_BY_SCHOOL_PROCEDURE, 28);
     }
 
     @Bean
     @StepScope
-    public StoredProcedureItemReader<UserRankInfo> weeklyUserClassRankReader(@Value("#{jobParameters[stepKey]}") Integer type) {
-        return callProcedure("weeklyUserClassRankReader", "SELECT_USER_RANK_BY_CLASS", 7);
+    public StoredProcedureItemReader<UserRankInfo> weekUserClassRankReader(@Value("#{jobParameters[stepKey]}") Integer type) {
+        return callProcedure(WEEK_USER_CLASS_RANK_READER, SELECT_BY_CLASS_PROCEDURE, 7);
     }
 
     @Bean
     @StepScope
-    public StoredProcedureItemReader<UserRankInfo> monthlyUserClassRankReader(@Value("#{jobParameters[stepKey]}") Integer type) {
-        return callProcedure("monthlyUserClassRankReader", "SELECT_USER_RANK_BY_CLASS", 28);
+    public StoredProcedureItemReader<UserRankInfo> monthUserClassRankReader(@Value("#{jobParameters[stepKey]}") Integer type) {
+        return callProcedure(MONTH_USER_CLASS_RANK_READER, SELECT_BY_CLASS_PROCEDURE, 28);
     }
 
     @Bean
     @StepScope
-    public ItemProcessor<UserRankInfo, UserRank> weeklyUserSchoolRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
+    public ItemProcessor<UserRankInfo, UserRank> weekUserSchoolRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
         return rankInfo -> UserRank.builder()
                 .userId(rankInfo.getUserId())
                 .createdAt(LocalDate.now())
-                .dateType("WEEK")
+                .dateType(DATE_WEEK)
                 .scopeType("SCHOOL")
                 .schoolId(rankInfo.getSchoolId())
                 .name(rankInfo.getName())
@@ -131,11 +131,11 @@ public class UserRankJob {
 
     @Bean
     @StepScope
-    public ItemProcessor<UserRankInfo, UserRank> monthlyUserSchoolRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
+    public ItemProcessor<UserRankInfo, UserRank> monthUserSchoolRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
         return rankInfo -> UserRank.builder()
                 .userId(rankInfo.getUserId())
                 .createdAt(LocalDate.now())
-                .dateType("MONTH")
+                .dateType(DATE_MONTH)
                 .scopeType("SCHOOL")
                 .schoolId(rankInfo.getSchoolId())
                 .name(rankInfo.getName())
@@ -149,11 +149,11 @@ public class UserRankJob {
 
     @Bean
     @StepScope
-    public ItemProcessor<UserRankInfo, UserRank> weeklyUserClassRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
+    public ItemProcessor<UserRankInfo, UserRank> weekUserClassRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
         return rankInfo -> UserRank.builder()
                 .userId(rankInfo.getUserId())
                 .createdAt(LocalDate.now())
-                .dateType("WEEK")
+                .dateType(DATE_WEEK)
                 .scopeType("CLASS")
                 .schoolId(rankInfo.getSchoolId())
                 .name(rankInfo.getName())
@@ -167,11 +167,11 @@ public class UserRankJob {
 
     @Bean
     @StepScope
-    public ItemProcessor<UserRankInfo, UserRank> monthlyUserClassRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
+    public ItemProcessor<UserRankInfo, UserRank> monthUserClassRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
         return rankInfo -> UserRank.builder()
                 .userId(rankInfo.getUserId())
                 .createdAt(LocalDate.now())
-                .dateType("MONTH")
+                .dateType(DATE_MONTH)
                 .scopeType("CLASS")
                 .schoolId(rankInfo.getSchoolId())
                 .name(rankInfo.getName())
@@ -188,7 +188,7 @@ public class UserRankJob {
     public JdbcBatchItemWriter<UserRank> userRankWriter(@Value("#{jobParameters[jobKey]}") String jobKey) {
         JdbcBatchItemWriter<UserRank> writer = new JdbcBatchItemWriterBuilder<UserRank>()
                 .dataSource(dataSource)
-                .sql("CALL SAVE_USER_RANK(:userId, :createdAt, :dateType, :scopeType, :schoolId, :name, :grade, :classNum, :profileImageUrl, :ranking, :walkCount)")
+                .sql(CALL_SAVE_PROCEDURE)
                 .beanMapped()
                 .build();
 
