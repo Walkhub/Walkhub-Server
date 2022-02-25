@@ -19,8 +19,6 @@ public class UserRankListResponse {
     public static class UserRankResponse {
         private final Long userId;
         private final String name;
-        private final Integer grade;
-        private final Integer classNum;
         private final Integer ranking;
         private final String profileImageUrl;
         private final Integer walkCount;
