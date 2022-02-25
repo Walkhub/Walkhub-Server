@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
@@ -18,5 +19,6 @@ public class InputHealthInformationRequest {
     @Positive(message = "weight는 양수여야 합니다.")
     private Integer weight;
 
+    @NotNull
     private Sex sex;
 }
