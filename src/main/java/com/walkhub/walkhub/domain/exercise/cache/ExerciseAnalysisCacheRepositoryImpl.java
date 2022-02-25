@@ -25,8 +25,10 @@ public class ExerciseAnalysisCacheRepositoryImpl implements ExerciseAnalysisCach
 
     @Override
     public ExerciseAnalysisDto getUserTodayRank(Long schoolId, Long userId) {
-        Double doubleWalkCount = Optional.ofNullable(zSetOperations.score(getExerciseAnalysisKey(schoolId), userId))
-                .orElseThrow(() -> RedisTransactionException.EXCEPTION);
+        Double doubleWalkCount = zSetOperations.score(getExerciseAnalysisKey(schoolId), userId);
+        if (doubleWalkCount == null) {
+            return null;
+        }
 
         Integer walkCount = doubleWalkCount.intValue();
         Long ranking = zSetOperations.rank(getExerciseAnalysisKey(schoolId), userId);
@@ -44,10 +46,11 @@ public class ExerciseAnalysisCacheRepositoryImpl implements ExerciseAnalysisCach
 
     @Override
     public List<ExerciseAnalysisDto> getUserIdsByRankTop100(Long schoolId) {
-        Set<ZSetOperations.TypedTuple<Object>> rankUserIds = Optional.ofNullable(
-                        zSetOperations.reverseRangeWithScores(getExerciseAnalysisKey(schoolId), 0, 99))
-                .orElseThrow(() -> RedisTransactionException.EXCEPTION);
+        Set<ZSetOperations.TypedTuple<Object>> rankUserIds = zSetOperations.reverseRangeWithScores(getExerciseAnalysisKey(schoolId), 0, 99);
         int rank = 1;
+        if (rankUserIds == null) {
+            return Collections.emptyList();
+        }
 
         List<ExerciseAnalysisDto> exerciseAnalysisDtos = new ArrayList<>(rankUserIds.size());
 
