@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.rank.job;
 
-import com.walkhub.walkhub.domain.rank.domain.*;
 import com.walkhub.walkhub.domain.rank.domain.repository.vo.UserRankWriterVO;
 import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankInfo;

@@ -1,7 +1,5 @@
 package com.walkhub.walkhub.domain.rank.domain.repository.vo;
 
-import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
-import com.walkhub.walkhub.global.enums.DateType;
 import lombok.Builder;
 import lombok.Getter;
 
