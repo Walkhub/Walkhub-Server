@@ -59,7 +59,7 @@ public class Exercise extends BaseTimeEntity {
     public Exercise(User user, Integer goal, GoalType goalType) {
         this.user = user;
         this.goalType = goalType;
-        this.goal = goal;
+        if(goal != null) this.goal = goal;
         this.isExercising = true;
     }
 
