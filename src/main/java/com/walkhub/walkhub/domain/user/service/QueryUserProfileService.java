@@ -22,13 +22,11 @@ public class QueryUserProfileService {
         Badge titleBadge = user.getBadge();
 		CalorieLevel level = user.getMaxLevel();
 
-		return QueryUserProfileResponse.builder()
+		QueryUserProfileResponse response = QueryUserProfileResponse.builder()
 			.userId(user.getId())
 			.name(user.getName())
 			.profileImageUrl(user.getProfileImageUrl())
 			.schoolName(user.getSchool().getName())
-			.grade(user.getSection().getGrade())
-			.classNum(user.getSection().getClassNum())
 			.titleBadge(TitleBadge.builder()
 				.id(titleBadge.getId())
 				.name(titleBadge.getName())
@@ -39,5 +37,9 @@ public class QueryUserProfileService {
 				.name(level.getFoodName())
 				.build())
 			.build();
+
+		if (user.hasSection()) response.setSection(user.getSection());
+
+		return response;
 	}
 }

@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.user.presentation.dto.response;
 
+import com.walkhub.walkhub.domain.user.domain.Section;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,8 +12,8 @@ public class QueryUserProfileResponse {
 	private final String name;
 	private final String profileImageUrl;
 	private final String schoolName;
-	private final Integer grade;
-	private final Integer classNum;
+	private Integer grade;
+	private Integer classNum;
 	private final TitleBadge titleBadge;
 	private final Level level;
 
@@ -30,4 +31,9 @@ public class QueryUserProfileResponse {
 		private final String name;
 		private final String imageUrl;
 	}
+
+	public void setSection(Section section) {
+		this.grade = section.getGrade();
+		this.classNum=section.getClassNum();
+    }
 }
