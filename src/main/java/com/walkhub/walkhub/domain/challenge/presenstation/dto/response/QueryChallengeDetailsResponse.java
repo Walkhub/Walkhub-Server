@@ -25,8 +25,8 @@ public class QueryChallengeDetailsResponse {
 	private final Long participantCount;
 	private final Boolean isMine;
 	private final Boolean isParticipated;
-	private final Writer writer;
 	private final Integer successStandard;
+	private final Writer writer;
 
 	@Getter
 	@Builder
