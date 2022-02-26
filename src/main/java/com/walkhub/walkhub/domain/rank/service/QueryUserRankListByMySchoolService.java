@@ -32,7 +32,7 @@ public class QueryUserRankListByMySchoolService {
 
         if (dateType.equals(DateType.DAY)) {
             userRankListResponse = buildDayRankResponse(user);
-        } else if (scope.equals(UserRankScope.ALL)) {
+        } else if (scope.equals(UserRankScope.SCHOOL)) {
             userRankListResponse = buildWeekOrMonthRankResponse(user, null, null, dateType, date);
         } else if (scope.equals(UserRankScope.CLASS)) {
             userRankListResponse = buildWeekOrMonthRankResponse(user, user.getSection().getGrade(), user.getSection().getClassNum(), dateType, date);

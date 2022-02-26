@@ -4,6 +4,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.rank.domain.repository.vo.QUserRankVO;
 import com.walkhub.walkhub.domain.rank.domain.repository.vo.UserRankVO;
+import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
 import com.walkhub.walkhub.global.enums.DateType;
 import lombok.RequiredArgsConstructor;
 
@@ -74,15 +75,15 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
     }
 
     private BooleanExpression classNumEq(Integer classNum) {
-        return classNum != null ? userRank.scopeType.eq("CLASS").and(userRank.classNum.eq(classNum)) : userRank.scopeType.eq("SCHOOL");
+        return classNum != null ? userRank.scopeType.eq(UserRankScope.CLASS).and(userRank.classNum.eq(classNum)) : userRank.scopeType.eq(UserRankScope.SCHOOL);
     }
 
     private BooleanExpression dateTypeEq(DateType dateType) {
         switch (dateType) {
             case WEEK:
-                return userRank.dateType.eq("WEEK");
+                return userRank.dateType.eq(DateType.WEEK);
             case MONTH:
-                return userRank.dateType.eq("MONTH");
+                return userRank.dateType.eq(DateType.MONTH);
             default:
                 return null;
         }
