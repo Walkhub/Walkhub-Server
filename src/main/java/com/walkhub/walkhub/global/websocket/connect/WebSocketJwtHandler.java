@@ -6,6 +6,8 @@ import com.corundumstudio.socketio.annotation.OnDisconnect;
 import com.walkhub.walkhub.global.security.jwt.JwtTokenProvider;
 import com.walkhub.walkhub.global.websocket.property.ClientProperty;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +17,8 @@ import java.util.concurrent.ConcurrentMap;
 @RequiredArgsConstructor
 @RestController
 public class WebSocketJwtHandler {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -26,11 +30,13 @@ public class WebSocketJwtHandler {
         Authentication authentication = jwtTokenProvider.authentication(token);
         socketIOClientMap.put(authentication.getName(), client);
         client.set(ClientProperty.USER_KEY, authentication.getName());
+        logger.info("Connected : " + client.getSessionId() + ", " + authentication.getName());
     }
 
     @OnDisconnect
     public void onDisconnect(SocketIOClient client) {
         socketIOClientMap.remove(client.get(ClientProperty.USER_KEY).toString());
+        logger.info("DisConnected : " + client.getSessionId());
     }
 
 }
