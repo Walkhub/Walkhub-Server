@@ -24,8 +24,6 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
                 .select(new QUserRankVO(
                         userRank.userId,
                         userRank.name,
-                        userRank.grade,
-                        userRank.classNum,
                         userRank.ranking,
                         userRank.profileImageUrl,
                         userRank.walkCount
@@ -46,8 +44,6 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
                 .select(new QUserRankVO(
                         userRank.userId,
                         userRank.name,
-                        userRank.grade,
-                        userRank.classNum,
                         userRank.ranking,
                         userRank.profileImageUrl,
                         userRank.walkCount
