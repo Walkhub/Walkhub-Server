@@ -12,8 +12,8 @@ public class QueryUserProfileResponse {
 	private final String name;
 	private final String profileImageUrl;
 	private final String schoolName;
-	private Integer grade;
-	private Integer classNum;
+	private final Integer grade;
+	private final Integer classNum;
 	private final TitleBadge titleBadge;
 	private final Level level;
 
@@ -31,9 +31,4 @@ public class QueryUserProfileResponse {
 		private final String name;
 		private final String imageUrl;
 	}
-
-	public void setSection(Section section) {
-		this.grade = section.getGrade();
-		this.classNum=section.getClassNum();
-    }
 }
