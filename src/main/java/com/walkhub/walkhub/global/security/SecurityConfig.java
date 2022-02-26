@@ -92,7 +92,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/ranks/schools/search").authenticated()
                 .antMatchers(HttpMethod.GET, "/ranks/users/{school-id}").authenticated()
                 .antMatchers(HttpMethod.GET, "/ranks/users/my-school").authenticated()
-                .antMatchers(HttpMethod.GET, "/ranks/users/search").authenticated()
+                .antMatchers(HttpMethod.GET, "/ranks/users/search/{school-id}").authenticated()
 
                 // challenges
                 .antMatchers(HttpMethod.POST, "/challenges").hasAnyAuthority("TEACHER", "ROOT", "SU")
