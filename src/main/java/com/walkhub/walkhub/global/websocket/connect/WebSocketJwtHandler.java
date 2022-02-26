@@ -30,13 +30,13 @@ public class WebSocketJwtHandler {
         Authentication authentication = jwtTokenProvider.authentication(token);
         socketIOClientMap.put(authentication.getName(), client);
         client.set(ClientProperty.USER_KEY, authentication.getName());
-        logger.info("Connected : " + client.getSessionId() + ", " + authentication.getName());
+        logger.info(String.format("Connected : %s", client.getSessionId()));
     }
 
     @OnDisconnect
     public void onDisconnect(SocketIOClient client) {
         socketIOClientMap.remove(client.get(ClientProperty.USER_KEY).toString());
-        logger.info("DisConnected : " + client.getSessionId());
+        logger.info(String.format("DisConnected : %s", client.getSessionId()));
     }
 
 }
