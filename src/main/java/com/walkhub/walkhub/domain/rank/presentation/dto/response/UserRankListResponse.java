@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 public class UserRankListResponse {
 
-    private final UserRankResponse myRank;
+    private final UserRankResponse myRanking;
     private final List<UserRankResponse> rankList;
 
     @Getter

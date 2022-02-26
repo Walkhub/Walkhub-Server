@@ -53,7 +53,7 @@ public class QueryUserRankListByMySchoolService {
         }
 
         return UserRankListResponse.builder()
-                .myRank(myRank)
+                .myRanking(myRank)
                 .rankList(userRankList)
                 .build();
     }
@@ -68,7 +68,7 @@ public class QueryUserRankListByMySchoolService {
         userRankList = userRankFacade.buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
 
         return UserRankListResponse.builder()
-                .myRank(myRank)
+                .myRanking(myRank)
                 .rankList(userRankList)
                 .build();
     }
