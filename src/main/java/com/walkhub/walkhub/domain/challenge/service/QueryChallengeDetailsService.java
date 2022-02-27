@@ -48,6 +48,7 @@ public class QueryChallengeDetailsService {
 			.participantCount((long) challenge.getChallengeStatuses().size())
 			.isMine(isMine)
 			.isParticipated(user.equals(writer))
+			.successStandard(challenge.getSuccessStandard())
 			.writer(Writer.builder()
 				.userId(writer.getId())
 				.name(writer.getName())
