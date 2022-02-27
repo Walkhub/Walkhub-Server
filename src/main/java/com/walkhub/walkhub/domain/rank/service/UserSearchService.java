@@ -5,6 +5,7 @@ import com.walkhub.walkhub.domain.exercise.cache.ExerciseAnalysisDto;
 import com.walkhub.walkhub.domain.rank.domain.UserRank;
 import com.walkhub.walkhub.domain.rank.domain.repository.UserRankRepository;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListResponse;
+import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListResponse.UserSearchResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.global.enums.DateType;
@@ -25,7 +26,7 @@ public class UserSearchService {
 
     @Transactional(readOnly = true)
     public UserListResponse execute(Long schoolId, String name, DateType dateType) {
-        List<UserListResponse.UserSearchResponse> result;
+        List<UserSearchResponse> result;
 
         if (DateType.DAY.equals(dateType)) {
             result = userRepository.findAllBySchoolIdAndNameContaining(schoolId, name)
@@ -42,22 +43,25 @@ public class UserSearchService {
         return new UserListResponse(result);
     }
 
-    private UserListResponse.UserSearchResponse buildDayUserSearchResponse(User user) {
-        ExerciseAnalysisDto exerciseAnalysisDto = exerciseAnalysisCacheRepository.getUserTodayRank(user.getSchool().getId(), user.getId());
+    private UserSearchResponse buildDayUserSearchResponse(User user) {
+        ExerciseAnalysisDto exerciseAnalysisDto =
+                exerciseAnalysisCacheRepository.getUserTodayRank(user.getSchool().getId(), user.getId());
 
-        return UserListResponse.UserSearchResponse.builder()
+        ExerciseAnalysisDto exerciseAnalysis = exerciseAnalysisDto == null ? ExerciseAnalysisDto.builder().build() : exerciseAnalysisDto;
+
+        return UserSearchResponse.builder()
                 .userId(user.getId())
                 .name(user.getName())
-                .ranking(exerciseAnalysisDto.getRanking())
+                .ranking(exerciseAnalysis.getRanking())
                 .grade(user.getSection().getGrade())
                 .classNum(user.getSection().getClassNum())
                 .profileImageUrl(user.getProfileImageUrl())
-                .walkCount(exerciseAnalysisDto.getWalkCount())
+                .walkCount(exerciseAnalysis.getWalkCount())
                 .build();
     }
 
-    private UserListResponse.UserSearchResponse buildWeekOrMonthUserSearchResponse(UserRank userRank) {
-        return UserListResponse.UserSearchResponse.builder()
+    private UserSearchResponse buildWeekOrMonthUserSearchResponse(UserRank userRank) {
+        return UserSearchResponse.builder()
                 .userId(userRank.getUserId())
                 .name(userRank.getName())
                 .ranking(userRank.getRanking())
