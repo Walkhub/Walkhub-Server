@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.user.presentation.dto.response;
 
-import com.walkhub.walkhub.domain.user.domain.Section;
 import lombok.Builder;
 import lombok.Getter;
 
