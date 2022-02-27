@@ -112,6 +112,40 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .fetch();
     }
 
+    private BooleanExpression isChallengeSuccessFilter(Challenge challenge) {
+        if (challenge.getGoalScope() == GoalScope.DAY) {
+            return isChallengeSuccessInDayScope(challenge);
+        }
+
+        return isChallengeSuccessInAllScope(challenge);
+    }
+
+    private BooleanExpression isChallengeSuccessInDayScope(Challenge challenge) {
+        NumberPath<Integer> exerciseAmount = exerciseAnalysis.distance;
+
+        if (challenge.getGoalType() == GoalType.WALK) {
+            exerciseAmount = exerciseAnalysis.walkCount;
+        }
+
+        return exerciseAmount.goe(challenge.getGoal());
+    }
+
+    private BooleanExpression isChallengeSuccessInAllScope(Challenge challenge) {
+        NumberPath<Integer> exerciseAmount = exerciseAnalysis.distance;
+
+        if (challenge.getGoalType() == GoalType.WALK) {
+            exerciseAmount = exerciseAnalysis.walkCount;
+        }
+
+        return JPAExpressions.select(exerciseAmount.sum())
+                .from(exerciseAnalysis)
+                .where(
+                        exerciseAnalysis.user.eq(user),
+                        challengeDateFilter(challenge)
+                )
+                .goe(challenge.getGoal());
+    }
+
     private BooleanExpression challengeDateFilter(Challenge challenge) {
         return exerciseAnalysis.date.goe(challenge.getStartAt())
                 .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
@@ -151,13 +185,13 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .limit(PARTICIPANTS_SIZE)
                 .leftJoin(user.section, section)
                 .join(user.school, school)
+                .join(user.exerciseAnalyses, exerciseAnalysis)
                 .join(user.challengeStatuses, challengeStatus)
-                .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
-                .on(challengeDateFilter(challenge))
-                .where(userScopeFilter(participantsScope))
+                .where(userScopeFilter(participantsScope),
+                        isChallengeSuccessFilter(challenge),
+                        challengeDateFilter(challenge),
+                        challengeSuccessFilter(successScope, challenge))
                 .orderBy(challengeParticipantsOrder(participantsOrder))
-                .having(challengeSuccessFilter(successScope, challenge))
-                .groupBy(user.id)
                 .fetch();
     }
 
