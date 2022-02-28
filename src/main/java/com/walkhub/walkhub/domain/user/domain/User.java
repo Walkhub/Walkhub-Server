@@ -188,4 +188,8 @@ public class User extends BaseTimeEntity {
         this.section = null;
     }
 
+    public void updateIsMeasuring(Boolean isMeasuring) {
+        this.isMeasuring = isMeasuring;
+    }
+
 }
