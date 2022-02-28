@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Builder
-public class UserRankListResponse {
+public class OurSchoolUserRankListResponse {
 
     private final UserRankResponse myRanking;
     private final List<UserRankResponse> rankList;
