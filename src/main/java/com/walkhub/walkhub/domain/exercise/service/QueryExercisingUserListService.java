@@ -8,6 +8,7 @@ import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ public class QueryExercisingUserListService {
     private final UserFacade userFacade;
     private final ExerciseRepository exerciseRepository;
 
+    @Transactional(readOnly = true)
     public QueryExercisingUserListResponse execute() {
         User user = userFacade.getCurrentUser();
 
