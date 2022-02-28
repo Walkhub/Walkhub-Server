@@ -27,7 +27,7 @@ public class DeleteClassService {
 
         User user = userFacade.getCurrentUser();
 
-        if (user.getAuthority() != Authority.TEACHER || !user.getSection().equals(section)) {
+        if (!user.getSection().equals(section)) {
             throw InvalidRoleException.EXCEPTION;
         }
 
