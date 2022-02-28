@@ -6,7 +6,6 @@ import com.walkhub.walkhub.domain.user.domain.repository.SectionRepository;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.facade.SectionFacade;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
-import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.global.exception.InvalidRoleException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
