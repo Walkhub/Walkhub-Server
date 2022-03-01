@@ -10,7 +10,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 
@@ -63,11 +72,12 @@ public class Exercise extends BaseTimeEntity {
         this.isExercising = true;
     }
 
-    public void closeExercise(Integer walkCount, Integer distance, Double calorie) {
+    public void closeExercise(Integer walkCount, Integer distance, Double calorie, String imageUrl) {
         this.walkCount = walkCount;
         this.distance = distance;
         this.calorie = calorie;
         this.endAt = ZonedDateTime.now();
+        this.imageUrl = imageUrl;
         this.isExercising = false;
     }
 
