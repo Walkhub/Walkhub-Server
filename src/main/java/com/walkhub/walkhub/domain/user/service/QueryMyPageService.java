@@ -25,21 +25,22 @@ public class QueryMyPageService {
         Section section = user.hasSection() ? user.getSection() : Section.builder().build();
 
         return QueryUserProfileResponse.builder()
-            .userId(user.getId())
-            .name(user.getName())
-            .profileImageUrl(user.getProfileImageUrl())
-            .schoolName(user.getSchool().getName())
-            .classNum(section.getClassNum())
-            .grade(section.getGrade())
-            .titleBadge(TitleBadge.builder()
-                .id(titleBadge.getId())
-                .name(titleBadge.getName())
-                .imageUrl(titleBadge.getImageUrl())
-                .build())
-            .level(Level.builder()
-                .imageUrl(level.getFoodImageUrl())
-                .name(level.getFoodName())
-                .build())
-            .build();
+                .userId(user.getId())
+                .name(user.getName())
+                .profileImageUrl(user.getProfileImageUrl())
+                .schoolName(user.getSchool().getName())
+                .schoolImageUrl(user.getSchool().getLogoImageUrl())
+                .classNum(section.getClassNum())
+                .grade(section.getGrade())
+                .titleBadge(TitleBadge.builder()
+                        .id(titleBadge.getId())
+                        .name(titleBadge.getName())
+                        .imageUrl(titleBadge.getImageUrl())
+                        .build())
+                .level(Level.builder()
+                        .imageUrl(level.getFoodImageUrl())
+                        .name(level.getFoodName())
+                        .build())
+                .build();
     }
 }
