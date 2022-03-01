@@ -180,6 +180,10 @@ public class User extends BaseTimeEntity {
         return this.section != null;
     }
 
+    public boolean hasSchool() {
+        return this.school != null;
+    }
+
     public void setMaxLevel(CalorieLevel calorieLevel) {
         this.maxLevel = calorieLevel;
     }
