@@ -82,6 +82,7 @@ public class User extends BaseTimeEntity {
     private HealthInfo healthInfo;
 
     @NotNull
+    @ColumnDefault("X")
     @Enumerated(EnumType.STRING)
     @Setter
     private Sex sex;
@@ -117,7 +118,7 @@ public class User extends BaseTimeEntity {
     @Builder
     public User(String accountId, String password, String phoneNumber, String name,
                 Authority authority, Section section, School school, boolean isMeasuring,
-                Integer weight, BigDecimal height, Sex sex, Badge badge) {
+                Integer weight, BigDecimal height, Sex sex, Badge badge, CalorieLevel calorieLevel) {
         this.accountId = accountId;
         this.password = password;
         this.phoneNumber = phoneNumber;
@@ -128,8 +129,9 @@ public class User extends BaseTimeEntity {
         this.isMeasuring = isMeasuring;
         this.healthInfo = new HealthInfo(weight, height);
         this.dailyWalkCountGoal = 10000;
-        this.sex = sex;
+        if(sex != null) this.sex = sex;
         this.badge = badge;
+        this.maxLevel = calorieLevel;
     }
 
     public void setDeviceToken(String deviceToken) {
