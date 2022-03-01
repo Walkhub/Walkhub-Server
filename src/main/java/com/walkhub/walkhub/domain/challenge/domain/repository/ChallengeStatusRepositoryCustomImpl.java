@@ -154,11 +154,46 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .join(user.challengeStatuses, challengeStatus)
                 .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
                 .on(challengeDateFilter(challenge))
-                .where(userScopeFilter(participantsScope))
+                .where(userScopeFilter(participantsScope),
+                        isChallengeSuccessFilter(challenge))
                 .orderBy(challengeParticipantsOrder(participantsOrder))
                 .having(challengeSuccessFilter(successScope, challenge))
                 .groupBy(user.id)
                 .fetch();
+    }
+
+    private BooleanExpression isChallengeSuccessFilter(Challenge challenge) {
+        if (challenge.getGoalScope() == GoalScope.DAY) {
+            return isChallengeSuccessInDayScope(challenge);
+        }
+
+        return isChallengeSuccessInAllScope(challenge);
+    }
+
+    private BooleanExpression isChallengeSuccessInDayScope(Challenge challenge) {
+        NumberPath<Integer> exerciseAmount = exerciseAnalysis.distance;
+
+        if (challenge.getGoalType() == GoalType.WALK) {
+            exerciseAmount = exerciseAnalysis.walkCount;
+        }
+
+        return exerciseAmount.goe(challenge.getGoal());
+    }
+
+    private BooleanExpression isChallengeSuccessInAllScope(Challenge challenge) {
+        NumberPath<Integer> exerciseAmount = exerciseAnalysis.distance;
+
+        if (challenge.getGoalType() == GoalType.WALK) {
+            exerciseAmount = exerciseAnalysis.walkCount;
+        }
+
+        return JPAExpressions.select(exerciseAmount.sum())
+                .from(exerciseAnalysis)
+                .where(
+                        exerciseAnalysis.user.eq(user),
+                        challengeDateFilter(challenge)
+                )
+                .goe(challenge.getGoal());
     }
 
     private BooleanExpression userScopeFilter(ChallengeParticipantsScope challengeParticipantsScope) {
