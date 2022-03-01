@@ -18,5 +18,6 @@ public interface ChallengeRepository extends CrudRepository<Challenge, Long>, Ch
     List<Challenge> findAllByUser(User user);
 
     void deleteAllByUserAndEndAtAfter(User user, LocalDate now);
+    void deleteByUserId(Long userId);
 
 }

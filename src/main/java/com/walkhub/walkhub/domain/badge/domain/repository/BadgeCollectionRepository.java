@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface BadgeCollectionRepository extends CrudRepository<BadgeCollection, BadgeCollectionId> {
     List<BadgeCollection> findAllByUserId(Long userId);
     Optional<BadgeCollection> findByBadgeIdAndUser(Long badgeId, User user);
+    void deleteByUserId(Long userId);
 }

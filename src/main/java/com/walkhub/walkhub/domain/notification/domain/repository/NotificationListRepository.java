@@ -10,4 +10,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface NotificationListRepository extends CrudRepository<NotificationList, NotificationListId> {
     Page<NotificationList> findByUser(User user, Pageable pageable);
+    void deleteByUserId(Long userId);
 }
