@@ -6,6 +6,7 @@ import com.walkhub.walkhub.domain.rank.domain.UserRank;
 import com.walkhub.walkhub.domain.rank.domain.repository.UserRankRepository;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListResponse.UserSearchResponse;
+import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.global.enums.DateType;
@@ -47,14 +48,16 @@ public class UserSearchService {
         ExerciseAnalysisDto exerciseAnalysisDto =
                 exerciseAnalysisCacheRepository.getUserTodayRank(user.getSchool().getId(), user.getId());
 
-        ExerciseAnalysisDto exerciseAnalysis = exerciseAnalysisDto == null ? ExerciseAnalysisDto.builder().build() : exerciseAnalysisDto;
+        ExerciseAnalysisDto exerciseAnalysis = exerciseAnalysisDto == null ? ExerciseAnalysisDto.builder().walkCount(0).build() : exerciseAnalysisDto;
+
+        Section section = user.hasSection() ? user.getSection() : Section.builder().build();
 
         return UserSearchResponse.builder()
                 .userId(user.getId())
                 .name(user.getName())
                 .ranking(exerciseAnalysis.getRanking())
-                .grade(user.getSection().getGrade())
-                .classNum(user.getSection().getClassNum())
+                .grade(section.getGrade())
+                .classNum(section.getClassNum())
                 .profileImageUrl(user.getProfileImageUrl())
                 .walkCount(exerciseAnalysis.getWalkCount())
                 .build();
