@@ -20,7 +20,7 @@ public class Day30000StepsBadge implements BaseBadge {
     private final ExerciseAnalysisRepository exerciseAnalysisRepository;
 
     @Override
-    public Boolean hasBadge(List<DefaultBadgeVO> userOwnBadge) {
+    public boolean hasBadge(List<DefaultBadgeVO> userOwnBadge) {
         return userOwnBadge.stream()
                 .anyMatch(defaultBadgeVO -> defaultBadgeVO.getCode() == BadgeType.DAY_30000_STEPS);
     }
@@ -32,7 +32,7 @@ public class Day30000StepsBadge implements BaseBadge {
     }
 
     @Override
-    public Boolean isGoalSuccess() {
+    public boolean isGoalSuccess() {
         User user = userFacade.getCurrentUser();
 
         Integer walkCount =

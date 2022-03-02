@@ -6,7 +6,9 @@ import com.walkhub.walkhub.domain.badge.domain.repository.vo.DefaultBadgeVO;
 import java.util.List;
 
 public interface BaseBadge {
-    Boolean hasBadge(List<DefaultBadgeVO> userOwnBadge);
+    boolean hasBadge(List<DefaultBadgeVO> userOwnBadge);
+
     Badge getBadgeEntity();
-    Boolean isGoalSuccess();
+
+    boolean isGoalSuccess();
 }

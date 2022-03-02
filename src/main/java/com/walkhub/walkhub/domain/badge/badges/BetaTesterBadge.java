@@ -15,7 +15,7 @@ public class BetaTesterBadge implements BaseBadge {
     private final BadgeRepository badgeRepository;
 
     @Override
-    public Boolean hasBadge(List<DefaultBadgeVO> userOwnBadge) {
+    public boolean hasBadge(List<DefaultBadgeVO> userOwnBadge) {
         return userOwnBadge.stream()
                 .anyMatch(defaultBadgeVO -> defaultBadgeVO.getCode() == BadgeType.BETA_TESTER);
     }
@@ -27,7 +27,7 @@ public class BetaTesterBadge implements BaseBadge {
     }
 
     @Override
-    public Boolean isGoalSuccess() {
+    public boolean isGoalSuccess() {
         return true;
     }
 }
