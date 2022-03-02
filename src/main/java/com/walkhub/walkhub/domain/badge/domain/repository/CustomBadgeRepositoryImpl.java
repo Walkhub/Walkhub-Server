@@ -26,7 +26,8 @@ public class CustomBadgeRepositoryImpl implements CustomBadgeRepository {
                 .select(new QDefaultBadgeVO(
                         badge.id,
                         badge.name,
-                        badge.imageUrl
+                        badge.imageUrl,
+                        badge.code
                 ))
                 .from(badge)
                 .leftJoin(badgeCollection)
@@ -43,6 +44,7 @@ public class CustomBadgeRepositoryImpl implements CustomBadgeRepository {
                         badge.id,
                         badge.name,
                         badge.imageUrl,
+                        badge.code,
                         user.id.max().eq(userId)
                 ))
                 .from(badge)

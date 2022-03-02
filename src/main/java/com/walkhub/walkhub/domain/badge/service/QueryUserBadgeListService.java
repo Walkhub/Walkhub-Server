@@ -25,6 +25,7 @@ public class QueryUserBadgeListService {
                         .name(badgeCollection.getBadge().getName())
                         .imageUrl(badgeCollection.getBadge().getImageUrl())
                         .condition(badgeCollection.getBadge().getUnlockCondition())
+                        .code(badgeCollection.getBadge().getCode())
                         .build())
                 .collect(Collectors.toList());
 
