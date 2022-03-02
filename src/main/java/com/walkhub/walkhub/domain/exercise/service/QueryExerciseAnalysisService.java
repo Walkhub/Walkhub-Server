@@ -24,21 +24,21 @@ public class QueryExerciseAnalysisService {
     public QueryExerciseAnalysisResponse execute() {
 
         User user = userFacade.getCurrentUser();
-        LocalDate startAt = LocalDate.now().minusDays(28);
+        LocalDate startAt = LocalDate.now().minusDays(27);
 
         ExerciseAnalysis exerciseAnalysis = exerciseAnalysisRepository.findByUserAndDate(user, LocalDate.now())
                 .orElse(ExerciseAnalysis.builder().build());
 
-        List<Integer> walkCountList = exerciseAnalysisRepository.findAllByUserAndDateBetween(user, startAt, LocalDate.now())
+        List<Integer> walkCountList = exerciseAnalysisRepository.findAllByUserAndDateBetweenOrderByDate(user, startAt, LocalDate.now())
                 .stream()
                 .map(ExerciseAnalysis::getWalkCount)
                 .collect(Collectors.toList());
 
         return QueryExerciseAnalysisResponse.builder()
-                .walkCount(exerciseAnalysis.getWalkCount())
                 .walkCountList(walkCountList)
-                .calorie(exerciseAnalysis.getCalorie())
                 .dailyWalkCountGoal(user.getDailyWalkCountGoal())
+                .walkCount(exerciseAnalysis.getWalkCount())
+                .calorie(exerciseAnalysis.getCalorie())
                 .distance(exerciseAnalysis.getDistance())
                 .build();
     }
