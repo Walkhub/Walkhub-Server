@@ -48,7 +48,6 @@ public class CoolNotification implements FcmUtil {
 
     @Override
     public void sendNotification(NotificationRequest request) {
-        String condition = "'notice' in topics || 'challenge' in topics || 'exercise' in topics || 'cheering' in topics";
         Long notificationId = notificationRepository.save(
                 NotificationEntity.builder()
                         .title(request.getTitle())
@@ -62,7 +61,7 @@ public class CoolNotification implements FcmUtil {
         Message message = Message.builder()
                 .putData("notification-id", notificationId.toString())
                 .putData("click_action", request.getClickAction())
-                .setCondition(condition)
+                .setToken(request.getUser().getDeviceToken())
                 .setNotification(
                         Notification.builder()
                                 .setTitle(request.getTitle())
@@ -74,6 +73,7 @@ public class CoolNotification implements FcmUtil {
                                 .setSound("default")
                                 .build())
                         .build())
+                .setTopic((request.getType().toString()))
                 .build();
         FirebaseMessaging.getInstance().sendAsync(message);
     }
