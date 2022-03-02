@@ -27,7 +27,7 @@ public enum ErrorCode {
     USER_NOT_FOUND(404, "USER-404-1", "User Not Found"),
     USER_AUTH_CODE_NOT_FOUND(404, "USER-404-2", "User AuthCode Not Found"),
     CREDENTIALS_NOT_FOUND(404, "USER-404-3", "Credentials Not Found"),
-    SCHOOL_NOT_FOUND(404, "USER-404-4", "School Not Found"),
+    SCHOOL_NOT_FOUND(404, "SCHOOL-404-1", "School Not Found"),
     SECTION_NOT_FOUND(404, "SECTION-404-1", "Section Not Found"),
     REFRESH_TOKEN_NOT_FOUND(404, "AUTH-404-1", "Refresh Token Not Found"),
     PHONE_NUMBER_NOT_FOUND(404, "USER-404-5", "PhoneNumber Not Found"),
