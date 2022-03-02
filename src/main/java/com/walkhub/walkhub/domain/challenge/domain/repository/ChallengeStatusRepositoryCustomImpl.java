@@ -2,12 +2,21 @@ package com.walkhub.walkhub.domain.challenge.domain.repository;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.dsl.*;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.*;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeProgressVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QChallengeProgressVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QRelatedChallengeParticipantsVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QShowChallengeVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeVO;
 import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsOrder;
 import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsScope;
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
@@ -160,6 +169,40 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .having(challengeSuccessFilter(successScope, challenge))
                 .groupBy(user.id)
                 .fetch();
+    }
+
+    private BooleanExpression isChallengeSuccessFilter(Challenge challenge) {
+        if (challenge.getGoalScope() == GoalScope.DAY) {
+            return isChallengeSuccessInDayScope(challenge);
+        }
+
+        return isChallengeSuccessInAllScope(challenge);
+    }
+
+    private BooleanExpression isChallengeSuccessInDayScope(Challenge challenge) {
+        NumberPath<Integer> exerciseAmount = exerciseAnalysis.distance;
+
+        if (challenge.getGoalType() == GoalType.WALK) {
+            exerciseAmount = exerciseAnalysis.walkCount;
+        }
+
+        return exerciseAmount.goe(challenge.getGoal());
+    }
+
+    private BooleanExpression isChallengeSuccessInAllScope(Challenge challenge) {
+        NumberPath<Integer> exerciseAmount = exerciseAnalysis.distance;
+
+        if (challenge.getGoalType() == GoalType.WALK) {
+            exerciseAmount = exerciseAnalysis.walkCount;
+        }
+
+        return JPAExpressions.select(exerciseAmount.sum())
+                .from(exerciseAnalysis)
+                .where(
+                        exerciseAnalysis.user.eq(user),
+                        challengeDateFilter(challenge)
+                )
+                .goe(challenge.getGoal());
     }
 
     private BooleanExpression userScopeFilter(ChallengeParticipantsScope challengeParticipantsScope) {
