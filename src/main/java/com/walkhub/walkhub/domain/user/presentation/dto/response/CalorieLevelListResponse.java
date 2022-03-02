@@ -19,7 +19,7 @@ public class CalorieLevelListResponse {
         private final String foodImageUrl;
         private final String foodName;
         private final Double calorie;
-        private final Integer size;
+        private final String size;
         private final Integer level;
         private final String message;
     }
