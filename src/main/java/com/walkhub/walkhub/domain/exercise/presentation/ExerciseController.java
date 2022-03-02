@@ -6,11 +6,7 @@ import com.walkhub.walkhub.domain.exercise.presentation.dto.request.SaveExercise
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.SaveLocationRequest;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.CreateExerciseResponse;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.ExerciseListResponse;
-import com.walkhub.walkhub.domain.exercise.service.CreateExerciseService;
-import com.walkhub.walkhub.domain.exercise.service.FinishExerciseService;
-import com.walkhub.walkhub.domain.exercise.service.QueryExerciseListService;
-import com.walkhub.walkhub.domain.exercise.service.SaveLocationService;
-import com.walkhub.walkhub.domain.exercise.service.SaveOrUpdateExerciseAnalysisService;
+import com.walkhub.walkhub.domain.exercise.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
