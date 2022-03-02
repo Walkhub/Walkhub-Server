@@ -84,7 +84,7 @@ public class User extends BaseTimeEntity {
     private HealthInfo healthInfo;
 
     @NotNull
-    @ColumnDefault("X")
+    @ColumnDefault("'X'")
     @Enumerated(EnumType.STRING)
     @Setter
     private Sex sex;
