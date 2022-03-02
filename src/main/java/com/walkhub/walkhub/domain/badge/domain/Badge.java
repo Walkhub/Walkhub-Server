@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.badge.domain;
 
+import com.walkhub.walkhub.domain.badge.enums.BadgeType;
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import lombok.AccessLevel;
@@ -36,15 +37,18 @@ public class Badge extends BaseTimeEntity {
 
     @NotNull
     private String unlockCondition;
+
+    @NotNull
+    private BadgeType code;
   
     @OneToMany(mappedBy = "badge", cascade = CascadeType.REMOVE)
     private List<BadgeCollection> badgeCollections;
 
     @Builder
-    public Badge(String name, String imageUrl,
-                 String unlockCondition) {
+    public Badge(String name, String imageUrl, String unlockCondition, BadgeType code) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.unlockCondition = unlockCondition;
+        this.code = code;
     }
 }
