@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class BetaTasterBadge implements BaseBadge {
+public class BetaTesterBadge implements BaseBadge {
 
     private final BadgeRepository badgeRepository;
 
