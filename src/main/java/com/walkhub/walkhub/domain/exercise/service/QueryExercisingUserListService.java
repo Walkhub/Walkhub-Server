@@ -24,7 +24,7 @@ public class QueryExercisingUserListService {
         User user = userFacade.getCurrentUser();
 
         List<ExercisingUserListResponse> exercisingList =
-                userRepository.findAllBySectionAndIsMeasuringTrue(user.getSection())
+                userRepository.findAllBySchoolAndIsMeasuringTrue(user.getSchool())
                         .stream()
                         .map(this::buildExercisingUserList)
                         .collect(Collectors.toList());

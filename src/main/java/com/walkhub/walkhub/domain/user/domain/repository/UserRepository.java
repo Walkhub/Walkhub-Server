@@ -28,5 +28,5 @@ public interface UserRepository extends CrudRepository<User, Long>, UserReposito
     @Query("update User u set u.section = null where u.section = :section")
     void setUserSectionNull(@Param("section") Section section);
 
-    List<User> findAllBySectionAndIsMeasuringTrue(Section section);
+    List<User> findAllBySchoolAndIsMeasuringTrue(School school);
 }
