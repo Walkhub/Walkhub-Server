@@ -1,12 +1,11 @@
 package com.walkhub.walkhub.domain.rank.presentation;
 
 import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
-import com.walkhub.walkhub.domain.rank.presentation.dto.response.OtherSchoolUserRankListResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListResponse;
 import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListResponse;
-import com.walkhub.walkhub.domain.rank.presentation.dto.response.OurSchoolUserRankListResponse;
+import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
 import com.walkhub.walkhub.domain.rank.service.QueryUserRankListByMySchoolService;
 import com.walkhub.walkhub.domain.rank.service.QuerySchoolRankService;
 import com.walkhub.walkhub.domain.rank.service.SchoolSearchService;
@@ -52,13 +51,13 @@ public class RankController {
     }
 
     @GetMapping("/users/my-school")
-    public OurSchoolUserRankListResponse queryUserRankListByMySchool(@RequestParam UserRankScope scope, @RequestParam DateType dateType) {
+    public UserRankListResponse queryUserRankListByMySchool(@RequestParam UserRankScope scope, @RequestParam DateType dateType) {
         return queryUserRankListByMySchoolService.execute(scope, dateType);
     }
 
     @GetMapping("/users/{school-id}")
-    public OtherSchoolUserRankListResponse queryUserRankList(@RequestParam DateType dateType,
-                                                             @PathVariable("school-id") Long schoolId) {
+    public UserRankListResponse queryUserRankList(@RequestParam DateType dateType,
+                                                  @PathVariable("school-id") Long schoolId) {
         return queryUserRankListService.execute(schoolId, dateType);
     }
 }

@@ -2,7 +2,6 @@ package com.walkhub.walkhub.domain.user.service;
 
 import com.walkhub.walkhub.domain.badge.domain.Badge;
 import com.walkhub.walkhub.domain.calorielevel.domain.CalorieLevel;
-import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
@@ -20,17 +19,16 @@ public class QueryUserProfileService {
     public QueryUserProfileResponse execute(Long userId) {
 
         User user = userFacade.getUserById(userId);
-		Badge titleBadge = user.getBadge();
+        Badge titleBadge = user.getBadge();
 		CalorieLevel level = user.getMaxLevel();
-		Section section = user.hasSection() ? user.getSection() : Section.builder().build();
 
 		return QueryUserProfileResponse.builder()
 			.userId(user.getId())
 			.name(user.getName())
 			.profileImageUrl(user.getProfileImageUrl())
 			.schoolName(user.getSchool().getName())
-			.classNum(section.getClassNum())
-			.grade(section.getGrade())
+			.grade(user.getSection().getGrade())
+			.classNum(user.getSection().getClassNum())
 			.titleBadge(TitleBadge.builder()
 				.id(titleBadge.getId())
 				.name(titleBadge.getName())
@@ -41,6 +39,5 @@ public class QueryUserProfileService {
 				.name(level.getFoodName())
 				.build())
 			.build();
-
 	}
 }

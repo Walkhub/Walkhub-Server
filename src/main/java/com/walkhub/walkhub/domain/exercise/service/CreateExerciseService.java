@@ -9,30 +9,34 @@ import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
 public class CreateExerciseService {
 
-	private final UserFacade userFacade;
-	private final ExerciseRepository exerciseRepository;
+    private final UserFacade userFacade;
+    private final ExerciseRepository exerciseRepository;
 
-	public CreateExerciseResponse execute(CreateExerciseRequest request) {
+    @Transactional
+    public CreateExerciseResponse execute(CreateExerciseRequest request) {
 
-		User user = userFacade.getCurrentUser();
+        User user = userFacade.getCurrentUser();
 
-		if (exerciseRepository.findByIsExercisingTrueAndUser(user).isPresent()) {
-			throw AlreadyExercisingException.EXCEPTION;
-		}
+        if (exerciseRepository.findByIsExercisingTrueAndUser(user).isPresent()) {
+            throw AlreadyExercisingException.EXCEPTION;
+        }
 
-		Exercise exercise = exerciseRepository.save(
-			Exercise.builder()
-				.user(user)
-				.goalType(request.getGoalType())
-				.goal(request.getGoal())
-				.build()
-		);
+        Exercise exercise = exerciseRepository.save(
+                Exercise.builder()
+                        .user(user)
+                        .goalType(request.getGoalType())
+                        .goal(request.getGoal())
+                        .build()
+        );
 
-		return new CreateExerciseResponse(exercise.getId());
-	}
+        user.updateIsMeasuring(true);
+
+        return new CreateExerciseResponse(exercise.getId());
+    }
 }

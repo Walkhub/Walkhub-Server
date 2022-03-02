@@ -77,6 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/exercises/analysis").authenticated()
                 .antMatchers(HttpMethod.GET, "/exercises/lists").authenticated()
                 .antMatchers(HttpMethod.GET, "/exercises/{exercise-id}").hasAnyAuthority("TEACHER", "ROOT")
+                .antMatchers(HttpMethod.GET, "/exercises/users/lists").hasAnyAuthority("USER", "TEACHER")
 
                 // notices
                 .antMatchers(HttpMethod.GET, "/notices/list").authenticated()
@@ -104,7 +105,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants/students").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants/teachers").hasAnyAuthority("TEACHER", "ROOT", "SU")
                 .antMatchers(HttpMethod.GET, "/challenges/list").authenticated()
-                .antMatchers(HttpMethod.GET, "/challenges/list/closed").authenticated()
+                .antMatchers(HttpMethod.GET, "/challenges/lists/closed").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/participated").authenticated()
 
                 // images
@@ -121,7 +122,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/teachers/users").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.POST, "/teachers/classes").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.GET, "/teachers/classes/lists").hasAnyAuthority("TEACHER", "ROOT")
-                .antMatchers(HttpMethod.DELETE, "/teachers/classes/{section-id}").hasAuthority("TEACHER")
+                .antMatchers(HttpMethod.DELETE, "/teachers/classes/{section-id}").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.GET, "/teachers/classes").hasAuthority("TEACHER")
                 .antMatchers(HttpMethod.GET, "/teachers/users/{user-id}").hasAnyAuthority("TEACHER")
                 .antMatchers(HttpMethod.GET, "/teachers/users").hasAnyAuthority("TEACHER", "ROOT")
@@ -132,6 +133,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // su
                 .antMatchers(HttpMethod.GET, "/su").hasAuthority("SU")
                 .antMatchers(HttpMethod.POST, "/su/accounts/{school-id}").hasAuthority("SU")
+                .antMatchers(HttpMethod.PATCH, "/su/accounts/{school-id}").hasAuthority("SU")
 
                 //excel
                 .antMatchers(HttpMethod.GET, "/excel").hasAnyAuthority("TEACHER", "ROOT")

@@ -162,40 +162,6 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .fetch();
     }
 
-    private BooleanExpression isChallengeSuccessFilter(Challenge challenge) {
-        if (challenge.getGoalScope() == GoalScope.DAY) {
-            return isChallengeSuccessInDayScope(challenge);
-        }
-
-        return isChallengeSuccessInAllScope(challenge);
-    }
-
-    private BooleanExpression isChallengeSuccessInDayScope(Challenge challenge) {
-        NumberPath<Integer> exerciseAmount = exerciseAnalysis.distance;
-
-        if (challenge.getGoalType() == GoalType.WALK) {
-            exerciseAmount = exerciseAnalysis.walkCount;
-        }
-
-        return exerciseAmount.goe(challenge.getGoal());
-    }
-
-    private BooleanExpression isChallengeSuccessInAllScope(Challenge challenge) {
-        NumberPath<Integer> exerciseAmount = exerciseAnalysis.distance;
-
-        if (challenge.getGoalType() == GoalType.WALK) {
-            exerciseAmount = exerciseAnalysis.walkCount;
-        }
-
-        return JPAExpressions.select(exerciseAmount.sum())
-                .from(exerciseAnalysis)
-                .where(
-                        exerciseAnalysis.user.eq(user),
-                        challengeDateFilter(challenge)
-                )
-                .goe(challenge.getGoal());
-    }
-
     private BooleanExpression userScopeFilter(ChallengeParticipantsScope challengeParticipantsScope) {
         if (challengeParticipantsScope == ChallengeParticipantsScope.STUDENT) {
             return user.authority.eq(Authority.USER);
