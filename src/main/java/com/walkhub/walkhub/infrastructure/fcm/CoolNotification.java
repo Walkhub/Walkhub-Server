@@ -7,7 +7,7 @@ import com.google.firebase.messaging.*;
 import com.walkhub.walkhub.domain.notification.domain.NotificationEntity;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationRepository;
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.infrastructure.fcm.dto.SendDto;
+import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,8 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,12 +30,18 @@ public class CoolNotification implements FcmUtil {
     @Value("${firebase.path}")
     private String path;
 
+    private static final String MESSAGING_SCOPE = "https://www.googleapis.com/auth/firebase.messaging";
+    private static final String[] SCOPES = {MESSAGING_SCOPE};
+
     @PostConstruct
     @Override
     public void initialize() {
         try {
             FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.fromStream(new ClassPathResource(path).getInputStream())).build();
+                    .setCredentials(GoogleCredentials.fromStream(new ClassPathResource(path).getInputStream())
+                            .createScoped(Arrays.asList(SCOPES)))
+                    .build();
+
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
                 log.info("Firebase application has been initialized");
@@ -44,29 +49,29 @@ public class CoolNotification implements FcmUtil {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
+
     }
 
     @Override
-    public void sendNotification(SendDto sendDto) {
+    public void sendNotification(NotificationRequest request) {
         Long notificationId = notificationRepository.save(
                 NotificationEntity.builder()
-                        .title(sendDto.getTitle())
-                        .content(sendDto.getContent())
+                        .title(request.getTitle())
+                        .content(request.getContent())
+                        .type(request.getType())
+                        .data(request.getData())
+                        .userScope(request.getUserScope())
                         .build()
         ).getId();
 
-        List<String> deviceTokens = sendDto.getUsers()
-                .stream().map(User::getDeviceToken)
-                .collect(Collectors.toList());
-
-        MulticastMessage message = MulticastMessage.builder()
-                .putData("notification_id", notificationId.toString())
-                .putData("click_action", sendDto.getClickAction())
-                .putData("value", sendDto.getValue())
+        Message message = Message.builder()
+                .putData("notification-id", notificationId.toString())
+                .putData("click_action", request.getClickAction())
+                .setToken(request.getUser().getDeviceToken())
                 .setNotification(
                         Notification.builder()
-                                .setTitle(sendDto.getTitle())
-                                .setBody(sendDto.getContent())
+                                .setTitle(request.getTitle())
+                                .setBody(request.getContent())
                                 .build()
                 )
                 .setApnsConfig(ApnsConfig.builder()
@@ -74,8 +79,40 @@ public class CoolNotification implements FcmUtil {
                                 .setSound("default")
                                 .build())
                         .build())
-                .addAllTokens(deviceTokens)
+                .setTopic((request.getType().toString()))
                 .build();
-        FirebaseMessaging.getInstance().sendMulticastAsync(message);
+        FirebaseMessaging.getInstance().sendAsync(message);
     }
+
+    @Override
+    public void subscribeTopic(List<User> users, NotificationRequest request) throws FirebaseMessagingException {
+
+        for (int i = 0; i < users.size() / 1000; i++) {
+            List<String> deviceTokenListToSubscribe = users.subList(i, i * 1000)
+                    .stream().map(User::getDeviceToken)
+                    .collect(Collectors.toList());
+
+            TopicManagementResponse response = FirebaseMessaging.getInstance(FirebaseApp.getInstance())
+                    .subscribeToTopic(
+                            deviceTokenListToSubscribe, request.getType().toString()
+                    );
+        }
+
+    }
+
+    @Override
+    public void unSubscribeTopic(List<User> users, NotificationRequest request) throws FirebaseMessagingException {
+
+        for (int i = 0; i < users.size() / 1000; i++) {
+            List<String> deviceTokenListToSubscribe = users.subList(i, i * 1000)
+                    .stream().map(User::getDeviceToken)
+                    .collect(Collectors.toList());
+
+            TopicManagementResponse response = FirebaseMessaging.getInstance(FirebaseApp.getInstance())
+                    .unsubscribeFromTopic(
+                            deviceTokenListToSubscribe, request.getType().toString()
+                    );
+        }
+    }
+
 }

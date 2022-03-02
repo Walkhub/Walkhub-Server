@@ -87,6 +87,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // notifications
                 .antMatchers(HttpMethod.GET, "/notifications").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/notifications/{notification-id}").authenticated()
+                .antMatchers(HttpMethod.PATCH, "/notifications").authenticated()
+                .antMatchers(HttpMethod.PATCH,"/notifications/on").authenticated()
 
                 // ranks
                 .antMatchers(HttpMethod.GET, "/ranks/schools").authenticated()
