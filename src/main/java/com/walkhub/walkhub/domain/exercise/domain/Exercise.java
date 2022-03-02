@@ -64,6 +64,9 @@ public class Exercise extends BaseTimeEntity {
     @Column(nullable = false, columnDefinition = "varchar(255) default " + DefaultImage.EXERCISE_IMAGE)
     private String imageUrl;
 
+    @Column(nullable = false, columnDefinition = "integer default 0")
+    private Integer pausedTime;
+
     @Builder
     public Exercise(User user, Integer goal, GoalType goalType) {
         this.user = user;
@@ -72,13 +75,14 @@ public class Exercise extends BaseTimeEntity {
         this.isExercising = true;
     }
 
-    public void closeExercise(Integer walkCount, Integer distance, Double calorie, String imageUrl) {
+    public void closeExercise(Integer walkCount, Integer distance, Double calorie, String imageUrl, Integer pausedTime) {
         this.walkCount = walkCount;
         this.distance = distance;
         this.calorie = calorie;
         this.endAt = ZonedDateTime.now();
         this.imageUrl = imageUrl;
         this.isExercising = false;
+        this.pausedTime = pausedTime;
     }
 
     public void addCheeringCount() {
