@@ -17,7 +17,7 @@ import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
 import com.walkhub.walkhub.domain.user.service.JoinSectionService;
 import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
 import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
-import com.walkhub.walkhub.domain.user.service.QueryWalkCountService;
+import com.walkhub.walkhub.domain.user.service.QueryGoalWalkCountService;
 import com.walkhub.walkhub.domain.user.service.SearchAccountIdService;
 import com.walkhub.walkhub.domain.user.service.UpdateGoalWalkCountService;
 import com.walkhub.walkhub.domain.user.service.UpdatePasswordService;
@@ -56,7 +56,7 @@ public class UserController {
     private final SearchAccountIdService searchAccountIdService;
     private final UpdateGoalWalkCountService updateGoalWalkCountService;
     private final ExitSectionService exitSectionService;
-    private final QueryWalkCountService queryWalkCountService;
+    private final QueryGoalWalkCountService queryGoalWalkCountService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
@@ -117,7 +117,7 @@ public class UserController {
 
     @GetMapping("/goal")
     public QueryGoalWalkCountResponse queryGaolWalkCount() {
-        return queryWalkCountService.execute();
+        return queryGoalWalkCountService.execute();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
