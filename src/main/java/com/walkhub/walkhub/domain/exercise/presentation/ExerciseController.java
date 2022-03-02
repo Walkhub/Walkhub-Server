@@ -4,8 +4,7 @@ import com.walkhub.walkhub.domain.exercise.presentation.dto.request.CreateExerci
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.FinishExerciseRequest;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.SaveExerciseAnalysisRequest;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.SaveLocationRequest;
-import com.walkhub.walkhub.domain.exercise.presentation.dto.response.CreateExerciseResponse;
-import com.walkhub.walkhub.domain.exercise.presentation.dto.response.ExerciseListResponse;
+import com.walkhub.walkhub.domain.exercise.presentation.dto.response.*;
 import com.walkhub.walkhub.domain.exercise.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
