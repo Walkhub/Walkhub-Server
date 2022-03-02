@@ -17,7 +17,7 @@ public class QueryExerciseDetailsResponse {
     @Getter
     @Builder
     public static class ExerciseResponse {
-        private final Integer sequence;
+        private final Integer order;
         private final BigDecimal latitude;
         private final BigDecimal longitude;
     }

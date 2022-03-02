@@ -26,7 +26,7 @@ public class QueryExerciseDetailsService {
         List<ExerciseResponse> locations = locationRepository.findAllByExercise(exercise)
                 .stream()
                 .map(location -> ExerciseResponse.builder()
-                        .sequence(location.getSequence())
+                        .order(location.getSequence())
                         .latitude(location.getLatitude())
                         .longitude(location.getLongitude())
                         .build())

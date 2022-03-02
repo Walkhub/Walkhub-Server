@@ -11,6 +11,7 @@ public class QueryUserProfileResponse {
 	private final String name;
 	private final String profileImageUrl;
 	private final String schoolName;
+	private final String schoolImageUrl;
 	private final Integer grade;
 	private final Integer classNum;
 	private final TitleBadge titleBadge;
