@@ -105,7 +105,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants/students").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants/teachers").hasAnyAuthority("TEACHER", "ROOT", "SU")
                 .antMatchers(HttpMethod.GET, "/challenges/list").authenticated()
-                .antMatchers(HttpMethod.GET, "/challenges/list/closed").authenticated()
+                .antMatchers(HttpMethod.GET, "/challenges/lists/closed").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/participated").authenticated()
 
                 // images
