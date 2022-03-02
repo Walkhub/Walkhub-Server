@@ -9,6 +9,7 @@ import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateSchoolInfo
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryGoalWalkCountResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
 import com.walkhub.walkhub.domain.user.service.ExitSectionService;
@@ -16,6 +17,7 @@ import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
 import com.walkhub.walkhub.domain.user.service.JoinSectionService;
 import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
 import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
+import com.walkhub.walkhub.domain.user.service.QueryWalkCountService;
 import com.walkhub.walkhub.domain.user.service.SearchAccountIdService;
 import com.walkhub.walkhub.domain.user.service.UpdateGoalWalkCountService;
 import com.walkhub.walkhub.domain.user.service.UpdatePasswordService;
@@ -54,6 +56,7 @@ public class UserController {
     private final SearchAccountIdService searchAccountIdService;
     private final UpdateGoalWalkCountService updateGoalWalkCountService;
     private final ExitSectionService exitSectionService;
+    private final QueryWalkCountService queryWalkCountService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
@@ -110,6 +113,11 @@ public class UserController {
     @GetMapping("/accounts/{phone-number}")
     public UserAccountIdResponse searchAccountId(@PathVariable(name = "phone-number") String phoneNumber) {
         return searchAccountIdService.execute(phoneNumber);
+    }
+
+    @GetMapping("/goal")
+    public QueryGoalWalkCountResponse queryGaolWalkCount() {
+        return queryWalkCountService.execute();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
