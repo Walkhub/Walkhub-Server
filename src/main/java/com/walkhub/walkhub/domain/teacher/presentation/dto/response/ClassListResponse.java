@@ -10,12 +10,12 @@ import java.util.List;
 @AllArgsConstructor
 public class ClassListResponse {
 
+    private final String authCode;
     private final List<ClassResponse> classList;
 
     @Getter
     @Builder
     public static class ClassResponse {
-        private final Integer userCount;
         private final SectionResponse section;
         private final TeacherResponse teacher;
     }

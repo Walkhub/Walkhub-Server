@@ -17,8 +17,6 @@ public class UserRankFacade {
                 .map(userRank -> UserRankListResponse.UserRankResponse.builder()
                         .userId(userRank.getUserId())
                         .name(userRank.getName())
-                        .grade(userRank.getGrade())
-                        .classNum(userRank.getClassNum())
                         .ranking(userRank.getRanking())
                         .profileImageUrl(userRank.getProfileImageUrl())
                         .walkCount(userRank.getWalkCount())

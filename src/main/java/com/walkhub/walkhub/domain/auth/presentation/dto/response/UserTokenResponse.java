@@ -7,15 +7,15 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Getter
 @Builder
 public class UserTokenResponse {
 
     private final String accessToken;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
-    private final LocalDateTime expiredAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private final ZonedDateTime expiredAt;
     private final String refreshToken;
     private final Authority authority;
     private final BigDecimal height;

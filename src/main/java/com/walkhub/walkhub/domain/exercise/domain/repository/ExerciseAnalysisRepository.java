@@ -12,4 +12,5 @@ public interface ExerciseAnalysisRepository extends CrudRepository<ExerciseAnaly
     Optional<ExerciseAnalysis> findByUserAndDate(User user, LocalDate date);
     List<ExerciseAnalysis> findAllByUserAndDateBetween(User user, LocalDate startAt, LocalDate endAt);
     void deleteByUserId(Long userId);
+    List<ExerciseAnalysis> findAllByUserAndDateBetweenOrderByDate(User user, LocalDate startAt, LocalDate endAt);
 }

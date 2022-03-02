@@ -1,9 +1,6 @@
 package com.walkhub.walkhub.domain.teacher.presentation;
 
-import com.walkhub.walkhub.domain.teacher.presentation.dto.request.CreateClassRequest;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.request.QueryUserListRequest;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.request.TeacherCodeRequest;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.request.UpdateTeacherSchoolRequest;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.request.*;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CodeResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserListResponse;
@@ -51,6 +48,7 @@ public class TeacherController {
     private final ConfirmTeacherCodeService confirmTeacherCodeService;
     private final ClassListService classListService;
     private final UpdateTeacherSchoolService updateTeacherSchoolService;
+    private final UserSearchForTeacherService userSearchForTeacherService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/classes")
@@ -101,5 +99,10 @@ public class TeacherController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateTeacherSchool(@Valid @RequestBody UpdateTeacherSchoolRequest request) {
         updateTeacherSchoolService.execute(request);
+    }
+
+    @GetMapping("/users/search")
+    public QueryUserListResponse searchUser(UserSearchRequest request) {
+        return userSearchForTeacherService.execute(request);
     }
 }

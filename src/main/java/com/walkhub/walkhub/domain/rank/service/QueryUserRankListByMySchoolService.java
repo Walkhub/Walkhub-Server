@@ -7,16 +7,20 @@ import com.walkhub.walkhub.domain.rank.domain.repository.vo.UserRankVO;
 import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
 import com.walkhub.walkhub.domain.rank.facade.UserRankFacade;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
-import com.walkhub.walkhub.domain.school.domain.School;
+import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse.UserRankResponse;
+import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.enums.DateType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -24,77 +28,106 @@ public class QueryUserRankListByMySchoolService {
     private final UserRankRepository userRankRepository;
     private final ExerciseAnalysisCacheRepository exerciseAnalysisCacheRepository;
     private final UserFacade userFacade;
+    private final UserRepository userRepository;
     private final UserRankFacade userRankFacade;
 
+    @Transactional(readOnly = true)
     public UserRankListResponse execute(UserRankScope scope, DateType dateType) {
         User user = userFacade.getCurrentUser();
-        School school = user.getSchool();
         LocalDate date = LocalDate.now();
-        UserRankListResponse.UserRankResponse myRank = null;
-        List<UserRankListResponse.UserRankResponse> userRankList = new ArrayList<>();
+        UserRankListResponse userRankListResponse = null;
+
         if (dateType.equals(DateType.DAY)) {
-            myRank = buildDayMyRankResponse(user);
-            List<ExerciseAnalysisDto> usersDayRank = exerciseAnalysisCacheRepository.getUserIdsByRankTop100(school.getId());
-            for (ExerciseAnalysisDto users : usersDayRank) {
-                userRankList.add(buildDayUsersRankResponse(users));
-            }
-        } else if (scope.equals(UserRankScope.ALL)) {
-            myRank = buildWeekOrMonthMyRankResponse(user.getId(), null, null, dateType, date);
-            List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), user.getSection().getGrade(), null, dateType, date);
-            userRankList = userRankFacade.buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
+            userRankListResponse = buildDayRankResponse(user);
+        } else if (scope.equals(UserRankScope.SCHOOL)) {
+            userRankListResponse = buildWeekOrMonthRankResponse(user, null, null, dateType, date);
         } else if (scope.equals(UserRankScope.CLASS)) {
-            myRank = buildWeekOrMonthMyRankResponse(user.getId(), user.getSection().getGrade(), user.getSection().getClassNum(), dateType, date);
-            List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), user.getSection().getGrade(), user.getSection().getClassNum(), dateType, date);
-            userRankList = userRankFacade.buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
+            Section userSection = user.hasSection() ? user.getSection() : Section.builder().build();
+            userRankListResponse = buildWeekOrMonthRankResponse(user, userSection.getGrade(), userSection.getClassNum(), dateType, date);
         }
+
+        return userRankListResponse;
+    }
+
+    private UserRankListResponse buildDayRankResponse(User user) {
+
+        UserRankResponse myRank = buildDayMyRank(user);
+        List<UserRankResponse> userRankList = new ArrayList<>();
+        List<ExerciseAnalysisDto> usersDayRank = exerciseAnalysisCacheRepository.getUserIdsByRankTop100(user.getSchool().getId());
+
+        List<Long> userIds = usersDayRank.stream()
+                .map(ExerciseAnalysisDto::getUserId)
+                .collect(Collectors.toList());
+
+        userRepository.findAllByIdIn(userIds);
+        for (ExerciseAnalysisDto users : usersDayRank) {
+            userRankList.add(buildDayUsersRank(users));
+        }
+
         return UserRankListResponse.builder()
-                .myRank(myRank)
+                .myRanking(myRank)
                 .rankList(userRankList)
                 .build();
     }
 
-    private UserRankListResponse.UserRankResponse buildDayMyRankResponse(User user) {
+    private UserRankListResponse buildWeekOrMonthRankResponse(User user, Integer grade, Integer classNum, DateType dateType, LocalDate date) {
+
+        UserRankResponse myRank = buildWeekOrMonthMyRank(user.getId(), grade, classNum, dateType, date);
+        List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), grade, classNum, dateType, date);
+        List<UserRankResponse> userRankList = userRankFacade.buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
+
+        return UserRankListResponse.builder()
+                .myRanking(myRank)
+                .rankList(userRankList)
+                .build();
+    }
+
+    private UserRankResponse buildDayMyRank(User user) {
         ExerciseAnalysisDto exerciseAnalysisDto = exerciseAnalysisCacheRepository.getUserTodayRank(user.getSchool().getId(), user.getId());
         if (exerciseAnalysisDto == null) {
             return null;
         }
-        return UserRankListResponse.UserRankResponse.builder()
+
+        return UserRankResponse.builder()
                 .userId(user.getId())
                 .name(user.getName())
-                .grade(user.getSection().getGrade())
-                .classNum(user.getSection().getClassNum())
                 .ranking(exerciseAnalysisDto.getRanking())
                 .profileImageUrl(user.getProfileImageUrl())
                 .walkCount(exerciseAnalysisDto.getWalkCount())
+                .isMeasuring(isMeasuringByUserId(user.getId()))
                 .build();
     }
 
-    private UserRankListResponse.UserRankResponse buildDayUsersRankResponse(ExerciseAnalysisDto dayRank) {
+    private UserRankResponse buildDayUsersRank(ExerciseAnalysisDto dayRank) {
         User user = userFacade.getUserById(dayRank.getUserId());
-        return UserRankListResponse.UserRankResponse.builder()
+
+        return UserRankResponse.builder()
                 .userId(user.getId())
                 .name(user.getName())
-                .grade(user.getSection().getGrade())
-                .classNum(user.getSection().getClassNum())
                 .ranking(dayRank.getRanking())
                 .profileImageUrl(user.getProfileImageUrl())
                 .walkCount(dayRank.getWalkCount())
+                .isMeasuring(isMeasuringByUserId(user.getId()))
                 .build();
     }
 
-    private UserRankListResponse.UserRankResponse buildWeekOrMonthMyRankResponse(Long userId, Integer grade, Integer classNum, DateType dateType, LocalDate date) {
+    private UserRankResponse buildWeekOrMonthMyRank(Long userId, Integer grade, Integer classNum, DateType dateType, LocalDate date) {
         UserRankVO myRank = userRankRepository.getMyRankByUserId(userId, grade, classNum, dateType, date);
         if (myRank == null) {
             return null;
         }
-        return UserRankListResponse.UserRankResponse.builder()
+
+        return UserRankResponse.builder()
                 .userId(myRank.getUserId())
                 .name(myRank.getName())
-                .grade(myRank.getGrade())
-                .classNum(myRank.getClassNum())
                 .ranking(myRank.getRanking())
                 .profileImageUrl(myRank.getProfileImageUrl())
                 .walkCount(myRank.getWalkCount())
+                .isMeasuring(isMeasuringByUserId(userId))
                 .build();
+    }
+
+    private Boolean isMeasuringByUserId(Long userId) {
+        return userFacade.getUserById(userId).getIsMeasuring();
     }
 }

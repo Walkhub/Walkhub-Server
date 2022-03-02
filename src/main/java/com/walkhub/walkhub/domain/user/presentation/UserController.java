@@ -9,9 +9,11 @@ import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateSchoolInfo
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryGoalWalkCountResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
 import com.walkhub.walkhub.domain.user.service.*;
+ 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,6 +46,7 @@ public class UserController {
     private final UpdateGoalWalkCountService updateGoalWalkCountService;
     private final ExitSectionService exitSectionService;
     private final RemoveAccountService removeAccountService;
+    private final QueryGoalWalkCountService queryGoalWalkCountService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
@@ -100,6 +103,11 @@ public class UserController {
     @GetMapping("/accounts/{phone-number}")
     public UserAccountIdResponse searchAccountId(@PathVariable(name = "phone-number") String phoneNumber) {
         return searchAccountIdService.execute(phoneNumber);
+    }
+
+    @GetMapping("/goal")
+    public QueryGoalWalkCountResponse queryGaolWalkCount() {
+        return queryGoalWalkCountService.execute();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

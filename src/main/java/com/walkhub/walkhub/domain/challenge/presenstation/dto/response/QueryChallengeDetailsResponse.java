@@ -2,6 +2,7 @@ package com.walkhub.walkhub.domain.challenge.presenstation.dto.response;
 
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
+import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.global.enums.UserScope;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class QueryChallengeDetailsResponse {
 	private final Long participantCount;
 	private final Boolean isMine;
 	private final Boolean isParticipated;
+	private final Integer successStandard;
 	private final Writer writer;
 
 	@Getter
@@ -33,5 +35,9 @@ public class QueryChallengeDetailsResponse {
 		private final Long userId;
 		private final String name;
 		private final String profileImageUrl;
+		private final Authority authority;
+		private final String schoolName;
+		private final Integer grade;
+		private final Integer classNum;
 	}
 }

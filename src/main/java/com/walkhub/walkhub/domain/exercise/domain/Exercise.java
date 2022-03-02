@@ -21,7 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -36,7 +36,7 @@ public class Exercise extends BaseTimeEntity {
     @Column(nullable = false, columnDefinition = "integer default 0")
     private Integer walkCount;
 
-    private LocalDateTime endAt;
+    private ZonedDateTime endAt;
 
     @Column(nullable = false, columnDefinition = "integer default 0")
     private Integer distance;
@@ -64,20 +64,25 @@ public class Exercise extends BaseTimeEntity {
     @Column(nullable = false, columnDefinition = "varchar(255) default " + DefaultImage.EXERCISE_IMAGE)
     private String imageUrl;
 
+    @Column(nullable = false, columnDefinition = "integer default 0")
+    private Integer pausedTime;
+
     @Builder
     public Exercise(User user, Integer goal, GoalType goalType) {
         this.user = user;
         this.goalType = goalType;
-        this.goal = goal;
+        if(goal != null) this.goal = goal;
         this.isExercising = true;
     }
 
-    public void closeExercise(Integer walkCount, Integer distance, Double calorie) {
+    public void closeExercise(Integer walkCount, Integer distance, Double calorie, String imageUrl, Integer pausedTime) {
         this.walkCount = walkCount;
         this.distance = distance;
         this.calorie = calorie;
-        this.endAt = LocalDateTime.now();
+        this.endAt = ZonedDateTime.now();
+        this.imageUrl = imageUrl;
         this.isExercising = false;
+        this.pausedTime = pausedTime;
     }
 
     public void addCheeringCount() {

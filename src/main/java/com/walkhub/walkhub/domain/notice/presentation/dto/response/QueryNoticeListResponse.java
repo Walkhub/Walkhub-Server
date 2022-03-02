@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Getter
@@ -23,13 +23,13 @@ public class QueryNoticeListResponse {
         private final String title;
         private final String content;
 
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
-        private final LocalDateTime createdAt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+        private final ZonedDateTime createdAt;
         private final Writer writer;
 
         @QueryProjection
-        public NoticeResponse(Long id, String title, String content, LocalDateTime createdAt,
-            Writer writer) {
+        public NoticeResponse(Long id, String title, String content, ZonedDateTime createdAt,
+                              Writer writer) {
             this.id = id;
             this.title = title;
             this.content = content;
