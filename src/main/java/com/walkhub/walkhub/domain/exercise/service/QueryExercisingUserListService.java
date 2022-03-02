@@ -24,13 +24,12 @@ public class QueryExercisingUserListService {
         User user = userFacade.getCurrentUser();
 
         List<ExercisingUserListResponse> exercisingList =
-                userRepository.findTop3BySchoolAndIsMeasuringTrue(user.getSchool())
+                userRepository.findAllBySchoolAndIsMeasuringTrue(user.getSchool())
                         .stream()
                         .map(this::buildExercisingUserList)
                         .collect(Collectors.toList());
 
         return new QueryExercisingUserListResponse(exercisingList);
-
     }
 
     private ExercisingUserListResponse buildExercisingUserList(User user) {
