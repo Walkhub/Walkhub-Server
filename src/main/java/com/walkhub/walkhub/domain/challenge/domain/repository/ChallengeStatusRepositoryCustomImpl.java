@@ -153,9 +153,9 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .join(user.school, school)
                 .join(user.challengeStatuses, challengeStatus)
                 .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
-                .on(challengeDateFilter(challenge))
-                .where(userScopeFilter(participantsScope),
+                .on(challengeDateFilter(challenge),
                         isChallengeSuccessFilter(challenge))
+                .where(userScopeFilter(participantsScope))
                 .orderBy(challengeParticipantsOrder(participantsOrder))
                 .having(challengeSuccessFilter(successScope, challenge))
                 .groupBy(user.id)
