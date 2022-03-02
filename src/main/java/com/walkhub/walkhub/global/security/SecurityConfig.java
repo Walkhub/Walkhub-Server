@@ -77,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/exercises/analysis").authenticated()
                 .antMatchers(HttpMethod.GET, "/exercises/lists").authenticated()
                 .antMatchers(HttpMethod.GET, "/exercises/{exercise-id}").hasAnyAuthority("TEACHER", "ROOT")
-                .antMatchers(HttpMethod.GET, "/exercises/users/lists").authenticated()
+                .antMatchers(HttpMethod.GET, "/exercises/users/lists").hasAnyAuthority("USER", "TEACHER")
 
                 // notices
                 .antMatchers(HttpMethod.GET, "/notices/list").authenticated()
