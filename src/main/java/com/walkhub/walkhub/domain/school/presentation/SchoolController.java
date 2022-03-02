@@ -1,7 +1,9 @@
 package com.walkhub.walkhub.domain.school.presentation;
 
 import com.walkhub.walkhub.domain.school.presentation.dto.request.SchoolLogoRequest;
+import com.walkhub.walkhub.domain.school.presentation.dto.response.SchoolDetailsInfoResponse;
 import com.walkhub.walkhub.domain.school.presentation.dto.response.SearchSchoolListResponse;
+import com.walkhub.walkhub.domain.school.service.SchoolDetailsInfoService;
 import com.walkhub.walkhub.domain.school.service.SchoolLogoSettingService;
 import com.walkhub.walkhub.domain.school.service.SearchSchoolService;
 import lombok.RequiredArgsConstructor;
@@ -24,16 +26,21 @@ public class SchoolController {
 
     private final SchoolLogoSettingService schoolLogoSettingService;
     private final SearchSchoolService searchSchoolService;
+    private final SchoolDetailsInfoService schoolDetailsInfoService;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/logos/{school-id}")
-    public void schoolLogoSetting(@PathVariable(name = "school-id") Long schoolId,
-                                  @RequestBody @Valid SchoolLogoRequest request) {
-        schoolLogoSettingService.execute(schoolId, request);
+    @PatchMapping("/logos")
+    public void schoolLogoSetting(@RequestBody @Valid SchoolLogoRequest request) {
+        schoolLogoSettingService.execute(request);
     }
 
     @GetMapping("/search")
     public SearchSchoolListResponse searchSchool(@RequestParam String name) {
         return searchSchoolService.execute(name);
+    }
+
+    @GetMapping("/details/{school-id}")
+    public SchoolDetailsInfoResponse schoolDetailsInfo(@PathVariable("school-id") Long schoolId) {
+        return schoolDetailsInfoService.execute(schoolId);
     }
 }

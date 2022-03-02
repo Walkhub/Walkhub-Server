@@ -1,10 +1,10 @@
 package com.walkhub.walkhub.domain.auth.presentation.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Getter
 @Builder
@@ -12,6 +12,6 @@ public class UserAccessTokenResponse {
 
     private final String accessToken;
 
-    @DateTimeFormat(pattern = "yyyy-MM-ddThh:mm:SS")
-    private final LocalDateTime expiredAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private final ZonedDateTime expiredAt;
 }

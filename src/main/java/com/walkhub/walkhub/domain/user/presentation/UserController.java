@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.user.presentation;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.InputHealthInformationRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinSectionRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateGoalWalkCountRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdatePasswordRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateSchoolInfoRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
@@ -10,11 +11,13 @@ import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequ
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
+import com.walkhub.walkhub.domain.user.service.ExitSectionService;
 import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
 import com.walkhub.walkhub.domain.user.service.JoinSectionService;
 import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
 import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
 import com.walkhub.walkhub.domain.user.service.SearchAccountIdService;
+import com.walkhub.walkhub.domain.user.service.UpdateGoalWalkCountService;
 import com.walkhub.walkhub.domain.user.service.UpdatePasswordService;
 import com.walkhub.walkhub.domain.user.service.UpdateSchoolInfoService;
 import com.walkhub.walkhub.domain.user.service.UpdateUserInfoService;
@@ -22,6 +25,7 @@ import com.walkhub.walkhub.domain.user.service.UserAuthCodeService;
 import com.walkhub.walkhub.domain.user.service.UserSignUpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,6 +52,8 @@ public class UserController {
     private final UpdatePasswordService updatePasswordService;
     private final UpdateSchoolInfoService updateSchoolInfoService;
     private final SearchAccountIdService searchAccountIdService;
+    private final UpdateGoalWalkCountService updateGoalWalkCountService;
+    private final ExitSectionService exitSectionService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
@@ -84,10 +90,9 @@ public class UserController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/classes/{section-id}")
-    public void joinSection(@PathVariable(name = "section-id") Long sectionId,
-                            @RequestBody @Valid JoinSectionRequest request) {
-        joinSectionService.execute(sectionId, request);
+    @PostMapping("/classes")
+    public void joinSection(@RequestBody @Valid JoinSectionRequest request) {
+        joinSectionService.execute(request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -97,7 +102,7 @@ public class UserController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/school")
+    @PatchMapping("/schools")
     public void updateSchoolInfo(@RequestBody @Valid UpdateSchoolInfoRequest request) {
         updateSchoolInfoService.execute(request);
     }
@@ -105,6 +110,18 @@ public class UserController {
     @GetMapping("/accounts/{phone-number}")
     public UserAccountIdResponse searchAccountId(@PathVariable(name = "phone-number") String phoneNumber) {
         return searchAccountIdService.execute(phoneNumber);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/goal")
+    public void updateGoalWalkCount(@RequestBody UpdateGoalWalkCountRequest updateGoalWalkCountRequest) {
+        updateGoalWalkCountService.execute(updateGoalWalkCountRequest);
+    }
+    
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/classes")
+    public void exitSection() {
+        exitSectionService.execute();
     }
 
 }

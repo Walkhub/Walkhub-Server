@@ -5,32 +5,33 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Repository
 public class ExerciseAnalysisCacheRepositoryImpl implements ExerciseAnalysisCacheRepository {
 
-    public static final String EXERCISE_ANALYSIS_KEY = "exercise_analysis";
+    public static final String EXERCISE_ANALYSIS_KEY = "exercise_analysis_";
 
     private final ZSetOperations<String, Object> zSetOperations;
 
     @Override
-    public void saveExerciseCache(Long userId, Double walkCount) {
-        zSetOperations.add(EXERCISE_ANALYSIS_KEY, userId, walkCount);
+    public void saveExerciseCache(Long schoolId, Long userId, Double walkCount) {
+        zSetOperations.add(getExerciseAnalysisKey(schoolId), userId, walkCount);
+        Date today = java.sql.Date.valueOf(LocalDate.now());
+        zSetOperations.getOperations().expireAt(getExerciseAnalysisKey(schoolId), today);
     }
 
     @Override
-    public ExerciseAnalysisDto getUserTodayRank(Long userId) {
-        Double doubleWalkCount = Optional.ofNullable(zSetOperations.score(EXERCISE_ANALYSIS_KEY, userId))
-                .orElseThrow(() -> RedisTransactionException.EXCEPTION);
+    public ExerciseAnalysisDto getUserTodayRank(Long schoolId, Long userId) {
+        Double doubleWalkCount = zSetOperations.score(getExerciseAnalysisKey(schoolId), userId);
+        if (doubleWalkCount == null) {
+            return null;
+        }
 
         Integer walkCount = doubleWalkCount.intValue();
-        Long ranking = zSetOperations.rank(EXERCISE_ANALYSIS_KEY, userId);
+        Long ranking = zSetOperations.rank(getExerciseAnalysisKey(schoolId), userId);
 
         try {
             return ExerciseAnalysisDto.builder()
@@ -44,11 +45,12 @@ public class ExerciseAnalysisCacheRepositoryImpl implements ExerciseAnalysisCach
     }
 
     @Override
-    public List<ExerciseAnalysisDto> getUserIdsByRankTop100() {
-        Set<ZSetOperations.TypedTuple<Object>> rankUserIds = Optional.ofNullable(
-                zSetOperations.reverseRangeWithScores(EXERCISE_ANALYSIS_KEY, 0, 99))
-                .orElseThrow(() -> RedisTransactionException.EXCEPTION);
+    public List<ExerciseAnalysisDto> getUserIdsByRankTop100(Long schoolId) {
+        Set<ZSetOperations.TypedTuple<Object>> rankUserIds = zSetOperations.reverseRangeWithScores(getExerciseAnalysisKey(schoolId), 0, 99);
         int rank = 1;
+        if (rankUserIds == null) {
+            return Collections.emptyList();
+        }
 
         List<ExerciseAnalysisDto> exerciseAnalysisDtos = new ArrayList<>(rankUserIds.size());
 
@@ -67,5 +69,9 @@ public class ExerciseAnalysisCacheRepositoryImpl implements ExerciseAnalysisCach
         }
 
         return exerciseAnalysisDtos;
+    }
+
+    private String getExerciseAnalysisKey(Long schoolId) {
+        return EXERCISE_ANALYSIS_KEY + schoolId;
     }
 }

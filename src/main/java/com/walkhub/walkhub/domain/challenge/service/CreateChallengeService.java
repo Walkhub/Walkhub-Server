@@ -24,6 +24,7 @@ public class CreateChallengeService {
         UserScope userScope = user.getAuthority() == Authority.SU ? UserScope.ALL : request.getUserScope();
 
         challengeRepository.save(Challenge.builder()
+                .user(user)
                 .name(request.getName())
                 .content(request.getContent())
                 .imageUrl(request.getImageUrl())

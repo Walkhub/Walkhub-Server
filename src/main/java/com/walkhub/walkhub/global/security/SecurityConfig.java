@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.global.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.walkhub.walkhub.global.error.CustomAuthenticationEntryPoint;
 import com.walkhub.walkhub.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -51,11 +52,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/users/{user-id}").authenticated()
                 .antMatchers(HttpMethod.GET, "/users").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users").authenticated()
-                .antMatchers(HttpMethod.POST,"/users/classes/{section-id}").authenticated()
+                .antMatchers(HttpMethod.POST, "/users/classes").hasAuthority("USER")
+                .antMatchers(HttpMethod.DELETE, "/users/classes").hasAuthority("USER")
                 .antMatchers(HttpMethod.GET, "/users/accounts/{phone-number}").permitAll()
-                .antMatchers(HttpMethod.PATCH, "/users/healths").authenticated()
+                .antMatchers(HttpMethod.PATCH, "/users/health").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users/goal").authenticated()
-                .antMatchers(HttpMethod.PATCH, "/users/school").authenticated()
+                .antMatchers(HttpMethod.PATCH, "/users/schools").authenticated()
+
+                //levels
+                .antMatchers(HttpMethod.GET, "/levels/lists").authenticated()
+                .antMatchers(HttpMethod.PATCH, "/levels/{level-id}").authenticated()
 
                 // badges
                 .antMatchers(HttpMethod.GET, "/badges/{user-id}").authenticated()
@@ -70,11 +76,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/exercises/locations/{exercise-id}").authenticated()
                 .antMatchers(HttpMethod.GET, "/exercises/analysis").authenticated()
                 .antMatchers(HttpMethod.GET, "/exercises/lists").authenticated()
+                .antMatchers(HttpMethod.GET, "/exercises/{exercise-id}").hasAnyAuthority("TEACHER", "ROOT")
+                .antMatchers(HttpMethod.GET, "/exercises/users/lists").hasAnyAuthority("USER", "TEACHER")
 
                 // notices
                 .antMatchers(HttpMethod.GET, "/notices/list").authenticated()
-                .antMatchers(HttpMethod.POST, "/notices").hasAnyAuthority("TEACHER", "ROOT", "SU")
-                .antMatchers(HttpMethod.DELETE, "/notices/{notice-id}").hasAnyAuthority("TEACHER", "ROOT", "SU")
+                .antMatchers(HttpMethod.POST, "/notices").hasAnyAuthority("ROOT", "SU")
+                .antMatchers(HttpMethod.DELETE, "/notices/{notice-id}").hasAnyAuthority("ROOT", "SU")
 
                 // notifications
                 .antMatchers(HttpMethod.GET, "/notifications").authenticated()
@@ -87,48 +95,58 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/ranks/schools/search").authenticated()
                 .antMatchers(HttpMethod.GET, "/ranks/users/{school-id}").authenticated()
                 .antMatchers(HttpMethod.GET, "/ranks/users/my-school").authenticated()
-                .antMatchers(HttpMethod.GET, "/ranks/users/search").authenticated()
+                .antMatchers(HttpMethod.GET, "/ranks/users/search/{school-id}").authenticated()
 
                 // challenges
                 .antMatchers(HttpMethod.POST, "/challenges").hasAnyAuthority("TEACHER", "ROOT", "SU")
                 .antMatchers(HttpMethod.PATCH, "/challenges/{challenge-id}").hasAnyAuthority("TEACHER", "ROOT", "SU")
                 .antMatchers(HttpMethod.DELETE, "/challenges/{challenge-id}").hasAnyAuthority("TEACHER", "ROOT", "SU")
-                .antMatchers(HttpMethod.GET, "/challenges/list").authenticated()
+                .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/progress").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}").authenticated()
                 .antMatchers(HttpMethod.POST, "/challenges/{challenge-id}").authenticated()
-                .antMatchers(HttpMethod.GET, "/challenges/participated").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants/students").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants/teachers").hasAnyAuthority("TEACHER", "ROOT", "SU")
+                .antMatchers(HttpMethod.GET, "/challenges/list").authenticated()
+                .antMatchers(HttpMethod.GET, "/challenges/lists/closed").authenticated()
+                .antMatchers(HttpMethod.GET, "/challenges/participated").authenticated()
 
                 // images
                 .antMatchers(HttpMethod.POST, "/images").permitAll()
 
                 // schools
-                .antMatchers(HttpMethod.PATCH, "/schools/logos/{school-id}").hasAuthority("ROOT")
-                .antMatchers(HttpMethod.GET, "/schools/search").authenticated()
+                .antMatchers(HttpMethod.PATCH, "/schools/logos").hasAuthority("ROOT")
+                .antMatchers(HttpMethod.GET, "/schools/search").permitAll()
 
                 // teachers
                 .antMatchers(HttpMethod.POST, "/teachers/verification-codes").hasAuthority("ROOT")
                 .antMatchers(HttpMethod.PATCH, "/teachers/verification-codes").hasAuthority("USER")
+                .antMatchers(HttpMethod.GET, "/teachers/users/search").hasAnyAuthority("TEACHER", "ROOT")
+                .antMatchers(HttpMethod.GET, "/teachers/users").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.POST, "/teachers/classes").hasAnyAuthority("TEACHER", "ROOT")
+                .antMatchers(HttpMethod.GET, "/teachers/classes/lists").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.DELETE, "/teachers/classes/{section-id}").hasAnyAuthority("TEACHER", "ROOT")
-                .antMatchers(HttpMethod.GET, "/teachers/classes").hasAnyAuthority("TEACHER")
-                .antMatchers(HttpMethod.GET,"/teachers/{user-id}").hasAnyAuthority("TEACHER")
-                .antMatchers(HttpMethod.GET,"/teachers/users").hasAnyAuthority("TEACHER","ROOT")
-                .antMatchers(HttpMethod.GET,"/teachers/students/verification-codes").hasAnyAuthority("TEACHER")
-                .antMatchers(HttpMethod.PATCH,  "/teachers/classes/verification-codes").hasAuthority("TEACHER")
+                .antMatchers(HttpMethod.GET, "/teachers/classes").hasAuthority("TEACHER")
+                .antMatchers(HttpMethod.GET, "/teachers/users/{user-id}").hasAnyAuthority("TEACHER")
+                .antMatchers(HttpMethod.GET, "/teachers/users").hasAnyAuthority("TEACHER", "ROOT")
+                .antMatchers(HttpMethod.PATCH, "/teachers/schools").hasAuthority("TEACHER")
+                .antMatchers(HttpMethod.GET, "/teachers/students/verification-codes").hasAnyAuthority("TEACHER")
+                .antMatchers(HttpMethod.PATCH, "/teachers/classes/verification-codes").hasAuthority("TEACHER")
 
                 // su
-                .antMatchers(HttpMethod.GET,"/su").hasAuthority("SU")
-                .antMatchers(HttpMethod.POST,"/su/accounts/{school-id}").hasAuthority("SU")
+                .antMatchers(HttpMethod.GET, "/su").hasAuthority("SU")
+                .antMatchers(HttpMethod.POST, "/su/accounts/{school-id}").hasAuthority("SU")
+                .antMatchers(HttpMethod.PATCH, "/su/accounts/{school-id}").hasAuthority("SU")
 
                 //excel
-                .antMatchers(HttpMethod.GET,"/excel").hasAnyAuthority("TEACHER", "ROOT")
+                .antMatchers(HttpMethod.GET, "/excel").hasAnyAuthority("TEACHER", "ROOT")
 
                 // socket.io
                 .antMatchers(HttpMethod.GET, "/socket.io").authenticated()
 
                 .anyRequest().denyAll()
+
+                .and()
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint(objectMapper))
 
                 .and()
                 .apply(new FilterConfig(jwtTokenProvider, objectMapper));

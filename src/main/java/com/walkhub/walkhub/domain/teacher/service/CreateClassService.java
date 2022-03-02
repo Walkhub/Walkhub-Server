@@ -10,7 +10,6 @@ import com.walkhub.walkhub.domain.user.domain.repository.SectionRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.utils.code.RandomCodeUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,12 +34,12 @@ public class CreateClassService {
                 .classCode(classCode)
                 .build();
 
-        try {
-            sectionRepository.save(section);
-            user.setSection(section);
-        } catch (DataIntegrityViolationException e) {
+        if (user.hasSection() || sectionRepository.findBySchoolAndGradeAndClassNum(userSchool, grade, classNum).isPresent()) {
             throw AlreadyCreatedException.EXCEPTION;
         }
+
+        Section savedSection = sectionRepository.save(section);
+        user.setSection(savedSection);
 
         return new CodeResponse(classCode);
     }

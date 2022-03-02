@@ -1,13 +1,9 @@
 package com.walkhub.walkhub.domain.rank.domain;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import java.time.LocalDate;
+import lombok.*;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,7 +12,7 @@ import java.time.LocalDateTime;
 public class SchoolRankId implements Serializable {
     private Long schoolId;
 
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     private String dateType;
 }
