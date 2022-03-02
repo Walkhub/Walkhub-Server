@@ -20,5 +20,6 @@ public class UserRankListResponse {
         private final Integer ranking;
         private final String profileImageUrl;
         private final Integer walkCount;
+        private final Boolean isMeasuring;
     }
 }
