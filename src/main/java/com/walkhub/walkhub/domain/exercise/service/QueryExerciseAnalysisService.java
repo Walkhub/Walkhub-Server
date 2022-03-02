@@ -31,23 +31,23 @@ public class QueryExerciseAnalysisService {
         ExerciseAnalysis exerciseAnalysis = exerciseAnalysisRepository.findByUserAndDate(user, now)
                 .orElse(ExerciseAnalysis.builder().build());
 
-        Map<LocalDate, List<ExerciseAnalysis>> walkCountList = exerciseAnalysisRepository.findAllByUserAndDateBetweenOrderByDate(user, startAt, now)
+        Map<LocalDate, List<ExerciseAnalysis>> exerciseAnalysisDateList = exerciseAnalysisRepository.findAllByUserAndDateBetweenOrderByDate(user, startAt, now)
                 .stream()
                 .collect(Collectors.groupingBy(ExerciseAnalysis::getDate));
 
-        List<Integer> walkCountList2 = new LinkedList<>();
+        List<Integer> walkCountList = new LinkedList<>();
 
         for (LocalDate i = startAt; i.isBefore(LocalDate.now()); i = i.plusDays(1)) {
-            List<ExerciseAnalysis> exerciseAnalyseOfToday = walkCountList.get(i);
+            List<ExerciseAnalysis> exerciseAnalyseOfToday = exerciseAnalysisDateList.get(i);
             if (exerciseAnalyseOfToday == null) {
-                walkCountList2.add(0);
+                walkCountList.add(0);
             } else {
-                walkCountList2.add(exerciseAnalyseOfToday.get(0).getWalkCount());
+                walkCountList.add(exerciseAnalyseOfToday.get(0).getWalkCount());
             }
         }
 
         return QueryExerciseAnalysisResponse.builder()
-                .walkCountList(walkCountList2)
+                .walkCountList(walkCountList)
                 .dailyWalkCountGoal(user.getDailyWalkCountGoal())
                 .walkCount(exerciseAnalysis.getWalkCount())
                 .calorie(exerciseAnalysis.getCalorie())
