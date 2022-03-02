@@ -8,6 +8,7 @@ import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
 import com.walkhub.walkhub.domain.rank.facade.UserRankFacade;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse.UserRankResponse;
+import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
@@ -41,18 +42,17 @@ public class QueryUserRankListByMySchoolService {
         } else if (scope.equals(UserRankScope.SCHOOL)) {
             userRankListResponse = buildWeekOrMonthRankResponse(user, null, null, dateType, date);
         } else if (scope.equals(UserRankScope.CLASS)) {
-            userRankListResponse = buildWeekOrMonthRankResponse(user, user.getSection().getGrade(), user.getSection().getClassNum(), dateType, date);
+            Section userSection = user.hasSection() ? user.getSection() : Section.builder().build();
+            userRankListResponse = buildWeekOrMonthRankResponse(user, userSection.getGrade(), userSection.getClassNum(), dateType, date);
         }
 
         return userRankListResponse;
     }
 
     private UserRankListResponse buildDayRankResponse(User user) {
-        UserRankResponse myRank;
+
+        UserRankResponse myRank = buildDayMyRank(user);
         List<UserRankResponse> userRankList = new ArrayList<>();
-
-        myRank = buildDayMyRank(user);
-
         List<ExerciseAnalysisDto> usersDayRank = exerciseAnalysisCacheRepository.getUserIdsByRankTop100(user.getSchool().getId());
 
         List<Long> userIds = usersDayRank.stream()
@@ -71,13 +71,10 @@ public class QueryUserRankListByMySchoolService {
     }
 
     private UserRankListResponse buildWeekOrMonthRankResponse(User user, Integer grade, Integer classNum, DateType dateType, LocalDate date) {
-        UserRankResponse myRank;
-        List<UserRankResponse> userRankList;
 
-        myRank = buildWeekOrMonthMyRank(user.getId(), grade, classNum, dateType, date);
-
-        List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), user.getSection().getGrade(), classNum, dateType, date);
-        userRankList = userRankFacade.buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
+        UserRankResponse myRank = buildWeekOrMonthMyRank(user.getId(), grade, classNum, dateType, date);
+        List<UserRankVO> usersWeekOrMonthRank = userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), grade, classNum, dateType, date);
+        List<UserRankResponse> userRankList = userRankFacade.buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
 
         return UserRankListResponse.builder()
                 .myRanking(myRank)
