@@ -17,7 +17,7 @@ public class StartBadge implements BaseBadge {
     @Override
     public Boolean hasBadge(List<DefaultBadgeVO> userOwnBadge) {
         return userOwnBadge.stream()
-                .anyMatch(defaultBadgeVO -> defaultBadgeVO.getBadgeType() == BadgeType.NEWBIE);
+                .anyMatch(defaultBadgeVO -> defaultBadgeVO.getCode() == BadgeType.NEWBIE);
     }
 
     @Override
