@@ -6,6 +6,7 @@ import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse.MySchoolResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse.SchoolResponse;
+import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import java.time.LocalDate;
@@ -41,12 +42,14 @@ public class QuerySchoolRankService {
 	}
 
 	private MySchoolResponse mySchoolResponseBuilder(SchoolRank schoolRank, User user) {
+		Section section = user.hasSection() ? user.getSection() : Section.builder().build();
+
 		return MySchoolResponse.builder()
 			.schoolId(schoolRank.getSchoolId())
 			.name(schoolRank.getName())
 			.logoImageUrl(schoolRank.getLogoImageUrl())
-			.grade(user.getSection().getGrade())
-			.classNum(user.getSection().getClassNum())
+			.grade(section.getGrade())
+			.classNum(section.getClassNum())
 			.build();
 	}
 
