@@ -21,7 +21,7 @@ public class UpdateSchoolPasswordService {
     public UpdateSchoolPasswordResponse execute(Long schoolId) {
         School school = schoolFacade.getSchoolById(schoolId);
 
-        User user = userRepository.findBySchoolAndAuthority(school, Authority.TEACHER)
+        User user = userRepository.findBySchoolAndAuthority(school, Authority.ROOT)
                 .orElseThrow(() -> SchoolRootUserNotFoundException.EXCEPTION);
 
         String updatedPassword = user.updateRootUserPassword();
