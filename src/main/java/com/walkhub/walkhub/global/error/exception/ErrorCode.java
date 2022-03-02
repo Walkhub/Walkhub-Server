@@ -33,6 +33,7 @@ public enum ErrorCode {
     PHONE_NUMBER_NOT_FOUND(404, "USER-404-5", "PhoneNumber Not Found"),
     VERIFICATION_CODE_NOT_FOUND(404, "TEACHER-404-1", "Verification Code Not Found"),
     CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge Not Found"),
+    ROOT_USER_NOT_FOUND(404, "USER-404-6", "Root User Not Found."),
 
     EXERCISE_NOT_FOUND(404, "EXERCISE-404-1", "Exercise Not Found"),
     EXERCISE_ANALYSIS_NOT_FOUND(404, "EXERCISE-404-2", "Exercise Analysis Not Found"),

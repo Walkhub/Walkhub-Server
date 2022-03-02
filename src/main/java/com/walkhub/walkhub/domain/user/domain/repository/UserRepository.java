@@ -23,6 +23,8 @@ public interface UserRepository extends CrudRepository<User, Long>, UserReposito
     @Query("select u from User u left join fetch u.section where u.school = :school and u.authority = :authority")
     List<User> findAllBySchoolAndAuthority(@Param("school") School school, @Param("authority") Authority authority);
 
+    Optional<User> findBySchoolAndAuthority(School school, Authority authority);
+
     @Transactional
     @Modifying
     @Query("update User u set u.section = null where u.section = :section")
