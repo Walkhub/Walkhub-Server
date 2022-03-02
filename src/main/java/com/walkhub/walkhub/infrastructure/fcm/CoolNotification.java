@@ -6,6 +6,7 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.*;
 import com.walkhub.walkhub.domain.notification.domain.NotificationEntity;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationRepository;
+import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,14 +30,16 @@ public class CoolNotification implements FcmUtil {
     @Value("${firebase.path}")
     private String path;
 
+    private static final String MESSAGING_SCOPE = "https://www.googleapis.com/auth/firebase.messaging";
+    private static final String[] SCOPES = {MESSAGING_SCOPE};
+
     @PostConstruct
     @Override
     public void initialize() {
         try {
             FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials
-                            .fromStream(new ClassPathResource(path)
-                                    .getInputStream()))
+                    .setCredentials(GoogleCredentials.fromStream(new ClassPathResource(path).getInputStream())
+                            .createScoped(Arrays.asList(SCOPES)))
                     .build();
 
             if (FirebaseApp.getApps().isEmpty()) {
@@ -77,4 +83,36 @@ public class CoolNotification implements FcmUtil {
                 .build();
         FirebaseMessaging.getInstance().sendAsync(message);
     }
+
+    @Override
+    public void subscribeTopic(List<User> users, NotificationRequest request) throws FirebaseMessagingException {
+
+        for (int i = 0; i < users.size() / 1000; i++) {
+            List<String> deviceTokenListToSubscribe = users.subList(i, i * 1000)
+                    .stream().map(User::getDeviceToken)
+                    .collect(Collectors.toList());
+
+            TopicManagementResponse response = FirebaseMessaging.getInstance(FirebaseApp.getInstance())
+                    .subscribeToTopic(
+                            deviceTokenListToSubscribe, request.getType().toString()
+                    );
+        }
+
+    }
+
+    @Override
+    public void unSubscribeTopic(List<User> users, NotificationRequest request) throws FirebaseMessagingException {
+
+        for (int i = 0; i < users.size() / 1000; i++) {
+            List<String> deviceTokenListToSubscribe = users.subList(i, i * 1000)
+                    .stream().map(User::getDeviceToken)
+                    .collect(Collectors.toList());
+
+            TopicManagementResponse response = FirebaseMessaging.getInstance(FirebaseApp.getInstance())
+                    .unsubscribeFromTopic(
+                            deviceTokenListToSubscribe, request.getType().toString()
+                    );
+        }
+    }
+
 }
