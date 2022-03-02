@@ -14,13 +14,11 @@ import com.walkhub.walkhub.global.websocket.connect.WebSocketJwtHandler;
 import com.walkhub.walkhub.global.websocket.property.ClientProperty;
 import com.walkhub.walkhub.global.websocket.property.SocketProperty;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class CheeringService {
@@ -52,8 +50,6 @@ public class CheeringService {
         exercise.addCheeringCount();
 
         clientToSend.sendEvent(SocketProperty.NEW_CHEERING, message);
-
-        log.info(user.getName() + ", " + request.getUserId());
 
     }
 }

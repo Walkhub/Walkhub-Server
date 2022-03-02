@@ -3,9 +3,6 @@ package com.walkhub.walkhub.domain.user.service;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.badge.domain.Badge;
 import com.walkhub.walkhub.domain.badge.domain.repository.BadgeRepository;
-import com.walkhub.walkhub.domain.calorielevel.domain.CalorieLevel;
-import com.walkhub.walkhub.domain.calorielevel.domain.repository.CalorieLevelRepository;
-import com.walkhub.walkhub.domain.calorielevel.exception.CalorieLevelNotFoundException;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.school.domain.repository.SchoolRepository;
 import com.walkhub.walkhub.domain.user.domain.User;
@@ -41,7 +38,6 @@ public class UserSignUpService {
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtProperties jwtProperties;
     private final BadgeRepository badgeRepository;
-    private final CalorieLevelRepository calorieLevelRepository;
 
     @Transactional
     public UserTokenResponse execute(UserSignUpRequest request) {
@@ -59,9 +55,6 @@ public class UserSignUpService {
         School school = schoolRepository.findById(request.getSchoolId())
                 .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
 
-        CalorieLevel calorieLevel = calorieLevelRepository.findByLevel(1)
-                .orElseThrow(() -> CalorieLevelNotFoundException.EXCEPTION);
-
         User user = User.builder()
                 .accountId(request.getAccountId())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -74,7 +67,6 @@ public class UserSignUpService {
                 .sex(request.getSex())
                 .isMeasuring(false)
                 .badge(defaultTitleBadge)
-                .calorieLevel(calorieLevel)
                 .build();
         userRepository.save(user);
 

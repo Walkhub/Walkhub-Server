@@ -4,8 +4,6 @@ import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsResponse.Writer;
-import com.walkhub.walkhub.domain.school.domain.School;
-import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.enums.UserScope;
@@ -32,9 +30,6 @@ public class QueryChallengeDetailsService {
 			throw InvalidRoleException.EXCEPTION;
 		}
 
-		School writerSchool = writer.hasSchool() ? writer.getSchool() : School.builder().build();
-		Section writerSection = writer.hasSection() ? writer.getSection() : Section.builder().build();
-
 		Boolean isMine = challenge.getChallengeStatuses()
 			.stream()
 			.anyMatch(challengeStatus -> challengeStatus.getUser().equals(user));
@@ -58,10 +53,6 @@ public class QueryChallengeDetailsService {
 				.userId(writer.getId())
 				.name(writer.getName())
 				.profileImageUrl(writer.getProfileImageUrl())
-				.authority(writer.getAuthority())
-				.schoolName(writerSchool.getName())
-				.classNum(writerSection.getClassNum())
-				.grade(writerSection.getGrade())
 				.build())
 			.build();
 	}
