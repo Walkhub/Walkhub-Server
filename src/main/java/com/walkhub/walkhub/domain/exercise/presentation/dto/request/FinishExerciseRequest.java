@@ -22,4 +22,7 @@ public class FinishExerciseRequest {
 
     private String imageUrl;
 
+    @NotNull(message = "paused_time는 null, 공백을 허용하지 않습니다.")
+    private Integer pausedTime;
+
 }
