@@ -21,7 +21,8 @@ public class FinishExerciseService {
                 request.getWalkCount(),
                 request.getDistance(),
                 request.getCalorie(),
-                request.getImageUrl()
+                request.getImageUrl(),
+                request.getPausedTime()
         );
     }
 
