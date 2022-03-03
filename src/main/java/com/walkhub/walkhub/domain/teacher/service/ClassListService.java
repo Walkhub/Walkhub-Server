@@ -49,7 +49,6 @@ public class ClassListService {
                         .sectionId(section.getId())
                         .grade(section.getGrade())
                         .classNum(section.getClassNum())
-                        .userCount(userRepository.countAllBySection(section))
                         .build())
                 .teacher(TeacherResponse.builder()
                         .userId(teacher.getId())
