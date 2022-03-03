@@ -36,13 +36,7 @@ public class ClassListService {
     }
 
     private ClassResponse buildClassResponse(User teacher) {
-        Section section;
-
-        if (teacher.hasSection()) {
-            section = teacher.getSection();
-        } else {
-            section = Section.builder().build();
-        }
+        Section section = teacher.hasSection() ? teacher.getSection() : Section.builder().build();
 
         return ClassResponse.builder()
                 .section(SectionResponse.builder()
