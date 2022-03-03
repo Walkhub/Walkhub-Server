@@ -29,7 +29,7 @@ public class QueryExerciseAnalysisService {
         LocalDate now = LocalDate.now();
 
         ExerciseAnalysis todayExerciseAnalysis = exerciseAnalysisRepository.findByUserAndDate(user, now)
-                .orElse(ExerciseAnalysis.builder().walkCount(0).calorie(0.0).distance(0).build());
+                .orElse(ExerciseAnalysis.builder().walkCount(0).calorie(0.0).distance(0).exerciseTime(0.0).build());
 
         Map<LocalDate, List<ExerciseAnalysis>> exerciseAnalysisDateList = exerciseAnalysisRepository.findAllByUserAndDateBetweenOrderByDate(user, startAt, now)
                 .stream()
