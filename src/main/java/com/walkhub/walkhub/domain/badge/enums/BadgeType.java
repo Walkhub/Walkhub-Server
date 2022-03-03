@@ -16,7 +16,8 @@ public enum BadgeType {
     GO_JIN_HO("go_jin_ho"),
     SLIVER_SHOES("sliver_shoes"),
     GOLD_SHOES("gold_shoes"),
-    MARATHON("marathon");
+    MARATHON("marathon"),
+    UBD("ubd");
 
     private final String code;
 }
