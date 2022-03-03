@@ -13,6 +13,7 @@ import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class ClaimBadgeService {
     private final BadgeCollectionRepository badgeCollectionRepository;
     private final BadgeFactory badgeFactory;
 
+    @Transactional
     public ClaimBadgeResponse execute() {
         User user = userFacade.getCurrentUser();
         List<BadgeResponse> badgeResponses = new ArrayList<>();
