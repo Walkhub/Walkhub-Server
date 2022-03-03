@@ -17,7 +17,8 @@ public enum BadgeType {
     SLIVER_SHOES("sliver_shoes"),
     GOLD_SHOES("gold_shoes"),
     MARATHON("marathon"),
-    UBD("ubd");
+    UBD("ubd"),
+    SEOUL_BUSAN("seoul_busan");
 
     private final String code;
 }
