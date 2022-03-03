@@ -13,4 +13,5 @@ public class QueryExerciseAnalysisResponse {
     private final Integer walkCount;
     private final Double calorie;
     private final Integer distance;
+    private final Double exerciseTime;
 }

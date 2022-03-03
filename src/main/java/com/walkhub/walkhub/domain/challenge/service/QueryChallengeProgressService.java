@@ -66,7 +66,7 @@ public class QueryChallengeProgressService {
         }
         return QueryChallengeProgressResponse.UserChallengeProgressResponse.builder()
                 .classNum(vo.getClassNum())
-                .progress(vo.getProgress())
+                .progress(vo.getProgress() == null ? 0 : vo.getProgress())
                 .grade(vo.getGrade())
                 .isSuccess(vo.getIsSuccess())
                 .number(vo.getNumber())
