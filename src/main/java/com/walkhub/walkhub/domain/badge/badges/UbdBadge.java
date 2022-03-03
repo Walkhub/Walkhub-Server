@@ -36,7 +36,7 @@ public class UbdBadge implements BaseBadge {
         User user = userFacade.getCurrentUser();
 
         final double UBDDistance = 172.212;
-        final double userDistance = exerciseAnalysisRepository.sumDistanceByUserId(user) * 100 * 1000;
+        final double userDistance = exerciseAnalysisRepository.sumDistanceByUserId(user) * 100.0 * 1000.0;
 
         return userDistance >= UBDDistance;
     }
