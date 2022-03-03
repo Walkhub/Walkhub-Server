@@ -33,6 +33,4 @@ public interface UserRepository extends CrudRepository<User, Long>, UserReposito
     void setUserSectionNull(@Param("section") Section section);
 
     List<User> findAllBySchoolAndIsMeasuringTrue(School school);
-
-    Integer countAllBySection(Section section);
 }
