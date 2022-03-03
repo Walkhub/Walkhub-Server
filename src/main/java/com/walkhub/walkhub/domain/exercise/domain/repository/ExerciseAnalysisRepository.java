@@ -18,8 +18,11 @@ public interface ExerciseAnalysisRepository extends CrudRepository<ExerciseAnaly
 
     Integer countAllByUserAndWalkCountGreaterThan(User user, Integer walkCount);
 
+    List<ExerciseAnalysis> findAllByUserAndDateBetweenOrderByDate(User user, LocalDate startAt, LocalDate endAt);
+
     @Query("SELECT SUM(e.walkCount) FROM ExerciseAnalysis e WHERE e.user = :user")
     Integer sumWalkCountByUserId(User user);
 
-    List<ExerciseAnalysis> findAllByUserAndDateBetweenOrderByDate(User user, LocalDate startAt, LocalDate endAt);
+    @Query("SELECT SUM(e.distance) FROM ExerciseAnalysis e WHERE e.user = :user")
+    Integer sumDistanceByUserId(User user);
 }
