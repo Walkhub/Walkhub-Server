@@ -2,6 +2,7 @@ package com.walkhub.walkhub.domain.exercise.domain.repository;
 
 import com.walkhub.walkhub.domain.exercise.domain.ExerciseAnalysis;
 import com.walkhub.walkhub.domain.user.domain.User;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDate;
@@ -14,5 +15,10 @@ public interface ExerciseAnalysisRepository extends CrudRepository<ExerciseAnaly
     List<ExerciseAnalysis> findAllByUserAndDateBetween(User user, LocalDate startAt, LocalDate endAt);
 
     Integer countAllByUserAndWalkCountGreaterThanEqual(User user, Integer walkCount);
+
+    Integer countAllByUserAndWalkCountGreaterThan(User user, Integer walkCount);
+
+    @Query("SELECT SUM(e.walkCount) FROM ExerciseAnalysis e WHERE e.user = :user")
+    Integer sumWalkCountByUserId(User user);
 
 }
