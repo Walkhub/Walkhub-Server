@@ -36,7 +36,7 @@ public class MarathonBadge implements BaseBadge {
         User user = userFacade.getCurrentUser();
 
         final double marathonDistance = 42.195;
-        final double userDistance = exerciseAnalysisRepository.sumDistanceByUserId(user) * 100 * 1000;
+        final double userDistance = exerciseAnalysisRepository.sumDistanceByUserId(user) * 100.0 * 1000.0;
 
         return userDistance >= marathonDistance;
     }
