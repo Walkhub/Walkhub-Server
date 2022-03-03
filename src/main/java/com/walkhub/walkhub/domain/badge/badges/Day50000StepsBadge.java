@@ -20,9 +20,9 @@ public class Day50000StepsBadge implements BaseBadge {
     private final ExerciseAnalysisRepository exerciseAnalysisRepository;
 
     @Override
-    public boolean hasBadge(List<DefaultBadgeVO> userOwnBadge) {
-        return userOwnBadge.stream()
-                .anyMatch(defaultBadgeVO -> defaultBadgeVO.getCode() == BadgeType.DAY_50000_STEPS);
+    public boolean hasBadge(List<DefaultBadgeVO> userNotOwnBadge) {
+        return userNotOwnBadge.stream()
+                .noneMatch(defaultBadgeVO -> defaultBadgeVO.getCode() == BadgeType.DAY_50000_STEPS);
     }
 
     @Override

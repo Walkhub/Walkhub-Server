@@ -15,14 +15,14 @@ public class BetaTesterBadge implements BaseBadge {
     private final BadgeRepository badgeRepository;
 
     @Override
-    public boolean hasBadge(List<DefaultBadgeVO> userOwnBadge) {
-        return userOwnBadge.stream()
-                .anyMatch(defaultBadgeVO -> defaultBadgeVO.getCode() == BadgeType.BETA_TESTER);
+    public boolean hasBadge(List<DefaultBadgeVO> userNotOwnBadge) {
+        return userNotOwnBadge.stream()
+                .noneMatch(defaultBadgeVO -> defaultBadgeVO.getCode() == BadgeType.BETA_TESTER);
     }
 
     @Override
     public Badge getBadgeEntity() {
-        return badgeRepository.findByCode(BadgeType.NEWBIE)
+        return badgeRepository.findByCode(BadgeType.BETA_TESTER)
                 .orElseThrow(() -> BadgeNotFoundException.EXCEPTION);
     }
 
