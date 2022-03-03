@@ -33,7 +33,9 @@ public class CustomBadgeRepositoryImpl implements CustomBadgeRepository {
                 .leftJoin(badgeCollection)
                 .on(badgeCollection.badge.eq(badge))
                 .leftJoin(user)
-                .on(badgeCollection.user.eq(user))
+                .on(badgeCollection.user.eq(user),
+                        user.id.eq(userId))
+                .where(user.id.isNull())
                 .fetch();
     }
 
