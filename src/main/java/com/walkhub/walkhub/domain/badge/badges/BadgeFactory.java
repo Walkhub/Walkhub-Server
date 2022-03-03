@@ -2,6 +2,7 @@ package com.walkhub.walkhub.domain.badge.badges;
 
 import com.walkhub.walkhub.domain.badge.domain.repository.BadgeRepository;
 import com.walkhub.walkhub.domain.badge.enums.BadgeType;
+import com.walkhub.walkhub.domain.badge.exception.BadgeTypeNotFoundException;
 import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,10 @@ public class BadgeFactory {
                 return new Day30000StepsBadge(badgeRepository, userFacade, exerciseAnalysisRepository);
             case DAY_50000_STEPS:
                 return new Day50000StepsBadge(badgeRepository, userFacade, exerciseAnalysisRepository);
+            case SLIVER_SHOES:
+                return new SliverShoesBadge(badgeRepository, userFacade, exerciseAnalysisRepository);
             default:
-                return null;
+                throw BadgeTypeNotFoundException.EXCEPTION;
         }
     }
 }
