@@ -1,9 +1,9 @@
 package com.walkhub.walkhub.domain.rank.domain;
 
+import java.time.LocalDate;
 import lombok.*;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -12,7 +12,7 @@ import java.time.ZonedDateTime;
 public class SchoolRankId implements Serializable {
     private Long schoolId;
 
-    private ZonedDateTime createdAt;
+    private LocalDate createdAt;
 
     private String dateType;
 }

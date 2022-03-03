@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -22,24 +24,35 @@ public class QueryExerciseAnalysisService {
 
     @Transactional(readOnly = true)
     public QueryExerciseAnalysisResponse execute() {
-
         User user = userFacade.getCurrentUser();
-        LocalDate startAt = LocalDate.now().minusDays(28);
+        LocalDate startAt = LocalDate.now().minusDays(27);
+        LocalDate now = LocalDate.now();
 
-        ExerciseAnalysis exerciseAnalysis = exerciseAnalysisRepository.findByUserAndDate(user, LocalDate.now())
-                .orElse(ExerciseAnalysis.builder().build());
+        ExerciseAnalysis todayExerciseAnalysis = exerciseAnalysisRepository.findByUserAndDate(user, now)
+                .orElse(ExerciseAnalysis.builder().walkCount(0).calorie(0.0).distance(0).exerciseTime(0.0).build());
 
-        List<Integer> walkCountList = exerciseAnalysisRepository.findAllByUserAndDateBetween(user, startAt, LocalDate.now())
+        Map<LocalDate, List<ExerciseAnalysis>> exerciseAnalysisDateList = exerciseAnalysisRepository.findAllByUserAndDateBetweenOrderByDate(user, startAt, now)
                 .stream()
-                .map(ExerciseAnalysis::getWalkCount)
-                .collect(Collectors.toList());
+                .collect(Collectors.groupingBy(ExerciseAnalysis::getDate));
+
+        List<Integer> walkCountList = new LinkedList<>();
+
+        for (LocalDate i = startAt; !i.isAfter(LocalDate.now()); i = i.plusDays(1)) {
+            List<ExerciseAnalysis> exerciseAnalyseOfToday = exerciseAnalysisDateList.get(i);
+            if (exerciseAnalyseOfToday == null) {
+                walkCountList.add(0);
+            } else {
+                walkCountList.add(exerciseAnalyseOfToday.get(0).getWalkCount());
+            }
+        }
 
         return QueryExerciseAnalysisResponse.builder()
-                .walkCount(exerciseAnalysis.getWalkCount())
                 .walkCountList(walkCountList)
-                .calorie(exerciseAnalysis.getCalorie())
                 .dailyWalkCountGoal(user.getDailyWalkCountGoal())
-                .distance(exerciseAnalysis.getDistance())
+                .walkCount(todayExerciseAnalysis.getWalkCount())
+                .calorie(todayExerciseAnalysis.getCalorie())
+                .distance(todayExerciseAnalysis.getDistance())
+                .exerciseTime(todayExerciseAnalysis.getExerciseTime())
                 .build();
     }
 }

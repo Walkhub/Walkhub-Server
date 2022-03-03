@@ -20,13 +20,17 @@ public interface UserRepository extends CrudRepository<User, Long>, UserReposito
 
     List<User> findAllBySchoolIdAndNameContaining(Long id, String name);
 
+    List<User> findAllByIdIn(List<Long> ids);
+
     @Query("select u from User u left join fetch u.section where u.school = :school and u.authority = :authority")
     List<User> findAllBySchoolAndAuthority(@Param("school") School school, @Param("authority") Authority authority);
+
+    Optional<User> findBySchoolAndAuthority(School school, Authority authority);
 
     @Transactional
     @Modifying
     @Query("update User u set u.section = null where u.section = :section")
     void setUserSectionNull(@Param("section") Section section);
 
-    List<User> findTop3BySchoolAndIsMeasuringTrue(School school);
+    List<User> findAllBySchoolAndIsMeasuringTrue(School school);
 }
