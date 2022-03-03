@@ -119,13 +119,13 @@ public class FirebaseNotification implements FcmUtil {
     }
 
     @Override
-    public void sendNoticeNotification(Notice notice, ContentType contentType) {
-        noticeSendNotificationBuilder(notice, contentType);
+    public void sendCheeringNotification() {
+
     }
 
     @Override
-    public void sendCheeringNotification() {
-
+    public void sendNoticeNotification(Notice notice, ContentType contentType) {
+        noticeSendNotificationBuilder(notice, contentType);
     }
 
     @Override
@@ -154,18 +154,16 @@ public class FirebaseNotification implements FcmUtil {
     }
 
     private void challengeSendNotificationBuilder(Challenge challenge, ContentType contentType) {
-
         sendNotification(
-                notificationBuilder(NotificationInformation.challengeNotificationInformation(challenge), " [ " + challenge.getName() + " ] " + contentType.getContent())
+                notificationBuilder(NotificationInformation.challengeNotificationInformation(challenge), " [ " + challenge.getName() + " ]" + contentType.getContent())
         );
+
     }
 
     private void noticeSendNotificationBuilder(Notice notice, ContentType contentType) {
-
         sendNotification(
                 notificationBuilder(NotificationInformation.noticeNotificationInformation(notice), " [ " + notice.getTitle() + " ] " + contentType.getContent())
         );
-
     }
 
 }
