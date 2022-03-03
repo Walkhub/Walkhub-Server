@@ -30,6 +30,10 @@ public class BadgeFactory {
                 return new Day50000StepsBadge(badgeRepository, userFacade, exerciseAnalysisRepository);
             case SLIVER_SHOES:
                 return new SliverShoesBadge(badgeRepository, userFacade, exerciseAnalysisRepository);
+            case GOLD_SHOES:
+                return new GoldShoesBadge(badgeRepository, userFacade, exerciseAnalysisRepository);
+            case MARATHON:
+                return new MarathonBadge(badgeRepository, userFacade, exerciseAnalysisRepository);
             default:
                 throw BadgeTypeNotFoundException.EXCEPTION;
         }
