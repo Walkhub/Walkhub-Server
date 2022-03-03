@@ -119,11 +119,6 @@ public class FirebaseNotification implements FcmUtil {
     }
 
     @Override
-    public void sendCheeringNotification() {
-
-    }
-
-    @Override
     public void sendNoticeNotification(Notice notice, ContentType contentType) {
         noticeSendNotificationBuilder(notice, contentType);
     }

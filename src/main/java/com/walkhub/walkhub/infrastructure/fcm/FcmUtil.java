@@ -15,7 +15,6 @@ public interface FcmUtil {
     void subscribeTopic(List<User> users, NotificationRequest request) throws FirebaseMessagingException;
     void unSubscribeTopic(List<User> users, NotificationRequest request) throws FirebaseMessagingException;
 
-    void sendCheeringNotification();
     void sendNoticeNotification(Notice notice, ContentType contentType);
     void sendChallengeExpirationNotification(Challenge challenge, ContentType contentType);
     void sendChallengeSuccessNotification(Challenge challenge, ContentType contentType);
