@@ -28,7 +28,7 @@ public class QueryExerciseAnalysisService {
         LocalDate startAt = LocalDate.now().minusDays(27);
         LocalDate now = LocalDate.now();
 
-        ExerciseAnalysis exerciseAnalysis = exerciseAnalysisRepository.findByUserAndDate(user, now)
+        ExerciseAnalysis todayExerciseAnalysis = exerciseAnalysisRepository.findByUserAndDate(user, now)
                 .orElse(ExerciseAnalysis.builder().walkCount(0).calorie(0.0).distance(0).build());
 
         Map<LocalDate, List<ExerciseAnalysis>> exerciseAnalysisDateList = exerciseAnalysisRepository.findAllByUserAndDateBetweenOrderByDate(user, startAt, now)
@@ -49,9 +49,10 @@ public class QueryExerciseAnalysisService {
         return QueryExerciseAnalysisResponse.builder()
                 .walkCountList(walkCountList)
                 .dailyWalkCountGoal(user.getDailyWalkCountGoal())
-                .walkCount(exerciseAnalysis.getWalkCount())
-                .calorie(exerciseAnalysis.getCalorie())
-                .distance(exerciseAnalysis.getDistance())
+                .walkCount(todayExerciseAnalysis.getWalkCount())
+                .calorie(todayExerciseAnalysis.getCalorie())
+                .distance(todayExerciseAnalysis.getDistance())
+                .exerciseTime(todayExerciseAnalysis.getExerciseTime())
                 .build();
     }
 }
