@@ -4,9 +4,12 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.*;
+import com.walkhub.walkhub.domain.challenge.domain.Challenge;
+import com.walkhub.walkhub.domain.notice.domain.Notice;
 import com.walkhub.walkhub.domain.notification.domain.NotificationEntity;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationRepository;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationInformation;
 import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +26,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class CoolNotification implements FcmUtil {
+public class FirebaseNotification implements FcmUtil {
 
     private final NotificationRepository notificationRepository;
 
@@ -113,6 +116,56 @@ public class CoolNotification implements FcmUtil {
                             deviceTokenListToSubscribe, request.getType().toString()
                     );
         }
+    }
+
+    @Override
+    public void sendNoticeNotification(Notice notice, ContentType contentType) {
+        noticeSendNotificationBuilder(notice, contentType);
+    }
+
+    @Override
+    public void sendCheeringNotification() {
+
+    }
+
+    @Override
+    public void sendChallengeExpirationNotification(Challenge challenge, ContentType contentType) {
+       challengeSendNotificationBuilder(challenge, contentType);
+    }
+
+    @Override
+    public void sendChallengeSuccessNotification(Challenge challenge, ContentType contentType) {
+        challengeSendNotificationBuilder(challenge, contentType);
+    }
+
+    @Override
+    public void sendChallengeCanParticipate(Challenge challenge, ContentType contentType) {
+        challengeSendNotificationBuilder(challenge, contentType);
+    }
+
+    private NotificationRequest notificationBuilder(NotificationInformation notificationInformation, String content) {
+        return NotificationRequest.builder()
+                .user(notificationInformation.getUser())
+                .title(notificationInformation.getTitle())
+                .content(content)
+                .data(notificationInformation.getData())
+                .userScope(notificationInformation.getScope())
+                .build();
+    }
+
+    private void challengeSendNotificationBuilder(Challenge challenge, ContentType contentType) {
+
+        sendNotification(
+                notificationBuilder(NotificationInformation.challengeNotificationInformation(challenge), " [ " + challenge.getName() + " ] " + contentType.getContent())
+        );
+    }
+
+    private void noticeSendNotificationBuilder(Notice notice, ContentType contentType) {
+
+        sendNotification(
+                notificationBuilder(NotificationInformation.noticeNotificationInformation(notice), " [ " + notice.getTitle() + " ] " + contentType.getContent())
+        );
+
     }
 
 }
