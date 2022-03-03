@@ -94,7 +94,7 @@ public class QueryUserRankListByMySchoolService {
                 .ranking(exerciseAnalysisDto.getRanking())
                 .profileImageUrl(user.getProfileImageUrl())
                 .walkCount(exerciseAnalysisDto.getWalkCount())
-                .isMeasuring(isMeasuringByUserId(user.getId()))
+                .isMeasuring(userRankFacade.isMeasuringByUserId(user.getId()))
                 .build();
     }
 
@@ -107,7 +107,7 @@ public class QueryUserRankListByMySchoolService {
                 .ranking(dayRank.getRanking())
                 .profileImageUrl(user.getProfileImageUrl())
                 .walkCount(dayRank.getWalkCount())
-                .isMeasuring(isMeasuringByUserId(user.getId()))
+                .isMeasuring(userRankFacade.isMeasuringByUserId(user.getId()))
                 .build();
     }
 
@@ -123,11 +123,8 @@ public class QueryUserRankListByMySchoolService {
                 .ranking(myRank.getRanking())
                 .profileImageUrl(myRank.getProfileImageUrl())
                 .walkCount(myRank.getWalkCount())
-                .isMeasuring(isMeasuringByUserId(userId))
+                .isMeasuring(userRankFacade.isMeasuringByUserId(userId))
                 .build();
     }
 
-    private Boolean isMeasuringByUserId(Long userId) {
-        return userFacade.getUserById(userId).getIsMeasuring();
-    }
 }
