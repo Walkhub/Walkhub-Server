@@ -6,6 +6,7 @@ import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeStatusRep
 import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationListRepository;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class RemoveAccountService {
 
     private final UserFacade userFacade;
+    private final UserRepository userRepository;
     private final ExerciseAnalysisRepository exerciseAnalysisRepository;
     private final ChallengeRepository challengeRepository;
     private final ChallengeStatusRepository challengeStatusRepository;
@@ -26,6 +28,7 @@ public class RemoveAccountService {
     public void execute() {
         User user = userFacade.getCurrentUser();
 
+        userRepository.deleteById(user.getId());
         exerciseAnalysisRepository.deleteByUserId(user.getId());
         challengeRepository.deleteByUserId(user.getId());
         challengeStatusRepository.deleteNotOverChallengeStatusByUserId(user.getId());
