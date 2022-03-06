@@ -5,6 +5,7 @@ import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.notice.domain.Notice;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationRequest;
+import com.walkhub.walkhub.infrastructure.fcm.type.ContentType;
 
 import java.util.List;
 

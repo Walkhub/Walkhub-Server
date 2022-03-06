@@ -11,6 +11,7 @@ import com.walkhub.walkhub.domain.notification.domain.repository.NotificationRep
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationInformation;
 import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationRequest;
+import com.walkhub.walkhub.infrastructure.fcm.type.ContentType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
