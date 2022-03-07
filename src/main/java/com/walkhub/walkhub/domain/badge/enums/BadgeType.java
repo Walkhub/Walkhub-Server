@@ -40,7 +40,8 @@ public enum BadgeType {
     UBD("ubd"),
     SEOUL_BUSAN("seoul_busan"),
     FIRST_PLACE("first_place"),
-    TEN_FIRST_PLACE("ten_first_place");
+    TEN_FIRST_PLACE("ten_first_place"),
+    RECEIVE_10000("receive_10000");
 
     private final String code;
 
@@ -76,6 +77,8 @@ public enum BadgeType {
                 return new FirstPlaceBadge(badgeRepository, userFacade, userRankRepository);
             case TEN_FIRST_PLACE:
                 return new TenFirstPlaceBadge(badgeRepository, userFacade, userRankRepository);
+            case RECEIVE_10000:
+
             default:
                 throw BadgeTypeNotFoundException.EXCEPTION;
         }
