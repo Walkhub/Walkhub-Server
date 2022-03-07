@@ -2,6 +2,7 @@ package com.walkhub.walkhub.global.security.auth;
 
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.exception.UserNotFoundException;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
