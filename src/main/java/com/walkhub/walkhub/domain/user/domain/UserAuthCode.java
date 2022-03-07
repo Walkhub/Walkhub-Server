@@ -28,8 +28,4 @@ public class UserAuthCode {
         this.expiredAt = 300L;
     }
 
-    public void updateCode(String code) {
-        this.code = code;
-    }
-
 }
