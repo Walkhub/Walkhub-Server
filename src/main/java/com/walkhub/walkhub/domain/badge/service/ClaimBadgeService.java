@@ -1,14 +1,15 @@
 package com.walkhub.walkhub.domain.badge.service;
 
-import com.walkhub.walkhub.domain.badge.badges.BadgeFactory;
 import com.walkhub.walkhub.domain.badge.badges.BaseBadge;
 import com.walkhub.walkhub.domain.badge.domain.Badge;
 import com.walkhub.walkhub.domain.badge.domain.BadgeCollection;
 import com.walkhub.walkhub.domain.badge.domain.repository.BadgeCollectionRepository;
 import com.walkhub.walkhub.domain.badge.domain.repository.BadgeRepository;
 import com.walkhub.walkhub.domain.badge.domain.repository.vo.DefaultBadgeVO;
+import com.walkhub.walkhub.domain.badge.enums.BadgeType;
 import com.walkhub.walkhub.domain.badge.presentation.dto.response.ClaimBadgeResponse;
 import com.walkhub.walkhub.domain.badge.presentation.dto.response.ClaimBadgeResponse.BadgeResponse;
+import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class ClaimBadgeService {
     private final UserFacade userFacade;
     private final BadgeRepository badgeRepository;
     private final BadgeCollectionRepository badgeCollectionRepository;
-    private final BadgeFactory badgeFactory;
+    private final ExerciseAnalysisRepository exerciseAnalysisRepository;
 
     @Transactional
     public ClaimBadgeResponse execute() {
@@ -34,7 +35,8 @@ public class ClaimBadgeService {
         List<DefaultBadgeVO> claimBadgeList = badgeRepository.findAllByBadgeCollectionsNotIn(user.getId());
 
         for (DefaultBadgeVO vo : claimBadgeList) {
-            BaseBadge baseBadge = badgeFactory.getBadge(vo.getCode());
+            BaseBadge baseBadge =
+                    BadgeType.getBadge(badgeRepository, userFacade, exerciseAnalysisRepository, vo.getCode());
             Badge badge = baseBadge.getBadgeEntity();
             if (!baseBadge.hasBadge(claimBadgeList) && baseBadge.isGoalSuccess()) {
                 badgeCollectionRepository.save(
