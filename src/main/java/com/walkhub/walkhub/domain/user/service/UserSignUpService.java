@@ -52,7 +52,7 @@ public class UserSignUpService {
         UserAuthCode code = userAuthCodeRepository.findById(request.getPhoneNumber())
                 .orElseThrow(() -> UserAuthCodeNotFoundException.EXCEPTION);
 
-        if (!code.getCode().equals(request.getAuthCode()))
+        if (!passwordEncoder.matches(request.getAuthCode(), code.getCode()))
             throw UnauthorizedUserAuthCodeException.EXCEPTION;
 
         userFacade.checkUserExists(request.getAccountId());

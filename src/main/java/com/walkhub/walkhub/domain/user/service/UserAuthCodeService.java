@@ -7,6 +7,7 @@ import com.walkhub.walkhub.global.utils.code.RandomCodeUtil;
 import com.walkhub.walkhub.infrastructure.sms.coolsms.CoolSms;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -15,6 +16,7 @@ public class UserAuthCodeService {
 
     private final CoolSms coolSms;
     private final UserAuthCodeRepository userAuthCodeRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Async
     public void execute(UserAuthCodeRequest request) {
@@ -25,7 +27,7 @@ public class UserAuthCodeService {
 
         userAuthCodeRepository.save(UserAuthCode.builder()
                 .phoneNumber(phoneNumber)
-                .code(code)
+                .code(passwordEncoder.encode(code))
                 .build());
     }
 
