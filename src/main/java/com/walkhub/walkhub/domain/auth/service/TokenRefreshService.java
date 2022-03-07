@@ -24,7 +24,9 @@ public class TokenRefreshService {
     public UserAccessTokenResponse execute(String refreshToken) {
         RefreshToken redisRefreshToken = refreshTokenRepository.findByToken(jwtTokenProvider.parseToken(refreshToken))
                 .orElseThrow(() -> RefreshTokenNotFoundException.EXCEPTION);
-        redisRefreshToken.updateExp(jwtProperties.getRefreshExp());
+
+        String newRefreshToken = jwtTokenProvider.generateRefreshToken(redisRefreshToken.getAccountId());
+        redisRefreshToken.updateToken(newRefreshToken);
 
         String accessToken = jwtTokenProvider.generateAccessToken(redisRefreshToken.getAccountId());
         return UserAccessTokenResponse.builder()
