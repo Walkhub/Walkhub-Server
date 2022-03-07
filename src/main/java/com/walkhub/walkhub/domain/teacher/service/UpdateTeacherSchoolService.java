@@ -9,6 +9,7 @@ import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.SectionRepository;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class UpdateTeacherSchoolService {
 
     private final UserFacade userFacade;

@@ -5,12 +5,13 @@ import com.walkhub.walkhub.domain.exercise.facade.ExerciseFacade;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.FinishExerciseRequest;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class FinishExerciseService {
 
     private final UserFacade userFacade;

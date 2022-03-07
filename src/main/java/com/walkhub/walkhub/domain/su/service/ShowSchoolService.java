@@ -2,6 +2,7 @@ package com.walkhub.walkhub.domain.su.service;
 
 import com.walkhub.walkhub.domain.school.domain.repository.SchoolRepository;
 import com.walkhub.walkhub.domain.su.presentation.dto.response.SchoolListResponse;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,12 +12,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class ShowSchoolService {
 
     private final SchoolRepository schoolRepository;
 
-    @Transactional(readOnly = true)
     public SchoolListResponse execute(Pageable page) {
         List<SchoolListResponse.SchoolResponse> schoolList = schoolRepository.findAllBy(page)
                 .stream()

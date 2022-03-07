@@ -5,6 +5,7 @@ import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse.ChallengeResponse;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,14 +14,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class QueryParticipatedChallengeListService {
 
     private final ChallengeStatusRepository challengeStatusRepository;
     private final UserFacade userFacade;
     private final ChallengeFacade challengeFacade;
 
-    @Transactional(readOnly = true)
     public QueryChallengeListResponse execute() {
 
         List<ChallengeResponse> challengeResponseList = challengeStatusRepository.getAllChallengesByUser(userFacade.getCurrentUser())

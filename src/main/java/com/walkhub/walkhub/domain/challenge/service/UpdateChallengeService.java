@@ -5,13 +5,14 @@ import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChallengeRequest;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import com.walkhub.walkhub.global.exception.InvalidRoleException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class UpdateChallengeService {
 
     private final UserFacade userFacade;

@@ -9,6 +9,7 @@ import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListRespons
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import com.walkhub.walkhub.global.enums.DateType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,14 +19,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class UserSearchService {
 
     private final UserRankRepository userRankRepository;
     private final ExerciseAnalysisCacheRepositoryImpl exerciseAnalysisCacheRepository;
     private final UserRepository userRepository;
 
-    @Transactional(readOnly = true)
     public UserListResponse execute(Long schoolId, String name, DateType dateType) {
         List<UserSearchResponse> result;
 

@@ -6,6 +6,7 @@ import com.walkhub.walkhub.domain.su.presentation.dto.response.CreateRootAccount
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.domain.type.Sex;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.global.utils.code.RandomCodeUtil;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class CreateRootAccountService {
 
     private final SchoolFacade schoolFacade;

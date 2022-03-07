@@ -8,17 +8,18 @@ import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListRespo
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class SchoolSearchService {
 
 	private final SchoolRankRepository schoolRankRepository;
 
-	@Transactional(readOnly = true)
 	public SchoolListResponse execute(String name, SchoolDateType dateType) {
 		List<SchoolResponse> schoolResponseList = schoolRankRepository
 			.findAllByDateTypeAndNameContainingAndCreatedAtBetweenOrderByRankingAsc(dateType.toString(), name,

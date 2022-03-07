@@ -4,6 +4,7 @@ import com.walkhub.walkhub.domain.auth.domain.RefreshToken;
 import com.walkhub.walkhub.domain.auth.domain.repository.RefreshTokenRepository;
 import com.walkhub.walkhub.domain.auth.exception.RefreshTokenNotFoundException;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserAccessTokenResponse;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import com.walkhub.walkhub.global.security.jwt.JwtProperties;
 import com.walkhub.walkhub.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.ZonedDateTime;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class TokenRefreshService {
 
     private final JwtProperties jwtProperties;

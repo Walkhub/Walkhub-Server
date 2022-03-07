@@ -12,6 +12,7 @@ import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import com.walkhub.walkhub.global.enums.DateType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class QueryUserRankListByMySchoolService {
     private final UserRankRepository userRankRepository;
     private final ExerciseAnalysisCacheRepository exerciseAnalysisCacheRepository;
@@ -31,7 +32,6 @@ public class QueryUserRankListByMySchoolService {
     private final UserRepository userRepository;
     private final UserRankFacade userRankFacade;
 
-    @Transactional(readOnly = true)
     public UserRankListResponse execute(UserRankScope scope, DateType dateType) {
         User user = userFacade.getCurrentUser();
         LocalDate date = LocalDate.now();

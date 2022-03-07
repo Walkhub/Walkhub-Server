@@ -4,6 +4,7 @@ import com.walkhub.walkhub.domain.calorielevel.domain.CalorieLevel;
 import com.walkhub.walkhub.domain.calorielevel.domain.repository.CalorieLevelRepository;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.CalorieLevelListResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.CalorieLevelListResponse.CalorieLevelResponse;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,12 +13,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class CalorieLevelListService {
 
     private final CalorieLevelRepository calorieLevelRepository;
 
-    @Transactional(readOnly = true)
     public CalorieLevelListResponse execute() {
         List<CalorieLevelResponse> results =
                 calorieLevelRepository.findAllBy()

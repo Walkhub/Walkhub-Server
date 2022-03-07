@@ -5,11 +5,12 @@ import com.walkhub.walkhub.domain.auth.presentation.dto.request.CheckAuthCodeReq
 import com.walkhub.walkhub.domain.user.domain.UserAuthCode;
 import com.walkhub.walkhub.domain.user.domain.repository.UserAuthCodeRepository;
 import com.walkhub.walkhub.domain.user.exception.UserAuthCodeNotFoundException;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class CheckAuthCodeExistsService {
 
     private final UserAuthCodeRepository userAuthCodeRepository;

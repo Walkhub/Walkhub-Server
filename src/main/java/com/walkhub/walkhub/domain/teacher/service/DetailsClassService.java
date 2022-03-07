@@ -9,6 +9,7 @@ import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.exception.UserNotFoundException;
 import com.walkhub.walkhub.domain.user.facade.SectionFacade;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import com.walkhub.walkhub.global.enums.Authority;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class DetailsClassService {
 
     private final SectionFacade sectionFacade;
     private final ExerciseAnalysisRepository exerciseAnalysisRepository;
 
-    @Transactional(readOnly = true)
     public DetailsClassResponse execute(Long sectionId) {
         Section section = sectionFacade.getSectionById(sectionId);
 

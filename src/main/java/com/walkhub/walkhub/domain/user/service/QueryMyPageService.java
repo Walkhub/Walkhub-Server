@@ -8,11 +8,12 @@ import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse.Level;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse.TitleBadge;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class QueryMyPageService {
 
     private final UserFacade userFacade;

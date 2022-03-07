@@ -6,18 +6,19 @@ import com.walkhub.walkhub.domain.excel.presentation.dto.response.PrintExcelResp
 import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import java.util.List;
+
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class PrintExcelService {
 
 	private final ExerciseAnalysisRepository exerciseAnalysisRepository;
 	private final UserFacade userFacade;
 
-	@Transactional(readOnly = true)
 	public PrintExcelResponse execute(PrintExcelRequest printExcelRequest) {
 		Long schoolId = userFacade.getCurrentUser().getSchool().getId();
 		List<PrintExcelVo> printExcelVoList = exerciseAnalysisRepository.getPrintExcelVoList(printExcelRequest, schoolId);

@@ -6,6 +6,7 @@ import com.walkhub.walkhub.domain.notification.domain.repository.NotificationLis
 import com.walkhub.walkhub.domain.notification.presentation.dto.response.QueryNotificationListResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,13 +18,12 @@ import java.util.stream.Collectors;
 import static com.walkhub.walkhub.domain.notification.presentation.dto.response.QueryNotificationListResponse.*;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class QueryNotificationListService {
 
     private final NotificationListRepository notificationListRepository;
     private final UserFacade userFacade;
 
-    @Transactional(readOnly = true)
     public QueryNotificationListResponse execute(Pageable pageable) {
 
         User user = userFacade.getCurrentUser();

@@ -5,6 +5,7 @@ import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRep
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerciseAnalysisResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,13 +17,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class QueryExerciseAnalysisService {
 
     private final ExerciseAnalysisRepository exerciseAnalysisRepository;
     private final UserFacade userFacade;
 
-    @Transactional(readOnly = true)
     public QueryExerciseAnalysisResponse execute() {
         User user = userFacade.getCurrentUser();
         LocalDate startAt = LocalDate.now().minusDays(27);

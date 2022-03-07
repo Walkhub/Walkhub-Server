@@ -6,12 +6,13 @@ import com.walkhub.walkhub.domain.school.facade.SchoolFacade;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateSchoolInfoRequest;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Service
+@WalkhubService
 public class UpdateSchoolInfoService {
 
     private final UserFacade userFacade;
