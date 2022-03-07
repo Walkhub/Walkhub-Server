@@ -78,7 +78,6 @@ public enum BadgeType {
             case TEN_FIRST_PLACE:
                 return new TenFirstPlaceBadge(badgeRepository, userFacade, userRankRepository);
             case RECEIVE_10000:
-
             default:
                 throw BadgeTypeNotFoundException.EXCEPTION;
         }
