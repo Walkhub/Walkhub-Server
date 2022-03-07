@@ -16,6 +16,7 @@ import com.walkhub.walkhub.domain.badge.badges.StartBadge;
 import com.walkhub.walkhub.domain.badge.badges.TenFirstPlaceBadge;
 import com.walkhub.walkhub.domain.badge.badges.UbdBadge;
 import com.walkhub.walkhub.domain.badge.domain.repository.BadgeRepository;
+import com.walkhub.walkhub.domain.badge.exception.BadgeTypeNotFoundException;
 import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
 import com.walkhub.walkhub.domain.rank.domain.repository.UserRankRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
@@ -76,7 +77,7 @@ public enum BadgeType {
             case TEN_FIRST_PLACE:
                 return new TenFirstPlaceBadge(badgeRepository, userFacade, userRankRepository);
             default:
-                return null;
+                throw BadgeTypeNotFoundException.EXCEPTION;
         }
     }
 }
