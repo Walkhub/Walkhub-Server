@@ -35,7 +35,7 @@ public class UserSearchService {
                     .map(this::buildDayUserSearchResponse)
                     .collect(Collectors.toList());
         } else {
-            result = userRankRepository.findAllBySchoolIdAndNameContainingAndDateType(schoolId, name, dateType.toString())
+            result = userRankRepository.findAllBySchoolIdAndNameContainingAndDateType(schoolId, name, dateType)
                     .stream()
                     .map(this::buildWeekOrMonthUserSearchResponse)
                     .collect(Collectors.toList());

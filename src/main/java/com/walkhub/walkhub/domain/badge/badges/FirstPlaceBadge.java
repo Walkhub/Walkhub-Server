@@ -8,6 +8,7 @@ import com.walkhub.walkhub.domain.badge.exception.BadgeNotFoundException;
 import com.walkhub.walkhub.domain.rank.domain.repository.UserRankRepository;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.enums.DateType;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class FirstPlaceBadge implements BaseBadge {
     public boolean isGoalSuccess() {
         User user = userFacade.getCurrentUser();
 
-        Integer count = userRankRepository.countAllByUserIdAndRanking(user.getId());
+        Integer count = userRankRepository.countAllByUserIdAndRankingAndDateType(user.getId(), 1, DateType.DAY);
 
         return count >= 1;
     }
