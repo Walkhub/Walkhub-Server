@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.badge.domain;
 
+import com.walkhub.walkhub.domain.badge.enums.BadgeType;
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import lombok.AccessLevel;
@@ -10,12 +11,14 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.persistence.OneToMany;
 import java.util.List;
 
 @Getter
@@ -36,15 +39,19 @@ public class Badge extends BaseTimeEntity {
 
     @NotNull
     private String unlockCondition;
-  
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private BadgeType code;
+
     @OneToMany(mappedBy = "badge", cascade = CascadeType.REMOVE)
     private List<BadgeCollection> badgeCollections;
 
     @Builder
-    public Badge(String name, String imageUrl,
-                 String unlockCondition) {
+    public Badge(String name, String imageUrl, String unlockCondition, BadgeType code) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.unlockCondition = unlockCondition;
+        this.code = code;
     }
 }
