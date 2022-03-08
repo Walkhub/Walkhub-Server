@@ -12,8 +12,8 @@ public class CheckClassCodeService {
     private final SectionRepository sectionRepository;
 
     public void execute(String code) {
-        sectionRepository.findByClassCode(code)
-                .orElseThrow(() -> InvalidCodeException.EXCEPTION);
+        if(sectionRepository.findByClassCode(code).isEmpty())
+            throw InvalidCodeException.EXCEPTION;
     }
 
 }
