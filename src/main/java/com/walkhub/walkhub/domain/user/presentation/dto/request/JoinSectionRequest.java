@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.user.presentation.dto.request;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -15,6 +16,7 @@ public class JoinSectionRequest {
     @Size(min = 7, max = 7, message = "class_code는 7글자 여야 합니다.")
     private String classCode;
 
+    @Min(1)
     @NotNull(message = "number는 Null일 수 없습니다.")
     private Integer number;
 

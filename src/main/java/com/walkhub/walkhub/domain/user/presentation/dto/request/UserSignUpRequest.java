@@ -40,11 +40,9 @@ public class UserSignUpRequest {
     @NotNull(message = "school_id는 Null일 수 없습니다.")
     private Long schoolId;
 
-    @NotNull(message = "weight는 Null일 수 없습니다.")
     @Positive(message = "weight는 양수여야 합니다.")
     private Integer weight;
 
-    @NotNull(message = "height는 Null일 수 없습니다.")
     @Digits(integer = 3, fraction = 1)
     private BigDecimal height;
 

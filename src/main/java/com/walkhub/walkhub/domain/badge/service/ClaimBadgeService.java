@@ -10,6 +10,7 @@ import com.walkhub.walkhub.domain.badge.enums.BadgeType;
 import com.walkhub.walkhub.domain.badge.presentation.dto.response.ClaimBadgeResponse;
 import com.walkhub.walkhub.domain.badge.presentation.dto.response.ClaimBadgeResponse.BadgeResponse;
 import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
+import com.walkhub.walkhub.domain.rank.domain.repository.UserRankRepository;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.WalkhubService;
@@ -27,6 +28,7 @@ public class ClaimBadgeService {
     private final BadgeRepository badgeRepository;
     private final BadgeCollectionRepository badgeCollectionRepository;
     private final ExerciseAnalysisRepository exerciseAnalysisRepository;
+    private final UserRankRepository userRankRepository;
 
     @Transactional
     public ClaimBadgeResponse execute() {
@@ -35,8 +37,9 @@ public class ClaimBadgeService {
         List<DefaultBadgeVO> claimBadgeList = badgeRepository.findAllByBadgeCollectionsNotIn(user.getId());
 
         for (DefaultBadgeVO vo : claimBadgeList) {
-            BaseBadge baseBadge =
-                    BadgeType.getBadge(badgeRepository, userFacade, exerciseAnalysisRepository, vo.getCode());
+            BaseBadge baseBadge = BadgeType.getBadge(
+                    badgeRepository, userFacade, exerciseAnalysisRepository, userRankRepository, vo.getCode()
+            );
             Badge badge = baseBadge.getBadgeEntity();
             if (!baseBadge.hasBadge(claimBadgeList) && baseBadge.isGoalSuccess()) {
                 badgeCollectionRepository.save(

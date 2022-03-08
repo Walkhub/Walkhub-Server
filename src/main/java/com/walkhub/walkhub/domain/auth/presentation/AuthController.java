@@ -3,7 +3,7 @@ package com.walkhub.walkhub.domain.auth.presentation;
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.CheckAccountIdRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.CheckAuthCodeRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.SignInRequest;
-import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserAccessTokenResponse;
+import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenRefreshResponse;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.auth.service.CheckAccountIdExistsService;
 import com.walkhub.walkhub.domain.auth.service.CheckAuthCodeExistsService;
@@ -36,7 +36,7 @@ public class AuthController {
     }
 
     @PatchMapping("/token")
-    public UserAccessTokenResponse userTokenRefresh(@RequestHeader("Refresh-Token") String refreshToken) {
+    public UserTokenRefreshResponse userTokenRefresh(@RequestHeader("Refresh-Token") String refreshToken) {
         return tokenRefreshService.execute(refreshToken);
     }
 
