@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -22,6 +23,17 @@ public class QueryMyBadgeListService {
     public QueryMyBadgeListResponse execute() {
         User user = userFacade.getCurrentUser();
         List<MyBadgeVo> badgeVOList = badgeRepository.findAllByBadgeCollections(user.getId());
-        return new QueryMyBadgeListResponse(badgeVOList);
+
+        return new QueryMyBadgeListResponse(badgeVOList.stream()
+                .map(myBadgeVo ->
+                        QueryMyBadgeListResponse.MyBadge.builder()
+                                .badgeId(myBadgeVo.getBadgeId())
+                                .name(myBadgeVo.getName())
+                                .imageUrl(myBadgeVo.getImageUrl())
+                                .code(myBadgeVo.getCode())
+                                .isMine(myBadgeVo.getIsMine())
+                                .condition(myBadgeVo.getCondition())
+                                .build()
+                ).collect(Collectors.toList()));
     }
 }
