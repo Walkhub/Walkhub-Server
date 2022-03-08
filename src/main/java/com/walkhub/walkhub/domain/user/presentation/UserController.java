@@ -122,7 +122,7 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/goal")
-    public void updateGoalWalkCount(@RequestBody UpdateGoalWalkCountRequest updateGoalWalkCountRequest) {
+    public void updateGoalWalkCount(@RequestBody @Valid UpdateGoalWalkCountRequest updateGoalWalkCountRequest) {
         updateGoalWalkCountService.execute(updateGoalWalkCountRequest);
     }
     
