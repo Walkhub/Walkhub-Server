@@ -47,6 +47,7 @@ public class CustomBadgeRepositoryImpl implements CustomBadgeRepository {
                         badge.name,
                         badge.imageUrl,
                         badge.code,
+                        badge.unlockCondition,
                         user.id.max().eq(userId)
                 ))
                 .from(badge)
