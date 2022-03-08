@@ -5,6 +5,7 @@ import com.walkhub.walkhub.domain.calorielevel.domain.repository.CalorieLevelRep
 import com.walkhub.walkhub.domain.user.presentation.dto.response.CalorieLevelListResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.CalorieLevelListResponse.CalorieLevelResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +21,7 @@ public class CalorieLevelListService {
     @Transactional(readOnly = true)
     public CalorieLevelListResponse execute() {
         List<CalorieLevelResponse> results =
-                calorieLevelRepository.findAllBy()
+                calorieLevelRepository.findAllBy(Sort.by(Sort.Direction.ASC, "level"))
                         .stream()
                         .map(this::calorieLevelResponse)
                         .collect(Collectors.toList());
