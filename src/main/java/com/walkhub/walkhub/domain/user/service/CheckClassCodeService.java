@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class CheckClassService {
+public class CheckClassCodeService {
 
     private final SectionRepository sectionRepository;
 

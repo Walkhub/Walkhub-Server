@@ -13,6 +13,7 @@ import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpReques
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryGoalWalkCountResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
+import com.walkhub.walkhub.domain.user.service.CheckClassCodeService;
 import com.walkhub.walkhub.domain.user.service.ExitSectionService;
 import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
 import com.walkhub.walkhub.domain.user.service.JoinSectionService;
@@ -59,6 +60,7 @@ public class UserController {
     private final UpdateGoalWalkCountService updateGoalWalkCountService;
     private final ExitSectionService exitSectionService;
     private final QueryGoalWalkCountService queryGoalWalkCountService;
+    private final CheckClassCodeService checkClassCodeService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
@@ -136,7 +138,7 @@ public class UserController {
 
     @RequestMapping(value = "/classes", method = RequestMethod.HEAD)
     public void checkClassCode(@RequestBody @Valid CheckClassCodeRequest request) {
-
+        checkClassCodeService.execute(request.getCode());
     }
 
 }
