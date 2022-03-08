@@ -1,8 +1,8 @@
 package com.walkhub.walkhub.domain.badge.service;
 
 import com.walkhub.walkhub.domain.badge.domain.Badge;
-import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.badge.facade.BadgeCollectionFacade;
+import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

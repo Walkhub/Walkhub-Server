@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.badge.presentation.dto.response;
 
-import com.walkhub.walkhub.domain.badge.domain.repository.vo.MyBadgeVo;
 import com.walkhub.walkhub.domain.badge.enums.BadgeType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
