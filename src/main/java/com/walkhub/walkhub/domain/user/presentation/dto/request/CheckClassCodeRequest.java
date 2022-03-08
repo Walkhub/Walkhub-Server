@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class CheckClassCodeRequest {
 
-    @NotBlank(message = "code는 비어있으면 안됩니다.")
+    @NotBlank(message = "code는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
     private String code;
 
 }
