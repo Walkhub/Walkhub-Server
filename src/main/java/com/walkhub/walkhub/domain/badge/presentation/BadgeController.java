@@ -33,7 +33,7 @@ public class BadgeController {
     }
 
     @GetMapping("/{user-id}")
-    public QueryUserBadgeListResponse queryUserBadgeList(@PathVariable(name = "user-id") Long userId) {
+    public QueryUserBadgeListResponse queryUserBadgeList(@PathVariable("user-id") Long userId) {
         return queryUserBadgeListService.execute(userId);
     }
   
