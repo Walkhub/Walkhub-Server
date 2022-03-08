@@ -19,6 +19,6 @@ public class CreateNoticeRequest {
     @NotBlank(message = "content는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
     private String content;
 
-    @NotNull(message = "scope는 Null, 공백을 허용하지 않습니다.")
+    @NotNull(message = "scope는 Null일 수 없습니다.")
     private Scope scope;
 }
