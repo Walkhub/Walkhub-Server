@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.domain.user.presentation;
 
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.CheckClassCodeRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.InputHealthInformationRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinSectionRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateGoalWalkCountRequest;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -130,6 +132,11 @@ public class UserController {
     @DeleteMapping("/classes")
     public void exitSection() {
         exitSectionService.execute();
+    }
+
+    @RequestMapping(value = "/classes", method = RequestMethod.HEAD)
+    public void checkClassCode(@RequestBody @Valid CheckClassCodeRequest request) {
+
     }
 
 }
