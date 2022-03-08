@@ -2,7 +2,10 @@ package com.walkhub.walkhub.domain.user.service;
 
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.badge.domain.Badge;
+import com.walkhub.walkhub.domain.badge.domain.BadgeCollection;
+import com.walkhub.walkhub.domain.badge.domain.repository.BadgeCollectionRepository;
 import com.walkhub.walkhub.domain.badge.domain.repository.BadgeRepository;
+import com.walkhub.walkhub.domain.badge.enums.BadgeType;
 import com.walkhub.walkhub.domain.calorielevel.domain.CalorieLevel;
 import com.walkhub.walkhub.domain.calorielevel.domain.repository.CalorieLevelRepository;
 import com.walkhub.walkhub.domain.calorielevel.exception.CalorieLevelNotFoundException;
@@ -41,6 +44,7 @@ public class UserSignUpService {
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtProperties jwtProperties;
     private final BadgeRepository badgeRepository;
+    private final BadgeCollectionRepository badgeCollectionRepository;
     private final CalorieLevelRepository calorieLevelRepository;
 
     @Transactional
@@ -48,12 +52,12 @@ public class UserSignUpService {
         UserAuthCode code = userAuthCodeRepository.findById(request.getPhoneNumber())
                 .orElseThrow(() -> UserAuthCodeNotFoundException.EXCEPTION);
 
-        if (!code.getCode().equals(request.getAuthCode()))
+        if (!passwordEncoder.matches(request.getAuthCode(), code.getCode()))
             throw UnauthorizedUserAuthCodeException.EXCEPTION;
 
         userFacade.checkUserExists(request.getAccountId());
 
-        Badge defaultTitleBadge = badgeRepository.findById(1L)
+        Badge defaultTitleBadge = badgeRepository.findByCode(BadgeType.NEWBIE)
                 .orElseThrow(() -> DefaultTitleBadgeNotFound.EXCEPTION);
 
         School school = schoolRepository.findById(request.getSchoolId())
@@ -77,6 +81,13 @@ public class UserSignUpService {
                 .calorieLevel(calorieLevel)
                 .build();
         userRepository.save(user);
+
+        badgeCollectionRepository.save(
+                BadgeCollection.builder()
+                        .user(user)
+                        .badge(defaultTitleBadge)
+                        .build()
+        );
 
         school.addUserCount();
 

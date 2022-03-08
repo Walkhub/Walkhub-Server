@@ -2,6 +2,7 @@ package com.walkhub.walkhub.domain.exercise.domain.repository;
 
 import com.walkhub.walkhub.domain.exercise.domain.Exercise;
 import com.walkhub.walkhub.domain.user.domain.User;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -11,4 +12,7 @@ public interface ExerciseRepository extends CrudRepository<Exercise, Long> {
     Optional<Exercise> findByIsExercisingTrueAndUser(User user);
 
     List<Exercise> findAllByUser(User user);
+
+    @Query("SELECT SUM(e.cheeringCount) FROM Exercise e WHERE e.user = :user")
+    Integer sumCheeringCountAndUserId(User user);
 }

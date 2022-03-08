@@ -72,7 +72,7 @@ public class User extends BaseTimeEntity {
     @JoinColumn(name = "section_id")
     private Section section;
 
-    @Column(columnDefinition = "TINYINT")
+    @Column(columnDefinition = "UNSIGNED TINYINT")
     private Integer number;
 
     @ColumnDefault("0")
