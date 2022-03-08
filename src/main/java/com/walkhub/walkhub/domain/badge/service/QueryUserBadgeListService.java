@@ -22,10 +22,9 @@ public class QueryUserBadgeListService {
         List<DefaultBadgeResponse> badgeList = badgeCollectionRepository.findAllByUserId(userId)
                 .stream()
                 .map(badgeCollection -> DefaultBadgeResponse.builder()
+                        .badgeId(badgeCollection.getBadge().getId())
                         .name(badgeCollection.getBadge().getName())
                         .imageUrl(badgeCollection.getBadge().getImageUrl())
-                        .condition(badgeCollection.getBadge().getUnlockCondition())
-                        .code(badgeCollection.getBadge().getCode())
                         .build())
                 .collect(Collectors.toList());
 

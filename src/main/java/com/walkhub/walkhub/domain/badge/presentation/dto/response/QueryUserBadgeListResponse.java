@@ -16,9 +16,8 @@ public class QueryUserBadgeListResponse {
     @Getter
     @Builder
     public static class DefaultBadgeResponse{
+        private final Long badgeId;
         private final String name;
         private final String imageUrl;
-        private final String condition;
-        private final BadgeType code;
     }
 }
