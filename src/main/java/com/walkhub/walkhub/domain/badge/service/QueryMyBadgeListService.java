@@ -30,7 +30,6 @@ public class QueryMyBadgeListService {
                                 .badgeId(myBadgeVo.getBadgeId())
                                 .name(myBadgeVo.getName())
                                 .imageUrl(myBadgeVo.getImageUrl())
-                                .code(myBadgeVo.getCode())
                                 .isMine(myBadgeVo.getIsMine())
                                 .condition(myBadgeVo.getCondition())
                                 .build()
