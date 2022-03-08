@@ -5,7 +5,6 @@ import com.walkhub.walkhub.domain.school.domain.repository.SchoolRepository;
 import com.walkhub.walkhub.domain.school.presentation.dto.response.SearchSchoolListResponse;
 import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;

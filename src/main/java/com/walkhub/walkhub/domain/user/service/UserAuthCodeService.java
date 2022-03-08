@@ -8,7 +8,6 @@ import com.walkhub.walkhub.global.utils.code.RandomCodeUtil;
 import com.walkhub.walkhub.infrastructure.sms.coolsms.CoolSms;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @WalkhubService

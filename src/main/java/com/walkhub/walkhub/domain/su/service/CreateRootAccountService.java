@@ -11,7 +11,6 @@ import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.global.utils.code.RandomCodeUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @WalkhubService

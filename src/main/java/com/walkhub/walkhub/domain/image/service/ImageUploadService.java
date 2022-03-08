@@ -4,7 +4,6 @@ import com.walkhub.walkhub.domain.image.presentation.dto.response.ImageUrlRespon
 import com.walkhub.walkhub.global.annotation.WalkhubService;
 import com.walkhub.walkhub.infrastructure.image.s3.S3Facade;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

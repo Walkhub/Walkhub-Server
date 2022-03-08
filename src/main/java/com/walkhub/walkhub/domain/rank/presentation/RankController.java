@@ -1,25 +1,26 @@
 package com.walkhub.walkhub.domain.rank.presentation;
 
 import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
-import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListResponse;
 import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
+import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
-import com.walkhub.walkhub.domain.rank.service.QueryUserRankListByMySchoolService;
 import com.walkhub.walkhub.domain.rank.service.QuerySchoolRankService;
-import com.walkhub.walkhub.domain.rank.service.SchoolSearchService;
+import com.walkhub.walkhub.domain.rank.service.QueryUserRankListByMySchoolService;
 import com.walkhub.walkhub.domain.rank.service.QueryUserRankListService;
+import com.walkhub.walkhub.domain.rank.service.SchoolSearchService;
 import com.walkhub.walkhub.domain.rank.service.UserSearchService;
 import com.walkhub.walkhub.global.enums.DateType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @RequiredArgsConstructor
 @RequestMapping("/ranks")

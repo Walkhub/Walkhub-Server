@@ -8,8 +8,6 @@ import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListRes
 import com.walkhub.walkhub.global.annotation.WalkhubService;
 import com.walkhub.walkhub.global.enums.DateType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;

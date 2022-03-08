@@ -9,13 +9,11 @@ import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.walkhub.walkhub.domain.notification.presentation.dto.response.QueryNotificationListResponse.*;
+import static com.walkhub.walkhub.domain.notification.presentation.dto.response.QueryNotificationListResponse.NotificationResponse;
 
 @RequiredArgsConstructor
 @WalkhubService

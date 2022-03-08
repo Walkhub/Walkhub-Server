@@ -4,11 +4,30 @@ import com.walkhub.walkhub.domain.exercise.presentation.dto.request.CreateExerci
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.FinishExerciseRequest;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.SaveExerciseAnalysisRequest;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.SaveLocationRequest;
-import com.walkhub.walkhub.domain.exercise.presentation.dto.response.*;
-import com.walkhub.walkhub.domain.exercise.service.*;
+import com.walkhub.walkhub.domain.exercise.presentation.dto.response.CreateExerciseResponse;
+import com.walkhub.walkhub.domain.exercise.presentation.dto.response.ExerciseListResponse;
+import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerciseAnalysisResponse;
+import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerciseDetailsResponse;
+import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExercisingUserListResponse;
+import com.walkhub.walkhub.domain.exercise.service.CreateExerciseService;
+import com.walkhub.walkhub.domain.exercise.service.FinishExerciseService;
+import com.walkhub.walkhub.domain.exercise.service.QueryExerciseAnalysisService;
+import com.walkhub.walkhub.domain.exercise.service.QueryExerciseDetailsService;
+import com.walkhub.walkhub.domain.exercise.service.QueryExerciseListService;
+import com.walkhub.walkhub.domain.exercise.service.QueryExercisingUserListService;
+import com.walkhub.walkhub.domain.exercise.service.SaveLocationService;
+import com.walkhub.walkhub.domain.exercise.service.SaveOrUpdateExerciseAnalysisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 

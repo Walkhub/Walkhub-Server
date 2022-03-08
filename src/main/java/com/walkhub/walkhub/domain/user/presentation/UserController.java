@@ -15,9 +15,9 @@ import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdRe
 import com.walkhub.walkhub.domain.user.service.ExitSectionService;
 import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
 import com.walkhub.walkhub.domain.user.service.JoinSectionService;
+import com.walkhub.walkhub.domain.user.service.QueryGoalWalkCountService;
 import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
 import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
-import com.walkhub.walkhub.domain.user.service.QueryGoalWalkCountService;
 import com.walkhub.walkhub.domain.user.service.SearchAccountIdService;
 import com.walkhub.walkhub.domain.user.service.UpdateGoalWalkCountService;
 import com.walkhub.walkhub.domain.user.service.UpdatePasswordService;

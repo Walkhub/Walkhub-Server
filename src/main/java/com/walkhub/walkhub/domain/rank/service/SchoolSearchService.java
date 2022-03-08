@@ -5,14 +5,12 @@ import com.walkhub.walkhub.domain.rank.domain.repository.SchoolRankRepository;
 import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListResponse.SchoolResponse;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
+import lombok.RequiredArgsConstructor;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.walkhub.walkhub.global.annotation.WalkhubService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @WalkhubService

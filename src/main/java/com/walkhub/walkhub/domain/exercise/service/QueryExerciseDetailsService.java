@@ -7,8 +7,6 @@ import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerci
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerciseDetailsResponse.ExerciseResponse;
 import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;

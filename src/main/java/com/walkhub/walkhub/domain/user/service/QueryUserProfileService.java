@@ -10,7 +10,6 @@ import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfil
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse.TitleBadge;
 import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @WalkhubService

@@ -12,7 +12,8 @@ import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.database.*;
+import org.springframework.batch.item.database.JdbcBatchItemWriter;
+import org.springframework.batch.item.database.StoredProcedureItemReader;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.batch.item.database.builder.StoredProcedureItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +26,19 @@ import javax.sql.DataSource;
 import java.sql.Types;
 import java.time.LocalDate;
 
-import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.*;
+import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.CALL_SAVE_PROCEDURE;
+import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.CHUNK_SIZE;
+import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.MONTH_USER_CLASS_RANK_READER;
+import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.MONTH_USER_CLASS_RANK_STEP;
+import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.MONTH_USER_SCHOOL_RANK_READER;
+import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.MONTH_USER_SCHOOL_RANK_STEP;
+import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.SELECT_BY_CLASS_PROCEDURE;
+import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.SELECT_BY_SCHOOL_PROCEDURE;
+import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.USER_RANK_JOB;
+import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.WEEK_USER_CLASS_RANK_READER;
+import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.WEEK_USER_CLASS_RANK_STEP;
+import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.WEEK_USER_SCHOOL_RANK_READER;
+import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.WEEK_USER_SCHOOL_RANK_STEP;
 
 @Configuration
 @RequiredArgsConstructor

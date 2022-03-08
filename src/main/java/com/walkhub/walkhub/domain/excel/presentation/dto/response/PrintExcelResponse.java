@@ -2,9 +2,10 @@ package com.walkhub.walkhub.domain.excel.presentation.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import com.walkhub.walkhub.global.enums.Authority;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.util.List;
 
 @Getter
 @AllArgsConstructor

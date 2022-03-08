@@ -1,11 +1,10 @@
 package com.walkhub.walkhub.domain.exercise.presentation.dto.request;
 
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
-
-import javax.validation.constraints.NotNull;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor

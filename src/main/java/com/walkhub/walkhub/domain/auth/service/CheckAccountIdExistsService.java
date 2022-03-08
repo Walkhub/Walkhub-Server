@@ -4,7 +4,6 @@ import com.walkhub.walkhub.domain.auth.presentation.dto.request.CheckAccountIdRe
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.WalkhubService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @WalkhubService

@@ -15,7 +15,6 @@ import com.walkhub.walkhub.global.websocket.connect.WebSocketJwtHandler;
 import com.walkhub.walkhub.global.websocket.property.ClientProperty;
 import com.walkhub.walkhub.global.websocket.property.SocketProperty;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;

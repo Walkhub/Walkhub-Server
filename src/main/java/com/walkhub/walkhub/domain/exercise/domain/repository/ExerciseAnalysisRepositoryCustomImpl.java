@@ -1,10 +1,5 @@
 package com.walkhub.walkhub.domain.exercise.domain.repository;
 
-import static com.walkhub.walkhub.domain.exercise.domain.QExerciseAnalysis.exerciseAnalysis;
-import static com.walkhub.walkhub.domain.user.domain.QUser.user;
-import static com.walkhub.walkhub.domain.school.domain.QSchool.school;
-import static com.walkhub.walkhub.domain.user.domain.QSection.section;
-
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.excel.domain.type.UserType;
@@ -12,9 +7,15 @@ import com.walkhub.walkhub.domain.excel.presentation.dto.request.PrintExcelReque
 import com.walkhub.walkhub.domain.excel.presentation.dto.response.PrintExcelResponse.PrintExcelVo;
 import com.walkhub.walkhub.domain.excel.presentation.dto.response.QPrintExcelResponse_PrintExcelVo;
 import com.walkhub.walkhub.global.enums.Authority;
+import lombok.RequiredArgsConstructor;
+
 import java.time.LocalDate;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
+
+import static com.walkhub.walkhub.domain.exercise.domain.QExerciseAnalysis.exerciseAnalysis;
+import static com.walkhub.walkhub.domain.school.domain.QSchool.school;
+import static com.walkhub.walkhub.domain.user.domain.QSection.section;
+import static com.walkhub.walkhub.domain.user.domain.QUser.user;
 
 @RequiredArgsConstructor
 public class ExerciseAnalysisRepositoryCustomImpl implements ExerciseAnalysisRepositoryCustom {

@@ -7,10 +7,27 @@ import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChal
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeParticipantsForStudentResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeProgressResponse;
-import com.walkhub.walkhub.domain.challenge.service.*;
+import com.walkhub.walkhub.domain.challenge.service.CreateChallengeService;
+import com.walkhub.walkhub.domain.challenge.service.ParticipateChallengeService;
+import com.walkhub.walkhub.domain.challenge.service.QueryChallengeDetailsService;
+import com.walkhub.walkhub.domain.challenge.service.QueryChallengeListService;
+import com.walkhub.walkhub.domain.challenge.service.QueryChallengeParticipantsForStudentService;
+import com.walkhub.walkhub.domain.challenge.service.QueryChallengeProgressService;
+import com.walkhub.walkhub.domain.challenge.service.QueryClosesChallengeService;
+import com.walkhub.walkhub.domain.challenge.service.QueryParticipatedChallengeListService;
+import com.walkhub.walkhub.domain.challenge.service.RemoveChallengeService;
+import com.walkhub.walkhub.domain.challenge.service.UpdateChallengeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 

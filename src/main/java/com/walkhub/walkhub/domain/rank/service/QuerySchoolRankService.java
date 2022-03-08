@@ -9,14 +9,12 @@ import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankRespo
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.WalkhubService;
+import lombok.RequiredArgsConstructor;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.walkhub.walkhub.global.annotation.WalkhubService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @WalkhubService
