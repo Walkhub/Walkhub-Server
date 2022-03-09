@@ -32,7 +32,7 @@ public class ChallengeController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{challenge-id}")
-    public void removeChallenge(@PathVariable(name = "challenge-id") Long id) {
+    public void removeChallenge(@PathVariable("challenge-id") Long id) {
         removeChallengeService.execute(id);
     }
 
