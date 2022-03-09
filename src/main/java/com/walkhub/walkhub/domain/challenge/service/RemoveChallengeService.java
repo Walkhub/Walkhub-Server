@@ -8,6 +8,7 @@ import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.exception.InvalidRoleException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -17,6 +18,7 @@ public class RemoveChallengeService {
     private final UserFacade userFacade;
     private final ChallengeRepository challengeRepository;
 
+    @Transactional
     public void execute(Long id) {
         User user = userFacade.getCurrentUser();
         Challenge challenge = challengeFacade.getChallengeById(id);
