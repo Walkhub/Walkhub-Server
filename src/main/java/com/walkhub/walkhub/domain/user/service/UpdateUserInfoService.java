@@ -23,9 +23,9 @@ public class UpdateUserInfoService {
     public void execute(UpdateUserInfoRequest request) {
         User user = userFacade.getCurrentUser();
         School school = schoolFacade.getSchoolById(request.getSchoolId());
+        user.updateUser(request);
 
         if (!school.equals(user.getSchool())) {
-            user.updateUser(request);
             user.setSection(null);
             user.setSchool(school);
             user.getSchool().minusUserCount();
