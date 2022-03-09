@@ -142,6 +142,7 @@ public class FirebaseNotification implements FcmUtil {
         if (exercise.getWalkCount().equals(challenge.getGoal())) {
             challengeSendNotificationBuilder(challenge, contentType);
         } throw ChallengeNotSuccessException.EXCEPTION;
+
     }
 
     @Override
