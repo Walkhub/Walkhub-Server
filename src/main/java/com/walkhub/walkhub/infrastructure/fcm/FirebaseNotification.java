@@ -131,7 +131,7 @@ public class FirebaseNotification implements FcmUtil {
 
     @Override
     public void sendChallengeExpirationNotification(Challenge challenge, ContentType contentType) {
-        if (challenge.getEndAt().equals(LocalDateTime.now())) {
+        if (LocalDateTime.now().equals(challenge.getEndAt())) {
             challengeSendNotificationBuilder(challenge, contentType);
         } throw ChallengeNotExpirationException.EXCEPTION;
 
