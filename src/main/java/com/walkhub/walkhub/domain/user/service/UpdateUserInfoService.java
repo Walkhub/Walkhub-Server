@@ -24,13 +24,16 @@ public class UpdateUserInfoService {
         User user = userFacade.getCurrentUser();
         School school = schoolFacade.getSchoolById(request.getSchoolId());
 
-        user.updateUser(request);
-        user.setSection(null);
-        user.setSchool(school);
-        user.getSchool().minusUserCount();
-        school.addUserCount();
+        if (!school.equals(user.getSchool())) {
+            user.updateUser(request);
+            user.setSection(null);
+            user.setSchool(school);
+            user.getSchool().minusUserCount();
+            school.addUserCount();
+            challengeStatusRepository.deleteNotOverChallengeStatusByUserId(user.getId());
+        }
 
-        challengeStatusRepository.deleteNotOverChallengeStatusByUserId(user.getId());
+
     }
 
 }
