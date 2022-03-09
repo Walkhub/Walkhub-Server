@@ -5,6 +5,9 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.*;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
+import com.walkhub.walkhub.domain.challenge.exception.ChallengeNotExpirationException;
+import com.walkhub.walkhub.domain.challenge.exception.ChallengeNotSuccessException;
+import com.walkhub.walkhub.domain.exercise.domain.Exercise;
 import com.walkhub.walkhub.domain.notice.domain.Notice;
 import com.walkhub.walkhub.domain.notification.domain.NotificationEntity;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationRepository;
@@ -20,10 +23,12 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("EqualsBetweenInconvertibleTypes")
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -126,12 +131,17 @@ public class FirebaseNotification implements FcmUtil {
 
     @Override
     public void sendChallengeExpirationNotification(Challenge challenge, ContentType contentType) {
-       challengeSendNotificationBuilder(challenge, contentType);
+        if (challenge.getEndAt().equals(LocalDateTime.now())) {
+            challengeSendNotificationBuilder(challenge, contentType);
+        } throw ChallengeNotExpirationException.EXCEPTION;
+
     }
 
     @Override
-    public void sendChallengeSuccessNotification(Challenge challenge, ContentType contentType) {
-        challengeSendNotificationBuilder(challenge, contentType);
+    public void sendChallengeSuccessNotification(Challenge challenge, ContentType contentType, Exercise exercise) {
+        if (exercise.getWalkCount().equals(challenge.getGoal())) {
+            challengeSendNotificationBuilder(challenge, contentType);
+        } throw ChallengeNotSuccessException.EXCEPTION;
     }
 
     @Override
