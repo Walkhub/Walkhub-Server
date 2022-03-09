@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -131,7 +132,7 @@ public class FirebaseNotification implements FcmUtil {
 
     @Override
     public void sendChallengeExpirationNotification(Challenge challenge, ContentType contentType) {
-        if (LocalDateTime.now().equals(challenge.getEndAt())) {
+        if (LocalDate.now().isEqual(challenge.getEndAt())) {
             challengeSendNotificationBuilder(challenge, contentType);
         } throw ChallengeNotExpirationException.EXCEPTION;
 
