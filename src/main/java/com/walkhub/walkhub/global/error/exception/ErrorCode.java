@@ -56,7 +56,10 @@ public enum ErrorCode {
     REDIS_TRANSACTION_EXCEPTION(500, "REDIS-500-1", "Cannot Read Cache From Redis"),
     INTERNAL_SERVER_ERROR(500, "SERVER-500-1", "Internal Server Error"),
 
-    DEFAULT_TITLE_BADGE_NOT_FOUND(503, "SERVER-503-1", "Contact The Server Developer");
+    DEFAULT_TITLE_BADGE_NOT_FOUND(503, "SERVER-503-1", "Contact The Server Developer"),
+
+    CHALLENGE_NOT_EXPIRATION(403, "CHALLENGE-403-1", "Challenge Not Expiration"),
+    CHALLENGE_NOT_SUCCESS(403, "CHALLENGE-403-2", "Challenge Not Success");
 
     private final int status;
     private final String code;
