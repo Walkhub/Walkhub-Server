@@ -5,7 +5,6 @@ import com.walkhub.walkhub.domain.user.presentation.dto.request.InputHealthInfor
 import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinSectionRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateGoalWalkCountRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdatePasswordRequest;
-import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateSchoolInfoRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
@@ -21,7 +20,6 @@ import com.walkhub.walkhub.domain.user.service.QueryGoalWalkCountService;
 import com.walkhub.walkhub.domain.user.service.SearchAccountIdService;
 import com.walkhub.walkhub.domain.user.service.UpdateGoalWalkCountService;
 import com.walkhub.walkhub.domain.user.service.UpdatePasswordService;
-import com.walkhub.walkhub.domain.user.service.UpdateSchoolInfoService;
 import com.walkhub.walkhub.domain.user.service.UpdateUserInfoService;
 import com.walkhub.walkhub.domain.user.service.UserAuthCodeService;
 import com.walkhub.walkhub.domain.user.service.UserSignUpService;
@@ -52,7 +50,6 @@ public class UserController {
     private final UpdateUserInfoService updateUserInfoService;
     private final JoinSectionService joinSectionService;
     private final UpdatePasswordService updatePasswordService;
-    private final UpdateSchoolInfoService updateSchoolInfoService;
     private final SearchAccountIdService searchAccountIdService;
     private final UpdateGoalWalkCountService updateGoalWalkCountService;
     private final ExitSectionService exitSectionService;
@@ -102,12 +99,6 @@ public class UserController {
     @PatchMapping("/password")
     public void updatePassword(@RequestBody @Valid UpdatePasswordRequest request) {
         updatePasswordService.execute(request);
-    }
-
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/schools")
-    public void updateSchoolInfo(@RequestBody @Valid UpdateSchoolInfoRequest request) {
-        updateSchoolInfoService.execute(request);
     }
 
     @GetMapping("/accounts/{phone-number}")
