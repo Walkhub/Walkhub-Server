@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.domain.user.presentation;
 
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.CheckClassCodeRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.InputHealthInformationRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinSectionRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateGoalWalkCountRequest;
@@ -11,6 +12,7 @@ import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpReques
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryGoalWalkCountResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
+import com.walkhub.walkhub.domain.user.service.CheckClassCodeService;
 import com.walkhub.walkhub.domain.user.service.ExitSectionService;
 import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
 import com.walkhub.walkhub.domain.user.service.JoinSectionService;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,6 +57,7 @@ public class UserController {
     private final UpdateGoalWalkCountService updateGoalWalkCountService;
     private final ExitSectionService exitSectionService;
     private final QueryGoalWalkCountService queryGoalWalkCountService;
+    private final CheckClassCodeService checkClassCodeService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
@@ -121,6 +125,11 @@ public class UserController {
     @DeleteMapping("/classes")
     public void exitSection() {
         exitSectionService.execute();
+    }
+
+    @RequestMapping(value = "/classes", method = RequestMethod.HEAD)
+    public void checkClassCode(@RequestBody @Valid CheckClassCodeRequest request) {
+        checkClassCodeService.execute(request.getCode());
     }
 
 }
