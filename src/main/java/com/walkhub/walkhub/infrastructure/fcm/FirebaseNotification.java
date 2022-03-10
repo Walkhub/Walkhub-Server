@@ -107,13 +107,12 @@ public class FirebaseNotification implements FcmUtil {
                         );
             }
         } catch (FirebaseMessagingException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 
     @Override
     public void unSubscribeTopic(List<User> users, NotificationRequest request) {
-
         try {
             for (int i = 0; i < users.size() / 1000; i++) {
                 List<String> deviceTokenListToSubscribe = users.subList(i, i * 1000)
@@ -126,7 +125,7 @@ public class FirebaseNotification implements FcmUtil {
                         );
             }
         } catch (FirebaseMessagingException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 
