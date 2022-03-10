@@ -24,7 +24,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -95,34 +94,43 @@ public class FirebaseNotification implements FcmUtil {
     }
 
     @Override
-    public void subscribeTopic(List<User> users, NotificationRequest request) throws FirebaseMessagingException {
+    public void subscribeTopic(List<User> users, NotificationRequest request) {
+        try {
+            for (int i = 0; i < users.size() / 1000; i++) {
+                List<String> deviceTokenListToSubscribe = users.subList(i, i * 1000)
+                        .stream().map(User::getDeviceToken)
+                        .collect(Collectors.toList());
 
-        for (int i = 0; i < users.size() / 1000; i++) {
-            List<String> deviceTokenListToSubscribe = users.subList(i, i * 1000)
-                    .stream().map(User::getDeviceToken)
-                    .collect(Collectors.toList());
-
-            TopicManagementResponse response = FirebaseMessaging.getInstance(FirebaseApp.getInstance())
-                    .subscribeToTopic(
-                            deviceTokenListToSubscribe, request.getType().toString()
-                    );
+                TopicManagementResponse response = FirebaseMessaging.getInstance(FirebaseApp.getInstance())
+                        .subscribeToTopic(
+                                deviceTokenListToSubscribe, request.getType().toString()
+                        );
+            }
+        } catch (FirebaseMessagingException e) {
+            e.printStackTrace();
         }
+
 
     }
 
     @Override
-    public void unSubscribeTopic(List<User> users, NotificationRequest request) throws FirebaseMessagingException {
+    public void unSubscribeTopic(List<User> users, NotificationRequest request) {
 
-        for (int i = 0; i < users.size() / 1000; i++) {
-            List<String> deviceTokenListToSubscribe = users.subList(i, i * 1000)
-                    .stream().map(User::getDeviceToken)
-                    .collect(Collectors.toList());
+        try {
+            for (int i = 0; i < users.size() / 1000; i++) {
+                List<String> deviceTokenListToSubscribe = users.subList(i, i * 1000)
+                        .stream().map(User::getDeviceToken)
+                        .collect(Collectors.toList());
 
-            TopicManagementResponse response = FirebaseMessaging.getInstance(FirebaseApp.getInstance())
-                    .unsubscribeFromTopic(
-                            deviceTokenListToSubscribe, request.getType().toString()
-                    );
+                TopicManagementResponse response = FirebaseMessaging.getInstance(FirebaseApp.getInstance())
+                        .unsubscribeFromTopic(
+                                deviceTokenListToSubscribe, request.getType().toString()
+                        );
+            }
+        } catch (FirebaseMessagingException e) {
+            e.printStackTrace();
         }
+
     }
 
     @Override
