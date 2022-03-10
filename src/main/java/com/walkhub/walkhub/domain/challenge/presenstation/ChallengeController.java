@@ -42,7 +42,7 @@ public class ChallengeController {
         createChallengeService.execute(request);
     }
 
-    @GetMapping("/lists")
+    @GetMapping("/lists/students")
     public QueryChallengeListResponse queryChallengeList() {
         return queryChallengeListService.execute();
     }
