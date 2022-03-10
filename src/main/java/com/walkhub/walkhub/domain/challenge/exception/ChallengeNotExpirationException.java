@@ -9,6 +9,6 @@ public class ChallengeNotExpirationException extends WalkhubException {
             new ChallengeNotExpirationException();
 
     private ChallengeNotExpirationException() {
-        super(ErrorCode.CHALLENGE_NOT_SUCCESS);
+        super(ErrorCode.CHALLENGE_NOT_EXPIRATION);
     }
 }
