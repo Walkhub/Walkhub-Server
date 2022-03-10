@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.infrastructure.fcm;
 
-import com.google.firebase.messaging.FirebaseMessagingException;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.exercise.domain.Exercise;
 import com.walkhub.walkhub.domain.notice.domain.Notice;
@@ -14,8 +13,8 @@ public interface FcmUtil {
 
     void initialize();
     void sendNotification(NotificationRequest sendDto);
-    void subscribeTopic(List<User> users, NotificationRequest request) throws FirebaseMessagingException;
-    void unSubscribeTopic(List<User> users, NotificationRequest request) throws FirebaseMessagingException;
+    void subscribeTopic(List<User> users, NotificationRequest request);
+    void unSubscribeTopic(List<User> users, NotificationRequest request);
 
     void sendNoticeNotification(Notice notice, ContentType contentType);
     void sendChallengeExpirationNotification(Challenge challenge, ContentType contentType);
