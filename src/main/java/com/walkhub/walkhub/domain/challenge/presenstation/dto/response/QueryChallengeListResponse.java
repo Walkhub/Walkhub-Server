@@ -23,11 +23,11 @@ public class QueryChallengeListResponse {
 		private final String name;
 		private final LocalDate startAt;
 		private final LocalDate endAt;
-		private final String imageUrl;
-		private final UserScope userScope;
 		private final GoalScope goalScope;
 		private final GoalType goalType;
 		private final Writer writer;
+		private final Integer goal;
+		private final String award;
 	}
 
 	@Getter
