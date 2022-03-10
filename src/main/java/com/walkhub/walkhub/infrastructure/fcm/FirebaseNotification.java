@@ -101,7 +101,7 @@ public class FirebaseNotification implements FcmUtil {
                         .stream().map(User::getDeviceToken)
                         .collect(Collectors.toList());
 
-                TopicManagementResponse response = FirebaseMessaging.getInstance(FirebaseApp.getInstance())
+                FirebaseMessaging.getInstance(FirebaseApp.getInstance())
                         .subscribeToTopic(
                                 deviceTokenListToSubscribe, request.getType().toString()
                         );
@@ -119,7 +119,7 @@ public class FirebaseNotification implements FcmUtil {
                         .stream().map(User::getDeviceToken)
                         .collect(Collectors.toList());
 
-                TopicManagementResponse response = FirebaseMessaging.getInstance(FirebaseApp.getInstance())
+                FirebaseMessaging.getInstance(FirebaseApp.getInstance())
                         .unsubscribeFromTopic(
                                 deviceTokenListToSubscribe, request.getType().toString()
                         );
