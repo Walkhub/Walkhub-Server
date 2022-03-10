@@ -109,8 +109,6 @@ public class FirebaseNotification implements FcmUtil {
         } catch (FirebaseMessagingException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Override
@@ -130,7 +128,6 @@ public class FirebaseNotification implements FcmUtil {
         } catch (FirebaseMessagingException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
