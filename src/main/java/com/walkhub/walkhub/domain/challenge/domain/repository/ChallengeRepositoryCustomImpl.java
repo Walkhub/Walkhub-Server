@@ -56,7 +56,9 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
                 challenge.goalType,
                 user.id.as("writerId"),
                 user.name.as("writerName"),
-                user.profileImageUrl.as("profileImageUrl")
+                user.profileImageUrl.as("profileImageUrl"),
+                challenge.goal,
+                challenge.award
         );
     }
 }

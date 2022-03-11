@@ -111,7 +111,9 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         challenge.goalType,
                         user.id.as("userId"),
                         user.name.as("writerName"),
-                        user.profileImageUrl.as("profileImageUrl")
+                        user.profileImageUrl.as("profileImageUrl"),
+                        challenge.goal,
+                        challenge.award
                 ))
                 .from(challenge)
                 .join(challenge.user, user)

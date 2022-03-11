@@ -27,8 +27,6 @@ public class ChallengeFacade {
                 .name(vo.getName())
                 .startAt(vo.getStartAt())
                 .endAt(vo.getEndAt())
-                .imageUrl(vo.getImageUrl())
-                .userScope(vo.getUserScope())
                 .goalScope(vo.getGoalScope())
                 .goalType(vo.getGoalType())
                 .writer(Writer.builder()
@@ -36,6 +34,8 @@ public class ChallengeFacade {
                         .name(vo.getWriterName())
                         .profileImageUrl(vo.getProfileImageUrl())
                         .build())
+                .goal(vo.getGoal())
+                .award(vo.getAward())
                 .build();
     }
 }
