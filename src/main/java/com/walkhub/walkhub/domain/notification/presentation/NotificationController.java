@@ -35,12 +35,12 @@ public class NotificationController {
     }
 
     @PatchMapping
-    public void unSubscribeTopic(List<User> users, NotificationRequest request) throws FirebaseMessagingException {
+    public void unSubscribeTopic(List<User> users, NotificationRequest request) {
         fcmUtil.unSubscribeTopic(users, request);
     }
 
     @PatchMapping("/on")
-    public void subscribeTopic(List<User> users, NotificationRequest request) throws FirebaseMessagingException {
+    public void subscribeTopic(List<User> users, NotificationRequest request) {
         fcmUtil.subscribeTopic(users, request);
     }
 
