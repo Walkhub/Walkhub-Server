@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -55,13 +54,8 @@ public class QueryUserRankListByMySchoolService {
         List<UserRankResponse> userRankList = new ArrayList<>();
         List<ExerciseAnalysisDto> usersDayRank = exerciseAnalysisCacheRepository.getUserIdsByRankTop100(user.getSchool().getId());
 
-        List<Long> userIds = usersDayRank.stream()
-                .map(ExerciseAnalysisDto::getUserId)
-                .collect(Collectors.toList());
-
-        userRepository.findAllByIdIn(userIds);
-        for (ExerciseAnalysisDto users : usersDayRank) {
-            userRankList.add(buildDayUsersRank(users));
+        for (ExerciseAnalysisDto dayRank : usersDayRank) {
+            userRankList.add(buildDayUsersRank(dayRank));
         }
 
         return UserRankListResponse.builder()
