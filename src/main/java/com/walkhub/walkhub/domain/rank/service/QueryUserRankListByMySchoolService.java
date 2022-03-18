@@ -58,10 +58,9 @@ public class QueryUserRankListByMySchoolService {
         List<Long> userIds = usersDayRank.stream()
                 .map(ExerciseAnalysisDto::getUserId)
                 .collect(Collectors.toList());
-
-        userRepository.findAllByIdIn(userIds);
-        for (ExerciseAnalysisDto users : usersDayRank) {
-            userRankList.add(buildDayUsersRank(users));
+        
+        for (ExerciseAnalysisDto dayRank : usersDayRank) {
+            userRankList.add(buildDayUsersRank(dayRank));
         }
 
         return UserRankListResponse.builder()
