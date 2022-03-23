@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Transactional(readOnly = true)
 @Service
-public @interface WalkhubService {
+public @interface ServiceWithTransactionalReadOnly {
 }

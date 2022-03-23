@@ -4,13 +4,13 @@ import com.walkhub.walkhub.domain.badge.domain.Badge;
 import com.walkhub.walkhub.domain.badge.facade.BadgeCollectionFacade;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
-import com.walkhub.walkhub.global.annotation.WalkhubService;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 
 import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
-@WalkhubService
+@ServiceWithTransactionalReadOnly
 public class SetTitleBadgeService {
 
     private final UserFacade userFacade;

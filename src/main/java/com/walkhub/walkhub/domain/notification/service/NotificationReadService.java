@@ -7,13 +7,13 @@ import com.walkhub.walkhub.domain.notification.domain.repository.NotificationRep
 import com.walkhub.walkhub.domain.notification.exception.NotificationNotFoundException;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
-import com.walkhub.walkhub.global.annotation.WalkhubService;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 
 import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
-@WalkhubService
+@ServiceWithTransactionalReadOnly
 public class NotificationReadService {
 
     private final NotificationListRepository notificationListRepository;

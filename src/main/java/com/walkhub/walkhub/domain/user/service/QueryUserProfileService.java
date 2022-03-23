@@ -8,11 +8,11 @@ import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse.Level;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse.TitleBadge;
-import com.walkhub.walkhub.global.annotation.WalkhubService;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@WalkhubService
+@ServiceWithTransactionalReadOnly
 public class QueryUserProfileService {
 
     private final UserFacade userFacade;

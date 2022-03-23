@@ -5,14 +5,14 @@ import com.walkhub.walkhub.domain.rank.domain.repository.SchoolRankRepository;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.school.facade.SchoolFacade;
 import com.walkhub.walkhub.domain.school.presentation.dto.response.SchoolDetailsInfoResponse;
-import com.walkhub.walkhub.global.annotation.WalkhubService;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import com.walkhub.walkhub.global.enums.DateType;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 
 @RequiredArgsConstructor
-@WalkhubService
+@ServiceWithTransactionalReadOnly
 public class SchoolDetailsInfoService {
 
     private final SchoolRankRepository schoolRankRepository;

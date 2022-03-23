@@ -5,12 +5,12 @@ import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeRepositor
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
-import com.walkhub.walkhub.global.annotation.WalkhubService;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import com.walkhub.walkhub.global.exception.InvalidRoleException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@WalkhubService
+@ServiceWithTransactionalReadOnly
 public class RemoveChallengeService {
 
     private final ChallengeFacade challengeFacade;

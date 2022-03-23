@@ -4,13 +4,13 @@ import com.walkhub.walkhub.domain.teacher.presentation.dto.request.QueryUserList
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserListResponse;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
-import com.walkhub.walkhub.global.annotation.WalkhubService;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@WalkhubService
+@ServiceWithTransactionalReadOnly
 public class QueryUserListService {
     private final UserRepository userRepository;
     private final UserFacade userFacade;

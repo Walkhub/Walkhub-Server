@@ -5,13 +5,13 @@ import com.walkhub.walkhub.domain.notice.domain.repository.NoticeRepository;
 import com.walkhub.walkhub.domain.notice.exception.NoticeNotFoundException;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
-import com.walkhub.walkhub.global.annotation.WalkhubService;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import com.walkhub.walkhub.global.exception.InvalidRoleException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@WalkhubService
+@ServiceWithTransactionalReadOnly
 public class DeleteNoticeService {
 
     private final UserFacade userFacade;

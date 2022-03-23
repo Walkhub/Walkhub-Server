@@ -5,14 +5,14 @@ import com.walkhub.walkhub.domain.exercise.domain.repository.LocationRepository;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.ExerciseListResponse;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.ExerciseListResponse.ExerciseResponse;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
-import com.walkhub.walkhub.global.annotation.WalkhubService;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@WalkhubService
+@ServiceWithTransactionalReadOnly
 public class QueryExerciseListService {
 
 	private final ExerciseRepository exerciseRepository;

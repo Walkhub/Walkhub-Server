@@ -10,7 +10,7 @@ import com.walkhub.walkhub.domain.exercise.domain.Exercise;
 import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseRepository;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
-import com.walkhub.walkhub.global.annotation.WalkhubService;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import com.walkhub.walkhub.global.websocket.connect.WebSocketJwtHandler;
 import com.walkhub.walkhub.global.websocket.property.ClientProperty;
 import com.walkhub.walkhub.global.websocket.property.SocketProperty;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@WalkhubService
+@ServiceWithTransactionalReadOnly
 public class CheeringService {
 
     private final UserFacade userFacade;

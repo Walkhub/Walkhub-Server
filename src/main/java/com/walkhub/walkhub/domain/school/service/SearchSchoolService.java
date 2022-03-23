@@ -3,14 +3,14 @@ package com.walkhub.walkhub.domain.school.service;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.school.domain.repository.SchoolRepository;
 import com.walkhub.walkhub.domain.school.presentation.dto.response.SearchSchoolListResponse;
-import com.walkhub.walkhub.global.annotation.WalkhubService;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@WalkhubService
+@ServiceWithTransactionalReadOnly
 public class SearchSchoolService {
 
     private final SchoolRepository schoolRepository;

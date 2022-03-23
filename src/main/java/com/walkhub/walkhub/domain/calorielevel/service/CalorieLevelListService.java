@@ -4,14 +4,14 @@ import com.walkhub.walkhub.domain.calorielevel.domain.CalorieLevel;
 import com.walkhub.walkhub.domain.calorielevel.domain.repository.CalorieLevelRepository;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.CalorieLevelListResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.CalorieLevelListResponse.CalorieLevelResponse;
-import com.walkhub.walkhub.global.annotation.WalkhubService;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@WalkhubService
+@ServiceWithTransactionalReadOnly
 public class CalorieLevelListService {
 
     private final CalorieLevelRepository calorieLevelRepository;

@@ -5,13 +5,13 @@ import com.walkhub.walkhub.domain.badge.domain.repository.vo.MyBadgeVo;
 import com.walkhub.walkhub.domain.badge.presentation.dto.response.QueryMyBadgeListResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
-import com.walkhub.walkhub.global.annotation.WalkhubService;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-@WalkhubService
+@ServiceWithTransactionalReadOnly
 public class QueryMyBadgeListService {
 
     private final BadgeRepository badgeRepository;

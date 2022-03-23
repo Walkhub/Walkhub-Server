@@ -6,13 +6,13 @@ import com.walkhub.walkhub.domain.su.exception.SchoolRootUserNotFoundException;
 import com.walkhub.walkhub.domain.su.presentation.dto.response.UpdateSchoolPasswordResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
-import com.walkhub.walkhub.global.annotation.WalkhubService;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import com.walkhub.walkhub.global.enums.Authority;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@WalkhubService
+@ServiceWithTransactionalReadOnly
 public class UpdateSchoolPasswordService {
     private final UserRepository userRepository;
     private final SchoolFacade schoolFacade;

@@ -3,12 +3,12 @@ package com.walkhub.walkhub.domain.school.service;
 import com.walkhub.walkhub.domain.school.presentation.dto.request.SchoolLogoRequest;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
-import com.walkhub.walkhub.global.annotation.WalkhubService;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@WalkhubService
+@ServiceWithTransactionalReadOnly
 public class SchoolLogoSettingService {
 
     private final UserFacade userFacade;
