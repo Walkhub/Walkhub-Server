@@ -31,7 +31,8 @@ public class QueryChallengeProgressService {
                 request.getPage()
         );
 
-        List<QueryChallengeProgressResponse.UserChallengeProgressResponse> challengeProgressResponses = challengeProgressVOS.stream()
+        List<QueryChallengeProgressResponse.UserChallengeProgressResponse> challengeProgressResponses =
+                challengeProgressVOS.stream()
                 .map(this::buildUserChallengeProgressResponse)
                 .collect(Collectors.toList());
 

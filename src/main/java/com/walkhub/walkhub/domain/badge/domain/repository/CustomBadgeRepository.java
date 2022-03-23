@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface CustomBadgeRepository {
     List<DefaultBadgeVO> findAllByBadgeCollectionsNotIn(Long userId);
+
     List<MyBadgeVo> findAllByBadgeCollections(Long userId);
 }

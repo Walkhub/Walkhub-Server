@@ -42,7 +42,8 @@ public class CalorieLevel {
     private Double calorie;
 
     @Builder
-    public CalorieLevel(String foodName, String size, String message, String foodImageUrl, Integer level, Double calorie) {
+    public CalorieLevel(String foodName, String size, String message, String foodImageUrl, Integer level,
+                        Double calorie) {
         this.foodName = foodName;
         this.size = size;
         this.message = message;

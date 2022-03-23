@@ -93,7 +93,8 @@ public class ChallengeController {
     }
 
     @GetMapping("/{challenge-id}/participants/students")
-    public QueryChallengeParticipantsForStudentResponse queryChallengeParticipantsForStudent(@PathVariable("challenge-id") Long challengeId) {
+    public QueryChallengeParticipantsForStudentResponse queryChallengeParticipantsForStudent(@PathVariable("challenge" +
+            "-id") Long challengeId) {
         return queryChallengeParticipantsForStudentService.execute(challengeId);
     }
 

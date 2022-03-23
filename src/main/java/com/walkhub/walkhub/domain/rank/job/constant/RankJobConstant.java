@@ -19,7 +19,8 @@ public final class RankJobConstant {
     public static final String MONTH_SCHOOL_RANK_READER = "schoolRankForLastMonthReader";
 
     public static final String SELECT_PROCEDURE_NAME = "SELECT_SCHOOL_RANK_BY_DATETYPE";
-    public static final String SQL_SAVE_SCHOOL_RANK = "CALL SAVE_SCHOOL_RANK(:schoolId, :createdAt, :dateType, :name, :logoImageUrl, :userCount,:walkCount, :ranking)";
+    public static final String SQL_SAVE_SCHOOL_RANK = "CALL SAVE_SCHOOL_RANK(:schoolId, :createdAt, :dateType, :name," +
+            " :logoImageUrl, :userCount,:walkCount, :ranking)";
 
     // user rank
     public static final String USER_RANK_JOB = "userRankJob";
@@ -35,6 +36,7 @@ public final class RankJobConstant {
 
     public static final String SELECT_BY_SCHOOL_PROCEDURE = "SELECT_USER_RANK_BY_SCHOOL";
     public static final String SELECT_BY_CLASS_PROCEDURE = "SELECT_USER_RANK_BY_CLASS";
-    public static final String CALL_SAVE_PROCEDURE = "CALL SAVE_USER_RANK(:userId, :createdAt, :dateType, :scopeType, :schoolId, :name, :grade, :classNum, :profileImageUrl, :ranking, :walkCount)";
+    public static final String CALL_SAVE_PROCEDURE = "CALL SAVE_USER_RANK(:userId, :createdAt, :dateType, :scopeType," +
+            " :schoolId, :name, :grade, :classNum, :profileImageUrl, :ranking, :walkCount)";
 
 }

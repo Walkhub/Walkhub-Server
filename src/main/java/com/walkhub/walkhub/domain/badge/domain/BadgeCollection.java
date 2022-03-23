@@ -19,19 +19,19 @@ import javax.persistence.ManyToOne;
 @Entity
 public class BadgeCollection {
 
-	@Id
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "badge_id")
-	private Badge badge;
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "badge_id")
+    private Badge badge;
 
-	@Id
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	private User user;
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-	@Builder
-	public BadgeCollection(Badge badge, User user) {
-		this.badge = badge;
-		this.user = user;
-	}
+    @Builder
+    public BadgeCollection(Badge badge, User user) {
+        this.badge = badge;
+        this.user = user;
+    }
 }

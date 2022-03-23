@@ -16,8 +16,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableCaching
 public class WalkhubApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(WalkhubApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(WalkhubApplication.class, args);
+    }
 
 }

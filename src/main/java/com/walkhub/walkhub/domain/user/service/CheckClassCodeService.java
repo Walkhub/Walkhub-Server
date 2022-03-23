@@ -12,7 +12,7 @@ public class CheckClassCodeService {
     private final SectionRepository sectionRepository;
 
     public void execute(String code) {
-        if(sectionRepository.findByClassCode(code).isEmpty())
+        if (sectionRepository.findByClassCode(code).isEmpty())
             throw InvalidCodeException.EXCEPTION;
     }
 

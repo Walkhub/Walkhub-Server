@@ -23,7 +23,8 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<UserListInfoVO> queryUserList(Integer page, AuthorityScope scope, SortStandard sort, Integer grade, Integer classNum, User currentUser) {
+    public List<UserListInfoVO> queryUserList(Integer page, AuthorityScope scope, SortStandard sort, Integer grade,
+                                              Integer classNum, User currentUser) {
         long size = 4;
         return queryFactory
                 .select(new QUserListInfoVO(
@@ -56,7 +57,8 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     }
 
     @Override
-    public List<UserListInfoVO> searchUser(AuthorityScope scope, SortStandard sort, Integer grade, Integer classNum, User currentUser, String name) {
+    public List<UserListInfoVO> searchUser(AuthorityScope scope, SortStandard sort, Integer grade, Integer classNum,
+                                           User currentUser, String name) {
         return queryFactory
                 .select(new QUserListInfoVO(
                         user.id.as("userId"),

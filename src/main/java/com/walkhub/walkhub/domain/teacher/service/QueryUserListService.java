@@ -17,7 +17,8 @@ public class QueryUserListService {
 
     public QueryUserListResponse execute(QueryUserListRequest request) {
         return QueryUserListResponse.builder()
-                .userList(userRepository.queryUserList(request.getPage(), request.getScope(), request.getSort(), request.getGrade(), request.getClassNum(), userFacade.getCurrentUser())
+                .userList(userRepository.queryUserList(request.getPage(), request.getScope(), request.getSort(),
+                                request.getGrade(), request.getClassNum(), userFacade.getCurrentUser())
                         .stream().map(users -> QueryUserListResponse.UserListInfo.builder()
                                 .userId(users.getUserId())
                                 .name(users.getName())

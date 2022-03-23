@@ -18,37 +18,37 @@ import static com.walkhub.walkhub.domain.user.domain.QUser.user;
 @RequiredArgsConstructor
 public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
 
-	private final JPAQueryFactory queryFactory;
+    private final JPAQueryFactory queryFactory;
 
-	@Override
-	public List<NoticeResponse> queryNoticeByScopeAndPage(Scope scope, Integer page, School userSchool) {
-		long size = 10;
-		return queryFactory
-			.select(new QQueryNoticeListResponse_NoticeResponse(
-				notice.id,
-				notice.title,
-				notice.content,
-				notice.createdAt,
-				new QQueryNoticeListResponse_Writer(
-					user.id,
-					user.name,
-					user.profileImageUrl
-				))
-			)
-			.from(notice)
-			.join(notice.user, user)
-			.join(user.school, school)
-			.where(
-				notice.scope.eq(scope),
-				scopeFilter(scope, userSchool)
-			)
-			.offset((long) page * size)
-			.limit(size)
-			.orderBy(notice.createdAt.desc())
-			.fetch();
-	}
+    @Override
+    public List<NoticeResponse> queryNoticeByScopeAndPage(Scope scope, Integer page, School userSchool) {
+        long size = 10;
+        return queryFactory
+                .select(new QQueryNoticeListResponse_NoticeResponse(
+                        notice.id,
+                        notice.title,
+                        notice.content,
+                        notice.createdAt,
+                        new QQueryNoticeListResponse_Writer(
+                                user.id,
+                                user.name,
+                                user.profileImageUrl
+                        ))
+                )
+                .from(notice)
+                .join(notice.user, user)
+                .join(user.school, school)
+                .where(
+                        notice.scope.eq(scope),
+                        scopeFilter(scope, userSchool)
+                )
+                .offset((long) page * size)
+                .limit(size)
+                .orderBy(notice.createdAt.desc())
+                .fetch();
+    }
 
-	private BooleanExpression scopeFilter(Scope scope, School userSchool) {
-		return scope.equals(Scope.SCHOOL) ? school.eq(userSchool) : null;
-	}
+    private BooleanExpression scopeFilter(Scope scope, School userSchool) {
+        return scope.equals(Scope.SCHOOL) ? school.eq(userSchool) : null;
+    }
 }

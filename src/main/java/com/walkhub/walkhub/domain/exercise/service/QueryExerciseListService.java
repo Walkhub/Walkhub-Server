@@ -15,22 +15,22 @@ import java.util.stream.Collectors;
 @ServiceWithTransactionalReadOnly
 public class QueryExerciseListService {
 
-	private final ExerciseRepository exerciseRepository;
-	private final LocationRepository locationRepository;
-	private final UserFacade userFacade;
+    private final ExerciseRepository exerciseRepository;
+    private final LocationRepository locationRepository;
+    private final UserFacade userFacade;
 
-	public ExerciseListResponse execute() {
-		List<ExerciseResponse> exerciseList = exerciseRepository.findAllByUser(userFacade.getCurrentUser()).stream()
-			.map(locationRepository::findTop1ByExerciseOrderBySequenceDesc)
-			.map(location -> ExerciseResponse.builder()
-				.exerciseId(location.getExercise().getId())
-				.imageUrl(location.getExercise().getImageUrl())
-				.startAt(location.getExercise().getCreatedAt())
-				.latitude(location.getLatitude())
-				.longitude(location.getLongitude())
-				.build())
-			.collect(Collectors.toList());
+    public ExerciseListResponse execute() {
+        List<ExerciseResponse> exerciseList = exerciseRepository.findAllByUser(userFacade.getCurrentUser()).stream()
+                .map(locationRepository::findTop1ByExerciseOrderBySequenceDesc)
+                .map(location -> ExerciseResponse.builder()
+                        .exerciseId(location.getExercise().getId())
+                        .imageUrl(location.getExercise().getImageUrl())
+                        .startAt(location.getExercise().getCreatedAt())
+                        .latitude(location.getLatitude())
+                        .longitude(location.getLongitude())
+                        .build())
+                .collect(Collectors.toList());
 
-		return new ExerciseListResponse(exerciseList);
-	}
+        return new ExerciseListResponse(exerciseList);
+    }
 }

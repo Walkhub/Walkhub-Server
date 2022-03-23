@@ -128,7 +128,8 @@ public class UserRankJob {
 
     @Bean
     @StepScope
-    public ItemProcessor<UserRankInfo, UserRankWriterVO> weekUserSchoolRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
+    public ItemProcessor<UserRankInfo, UserRankWriterVO> weekUserSchoolRankProcessor(@Value("#{jobParameters[jobKey" +
+            "]}") String jobKey) {
         return rankInfo -> UserRankWriterVO.builder()
                 .userId(rankInfo.getUserId())
                 .createdAt(LocalDate.now())
@@ -146,7 +147,8 @@ public class UserRankJob {
 
     @Bean
     @StepScope
-    public ItemProcessor<UserRankInfo, UserRankWriterVO> monthUserSchoolRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
+    public ItemProcessor<UserRankInfo, UserRankWriterVO> monthUserSchoolRankProcessor(@Value("#{jobParameters[jobKey" +
+            "]}") String jobKey) {
         return rankInfo -> UserRankWriterVO.builder()
                 .userId(rankInfo.getUserId())
                 .createdAt(LocalDate.now())
@@ -182,7 +184,8 @@ public class UserRankJob {
 
     @Bean
     @StepScope
-    public ItemProcessor<UserRankInfo, UserRankWriterVO> monthUserClassRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
+    public ItemProcessor<UserRankInfo, UserRankWriterVO> monthUserClassRankProcessor(@Value("#{jobParameters[jobKey" +
+            "]}") String jobKey) {
         return rankInfo -> UserRankWriterVO.builder()
                 .userId(rankInfo.getUserId())
                 .createdAt(LocalDate.now())
@@ -211,7 +214,8 @@ public class UserRankJob {
         return writer;
     }
 
-    private StoredProcedureItemReader<UserRankInfo> callProcedure(String builderName, String procedureName, Integer dateType) {
+    private StoredProcedureItemReader<UserRankInfo> callProcedure(String builderName, String procedureName,
+                                                                  Integer dateType) {
         return new StoredProcedureItemReaderBuilder<UserRankInfo>()
                 .name(builderName)
                 .fetchSize(CHUNK_SIZE)

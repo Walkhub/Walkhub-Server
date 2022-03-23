@@ -51,7 +51,8 @@ public class ExerciseAnalysisCacheRepositoryImpl implements ExerciseAnalysisCach
 
     @Override
     public List<ExerciseAnalysisDto> getUserIdsByRankTop100(Long schoolId) {
-        Set<ZSetOperations.TypedTuple<Object>> rankUserIds = zSetOperations.reverseRangeWithScores(getExerciseAnalysisKey(schoolId), 0, 99);
+        Set<ZSetOperations.TypedTuple<Object>> rankUserIds =
+                zSetOperations.reverseRangeWithScores(getExerciseAnalysisKey(schoolId), 0, 99);
         int rank = 1;
         if (rankUserIds == null) {
             return Collections.emptyList();

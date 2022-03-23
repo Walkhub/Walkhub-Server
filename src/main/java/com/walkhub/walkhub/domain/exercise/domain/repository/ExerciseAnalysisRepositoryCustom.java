@@ -7,5 +7,5 @@ import java.util.List;
 
 
 public interface ExerciseAnalysisRepositoryCustom {
-	List<PrintExcelVo> getPrintExcelVoList(PrintExcelRequest printExcelRequest, Long schoolId);
+    List<PrintExcelVo> getPrintExcelVoList(PrintExcelRequest printExcelRequest, Long schoolId);
 }

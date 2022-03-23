@@ -24,23 +24,26 @@ public class SchoolDetailsInfoService {
         LocalDate createAt = now.minusWeeks(1);
 
         return schoolRankRepository
-            .findBySchoolIdAndDateTypeAndCreatedAtBetween(schoolId, DateType.WEEK.toString(), createAt, now)
-            .flatMap(
-                weekSchoolRanks -> schoolRankRepository
-                    .findBySchoolIdAndDateTypeAndCreatedAtBetween(schoolId, DateType.MONTH.toString(), createAt, now)
-                    .map(monthSchoolRanks -> schoolDetailsInfoResponseBuilder(school, weekSchoolRanks, monthSchoolRanks))
-            )
-            .orElse(null);
+                .findBySchoolIdAndDateTypeAndCreatedAtBetween(schoolId, DateType.WEEK.toString(), createAt, now)
+                .flatMap(
+                        weekSchoolRanks -> schoolRankRepository
+                                .findBySchoolIdAndDateTypeAndCreatedAtBetween(schoolId, DateType.MONTH.toString(),
+                                        createAt, now)
+                                .map(monthSchoolRanks -> schoolDetailsInfoResponseBuilder(school, weekSchoolRanks,
+                                        monthSchoolRanks))
+                )
+                .orElse(null);
     }
 
-    private SchoolDetailsInfoResponse schoolDetailsInfoResponseBuilder(School school, SchoolRank weekSchoolRanks, SchoolRank monthSchoolRanks) {
+    private SchoolDetailsInfoResponse schoolDetailsInfoResponseBuilder(School school, SchoolRank weekSchoolRanks,
+                                                                       SchoolRank monthSchoolRanks) {
         return SchoolDetailsInfoResponse.builder()
-            .userCount(school.getUserCount())
-            .weekTotalWalkCount(weekSchoolRanks.getWalkCount())
-            .monthTotalWalkCount(monthSchoolRanks.getWalkCount())
-            .weekRanking(weekSchoolRanks.getRanking())
-            .monthRanking(monthSchoolRanks.getRanking())
-            .build();
+                .userCount(school.getUserCount())
+                .weekTotalWalkCount(weekSchoolRanks.getWalkCount())
+                .monthTotalWalkCount(monthSchoolRanks.getWalkCount())
+                .weekRanking(weekSchoolRanks.getRanking())
+                .monthRanking(monthSchoolRanks.getRanking())
+                .build();
     }
 
 }

@@ -93,7 +93,8 @@ public class SchoolRankJob {
 
     @Bean
     @StepScope
-    public ItemProcessor<SchoolRankInfo, SchoolRank> schoolRankForLastMonthProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
+    public ItemProcessor<SchoolRankInfo, SchoolRank> schoolRankForLastMonthProcessor(@Value("#{jobParameters[jobKey" +
+            "]}") String jobKey) {
         return rankInfo -> SchoolRank.builder()
                 .schoolId(rankInfo.getSchoolId())
                 .createdAt(LocalDate.now())
@@ -127,7 +128,7 @@ public class SchoolRankJob {
                 .dataSource(dataSource)
                 .procedureName(RankJobConstant.SELECT_PROCEDURE_NAME)
                 .parameters(new SqlParameter("_DATETYPE", Types.VARCHAR))
-                .preparedStatementSetter(new ArgumentPreparedStatementSetter(new Object[] {dateType}))
+                .preparedStatementSetter(new ArgumentPreparedStatementSetter(new Object[]{dateType}))
                 .rowMapper((rs, rowNum) -> SchoolRankInfo.builder()
                         .schoolId(rs.getLong("school_id"))
                         .name(rs.getString("name"))

@@ -5,11 +5,11 @@ import com.walkhub.walkhub.global.error.exception.WalkhubException;
 
 public class CredentialsNotFoundException extends WalkhubException {
 
-	public static final WalkhubException EXCEPTION =
-		new CredentialsNotFoundException();
+    public static final WalkhubException EXCEPTION =
+            new CredentialsNotFoundException();
 
-	private CredentialsNotFoundException() {
-		super(ErrorCode.CREDENTIALS_NOT_FOUND);
-	}
+    private CredentialsNotFoundException() {
+        super(ErrorCode.CREDENTIALS_NOT_FOUND);
+    }
 
 }

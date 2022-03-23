@@ -21,7 +21,8 @@ public class QueryParticipatedChallengeListService {
 
     public QueryChallengeListResponse execute() {
 
-        List<ChallengeResponse> challengeResponseList = challengeStatusRepository.getAllChallengesByUser(userFacade.getCurrentUser())
+        List<ChallengeResponse> challengeResponseList =
+                challengeStatusRepository.getAllChallengesByUser(userFacade.getCurrentUser())
                 .stream()
                 .map(challengeFacade::challengeResponseBuilder)
                 .collect(Collectors.toList());

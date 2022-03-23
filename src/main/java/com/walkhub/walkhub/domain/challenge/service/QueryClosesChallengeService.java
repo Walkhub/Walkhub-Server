@@ -20,7 +20,8 @@ public class QueryClosesChallengeService {
 
     public QueryChallengeListResponse execute() {
 
-        List<QueryChallengeListResponse.ChallengeResponse> challengeResponseList = challengeStatusRepository.getAllChallengesByUser(userFacade.getCurrentUser())
+        List<QueryChallengeListResponse.ChallengeResponse> challengeResponseList =
+                challengeStatusRepository.getAllChallengesByUser(userFacade.getCurrentUser())
                 .stream()
                 .map(challengeFacade::challengeResponseBuilder)
                 .collect(Collectors.toList());

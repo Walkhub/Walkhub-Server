@@ -12,9 +12,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class PrintExcelRequest {
 
-	private LocalDate startAt;
-	private LocalDate endAt;
-	private UserType userType;
-	private Integer grade;
-	private Integer classNum;
+    private LocalDate startAt;
+    private LocalDate endAt;
+    private UserType userType;
+    private Integer grade;
+    private Integer classNum;
 }

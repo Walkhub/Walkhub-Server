@@ -12,13 +12,19 @@ import java.util.List;
 public interface FcmUtil {
 
     void initialize();
+
     void sendNotification(NotificationRequest sendDto);
+
     void subscribeTopic(List<User> users, NotificationRequest request);
+
     void unSubscribeTopic(List<User> users, NotificationRequest request);
 
     void sendNoticeNotification(Notice notice, ContentType contentType);
+
     void sendChallengeExpirationNotification(Challenge challenge, ContentType contentType);
+
     void sendChallengeSuccessNotification(Challenge challenge, ContentType contentType, Exercise exercise);
+
     void sendChallengeCanParticipate(Challenge challenge, ContentType contentType);
 
 }

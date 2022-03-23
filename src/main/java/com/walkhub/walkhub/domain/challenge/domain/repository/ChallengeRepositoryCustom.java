@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface ChallengeRepositoryCustom {
     List<ShowChallengeVO> queryChallenge(User user);
-    public List<ShowChallengeVO> queryClosedChallenge(User user);
+
+    List<ShowChallengeVO> queryClosedChallenge(User user);
 }

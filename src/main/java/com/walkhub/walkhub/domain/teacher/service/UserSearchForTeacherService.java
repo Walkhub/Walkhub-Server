@@ -18,7 +18,8 @@ public class UserSearchForTeacherService {
 
     public QueryUserListResponse execute(UserSearchRequest request) {
         return QueryUserListResponse.builder()
-                .userList(userRepository.searchUser(request.getScope(), request.getSort(), request.getGrade(), request.getClassNum(), userFacade.getCurrentUser(), request.getName())
+                .userList(userRepository.searchUser(request.getScope(), request.getSort(), request.getGrade(),
+                                request.getClassNum(), userFacade.getCurrentUser(), request.getName())
                         .stream().map(this::buildUserListResponse)
                         .collect(Collectors.toList())
                 )

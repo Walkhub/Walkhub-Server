@@ -10,6 +10,8 @@ import java.util.Optional;
 
 public interface SchoolRepository extends JpaRepository<School, Long> {
     List<School> findAllByNameContaining(String name);
+
     Page<School> findAllBy(Pageable pageable);
+
     Optional<School> findByAuthCode(String authCode);
 }

@@ -7,6 +7,7 @@ public class ChallengeNotSuccessException extends WalkhubException {
 
     public static final WalkhubException EXCEPTION =
             new ChallengeNotSuccessException();
+
     private ChallengeNotSuccessException() {
         super(ErrorCode.CHALLENGE_NOT_SUCCESS);
     }

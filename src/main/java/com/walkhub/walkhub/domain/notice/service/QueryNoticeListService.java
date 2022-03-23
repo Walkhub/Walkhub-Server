@@ -10,6 +10,7 @@ import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+
 @RequiredArgsConstructor
 @ServiceWithTransactionalReadOnly
 public class QueryNoticeListService {
@@ -21,7 +22,7 @@ public class QueryNoticeListService {
         User user = userFacade.getCurrentUser();
 
         List<NoticeResponse> noticeResponseList = noticeRepository
-            .queryNoticeByScopeAndPage(scope, page, user.getSchool());
+                .queryNoticeByScopeAndPage(scope, page, user.getSchool());
 
         return new QueryNoticeListResponse(noticeResponseList);
     }

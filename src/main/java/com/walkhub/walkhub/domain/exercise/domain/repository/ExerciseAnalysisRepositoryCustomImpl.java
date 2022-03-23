@@ -20,77 +20,77 @@ import static com.walkhub.walkhub.domain.user.domain.QUser.user;
 @RequiredArgsConstructor
 public class ExerciseAnalysisRepositoryCustomImpl implements ExerciseAnalysisRepositoryCustom {
 
-	private final JPAQueryFactory queryFactory;
+    private final JPAQueryFactory queryFactory;
 
-	@Override
-	public List<PrintExcelVo> getPrintExcelVoList(PrintExcelRequest excelRequest, Long schoolId) {
+    @Override
+    public List<PrintExcelVo> getPrintExcelVoList(PrintExcelRequest excelRequest, Long schoolId) {
 
-		LocalDate startAt = excelRequest.getStartAt();
-		LocalDate endAt = excelRequest.getEndAt();
-		UserType userType = excelRequest.getUserType();
-		Integer grade = excelRequest.getGrade();
-		Integer classNum = excelRequest.getClassNum();
+        LocalDate startAt = excelRequest.getStartAt();
+        LocalDate endAt = excelRequest.getEndAt();
+        UserType userType = excelRequest.getUserType();
+        Integer grade = excelRequest.getGrade();
+        Integer classNum = excelRequest.getClassNum();
 
-		return queryFactory
-			.select(new QPrintExcelResponse_PrintExcelVo(
-				user.name,
-				section.grade,
-				section.classNum,
-				user.number,
-				exerciseAnalysis.walkCount.sum(),
-				exerciseAnalysis.walkCount.avg().intValue(),
-				exerciseAnalysis.distance.sum(),
-				exerciseAnalysis.distance.avg().intValue(),
-				user.authority,
-				school.name
-			))
-			.from(exerciseAnalysis)
-			.join(exerciseAnalysis.user, user)
-			.join(user.school, school)
-			.leftJoin(user.section, section)
-			.where(
-				school.id.eq(schoolId),
-				exerciseAnalysis.date.between(startAt, endAt),
-				userTypeFilter(userType, grade, classNum)
-			)
-			.groupBy(user)
-			.fetch();
-	}
+        return queryFactory
+                .select(new QPrintExcelResponse_PrintExcelVo(
+                        user.name,
+                        section.grade,
+                        section.classNum,
+                        user.number,
+                        exerciseAnalysis.walkCount.sum(),
+                        exerciseAnalysis.walkCount.avg().intValue(),
+                        exerciseAnalysis.distance.sum(),
+                        exerciseAnalysis.distance.avg().intValue(),
+                        user.authority,
+                        school.name
+                ))
+                .from(exerciseAnalysis)
+                .join(exerciseAnalysis.user, user)
+                .join(user.school, school)
+                .leftJoin(user.section, section)
+                .where(
+                        school.id.eq(schoolId),
+                        exerciseAnalysis.date.between(startAt, endAt),
+                        userTypeFilter(userType, grade, classNum)
+                )
+                .groupBy(user)
+                .fetch();
+    }
 
-	private BooleanBuilder userTypeFilter(UserType userType, Integer grade, Integer classNum) {
-		BooleanBuilder builder = new BooleanBuilder();
+    private BooleanBuilder userTypeFilter(UserType userType, Integer grade, Integer classNum) {
+        BooleanBuilder builder = new BooleanBuilder();
 
-		switch (userType) {
-			case STUDENT: {
-				builder.and(user.authority.eq(Authority.USER));
-				builder.and(nullFilter(grade, classNum));
-				break;
-			}
-			case TEACHER: {
-				builder.and(user.authority.eq(Authority.TEACHER));
-				break;
-			}
-			case ALL: {
-				builder.and(user.authority.eq(Authority.USER).or(
-					user.authority.eq(Authority.TEACHER)
-				));
-			}
-		}
+        switch (userType) {
+            case STUDENT: {
+                builder.and(user.authority.eq(Authority.USER));
+                builder.and(nullFilter(grade, classNum));
+                break;
+            }
+            case TEACHER: {
+                builder.and(user.authority.eq(Authority.TEACHER));
+                break;
+            }
+            case ALL: {
+                builder.and(user.authority.eq(Authority.USER).or(
+                        user.authority.eq(Authority.TEACHER)
+                ));
+            }
+        }
 
-		return builder;
-	}
+        return builder;
+    }
 
-	private BooleanBuilder nullFilter(Integer grade, Integer classNum) {
-		BooleanBuilder builder = new BooleanBuilder();
+    private BooleanBuilder nullFilter(Integer grade, Integer classNum) {
+        BooleanBuilder builder = new BooleanBuilder();
 
-		if (grade != null) {
-			builder.and(section.grade.eq(grade));
+        if (grade != null) {
+            builder.and(section.grade.eq(grade));
 
-			if (classNum != null) {
-				builder.and(section.classNum.eq(classNum));
-			}
-		}
+            if (classNum != null) {
+                builder.and(section.classNum.eq(classNum));
+            }
+        }
 
-		return builder;
-	}
+        return builder;
+    }
 }

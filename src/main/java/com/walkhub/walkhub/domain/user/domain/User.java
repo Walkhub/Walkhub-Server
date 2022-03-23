@@ -131,7 +131,7 @@ public class User extends BaseTimeEntity {
         this.isMeasuring = isMeasuring;
         this.healthInfo = new HealthInfo(weight, height);
         this.dailyWalkCountGoal = 10000;
-        if(sex != null) this.sex = sex;
+        if (sex != null) this.sex = sex;
         this.badge = badge;
         this.maxLevel = calorieLevel;
     }
@@ -204,7 +204,7 @@ public class User extends BaseTimeEntity {
         this.password = RandomCodeUtil.make(8);
         return this.password;
     }
-  
+
     public void updateIsMeasuring(Boolean isMeasuring) {
         this.isMeasuring = isMeasuring;
     }

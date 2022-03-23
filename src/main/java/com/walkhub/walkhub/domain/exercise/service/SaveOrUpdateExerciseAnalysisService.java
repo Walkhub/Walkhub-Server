@@ -23,13 +23,15 @@ public class SaveOrUpdateExerciseAnalysisService {
     @Transactional
     public void execute(SaveExerciseAnalysisRequest request) {
         User user = userFacade.getCurrentUser();
-        exerciseAnalysisCacheRepository.saveExerciseCache(user.getSchool().getId(), user.getId(), request.getWalkCount().doubleValue());
+        exerciseAnalysisCacheRepository.saveExerciseCache(user.getSchool().getId(), user.getId(),
+                request.getWalkCount().doubleValue());
         ExerciseAnalysis exerciseAnalysisToSave = buildOrUpdateExerciseAnalysis(request, user);
         exerciseAnalysisRepository.save(exerciseAnalysisToSave);
     }
 
     private ExerciseAnalysis buildOrUpdateExerciseAnalysis(SaveExerciseAnalysisRequest request, User user) {
-        Optional<ExerciseAnalysis> optionalExerciseAnalysis = exerciseAnalysisRepository.findByUserAndDate(user, request.getDate());
+        Optional<ExerciseAnalysis> optionalExerciseAnalysis = exerciseAnalysisRepository.findByUserAndDate(user,
+                request.getDate());
 
         optionalExerciseAnalysis.ifPresent(exercise -> exercise.updateExerciseAnalysis(request));
 

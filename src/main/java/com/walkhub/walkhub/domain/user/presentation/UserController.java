@@ -120,7 +120,7 @@ public class UserController {
     public void updateGoalWalkCount(@RequestBody @Valid UpdateGoalWalkCountRequest updateGoalWalkCountRequest) {
         updateGoalWalkCountService.execute(updateGoalWalkCountRequest);
     }
-    
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/classes")
     public void exitSection() {

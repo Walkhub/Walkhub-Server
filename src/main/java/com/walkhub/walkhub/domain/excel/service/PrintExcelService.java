@@ -14,13 +14,14 @@ import java.util.List;
 @ServiceWithTransactionalReadOnly
 public class PrintExcelService {
 
-	private final ExerciseAnalysisRepository exerciseAnalysisRepository;
-	private final UserFacade userFacade;
+    private final ExerciseAnalysisRepository exerciseAnalysisRepository;
+    private final UserFacade userFacade;
 
-	public PrintExcelResponse execute(PrintExcelRequest printExcelRequest) {
-		Long schoolId = userFacade.getCurrentUser().getSchool().getId();
-		List<PrintExcelVo> printExcelVoList = exerciseAnalysisRepository.getPrintExcelVoList(printExcelRequest, schoolId);
+    public PrintExcelResponse execute(PrintExcelRequest printExcelRequest) {
+        Long schoolId = userFacade.getCurrentUser().getSchool().getId();
+        List<PrintExcelVo> printExcelVoList = exerciseAnalysisRepository.getPrintExcelVoList(printExcelRequest,
+                schoolId);
 
-		return new PrintExcelResponse(printExcelVoList);
-	}
+        return new PrintExcelResponse(printExcelVoList);
+    }
 }

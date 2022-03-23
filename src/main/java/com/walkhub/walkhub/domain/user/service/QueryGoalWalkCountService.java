@@ -10,11 +10,11 @@ import lombok.RequiredArgsConstructor;
 @ServiceWithTransactionalReadOnly
 public class QueryGoalWalkCountService {
 
-	private final UserFacade userFacade;
+    private final UserFacade userFacade;
 
-	public QueryGoalWalkCountResponse execute() {
-		User user = userFacade.getCurrentUser();
+    public QueryGoalWalkCountResponse execute() {
+        User user = userFacade.getCurrentUser();
 
-		return new QueryGoalWalkCountResponse(user.getDailyWalkCountGoal());
-	}
+        return new QueryGoalWalkCountResponse(user.getDailyWalkCountGoal());
+    }
 }

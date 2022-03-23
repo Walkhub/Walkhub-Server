@@ -64,7 +64,7 @@ public class UserSignUpService {
                 .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
 
         CalorieLevel calorieLevel = calorieLevelRepository.findByLevel(1)
-            .orElseThrow(() -> CalorieLevelNotFoundException.EXCEPTION);
+                .orElseThrow(() -> CalorieLevelNotFoundException.EXCEPTION);
 
         User user = User.builder()
                 .accountId(request.getAccountId())

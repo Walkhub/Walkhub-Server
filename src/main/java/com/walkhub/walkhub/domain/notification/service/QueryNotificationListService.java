@@ -44,5 +44,5 @@ public class QueryNotificationListService {
                 .isRead(notificationList.getIsRead())
                 .build();
     }
-    
+
 }

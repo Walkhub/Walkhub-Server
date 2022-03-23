@@ -6,5 +6,5 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class TeacherCodeRequest {
-	private String code;
+    private String code;
 }

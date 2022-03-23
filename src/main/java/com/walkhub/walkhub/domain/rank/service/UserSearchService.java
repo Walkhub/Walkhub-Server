@@ -46,7 +46,8 @@ public class UserSearchService {
         ExerciseAnalysisDto exerciseAnalysisDto =
                 exerciseAnalysisCacheRepository.getUserTodayRank(user.getSchool().getId(), user.getId());
 
-        ExerciseAnalysisDto exerciseAnalysis = exerciseAnalysisDto == null ? ExerciseAnalysisDto.builder().walkCount(0).build() : exerciseAnalysisDto;
+        ExerciseAnalysisDto exerciseAnalysis = exerciseAnalysisDto == null ?
+                ExerciseAnalysisDto.builder().walkCount(0).build() : exerciseAnalysisDto;
 
         Section section = user.hasSection() ? user.getSection() : Section.builder().build();
 

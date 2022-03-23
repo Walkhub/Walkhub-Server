@@ -47,12 +47,13 @@ public class RankController {
 
     @GetMapping("/schools/search")
     public SchoolListResponse schoolSearch(@RequestParam("name") @NotNull @Size(max = 20) String name,
-        @RequestParam("schoolDateType") SchoolDateType dateType) {
+                                           @RequestParam("schoolDateType") SchoolDateType dateType) {
         return schoolSearchService.execute(name, dateType);
     }
 
     @GetMapping("/users/my-school")
-    public UserRankListResponse queryUserRankListByMySchool(@RequestParam UserRankScope scope, @RequestParam DateType dateType) {
+    public UserRankListResponse queryUserRankListByMySchool(@RequestParam UserRankScope scope,
+                                                            @RequestParam DateType dateType) {
         return queryUserRankListByMySchoolService.execute(scope, dateType);
     }
 

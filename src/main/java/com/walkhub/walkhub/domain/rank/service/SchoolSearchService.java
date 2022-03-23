@@ -16,27 +16,27 @@ import java.util.stream.Collectors;
 @ServiceWithTransactionalReadOnly
 public class SchoolSearchService {
 
-	private final SchoolRankRepository schoolRankRepository;
+    private final SchoolRankRepository schoolRankRepository;
 
-	public SchoolListResponse execute(String name, SchoolDateType dateType) {
-		List<SchoolResponse> schoolResponseList = schoolRankRepository
-			.findAllByDateTypeAndNameContainingAndCreatedAtBetweenOrderByRankingAsc(dateType.toString(), name,
-				LocalDate
-					.now().minusWeeks(1), LocalDate.now())
-			.stream()
-			.map(this::schoolResponseBuilder)
-			.collect(Collectors.toList());
+    public SchoolListResponse execute(String name, SchoolDateType dateType) {
+        List<SchoolResponse> schoolResponseList = schoolRankRepository
+                .findAllByDateTypeAndNameContainingAndCreatedAtBetweenOrderByRankingAsc(dateType.toString(), name,
+                        LocalDate
+                                .now().minusWeeks(1), LocalDate.now())
+                .stream()
+                .map(this::schoolResponseBuilder)
+                .collect(Collectors.toList());
 
-		return new SchoolListResponse(schoolResponseList);
-	}
+        return new SchoolListResponse(schoolResponseList);
+    }
 
-	private SchoolResponse schoolResponseBuilder(SchoolRank schoolRank) {
-		return SchoolResponse.builder()
-			.schoolId(schoolRank.getSchoolId())
-			.logoImageUrl(schoolRank.getLogoImageUrl())
-			.schoolName(schoolRank.getName())
-			.ranking(schoolRank.getRanking())
-			.walkCount(schoolRank.getWalkCount())
-			.build();
-	}
+    private SchoolResponse schoolResponseBuilder(SchoolRank schoolRank) {
+        return SchoolResponse.builder()
+                .schoolId(schoolRank.getSchoolId())
+                .logoImageUrl(schoolRank.getLogoImageUrl())
+                .schoolName(schoolRank.getName())
+                .ranking(schoolRank.getRanking())
+                .walkCount(schoolRank.getWalkCount())
+                .build();
+    }
 }

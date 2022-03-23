@@ -20,7 +20,8 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
     private static final Long LIMIT = 100L;
 
     @Override
-    public UserRankVO getMyRankByUserId(Long userId, Integer grade, Integer classNum, DateType dateType, LocalDate date) {
+    public UserRankVO getMyRankByUserId(Long userId, Integer grade, Integer classNum, DateType dateType,
+                                        LocalDate date) {
         return queryFactory
                 .select(new QUserRankVO(
                         userRank.userId,
@@ -40,7 +41,8 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
     }
 
     @Override
-    public List<UserRankVO> getUserRankListBySchoolId(Long schoolId, Integer grade, Integer classNum, DateType dateType, LocalDate date) {
+    public List<UserRankVO> getUserRankListBySchoolId(Long schoolId, Integer grade, Integer classNum,
+                                                      DateType dateType, LocalDate date) {
         return queryFactory
                 .select(new QUserRankVO(
                         userRank.userId,
@@ -75,7 +77,8 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
     }
 
     private BooleanExpression classNumEq(Integer classNum) {
-        return classNum != null ? userRank.scopeType.eq(UserRankScope.CLASS).and(userRank.classNum.eq(classNum)) : userRank.scopeType.eq(UserRankScope.SCHOOL);
+        return classNum != null ? userRank.scopeType.eq(UserRankScope.CLASS).and(userRank.classNum.eq(classNum)) :
+                userRank.scopeType.eq(UserRankScope.SCHOOL);
     }
 
     private BooleanExpression dateTypeEq(DateType dateType) {

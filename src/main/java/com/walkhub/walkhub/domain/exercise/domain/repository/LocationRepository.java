@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface LocationRepository extends CrudRepository<Location, LocationId> {
-	Location findTop1ByExerciseOrderBySequenceDesc(Exercise exercise);
-	List<Location> findAllByExercise(Exercise exercise);
+    Location findTop1ByExerciseOrderBySequenceDesc(Exercise exercise);
+
+    List<Location> findAllByExercise(Exercise exercise);
 }
