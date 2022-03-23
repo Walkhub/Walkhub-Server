@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.notification.presentation;
 
-import com.google.firebase.messaging.FirebaseMessagingException;
 import com.walkhub.walkhub.domain.notification.presentation.dto.response.QueryNotificationListResponse;
 import com.walkhub.walkhub.domain.notification.service.NotificationReadService;
 import com.walkhub.walkhub.domain.notification.service.QueryNotificationListService;
@@ -40,12 +39,12 @@ public class NotificationController {
     }
 
     @PatchMapping
-    public void unSubscribeTopic(List<User> users, NotificationRequest request) throws FirebaseMessagingException {
+    public void unSubscribeTopic(List<User> users, NotificationRequest request) {
         fcmUtil.unSubscribeTopic(users, request);
     }
 
     @PatchMapping("/on")
-    public void subscribeTopic(List<User> users, NotificationRequest request) throws FirebaseMessagingException {
+    public void subscribeTopic(List<User> users, NotificationRequest request) {
         fcmUtil.subscribeTopic(users, request);
     }
 

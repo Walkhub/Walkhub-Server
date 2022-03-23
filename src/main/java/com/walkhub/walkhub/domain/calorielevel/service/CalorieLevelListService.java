@@ -18,7 +18,7 @@ public class CalorieLevelListService {
 
     public CalorieLevelListResponse execute() {
         List<CalorieLevelResponse> results =
-                calorieLevelRepository.findAllBy()
+                calorieLevelRepository.findAllByOrderByLevelAsc()
                         .stream()
                         .map(this::calorieLevelResponse)
                         .collect(Collectors.toList());

@@ -49,7 +49,7 @@ public class ChallengeController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{challenge-id}")
-    public void removeChallenge(@PathVariable(name = "challenge-id") Long id) {
+    public void removeChallenge(@PathVariable("challenge-id") Long id) {
         removeChallengeService.execute(id);
     }
 
@@ -59,7 +59,7 @@ public class ChallengeController {
         createChallengeService.execute(request);
     }
 
-    @GetMapping("/lists")
+    @GetMapping("/lists/students")
     public QueryChallengeListResponse queryChallengeList() {
         return queryChallengeListService.execute();
     }

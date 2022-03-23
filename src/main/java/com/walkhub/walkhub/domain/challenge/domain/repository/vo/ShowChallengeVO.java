@@ -22,11 +22,14 @@ public class ShowChallengeVO {
     private final Long writerId;
     private final String writerName;
     private final String profileImageUrl;
+    private final Integer goal;
+    private final String award;
 
     @QueryProjection
     public ShowChallengeVO(Long challengeId, String name, LocalDate startAt, LocalDate endAt,
                            String imageUrl, UserScope userScope, GoalScope goalScope,
-                           GoalType goalType, Long writerId, String writerName, String profileImageUrl) {
+                           GoalType goalType, Long writerId, String writerName, String profileImageUrl, Integer goal,
+                           String award) {
         this.challengeId = challengeId;
         this.name = name;
         this.startAt = startAt;
@@ -38,5 +41,7 @@ public class ShowChallengeVO {
         this.writerId = writerId;
         this.writerName = writerName;
         this.profileImageUrl = profileImageUrl;
+        this.goal = goal;
+        this.award = award;
     }
 }

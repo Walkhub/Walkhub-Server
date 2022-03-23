@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.challenge.domain.repository;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.global.enums.UserScope;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -18,5 +19,7 @@ public interface ChallengeRepository extends CrudRepository<Challenge, Long>, Ch
     List<Challenge> findAllByUser(User user);
 
     void deleteAllByUserAndEndAtAfter(User user, LocalDate now);
+
+    void deleteAllByUserAndUserScopeAndEndAtAfter(User user, UserScope userScope, LocalDate now);
 
 }

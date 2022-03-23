@@ -1,17 +1,18 @@
 package com.walkhub.walkhub.domain.user.presentation;
 
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.CheckClassCodeRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.InputHealthInformationRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinSectionRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateGoalWalkCountRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdatePasswordRequest;
-import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateSchoolInfoRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryGoalWalkCountResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
+import com.walkhub.walkhub.domain.user.service.CheckClassCodeService;
 import com.walkhub.walkhub.domain.user.service.ExitSectionService;
 import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
 import com.walkhub.walkhub.domain.user.service.JoinSectionService;
@@ -21,7 +22,6 @@ import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
 import com.walkhub.walkhub.domain.user.service.SearchAccountIdService;
 import com.walkhub.walkhub.domain.user.service.UpdateGoalWalkCountService;
 import com.walkhub.walkhub.domain.user.service.UpdatePasswordService;
-import com.walkhub.walkhub.domain.user.service.UpdateSchoolInfoService;
 import com.walkhub.walkhub.domain.user.service.UpdateUserInfoService;
 import com.walkhub.walkhub.domain.user.service.UserAuthCodeService;
 import com.walkhub.walkhub.domain.user.service.UserSignUpService;
@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,11 +53,11 @@ public class UserController {
     private final UpdateUserInfoService updateUserInfoService;
     private final JoinSectionService joinSectionService;
     private final UpdatePasswordService updatePasswordService;
-    private final UpdateSchoolInfoService updateSchoolInfoService;
     private final SearchAccountIdService searchAccountIdService;
     private final UpdateGoalWalkCountService updateGoalWalkCountService;
     private final ExitSectionService exitSectionService;
     private final QueryGoalWalkCountService queryGoalWalkCountService;
+    private final CheckClassCodeService checkClassCodeService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
@@ -104,12 +105,6 @@ public class UserController {
         updatePasswordService.execute(request);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/schools")
-    public void updateSchoolInfo(@RequestBody @Valid UpdateSchoolInfoRequest request) {
-        updateSchoolInfoService.execute(request);
-    }
-
     @GetMapping("/accounts/{phone-number}")
     public UserAccountIdResponse searchAccountId(@PathVariable(name = "phone-number") String phoneNumber) {
         return searchAccountIdService.execute(phoneNumber);
@@ -122,7 +117,7 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/goal")
-    public void updateGoalWalkCount(@RequestBody UpdateGoalWalkCountRequest updateGoalWalkCountRequest) {
+    public void updateGoalWalkCount(@RequestBody @Valid UpdateGoalWalkCountRequest updateGoalWalkCountRequest) {
         updateGoalWalkCountService.execute(updateGoalWalkCountRequest);
     }
     
@@ -130,6 +125,11 @@ public class UserController {
     @DeleteMapping("/classes")
     public void exitSection() {
         exitSectionService.execute();
+    }
+
+    @RequestMapping(value = "/classes", method = RequestMethod.HEAD)
+    public void checkClassCode(@RequestBody @Valid CheckClassCodeRequest request) {
+        checkClassCodeService.execute(request.getCode());
     }
 
 }

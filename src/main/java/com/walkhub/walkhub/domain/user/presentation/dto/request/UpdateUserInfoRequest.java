@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -16,5 +17,8 @@ public class UpdateUserInfoRequest {
 
     @NotBlank(message = "profile_image_url은 null, 공백, 띄어쓰기를 허용하지 않습니다.")
     private String profileImageUrl;
+
+    @NotNull(message = "school_id는 Null일 수 없습니다.")
+    private Long schoolId;
 
 }

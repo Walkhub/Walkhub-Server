@@ -21,6 +21,7 @@ public enum ErrorCode {
     INVALID_SCOPE(401, "CHALLENGE-401-1", "Invalid Scope"),
     PASSWORD_MISMATCH(401, "AUTH-401-1", "Password Mismatch"),
     INVALID_ROLE(401, "GLOBAL-401-1", "Invalid Role"),
+    INVALID_CODE(401, "USER-401-2", "Invalid Code"),
 
     FORBIDDEN(403, "COMMON-403-1", "Forbidden"),
 
@@ -57,7 +58,10 @@ public enum ErrorCode {
     REDIS_TRANSACTION_EXCEPTION(500, "REDIS-500-1", "Cannot Read Cache From Redis"),
     INTERNAL_SERVER_ERROR(500, "SERVER-500-1", "Internal Server Error"),
 
-    DEFAULT_TITLE_BADGE_NOT_FOUND(503, "SERVER-503-1", "Contact The Server Developer");
+    DEFAULT_TITLE_BADGE_NOT_FOUND(503, "SERVER-503-1", "Contact The Server Developer"),
+
+    CHALLENGE_NOT_EXPIRATION(403, "CHALLENGE-403-1", "Challenge Not Expiration"),
+    CHALLENGE_NOT_SUCCESS(403, "CHALLENGE-403-2", "Challenge Not Success");
 
     private final int status;
     private final String code;
