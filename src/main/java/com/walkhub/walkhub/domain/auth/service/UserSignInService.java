@@ -8,20 +8,16 @@ import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
 import com.walkhub.walkhub.domain.user.exception.UserNotFoundException;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
-import com.walkhub.walkhub.global.security.jwt.JwtProperties;
 import com.walkhub.walkhub.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.ZonedDateTime;
 
 @RequiredArgsConstructor
 @ServiceWithTransactionalReadOnly
 public class UserSignInService {
 
     private final UserRepository userRepository;
-    private final JwtProperties jwtProperties;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
 
@@ -41,7 +37,7 @@ public class UserSignInService {
 
         return UserTokenResponse.builder()
                 .accessToken(accessToken)
-                .expiredAt(ZonedDateTime.now().plusSeconds(jwtProperties.getAccessExp()))
+                .expiredAt(jwtTokenProvider.getExpiredTime())
                 .refreshToken(refreshToken)
                 .authority(user.getAuthority())
                 .height(healthInfo.getHeight())

@@ -33,6 +33,7 @@ public class ConfirmTeacherCodeService {
         return TokenResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .expiredAt(jwtTokenProvider.getExpiredTime())
                 .build();
     }
 }
