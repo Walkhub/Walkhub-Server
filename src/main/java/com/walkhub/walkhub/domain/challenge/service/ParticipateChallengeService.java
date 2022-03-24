@@ -11,6 +11,7 @@ import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @ServiceWithTransactionalReadOnly
@@ -20,6 +21,7 @@ public class ParticipateChallengeService {
     private final ChallengeFacade challengeFacade;
     private final ChallengeStatusRepository challengeStatusRepository;
 
+    @Transactional
     public void execute(Long challengeId) {
         Challenge challenge = challengeFacade.getChallengeById(challengeId);
         User user = userFacade.getCurrentUser();
@@ -42,8 +44,8 @@ public class ParticipateChallengeService {
     }
 
     private boolean verifyScope(User user, User writer, Challenge challenge) {
-        Section userSection = user.getSection();
-        Section writerSection = writer.getSection();
+        Section userSection = user.hasSection() ? user.getSection() : Section.builder().build();
+        Section writerSection = writer.hasSection() ? user.getSection() : Section.builder().build();
 
         switch (challenge.getUserScope()) {
             case SCHOOL: {
