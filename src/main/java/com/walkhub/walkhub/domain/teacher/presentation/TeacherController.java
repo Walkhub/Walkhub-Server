@@ -1,26 +1,29 @@
 package com.walkhub.walkhub.domain.teacher.presentation;
 
-import com.walkhub.walkhub.domain.teacher.presentation.dto.request.*;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.request.CreateClassRequest;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.request.QueryUserListRequest;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.request.TeacherCodeRequest;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.request.UpdateTeacherSchoolRequest;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.request.UserSearchRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CodeResponse;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserListResponse;
-import com.walkhub.walkhub.domain.teacher.service.*;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.DetailsClassResponse;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.TokenResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserDetailsResponse;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserListResponse;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.TokenResponse;
 import com.walkhub.walkhub.domain.teacher.service.ClassListService;
 import com.walkhub.walkhub.domain.teacher.service.ConfirmTeacherCodeService;
 import com.walkhub.walkhub.domain.teacher.service.CreateClassService;
 import com.walkhub.walkhub.domain.teacher.service.DeleteClassService;
 import com.walkhub.walkhub.domain.teacher.service.DetailsClassService;
 import com.walkhub.walkhub.domain.teacher.service.QueryUserDetailsService;
+import com.walkhub.walkhub.domain.teacher.service.QueryUserListService;
+import com.walkhub.walkhub.domain.teacher.service.UpdateTeacherSchoolService;
+import com.walkhub.walkhub.domain.teacher.service.UserSearchForTeacherService;
 import com.walkhub.walkhub.domain.teacher.service.VerificationCodeService;
-
-import java.time.LocalDate;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -33,6 +36,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 
 @RequiredArgsConstructor
 @RequestMapping("/teachers")

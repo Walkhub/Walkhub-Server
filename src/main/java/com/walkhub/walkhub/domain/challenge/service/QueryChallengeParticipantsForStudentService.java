@@ -6,13 +6,13 @@ import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
+@ServiceWithTransactionalReadOnly
 public class QueryChallengeParticipantsForStudentService {
     private final ChallengeStatusRepository challengeStatusRepository;
     private final UserFacade userFacade;

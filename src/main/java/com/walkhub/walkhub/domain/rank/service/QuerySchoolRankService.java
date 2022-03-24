@@ -9,58 +9,59 @@ import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankRespo
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
+import lombok.RequiredArgsConstructor;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Service
+@ServiceWithTransactionalReadOnly
 public class QuerySchoolRankService {
 
-	private final SchoolRankRepository schoolRankRepository;
-	private final UserFacade userFacade;
+    private final SchoolRankRepository schoolRankRepository;
+    private final UserFacade userFacade;
 
-	@Transactional(readOnly = true)
-	public SchoolRankResponse execute(SchoolDateType dateType) {
-		User user = userFacade.getCurrentUser();
+    public SchoolRankResponse execute(SchoolDateType dateType) {
+        User user = userFacade.getCurrentUser();
 
-		MySchoolResponse mySchoolResponse = schoolRankRepository.
-			findBySchoolIdAndDateTypeAndCreatedAtBetween(user.getSchool().getId(), dateType.toString(), LocalDate.now().minusWeeks(1), LocalDate.now())
-			.map(schoolRank -> mySchoolResponseBuilder(schoolRank, user))
-			.orElse(null);
+        MySchoolResponse mySchoolResponse = schoolRankRepository.
+                findBySchoolIdAndDateTypeAndCreatedAtBetween(user.getSchool().getId(), dateType.toString(),
+                        LocalDate.now().minusWeeks(1), LocalDate.now())
+                .map(schoolRank -> mySchoolResponseBuilder(schoolRank, user))
+                .orElse(null);
 
-		List<SchoolResponse> schoolResponseList = schoolRankRepository
-			.findAllByDateTypeAndCreatedAtBetweenOrderByRankingAsc(dateType.toString(), LocalDate.now().minusWeeks(1), LocalDate.now())
-			.stream()
-			.map(this::schoolResponseBuilder)
-			.collect(Collectors.toList());
+        List<SchoolResponse> schoolResponseList = schoolRankRepository
+                .findAllByDateTypeAndCreatedAtBetweenOrderByRankingAsc(dateType.toString(),
+                        LocalDate.now().minusWeeks(1), LocalDate.now())
+                .stream()
+                .map(this::schoolResponseBuilder)
+                .collect(Collectors.toList());
 
-		return new SchoolRankResponse(mySchoolResponse, schoolResponseList);
-	}
+        return new SchoolRankResponse(mySchoolResponse, schoolResponseList);
+    }
 
-	private MySchoolResponse mySchoolResponseBuilder(SchoolRank schoolRank, User user) {
-		Section section = user.hasSection() ? user.getSection() : Section.builder().build();
+    private MySchoolResponse mySchoolResponseBuilder(SchoolRank schoolRank, User user) {
+        Section section = user.hasSection() ? user.getSection() : Section.builder().build();
 
-		return MySchoolResponse.builder()
-			.schoolId(schoolRank.getSchoolId())
-			.name(schoolRank.getName())
-			.logoImageUrl(schoolRank.getLogoImageUrl())
-			.grade(section.getGrade())
-			.classNum(section.getClassNum())
-			.build();
-	}
+        return MySchoolResponse.builder()
+                .schoolId(schoolRank.getSchoolId())
+                .name(schoolRank.getName())
+                .logoImageUrl(schoolRank.getLogoImageUrl())
+                .grade(section.getGrade())
+                .classNum(section.getClassNum())
+                .build();
+    }
 
-	private SchoolResponse schoolResponseBuilder(SchoolRank schoolRank) {
-		return SchoolResponse.builder()
-			.schoolId(schoolRank.getSchoolId())
-			.name(schoolRank.getName())
-			.ranking(schoolRank.getRanking())
-			.studentCount(schoolRank.getUserCount())
-			.logoImageUrl(schoolRank.getLogoImageUrl())
-			.walkCount(schoolRank.getWalkCount())
-			.build();
-	}
+    private SchoolResponse schoolResponseBuilder(SchoolRank schoolRank) {
+        return SchoolResponse.builder()
+                .schoolId(schoolRank.getSchoolId())
+                .name(schoolRank.getName())
+                .ranking(schoolRank.getRanking())
+                .studentCount(schoolRank.getUserCount())
+                .logoImageUrl(schoolRank.getLogoImageUrl())
+                .walkCount(schoolRank.getWalkCount())
+                .build();
+    }
 }

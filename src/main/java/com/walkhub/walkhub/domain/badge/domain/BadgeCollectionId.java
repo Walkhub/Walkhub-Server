@@ -12,7 +12,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class BadgeCollectionId implements Serializable {
 
-	private Long badge;
+    private Long badge;
 
-	private Long user;
+    private Long user;
 }

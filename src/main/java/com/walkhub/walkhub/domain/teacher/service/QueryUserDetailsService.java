@@ -7,23 +7,21 @@ import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserDet
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserDetailsResponse.ExerciseResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
+@ServiceWithTransactionalReadOnly
 public class QueryUserDetailsService {
 
     private final UserFacade userFacade;
     private final LocationRepository locationRepository;
     private final ExerciseAnalysisRepository exerciseAnalysisRepository;
 
-    @Transactional(readOnly = true)
     public QueryUserDetailsResponse execute(Long userId, LocalDate startAt, LocalDate endAt) {
         User user = userFacade.getUserById(userId);
 

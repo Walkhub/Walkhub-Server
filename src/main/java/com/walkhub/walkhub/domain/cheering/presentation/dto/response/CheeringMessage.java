@@ -12,7 +12,7 @@ import lombok.Getter;
 public class CheeringMessage {
     @JsonProperty("user_name")
     private String userName;
-    
+
     @JsonProperty("user_id")
     private Long userId;
 }

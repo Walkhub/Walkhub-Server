@@ -1,7 +1,7 @@
 package com.walkhub.walkhub.domain.auth.presentation;
 
-import com.walkhub.walkhub.domain.auth.presentation.dto.request.CheckAuthCodeRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.CheckAccountIdRequest;
+import com.walkhub.walkhub.domain.auth.presentation.dto.request.CheckAuthCodeRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.SignInRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenRefreshResponse;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;

@@ -5,33 +5,32 @@ import com.walkhub.walkhub.domain.exercise.domain.repository.LocationRepository;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.ExerciseListResponse;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.ExerciseListResponse.ExerciseResponse;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Service
+@ServiceWithTransactionalReadOnly
 public class QueryExerciseListService {
 
-	private final ExerciseRepository exerciseRepository;
-	private final LocationRepository locationRepository;
-	private final UserFacade userFacade;
+    private final ExerciseRepository exerciseRepository;
+    private final LocationRepository locationRepository;
+    private final UserFacade userFacade;
 
-	@Transactional(readOnly = true)
-	public ExerciseListResponse execute() {
-		List<ExerciseResponse> exerciseList = exerciseRepository.findAllByUser(userFacade.getCurrentUser()).stream()
-			.map(locationRepository::findTop1ByExerciseOrderBySequenceDesc)
-			.map(location -> ExerciseResponse.builder()
-				.exerciseId(location.getExercise().getId())
-				.imageUrl(location.getExercise().getImageUrl())
-				.startAt(location.getExercise().getCreatedAt())
-				.latitude(location.getLatitude())
-				.longitude(location.getLongitude())
-				.build())
-			.collect(Collectors.toList());
+    public ExerciseListResponse execute() {
+        List<ExerciseResponse> exerciseList = exerciseRepository.findAllByUser(userFacade.getCurrentUser()).stream()
+                .map(locationRepository::findTop1ByExerciseOrderBySequenceDesc)
+                .map(location -> ExerciseResponse.builder()
+                        .exerciseId(location.getExercise().getId())
+                        .imageUrl(location.getExercise().getImageUrl())
+                        .startAt(location.getExercise().getCreatedAt())
+                        .latitude(location.getLatitude())
+                        .longitude(location.getLongitude())
+                        .build())
+                .collect(Collectors.toList());
 
-		return new ExerciseListResponse(exerciseList);
-	}
+        return new ExerciseListResponse(exerciseList);
+    }
 }

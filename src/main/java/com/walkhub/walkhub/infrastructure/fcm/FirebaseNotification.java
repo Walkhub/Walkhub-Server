@@ -3,7 +3,12 @@ package com.walkhub.walkhub.infrastructure.fcm;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.messaging.*;
+import com.google.firebase.messaging.ApnsConfig;
+import com.google.firebase.messaging.Aps;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.Notification;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.exception.ChallengeNotExpirationException;
 import com.walkhub.walkhub.domain.challenge.exception.ChallengeNotSuccessException;
@@ -138,7 +143,8 @@ public class FirebaseNotification implements FcmUtil {
     public void sendChallengeExpirationNotification(Challenge challenge, ContentType contentType) {
         if (LocalDate.now().isEqual(challenge.getEndAt())) {
             challengeSendNotificationBuilder(challenge, contentType);
-        } throw ChallengeNotExpirationException.EXCEPTION;
+        }
+        throw ChallengeNotExpirationException.EXCEPTION;
 
     }
 
@@ -146,7 +152,8 @@ public class FirebaseNotification implements FcmUtil {
     public void sendChallengeSuccessNotification(Challenge challenge, ContentType contentType, Exercise exercise) {
         if (exercise.getWalkCount().equals(challenge.getGoal())) {
             challengeSendNotificationBuilder(challenge, contentType);
-        } throw ChallengeNotSuccessException.EXCEPTION;
+        }
+        throw ChallengeNotSuccessException.EXCEPTION;
 
     }
 
@@ -167,14 +174,16 @@ public class FirebaseNotification implements FcmUtil {
 
     private void challengeSendNotificationBuilder(Challenge challenge, ContentType contentType) {
         sendNotification(
-                notificationBuilder(NotificationInformation.challengeNotificationInformation(challenge), " [ " + challenge.getName() + " ]" + contentType.getContent())
+                notificationBuilder(NotificationInformation.challengeNotificationInformation(challenge),
+                        " [ " + challenge.getName() + " ]" + contentType.getContent())
         );
 
     }
 
     private void noticeSendNotificationBuilder(Notice notice, ContentType contentType) {
         sendNotification(
-                notificationBuilder(NotificationInformation.noticeNotificationInformation(notice), " [ " + notice.getTitle() + " ] " + contentType.getContent())
+                notificationBuilder(NotificationInformation.noticeNotificationInformation(notice),
+                        " [ " + notice.getTitle() + " ] " + contentType.getContent())
         );
     }
 

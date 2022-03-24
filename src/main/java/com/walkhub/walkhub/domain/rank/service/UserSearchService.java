@@ -9,23 +9,21 @@ import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListRespons
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import com.walkhub.walkhub.global.enums.DateType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
+@ServiceWithTransactionalReadOnly
 public class UserSearchService {
 
     private final UserRankRepository userRankRepository;
     private final ExerciseAnalysisCacheRepositoryImpl exerciseAnalysisCacheRepository;
     private final UserRepository userRepository;
 
-    @Transactional(readOnly = true)
     public UserListResponse execute(Long schoolId, String name, DateType dateType) {
         List<UserSearchResponse> result;
 
@@ -48,7 +46,8 @@ public class UserSearchService {
         ExerciseAnalysisDto exerciseAnalysisDto =
                 exerciseAnalysisCacheRepository.getUserTodayRank(user.getSchool().getId(), user.getId());
 
-        ExerciseAnalysisDto exerciseAnalysis = exerciseAnalysisDto == null ? ExerciseAnalysisDto.builder().walkCount(0).build() : exerciseAnalysisDto;
+        ExerciseAnalysisDto exerciseAnalysis = exerciseAnalysisDto == null ?
+                ExerciseAnalysisDto.builder().walkCount(0).build() : exerciseAnalysisDto;
 
         Section section = user.hasSection() ? user.getSection() : Section.builder().build();
 

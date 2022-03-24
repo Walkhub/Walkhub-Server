@@ -5,20 +5,21 @@ import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserLis
 import com.walkhub.walkhub.domain.teacher.vo.UserListInfoVO;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
+@ServiceWithTransactionalReadOnly
 public class UserSearchForTeacherService {
     private final UserRepository userRepository;
     private final UserFacade userFacade;
 
     public QueryUserListResponse execute(UserSearchRequest request) {
         return QueryUserListResponse.builder()
-                .userList(userRepository.searchUser(request.getScope(), request.getSort(), request.getGrade(), request.getClassNum(), userFacade.getCurrentUser(), request.getName())
+                .userList(userRepository.searchUser(request.getScope(), request.getSort(), request.getGrade(),
+                                request.getClassNum(), userFacade.getCurrentUser(), request.getName())
                         .stream().map(this::buildUserListResponse)
                         .collect(Collectors.toList())
                 )

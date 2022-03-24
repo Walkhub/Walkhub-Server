@@ -6,7 +6,12 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Repository
@@ -46,7 +51,8 @@ public class ExerciseAnalysisCacheRepositoryImpl implements ExerciseAnalysisCach
 
     @Override
     public List<ExerciseAnalysisDto> getUserIdsByRankTop100(Long schoolId) {
-        Set<ZSetOperations.TypedTuple<Object>> rankUserIds = zSetOperations.reverseRangeWithScores(getExerciseAnalysisKey(schoolId), 0, 99);
+        Set<ZSetOperations.TypedTuple<Object>> rankUserIds =
+                zSetOperations.reverseRangeWithScores(getExerciseAnalysisKey(schoolId), 0, 99);
         int rank = 1;
         if (rankUserIds == null) {
             return Collections.emptyList();

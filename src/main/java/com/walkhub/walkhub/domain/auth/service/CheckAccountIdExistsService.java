@@ -2,11 +2,11 @@ package com.walkhub.walkhub.domain.auth.service;
 
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.CheckAccountIdRequest;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
-@Service
+@ServiceWithTransactionalReadOnly
 public class CheckAccountIdExistsService {
 
     private final UserFacade userFacade;

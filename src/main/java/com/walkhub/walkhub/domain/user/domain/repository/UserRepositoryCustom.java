@@ -8,6 +8,9 @@ import com.walkhub.walkhub.domain.user.domain.User;
 import java.util.List;
 
 public interface UserRepositoryCustom {
-    List<UserListInfoVO> queryUserList(Integer page, AuthorityScope scope, SortStandard sort, Integer grade, Integer classNum, User currentUser);
-    List<UserListInfoVO> searchUser(AuthorityScope scope, SortStandard sort, Integer grade, Integer classNum, User currentUser, String name);
+    List<UserListInfoVO> queryUserList(Integer page, AuthorityScope scope, SortStandard sort, Integer grade,
+                                       Integer classNum, User currentUser);
+
+    List<UserListInfoVO> searchUser(AuthorityScope scope, SortStandard sort, Integer grade, Integer classNum,
+                                    User currentUser, String name);
 }

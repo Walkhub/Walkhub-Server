@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CreateExerciseResponse {
-	private final Long exerciseId;
+    private final Long exerciseId;
 }

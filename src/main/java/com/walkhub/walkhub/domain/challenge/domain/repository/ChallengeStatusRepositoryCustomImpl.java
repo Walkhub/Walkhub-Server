@@ -56,7 +56,8 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     @Override
-    public List<RelatedChallengeParticipantsVO> getRelatedChallengeParticipantsList(Long challengeId, School school, Integer grade, Integer classNum) {
+    public List<RelatedChallengeParticipantsVO> getRelatedChallengeParticipantsList(Long challengeId, School school,
+                                                                                    Integer grade, Integer classNum) {
         return queryFactory
                 .select(new QRelatedChallengeParticipantsVO(
                         user.id.as("userId"),
@@ -246,7 +247,8 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
         if (challengeParticipantsOrder == ChallengeParticipantsOrder.SUCCESS_DATE) {
             return new OrderSpecifier<>(Order.DESC, exerciseAnalysis.date.max());
         } else if (challengeParticipantsOrder == ChallengeParticipantsOrder.PROGRESS) {
-            return new OrderSpecifier<>(Order.DESC, exerciseAnalysis.walkCount.sum().divide(exerciseAnalysis.date.count()));
+            return new OrderSpecifier<>(Order.DESC,
+                    exerciseAnalysis.walkCount.sum().divide(exerciseAnalysis.date.count()));
         } else if (challengeParticipantsOrder == ChallengeParticipantsOrder.SCHOOL_NAME) {
             return new OrderSpecifier<>(Order.ASC, school.name);
         } else {

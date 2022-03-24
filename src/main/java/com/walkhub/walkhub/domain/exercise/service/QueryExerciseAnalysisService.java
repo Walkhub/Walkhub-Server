@@ -5,9 +5,8 @@ import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRep
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerciseAnalysisResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -16,13 +15,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
+@ServiceWithTransactionalReadOnly
 public class QueryExerciseAnalysisService {
 
     private final ExerciseAnalysisRepository exerciseAnalysisRepository;
     private final UserFacade userFacade;
 
-    @Transactional(readOnly = true)
     public QueryExerciseAnalysisResponse execute() {
         User user = userFacade.getCurrentUser();
         LocalDate startAt = LocalDate.now().minusDays(27);
@@ -31,7 +29,8 @@ public class QueryExerciseAnalysisService {
         ExerciseAnalysis todayExerciseAnalysis = exerciseAnalysisRepository.findByUserAndDate(user, now)
                 .orElse(ExerciseAnalysis.builder().walkCount(0).calorie(0.0).distance(0).exerciseTime(0.0).build());
 
-        Map<LocalDate, List<ExerciseAnalysis>> exerciseAnalysisDateList = exerciseAnalysisRepository.findAllByUserAndDateBetweenOrderByDate(user, startAt, now)
+        Map<LocalDate, List<ExerciseAnalysis>> exerciseAnalysisDateList =
+                exerciseAnalysisRepository.findAllByUserAndDateBetweenOrderByDate(user, startAt, now)
                 .stream()
                 .collect(Collectors.groupingBy(ExerciseAnalysis::getDate));
 

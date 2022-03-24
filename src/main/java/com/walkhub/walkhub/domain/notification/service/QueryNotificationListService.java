@@ -6,24 +6,22 @@ import com.walkhub.walkhub.domain.notification.domain.repository.NotificationLis
 import com.walkhub.walkhub.domain.notification.presentation.dto.response.QueryNotificationListResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.walkhub.walkhub.domain.notification.presentation.dto.response.QueryNotificationListResponse.*;
+import static com.walkhub.walkhub.domain.notification.presentation.dto.response.QueryNotificationListResponse.NotificationResponse;
 
 @RequiredArgsConstructor
-@Service
+@ServiceWithTransactionalReadOnly
 public class QueryNotificationListService {
 
     private final NotificationListRepository notificationListRepository;
     private final UserFacade userFacade;
 
-    @Transactional(readOnly = true)
     public QueryNotificationListResponse execute(Pageable pageable) {
 
         User user = userFacade.getCurrentUser();
@@ -46,5 +44,5 @@ public class QueryNotificationListService {
                 .isRead(notificationList.getIsRead())
                 .build();
     }
-    
+
 }

@@ -23,7 +23,8 @@ public class S3Facade implements ImageUtil {
         String fileName = s3Properties.getBucket() + "/" + UUID.randomUUID() + image.getOriginalFilename();
 
         try {
-            amazonS3Client.putObject(new PutObjectRequest(s3Properties.getBucket(), fileName, image.getInputStream(), null)
+            amazonS3Client.putObject(new PutObjectRequest(s3Properties.getBucket(), fileName, image.getInputStream(),
+                    null)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (Exception e) {
             throw SaveImageFailedException.EXCEPTION;

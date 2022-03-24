@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ExcelController {
 
-	private final PrintExcelService printExcelService;
+    private final PrintExcelService printExcelService;
 
-	@GetMapping
-	public PrintExcelResponse getExcel(PrintExcelRequest printExcelRequest) {
-		return printExcelService.execute(printExcelRequest);
-	}
+    @GetMapping
+    public PrintExcelResponse getExcel(PrintExcelRequest printExcelRequest) {
+        return printExcelService.execute(printExcelRequest);
+    }
 }

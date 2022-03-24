@@ -88,7 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/notifications").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/notifications/{notification-id}").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/notifications").authenticated()
-                .antMatchers(HttpMethod.PATCH,"/notifications/on").authenticated()
+                .antMatchers(HttpMethod.PATCH, "/notifications/on").authenticated()
 
                 // ranks
                 .antMatchers(HttpMethod.GET, "/ranks/schools").authenticated()
@@ -105,7 +105,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}").authenticated()
                 .antMatchers(HttpMethod.POST, "/challenges/{challenge-id}").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants/students").authenticated()
-                .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants/teachers").hasAnyAuthority("TEACHER", "ROOT", "SU")
+                .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants/teachers").hasAnyAuthority(
+                        "TEACHER", "ROOT", "SU")
                 .antMatchers(HttpMethod.GET, "/challenges/list").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/lists/closed").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/participated").authenticated()

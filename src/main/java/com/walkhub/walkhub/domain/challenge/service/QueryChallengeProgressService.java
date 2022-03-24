@@ -7,14 +7,14 @@ import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.QueryChallengeProgressRequest;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeProgressResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
+@ServiceWithTransactionalReadOnly
 public class QueryChallengeProgressService {
 
     private final ChallengeStatusRepository challengeStatusRepository;
@@ -31,7 +31,8 @@ public class QueryChallengeProgressService {
                 request.getPage()
         );
 
-        List<QueryChallengeProgressResponse.UserChallengeProgressResponse> challengeProgressResponses = challengeProgressVOS.stream()
+        List<QueryChallengeProgressResponse.UserChallengeProgressResponse> challengeProgressResponses =
+                challengeProgressVOS.stream()
                 .map(this::buildUserChallengeProgressResponse)
                 .collect(Collectors.toList());
 

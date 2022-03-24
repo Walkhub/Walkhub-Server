@@ -5,15 +5,15 @@ import com.walkhub.walkhub.domain.exercise.domain.Location;
 import com.walkhub.walkhub.domain.exercise.domain.repository.LocationRepository;
 import com.walkhub.walkhub.domain.exercise.facade.ExerciseFacade;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.SaveLocationRequest;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
+@ServiceWithTransactionalReadOnly
 public class SaveLocationService {
 
     private final ExerciseFacade exerciseFacade;

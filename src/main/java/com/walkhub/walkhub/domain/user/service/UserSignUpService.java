@@ -22,18 +22,18 @@ import com.walkhub.walkhub.domain.user.exception.UnauthorizedUserAuthCodeExcepti
 import com.walkhub.walkhub.domain.user.exception.UserAuthCodeNotFoundException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.global.security.jwt.JwtProperties;
 import com.walkhub.walkhub.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 
 @RequiredArgsConstructor
-@Service
+@ServiceWithTransactionalReadOnly
 public class UserSignUpService {
 
     private final UserAuthCodeRepository userAuthCodeRepository;
@@ -64,7 +64,7 @@ public class UserSignUpService {
                 .orElseThrow(() -> SchoolNotFoundException.EXCEPTION);
 
         CalorieLevel calorieLevel = calorieLevelRepository.findByLevel(1)
-            .orElseThrow(() -> CalorieLevelNotFoundException.EXCEPTION);
+                .orElseThrow(() -> CalorieLevelNotFoundException.EXCEPTION);
 
         User user = User.builder()
                 .accountId(request.getAccountId())

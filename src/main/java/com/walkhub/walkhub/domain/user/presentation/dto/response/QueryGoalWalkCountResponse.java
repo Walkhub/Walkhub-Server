@@ -7,5 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class QueryGoalWalkCountResponse {
 
-	private final Integer dailyWalkCountGoal;
+    private final Integer dailyWalkCountGoal;
 }

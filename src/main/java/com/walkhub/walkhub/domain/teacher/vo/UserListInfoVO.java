@@ -19,7 +19,9 @@ public class UserListInfoVO {
 
     @QueryProjection
 
-    public UserListInfoVO(Long userId, String name, String profileImageUrl, Integer grade, Integer classNum, Integer number, Double averageWalkCount, Integer totalWalkCount, Double averageDistance, Integer totalDistance, Boolean isTeacher) {
+    public UserListInfoVO(Long userId, String name, String profileImageUrl, Integer grade, Integer classNum,
+                          Integer number, Double averageWalkCount, Integer totalWalkCount, Double averageDistance,
+                          Integer totalDistance, Boolean isTeacher) {
         this.userId = userId;
         this.name = name;
         this.profileImageUrl = profileImageUrl;

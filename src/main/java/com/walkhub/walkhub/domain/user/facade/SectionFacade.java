@@ -13,7 +13,7 @@ public class SectionFacade {
     private final SectionRepository sectionRepository;
 
     public Section getSectionById(Long id) {
-       return sectionRepository.findById(id)
+        return sectionRepository.findById(id)
                 .orElseThrow(() -> SectionNotFoundException.EXCEPTION);
     }
 }

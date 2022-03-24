@@ -6,14 +6,14 @@ import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRep
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.SaveExerciseAnalysisRequest;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@Service
+@ServiceWithTransactionalReadOnly
 public class SaveOrUpdateExerciseAnalysisService {
 
     private final ExerciseAnalysisRepository exerciseAnalysisRepository;
@@ -23,13 +23,15 @@ public class SaveOrUpdateExerciseAnalysisService {
     @Transactional
     public void execute(SaveExerciseAnalysisRequest request) {
         User user = userFacade.getCurrentUser();
-        exerciseAnalysisCacheRepository.saveExerciseCache(user.getSchool().getId(), user.getId(), request.getWalkCount().doubleValue());
+        exerciseAnalysisCacheRepository.saveExerciseCache(user.getSchool().getId(), user.getId(),
+                request.getWalkCount().doubleValue());
         ExerciseAnalysis exerciseAnalysisToSave = buildOrUpdateExerciseAnalysis(request, user);
         exerciseAnalysisRepository.save(exerciseAnalysisToSave);
     }
 
     private ExerciseAnalysis buildOrUpdateExerciseAnalysis(SaveExerciseAnalysisRequest request, User user) {
-        Optional<ExerciseAnalysis> optionalExerciseAnalysis = exerciseAnalysisRepository.findByUserAndDate(user, request.getDate());
+        Optional<ExerciseAnalysis> optionalExerciseAnalysis = exerciseAnalysisRepository.findByUserAndDate(user,
+                request.getDate());
 
         optionalExerciseAnalysis.ifPresent(exercise -> exercise.updateExerciseAnalysis(request));
 

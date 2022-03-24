@@ -9,23 +9,21 @@ import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.exception.UserNotFoundException;
 import com.walkhub.walkhub.domain.user.facade.SectionFacade;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import com.walkhub.walkhub.global.enums.Authority;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
+@ServiceWithTransactionalReadOnly
 public class DetailsClassService {
 
     private final SectionFacade sectionFacade;
     private final ExerciseAnalysisRepository exerciseAnalysisRepository;
 
-    @Transactional(readOnly = true)
     public DetailsClassResponse execute(Long sectionId) {
         Section section = sectionFacade.getSectionById(sectionId);
 
@@ -56,7 +54,8 @@ public class DetailsClassService {
     private UserListResponse buildUserListResponse(User user) {
         LocalDate startAt = LocalDate.now().minusDays(7);
         LocalDate endAt = LocalDate.now();
-        List<ExerciseAnalysis> exerciseAnalyses = exerciseAnalysisRepository.findAllByUserAndDateBetween(user, startAt, endAt);
+        List<ExerciseAnalysis> exerciseAnalyses = exerciseAnalysisRepository.findAllByUserAndDateBetween(user,
+                startAt, endAt);
 
         return UserListResponse.builder()
                 .userId(user.getId())

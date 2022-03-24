@@ -36,7 +36,7 @@ public class BadgeController {
     public QueryUserBadgeListResponse queryUserBadgeList(@PathVariable("user-id") Long userId) {
         return queryUserBadgeListService.execute(userId);
     }
-  
+
     @GetMapping("/new")
     public ClaimBadgeResponse claimBadge() {
         return claimBadgeService.execute();

@@ -18,10 +18,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                        FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain) throws ServletException, IOException {
 
         String bearer = jwtTokenProvider.resolveToken(request);
-        if(bearer != null) {
+        if (bearer != null) {
             Authentication authentication = jwtTokenProvider.authentication(bearer);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

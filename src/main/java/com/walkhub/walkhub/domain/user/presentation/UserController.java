@@ -16,9 +16,9 @@ import com.walkhub.walkhub.domain.user.service.CheckClassCodeService;
 import com.walkhub.walkhub.domain.user.service.ExitSectionService;
 import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
 import com.walkhub.walkhub.domain.user.service.JoinSectionService;
+import com.walkhub.walkhub.domain.user.service.QueryGoalWalkCountService;
 import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
 import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
-import com.walkhub.walkhub.domain.user.service.QueryGoalWalkCountService;
 import com.walkhub.walkhub.domain.user.service.SearchAccountIdService;
 import com.walkhub.walkhub.domain.user.service.UpdateGoalWalkCountService;
 import com.walkhub.walkhub.domain.user.service.UpdatePasswordService;
@@ -120,7 +120,7 @@ public class UserController {
     public void updateGoalWalkCount(@RequestBody @Valid UpdateGoalWalkCountRequest updateGoalWalkCountRequest) {
         updateGoalWalkCountService.execute(updateGoalWalkCountRequest);
     }
-    
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/classes")
     public void exitSection() {
