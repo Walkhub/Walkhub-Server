@@ -77,8 +77,8 @@ public class ExerciseController {
     }
 
     @GetMapping("/lists")
-    public ExerciseListResponse queryExerciseList() {
-        return queryExerciseListService.execute();
+    public ExerciseListResponse queryExerciseList(int page) {
+        return queryExerciseListService.execute(page);
     }
 
     @GetMapping("{exercise-id}")
