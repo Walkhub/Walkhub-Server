@@ -17,11 +17,7 @@ public class InputHealthInformationService {
     @Transactional
     public void execute(InputHealthInformationRequest request) {
         User user = userFacade.getCurrentUser();
-        if (request.getHeight() != null || request.getWeight() != null) {
-            user.setHealthInfo(new HealthInfo(request.getWeight(), request.getHeight()));
-        }
-        if (request.getSex() != null) {
-            user.setSex(request.getSex());
-        }
+        user.setHealthInfo(new HealthInfo(request.getWeight(), request.getHeight()));
+        user.setSex(request.getSex());
     }
 }
