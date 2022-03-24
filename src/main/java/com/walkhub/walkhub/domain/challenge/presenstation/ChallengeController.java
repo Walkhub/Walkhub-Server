@@ -5,15 +5,12 @@ import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.QueryChall
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChallengeRequest;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeParticipantsForStudentResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeProgressResponse;
 import com.walkhub.walkhub.domain.challenge.service.CreateChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.ParticipateChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.QueryChallengeDetailsService;
 import com.walkhub.walkhub.domain.challenge.service.QueryChallengeListService;
-import com.walkhub.walkhub.domain.challenge.service.QueryChallengeParticipantsForStudentService;
 import com.walkhub.walkhub.domain.challenge.service.QueryChallengeProgressService;
-import com.walkhub.walkhub.domain.challenge.service.QueryClosesChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.QueryParticipatedChallengeListService;
 import com.walkhub.walkhub.domain.challenge.service.RemoveChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.UpdateChallengeService;
@@ -39,12 +36,10 @@ public class ChallengeController {
     private final RemoveChallengeService removeChallengeService;
     private final CreateChallengeService createChallengeService;
     private final QueryChallengeListService queryChallengeListService;
-    private final QueryClosesChallengeService queryClosesChallengeService;
     private final UpdateChallengeService updateChallengeService;
     private final QueryChallengeDetailsService queryChallengeDetailsService;
     private final ParticipateChallengeService participateChallengeService;
     private final QueryParticipatedChallengeListService queryParticipatedChallengeListService;
-    private final QueryChallengeParticipantsForStudentService queryChallengeParticipantsForStudentService;
     private final QueryChallengeProgressService challengeProgressService;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -62,11 +57,6 @@ public class ChallengeController {
     @GetMapping("/lists/students")
     public QueryChallengeListResponse queryChallengeList() {
         return queryChallengeListService.execute();
-    }
-
-    @GetMapping("/lists/closed")
-    public QueryChallengeListResponse queryClosedChallengeList() {
-        return queryClosesChallengeService.execute();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -90,12 +80,6 @@ public class ChallengeController {
     @GetMapping("/participated")
     public QueryChallengeListResponse queryParticipatedChallengeList() {
         return queryParticipatedChallengeListService.execute();
-    }
-
-    @GetMapping("/{challenge-id}/participants/students")
-    public QueryChallengeParticipantsForStudentResponse queryChallengeParticipantsForStudent(@PathVariable("challenge" +
-            "-id") Long challengeId) {
-        return queryChallengeParticipantsForStudentService.execute(challengeId);
     }
 
     @GetMapping("/{challenge-id}/progress")
