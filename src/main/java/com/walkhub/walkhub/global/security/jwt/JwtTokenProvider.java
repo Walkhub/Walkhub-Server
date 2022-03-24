@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Component
@@ -65,6 +66,10 @@ public class JwtTokenProvider {
         if (bearerToken != null && bearerToken.startsWith(jwtProperties.getPrefix()))
             return bearerToken.replace(jwtProperties.getPrefix(), "");
         return null;
+    }
+
+    public ZonedDateTime getExpiredTime() {
+        return ZonedDateTime.now().plusSeconds(jwtProperties.getAccessExp());
     }
 
     private Claims getTokenBody(String token) {
