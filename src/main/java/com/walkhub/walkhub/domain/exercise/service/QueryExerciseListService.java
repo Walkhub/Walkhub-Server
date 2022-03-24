@@ -7,6 +7,7 @@ import com.walkhub.walkhub.domain.exercise.presentation.dto.response.ExerciseLis
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,8 +20,10 @@ public class QueryExerciseListService {
     private final LocationRepository locationRepository;
     private final UserFacade userFacade;
 
-    public ExerciseListResponse execute() {
-        List<ExerciseResponse> exerciseList = exerciseRepository.findAllByUser(userFacade.getCurrentUser()).stream()
+    public ExerciseListResponse execute(int page) {
+        List<ExerciseResponse> exerciseList = exerciseRepository.findAllByUser(
+                        userFacade.getCurrentUser(), PageRequest.of(page, 4)
+                ).stream()
                 .map(locationRepository::findTop1ByExerciseOrderBySequenceDesc)
                 .map(location -> ExerciseResponse.builder()
                         .exerciseId(location.getExercise().getId())
