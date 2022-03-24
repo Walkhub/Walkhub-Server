@@ -20,7 +20,7 @@ import com.walkhub.walkhub.domain.teacher.service.QueryUserDetailsService;
 import com.walkhub.walkhub.domain.teacher.service.QueryUserListService;
 import com.walkhub.walkhub.domain.teacher.service.UpdateTeacherSchoolService;
 import com.walkhub.walkhub.domain.teacher.service.UserSearchForTeacherService;
-import com.walkhub.walkhub.domain.teacher.service.VerificationCodeService;
+import com.walkhub.walkhub.domain.teacher.service.GenerateVerificationCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -44,7 +44,7 @@ import java.time.LocalDate;
 public class TeacherController {
 
     private final CreateClassService createClassService;
-    private final VerificationCodeService verificationCodeService;
+    private final GenerateVerificationCodeService generateVerificationCodeService;
     private final DeleteClassService deleteClassService;
     private final QueryUserListService queryUserListService;
     private final DetailsClassService detailsClassService;
@@ -63,7 +63,7 @@ public class TeacherController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
     public CodeResponse verificationCode() {
-        return verificationCodeService.execute();
+        return generateVerificationCodeService.execute();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
