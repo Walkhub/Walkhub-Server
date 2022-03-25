@@ -8,9 +8,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class UserSearchRequest {
-    private AuthorityScope scope;
-    private SortStandard sort;
-    private Integer grade;
-    private Integer classNum;
-    private String name;
+    private final AuthorityScope scope;
+    private final SortStandard sort;
+    private final Integer grade;
+    private final Integer classNum;
+    private final String name;
 }
