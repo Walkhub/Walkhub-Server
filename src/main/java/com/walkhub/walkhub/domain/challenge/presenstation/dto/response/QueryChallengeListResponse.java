@@ -18,20 +18,30 @@ public class QueryChallengeListResponse {
     @Getter
     @Builder
     public static class ChallengeResponse {
-        private final Long challengeId;
+        private final Long id;
         private final String name;
         private final LocalDate startAt;
         private final LocalDate endAt;
+        private final Integer goal;
         private final GoalScope goalScope;
         private final GoalType goalType;
-        private final Writer writer;
-        private final Integer goal;
         private final String award;
+        private final Writer writer;
+        private final Long participantCount;
+        private final List<Participant> participantList;
     }
 
     @Getter
     @Builder
     public static class Writer {
+        private final Long userId;
+        private final String name;
+        private final String profileImageUrl;
+    }
+
+    @Getter
+    @Builder
+    public static class Participant {
         private final Long userId;
         private final String name;
         private final String profileImageUrl;
