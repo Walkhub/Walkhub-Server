@@ -1,6 +1,6 @@
 package com.walkhub.walkhub.domain.exercise.presentation.dto.response;
 
-import com.querydsl.core.annotations.QueryProjection;
+import com.walkhub.walkhub.domain.exercise.vo.ExerciseVO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -26,18 +26,16 @@ public class QueryExerciseHistoryResponse {
         private final BigDecimal longitude;
         private final ZonedDateTime endAt;
 
-        @QueryProjection
-        public ExerciseHistory(Long exerciseId, String certifyingShot, Integer walkCount, Double speed, Double calorie,
-                               Integer time, BigDecimal latitude, BigDecimal longitude, ZonedDateTime endAt) {
-            this.exerciseId = exerciseId;
-            this.certifyingShot = certifyingShot;
-            this.walkCount = walkCount;
-            this.speed = speed;
-            this.calorie = calorie;
-            this.time = time;
-            this.latitude = latitude;
-            this.longitude = longitude;
-            this.endAt = endAt;
+        public ExerciseHistory(ExerciseVO exerciseVO) {
+            this.exerciseId = exerciseVO.getExerciseId();
+            this.certifyingShot = exerciseVO.getCertifyingShot();
+            this.walkCount = exerciseVO.getWalkCount();
+            this.speed = exerciseVO.getSpeed();
+            this.calorie = exerciseVO.getCalorie();
+            this.time = exerciseVO.getTime();
+            this.latitude = exerciseVO.getLatitude();
+            this.longitude = exerciseVO.getLongitude();
+            this.endAt = exerciseVO.getEndAt();
         }
     }
 
