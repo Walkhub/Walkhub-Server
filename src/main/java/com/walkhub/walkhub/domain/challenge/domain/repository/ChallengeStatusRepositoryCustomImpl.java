@@ -10,19 +10,15 @@ import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
-import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeProgressVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QChallengeProgressVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QRelatedChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QShowChallengeVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QShowParticipatedChallengeVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowParticipatedChallengeVO;
 import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsOrder;
 import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsScope;
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
 import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
-import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.global.enums.UserScope;
@@ -46,43 +42,6 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Integer getParticipantsCountByChallengeId(Long challengeId) {
-        List<ChallengeStatus> participantsList = queryFactory
-                .select(challengeStatus)
-                .from(challengeStatus)
-                .where(challengeStatus.challenge.id.eq(challengeId))
-                .fetch();
-        return participantsList.size();
-    }
-
-    @Override
-    public List<RelatedChallengeParticipantsVO> getRelatedChallengeParticipantsList(Long challengeId, School school,
-                                                                                    Integer grade, Integer classNum) {
-        return queryFactory
-                .select(new QRelatedChallengeParticipantsVO(
-                        user.id.as("userId"),
-                        user.name,
-                        user.profileImageUrl
-                ))
-                .from(user)
-                .join(challengeStatus)
-                .on(challengeStatus.user.eq(user))
-                .join(section)
-                .on(section.id.eq(user.section.id))
-                .where(
-                        challengeStatus.challenge.id.eq(challengeId),
-                        user.school.eq(school)
-                )
-                .orderBy(
-                        section.grade.subtract(grade).abs().asc(),
-                        section.classNum.subtract(classNum).abs().asc(),
-                        user.school.id.subtract(school.getId()).abs().asc()
-                )
-                .limit(3)
-                .fetch();
-    }
-
-    @Override
     public void deleteNotOverChallengeStatusByUserId(Long userId) {
         queryFactory
                 .delete(challengeStatus)
@@ -99,28 +58,34 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     @Override
-    public List<ShowChallengeVO> getAllChallengesByUser(User user1) {
+    public List<ShowParticipatedChallengeVO> getParticipatedChallengesByUser(User userParam) {
         return queryFactory
-                .select(new QShowChallengeVO(
+                .select(new QShowParticipatedChallengeVO(
                         challenge.id.as("challengeId"),
                         challenge.name,
                         challenge.startAt,
                         challenge.endAt,
-                        challenge.imageUrl,
-                        challenge.userScope,
+                        challenge.goal,
                         challenge.goalScope,
                         challenge.goalType,
+                        challenge.award,
+                        Expressions.asNumber(
+                                select(exerciseAnalysis.walkCount.sum())
+                                        .from(exerciseAnalysis)
+                                        .where(exerciseAnalysis.user.eq(user)
+                                                .and(exerciseAnalysis.date.goe(challenge.startAt))
+                                                .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
+                                                .and(exerciseAnalysis.date.loe(challenge.endAt)))
+                        ).intValue(),
                         user.id.as("userId"),
                         user.name.as("writerName"),
-                        user.profileImageUrl.as("profileImageUrl"),
-                        challenge.goal,
-                        challenge.award
+                        user.profileImageUrl.as("profileImageUrl")
                 ))
                 .from(challenge)
                 .join(challenge.user, user)
                 .join(challengeStatus)
                 .on(challengeStatus.challenge.eq(challenge))
-                .where(challengeStatus.user.eq(user1))
+                .where(challengeStatus.user.eq(userParam))
                 .fetch();
     }
 
@@ -139,25 +104,25 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
             Long page
     ) {
         return queryFactory.select(new QChallengeProgressVO(
-                        user.id,
-                        user.name,
-                        section.grade,
-                        section.classNum,
-                        user.number,
-                        school.name,
-                        user.profileImageUrl,
-                        Expressions.asNumber(
-                                select(exerciseAnalysis.walkCount.sum())
-                                        .from(exerciseAnalysis)
-                                        .where(exerciseAnalysis.user.eq(user),
-                                                challengeDateFilter(challenge))
-                        ).intValue(),
-                        getChallengeProgress(challenge).multiply(100).round().longValue(),
-                        exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()),
-                        new CaseBuilder()
-                                .when(exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()))
-                                .then(exerciseAnalysis.date.max())
-                                .otherwise(Expressions.nullExpression())))
+                user.id,
+                user.name,
+                section.grade,
+                section.classNum,
+                user.number,
+                school.name,
+                user.profileImageUrl,
+                Expressions.asNumber(
+                        select(exerciseAnalysis.walkCount.sum())
+                                .from(exerciseAnalysis)
+                                .where(exerciseAnalysis.user.eq(user),
+                                        challengeDateFilter(challenge))
+                ).intValue(),
+                getChallengeProgress(challenge).multiply(100).round().longValue(),
+                exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()),
+                new CaseBuilder()
+                        .when(exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()))
+                        .then(exerciseAnalysis.date.max())
+                        .otherwise(Expressions.nullExpression())))
                 .from(user)
                 .offset(page == null ? 0 : page * PARTICIPANTS_SIZE)
                 .limit(PARTICIPANTS_SIZE)
