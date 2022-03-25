@@ -2,20 +2,15 @@ package com.walkhub.walkhub.domain.exercise.domain.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.QueryExerciseHistoryRequest;
-import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerciseHistoryResponse;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerciseHistoryResponse.ExerciseHistory;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QQueryExerciseHistoryResponse_ExerciseHistory;
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
 import static com.walkhub.walkhub.domain.exercise.domain.QExercise.exercise;
-import static com.walkhub.walkhub.domain.school.domain.QSchool.school;
-import static com.walkhub.walkhub.domain.user.domain.QSection.section;
-import static com.walkhub.walkhub.domain.user.domain.QUser.user;
 
 @RequiredArgsConstructor
 public class ExerciseRepositoryCustomImpl implements ExerciseRepositoryCustom {
@@ -51,7 +46,7 @@ public class ExerciseRepositoryCustomImpl implements ExerciseRepositoryCustom {
                 .where(
                         exercise.createdAt.between(startAt, endAt),
                         exercise.user.id.eq(userId)
-                        )
+                )
                 .fetch();
     }
 
