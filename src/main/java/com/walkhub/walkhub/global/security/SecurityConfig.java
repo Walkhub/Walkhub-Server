@@ -106,7 +106,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/challenges/{challenge-id}").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants/students").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/{challenge-id}/participants/teachers").hasAnyAuthority(
-                        "TEACHER", "ROOT", "SU")
+                "TEACHER", "ROOT", "SU")
                 .antMatchers(HttpMethod.GET, "/challenges/list").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/lists/closed").authenticated()
                 .antMatchers(HttpMethod.GET, "/challenges/participated").authenticated()

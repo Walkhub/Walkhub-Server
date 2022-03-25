@@ -139,25 +139,25 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
             Long page
     ) {
         return queryFactory.select(new QChallengeProgressVO(
-                        user.id,
-                        user.name,
-                        section.grade,
-                        section.classNum,
-                        user.number,
-                        school.name,
-                        user.profileImageUrl,
-                        Expressions.asNumber(
-                                select(exerciseAnalysis.walkCount.sum())
-                                        .from(exerciseAnalysis)
-                                        .where(exerciseAnalysis.user.eq(user),
-                                                challengeDateFilter(challenge))
-                        ).intValue(),
-                        getChallengeProgress(challenge).multiply(100).round().longValue(),
-                        exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()),
-                        new CaseBuilder()
-                                .when(exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()))
-                                .then(exerciseAnalysis.date.max())
-                                .otherwise(Expressions.nullExpression())))
+                user.id,
+                user.name,
+                section.grade,
+                section.classNum,
+                user.number,
+                school.name,
+                user.profileImageUrl,
+                Expressions.asNumber(
+                        select(exerciseAnalysis.walkCount.sum())
+                                .from(exerciseAnalysis)
+                                .where(exerciseAnalysis.user.eq(user),
+                                        challengeDateFilter(challenge))
+                ).intValue(),
+                getChallengeProgress(challenge).multiply(100).round().longValue(),
+                exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()),
+                new CaseBuilder()
+                        .when(exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()))
+                        .then(exerciseAnalysis.date.max())
+                        .otherwise(Expressions.nullExpression())))
                 .from(user)
                 .offset(page == null ? 0 : page * PARTICIPANTS_SIZE)
                 .limit(PARTICIPANTS_SIZE)

@@ -23,7 +23,7 @@ public class QueryChallengeProgressService {
     public QueryChallengeProgressResponse execute(Long challengeId, QueryChallengeProgressRequest request) {
         Challenge challenge = challengeFacade.getChallengeById(challengeId);
 
-        List<ChallengeProgressVO> challengeProgressVOS = challengeStatusRepository.queryChallengeProgress(
+        List<ChallengeProgressVO> challengeProgressVO = challengeStatusRepository.queryChallengeProgress(
                 challenge,
                 request.getParticipantsScope(),
                 request.getParticipantsOrder(),
@@ -32,9 +32,9 @@ public class QueryChallengeProgressService {
         );
 
         List<QueryChallengeProgressResponse.UserChallengeProgressResponse> challengeProgressResponses =
-                challengeProgressVOS.stream()
-                .map(this::buildUserChallengeProgressResponse)
-                .collect(Collectors.toList());
+                challengeProgressVO.stream()
+                        .map(this::buildUserChallengeProgressResponse)
+                        .collect(Collectors.toList());
 
         User challengeCreator = challenge.getUser();
 

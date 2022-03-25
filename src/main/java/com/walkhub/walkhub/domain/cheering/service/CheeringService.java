@@ -36,7 +36,7 @@ public class CheeringService {
         User targetUser = userFacade.getUserById(request.getUserId());
 
         SocketIOClient clientToSend = Optional.of(WebSocketJwtHandler.socketIOClientMap
-                        .get(targetUser.getAccountId()))
+                .get(targetUser.getAccountId()))
                 .orElseThrow(() -> SocketClientNotFoundException.EXCEPTION);
 
         CheeringMessage message = CheeringMessage.builder()

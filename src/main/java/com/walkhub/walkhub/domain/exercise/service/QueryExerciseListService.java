@@ -22,8 +22,8 @@ public class QueryExerciseListService {
 
     public ExerciseListResponse execute(int page) {
         List<ExerciseResponse> exerciseList = exerciseRepository.findAllByUser(
-                        userFacade.getCurrentUser(), PageRequest.of(page, 4)
-                ).stream()
+                userFacade.getCurrentUser(), PageRequest.of(page, 4)
+        ).stream()
                 .map(locationRepository::findTop1ByExerciseOrderBySequenceDesc)
                 .map(location -> ExerciseResponse.builder()
                         .exerciseId(location.getExercise().getId())
