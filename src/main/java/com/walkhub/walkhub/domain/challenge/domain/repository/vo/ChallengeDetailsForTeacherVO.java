@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 @Getter
-public class ChallengeProgressVO {
+public class ChallengeDetailsForTeacherVO {
     private final Long userId;
     private final String userName;
     private final Integer grade;
@@ -20,10 +20,10 @@ public class ChallengeProgressVO {
     private final LocalDate successDate;
 
     @QueryProjection
-    public ChallengeProgressVO(Long userId, String userName, Integer grade,
-                               Integer classNum, Integer number, String schoolName,
-                               String profileImageUrl, Integer totalWalkCount, Long progress,
-                               Boolean isSuccess, LocalDate successDate) {
+    public ChallengeDetailsForTeacherVO(Long userId, String userName, Integer grade,
+                                        Integer classNum, Integer number, String schoolName,
+                                        String profileImageUrl, Integer totalWalkCount, Long progress,
+                                        Boolean isSuccess, LocalDate successDate) {
         this.userId = userId;
         this.userName = userName;
         this.grade = grade;

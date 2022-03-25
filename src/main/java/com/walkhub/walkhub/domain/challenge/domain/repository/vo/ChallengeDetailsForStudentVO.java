@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Getter
-public class ChallengeDetailsVO {
+public class ChallengeDetailsForStudentVO {
 
     private final String name;
     private final String content;
@@ -32,12 +32,12 @@ public class ChallengeDetailsVO {
     private final List<RelatedChallengeParticipantsVO> participantList;
 
     @QueryProjection
-    public ChallengeDetailsVO(String name, String content, UserScope userScope,
-                              Integer goal, GoalScope goalScope, GoalType goalType,
-                              String award, String imageUrl, LocalDate startAt, LocalDate endAt, Integer successStandard,
-                              Long writerUserId, String writerName, String writerProfileImageUrl,
-                              Boolean isMine, Boolean isParticipated,
-                              Long participantCount, List<RelatedChallengeParticipantsVO> participantList) {
+    public ChallengeDetailsForStudentVO(String name, String content, UserScope userScope,
+                                        Integer goal, GoalScope goalScope, GoalType goalType,
+                                        String award, String imageUrl, LocalDate startAt, LocalDate endAt, Integer successStandard,
+                                        Long writerUserId, String writerName, String writerProfileImageUrl,
+                                        Boolean isMine, Boolean isParticipated,
+                                        Long participantCount, List<RelatedChallengeParticipantsVO> participantList) {
         this.name = name;
         this.content = content;
         this.userScope = userScope;

@@ -10,7 +10,7 @@ import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeProgressVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeDetailsForTeacherVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QChallengeProgressVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QShowParticipatedChallengeVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowParticipatedChallengeVO;
@@ -96,7 +96,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     @Override
-    public List<ChallengeProgressVO> queryChallengeProgress(
+    public List<ChallengeDetailsForTeacherVO> queryChallengeProgress(
             Challenge challenge,
             ChallengeParticipantsScope participantsScope,
             ChallengeParticipantsOrder participantsOrder,

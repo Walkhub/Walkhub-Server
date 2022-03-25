@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @Builder
-public class QueryChallengeDetailsResponse {
+public class QueryChallengeDetailsForStudentResponse {
 
     private final String name;
     private final String content;

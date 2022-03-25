@@ -3,14 +3,15 @@ package com.walkhub.walkhub.domain.challenge.presenstation;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.CreateChallengeRequest;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.QueryChallengeProgressRequest;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChallengeRequest;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsResponse;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForStudentResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeProgressResponse;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForTeacherResponse;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryParticipateChallengeListResponse;
 import com.walkhub.walkhub.domain.challenge.service.CreateChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.ParticipateChallengeService;
-import com.walkhub.walkhub.domain.challenge.service.QueryChallengeDetailsService;
+import com.walkhub.walkhub.domain.challenge.service.QueryChallengeDetailsForStudentService;
 import com.walkhub.walkhub.domain.challenge.service.QueryChallengeListService;
-import com.walkhub.walkhub.domain.challenge.service.QueryChallengeProgressService;
+import com.walkhub.walkhub.domain.challenge.service.QueryChallengeDetailsForTeacherService;
 import com.walkhub.walkhub.domain.challenge.service.QueryParticipatedChallengeListService;
 import com.walkhub.walkhub.domain.challenge.service.RemoveChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.UpdateChallengeService;
@@ -37,10 +38,10 @@ public class ChallengeController {
     private final CreateChallengeService createChallengeService;
     private final QueryChallengeListService queryChallengeListService;
     private final UpdateChallengeService updateChallengeService;
-    private final QueryChallengeDetailsService queryChallengeDetailsService;
+    private final QueryChallengeDetailsForStudentService queryChallengeDetailsForStudentService;
     private final ParticipateChallengeService participateChallengeService;
     private final QueryParticipatedChallengeListService queryParticipatedChallengeListService;
-    private final QueryChallengeProgressService challengeProgressService;
+    private final QueryChallengeDetailsForTeacherService challengeProgressService;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{challenge-id}")
@@ -67,8 +68,8 @@ public class ChallengeController {
     }
 
     @GetMapping("/{challenge-id}")
-    public QueryChallengeDetailsResponse queryChallengeDetails(@PathVariable("challenge-id") Long challengeId) {
-        return queryChallengeDetailsService.execute(challengeId);
+    public QueryChallengeDetailsForStudentResponse queryChallengeDetails(@PathVariable("challenge-id") Long challengeId) {
+        return queryChallengeDetailsForStudentService.execute(challengeId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -78,13 +79,13 @@ public class ChallengeController {
     }
 
     @GetMapping("/participated")
-    public QueryChallengeListResponse queryParticipatedChallengeList() {
+    public QueryParticipateChallengeListResponse queryParticipatedChallengeList() {
         return queryParticipatedChallengeListService.execute();
     }
 
     @GetMapping("/{challenge-id}/progress")
-    public QueryChallengeProgressResponse queryChallengeProgress(@PathVariable("challenge-id") Long challengeId,
-                                                                 QueryChallengeProgressRequest request) {
+    public QueryChallengeDetailsForTeacherResponse queryChallengeProgress(@PathVariable("challenge-id") Long challengeId,
+                                                                          QueryChallengeProgressRequest request) {
         return challengeProgressService.execute(challengeId, request);
     }
 }
