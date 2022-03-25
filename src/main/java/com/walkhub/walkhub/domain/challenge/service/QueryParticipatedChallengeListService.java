@@ -1,9 +1,9 @@
 package com.walkhub.walkhub.domain.challenge.service;
 
 import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeStatusRepository;
-import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse.ChallengeResponse;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowParticipatedChallengeVO;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryParticipateChallengeListResponse;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryParticipateChallengeListResponse.ChallengeResponse;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
@@ -17,17 +17,32 @@ public class QueryParticipatedChallengeListService {
 
     private final ChallengeStatusRepository challengeStatusRepository;
     private final UserFacade userFacade;
-    private final ChallengeFacade challengeFacade;
 
-    public QueryChallengeListResponse execute() {
-
+    public QueryParticipateChallengeListResponse execute() {
         List<ChallengeResponse> challengeResponseList =
-                challengeStatusRepository.getAllChallengesByUser(userFacade.getCurrentUser())
-                .stream()
-                .map(challengeFacade::challengeResponseBuilder)
-                .collect(Collectors.toList());
+                challengeStatusRepository.getParticipatedChallengesByUser(userFacade.getCurrentUser())
+                        .stream()
+                        .map(this::challengeResponseBuilder)
+                        .collect(Collectors.toList());
 
+        return new QueryParticipateChallengeListResponse(challengeResponseList);
+    }
 
-        return new QueryChallengeListResponse(challengeResponseList);
+    private ChallengeResponse challengeResponseBuilder(ShowParticipatedChallengeVO vo) {
+        return ChallengeResponse.builder()
+                .id(vo.getChallengeId())
+                .name(vo.getName())
+                .startAt(vo.getStartAt())
+                .endAt(vo.getEndAt())
+                .goal(vo.getGoal())
+                .goalScope(vo.getGoalScope())
+                .goalType(vo.getGoalType())
+                .totalWalkCount(vo.getTotalWalkCount())
+                .writer(QueryParticipateChallengeListResponse.Writer.builder()
+                        .userId(vo.getChallengeId())
+                        .name(vo.getWriterName())
+                        .profileImageUrl(vo.getWriterProfileImageUrl())
+                        .build())
+                .build();
     }
 }
