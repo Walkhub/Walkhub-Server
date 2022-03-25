@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @ServiceWithTransactionalReadOnly
-public class QueryChallengeDetailsService {
+public class QueryChallengeDetailsServiceForStudent {
 
     private final ChallengeFacade challengeFacade;
     private final UserFacade userFacade;
