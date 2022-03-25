@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 @Getter
-public class ShowChallengeVO {
+public class ShowParticipatedChallengeVO {
 
     private final Long challengeId;
     private final String name;
@@ -18,14 +18,15 @@ public class ShowChallengeVO {
     private final GoalScope goalScope;
     private final GoalType goalType;
     private final String award;
+    private final Integer totalWalkCount;
     private final Long writerId;
     private final String writerName;
     private final String writerProfileImageUrl;
 
     @QueryProjection
-    public ShowChallengeVO(Long challengeId, String name, LocalDate startAt, LocalDate endAt,
-                           Integer goal, GoalScope goalScope, GoalType goalType, String award,
-                           Long writerId, String writerName, String writerProfileImageUrl) {
+    public ShowParticipatedChallengeVO(Long challengeId, String name, LocalDate startAt, LocalDate endAt,
+                                       Integer goal, GoalScope goalScope, GoalType goalType, String award, Integer totalWalkCount,
+                                       Long writerId, String writerName, String writerProfileImageUrl) {
         this.challengeId = challengeId;
         this.name = name;
         this.startAt = startAt;
@@ -34,6 +35,7 @@ public class ShowChallengeVO {
         this.goalScope = goalScope;
         this.goalType = goalType;
         this.award = award;
+        this.totalWalkCount = totalWalkCount;
         this.writerId = writerId;
         this.writerName = writerName;
         this.writerProfileImageUrl = writerProfileImageUrl;
