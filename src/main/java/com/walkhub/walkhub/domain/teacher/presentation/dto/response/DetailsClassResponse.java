@@ -3,16 +3,15 @@ package com.walkhub.walkhub.domain.teacher.presentation.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
-
 
 @Getter
 @Builder
 public class DetailsClassResponse {
 
+    private final Integer grade;
+    private final Integer classNum;
     private final String classCode;
     private final TeacherResponse teacher;
-    private final List<UserListResponse> userList;
 
     @Getter
     @Builder
@@ -22,16 +21,4 @@ public class DetailsClassResponse {
         private final String profileImageUrl;
     }
 
-    @Getter
-    @Builder
-    public static class UserListResponse {
-        private final Long userId;
-        private final String name;
-        private final Integer number;
-        private final String profileImageUrl;
-        private final Integer averageWalkCount;
-        private final Integer totalWalkCount;
-        private final Integer averageDistance;
-        private final Integer totalDistance;
-    }
 }
