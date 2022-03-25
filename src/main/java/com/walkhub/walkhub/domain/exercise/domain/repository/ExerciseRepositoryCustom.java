@@ -1,10 +1,10 @@
 package com.walkhub.walkhub.domain.exercise.domain.repository;
 
-import com.walkhub.walkhub.domain.exercise.presentation.dto.request.QueryExerciseHistoryRequest;
-import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerciseHistoryResponse.ExerciseHistory;
+import com.walkhub.walkhub.domain.exercise.vo.ExerciseVO;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 public interface ExerciseRepositoryCustom {
-    List<ExerciseHistory> queryExerciseHistoryList(Long userId, QueryExerciseHistoryRequest request);
+    List<ExerciseVO> queryExerciseHistoryList(Long userId, ZonedDateTime startAt, ZonedDateTime endAt, Integer page);
 }
