@@ -11,32 +11,38 @@ import java.util.List;
 
 @Getter
 @Builder
-public class QueryChallengeProgressResponse {
+public class QueryChallengeDetailsForTeacherResponse {
 
     private final String name;
-    private final Long userId;
     private final String content;
     private final String imageUrl;
-    private final String writerName;
-    private final String writerProfileImageUrl;
+    private final Writer writer;
     private final String award;
     private final LocalDate startAt;
     private final LocalDate endAt;
     private final Integer goal;
     private final GoalScope goalScope;
-    private final UserScope userScope;
     private final GoalType goalType;
+    private final UserScope userScope;
     private final Integer classNum;
     private final Integer grade;
     private final Integer successStandard;
-    private final Long count;
-    private final List<UserChallengeProgressResponse> userResponse;
+    private final Long participantCount;
+    private final List<UserChallengeProgressResponse> participantList;
+
+    @Getter
+    @Builder
+    public static class Writer {
+        private final Long userId;
+        private final String name;
+        private final String profileImageUrl;
+    }
 
     @Getter
     @Builder
     public static class UserChallengeProgressResponse {
         private final Long userId;
-        private final String userName;
+        private final String name;
         private final Integer grade;
         private final Integer classNum;
         private final Integer number;
