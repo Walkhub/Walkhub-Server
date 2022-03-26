@@ -26,7 +26,7 @@ public class QueryChallengeDetailsForStudentService {
         Challenge challenge = challengeFacade.getChallengeById(challengeId);
         User user = userFacade.getCurrentUser();
 
-        ChallengeDetailsForStudentVO vo = challengeRepository.queryChallengeDetails(challenge, user);
+        ChallengeDetailsForStudentVO vo = challengeRepository.queryChallengeDetailsForStudent(challenge, user);
         return buildResponse(vo);
     }
 
