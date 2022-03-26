@@ -6,6 +6,8 @@ import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeDetail
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.QueryChallengeProgressRequest;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForTeacherResponse;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForTeacherResponse.UserChallengeProgressResponse;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForTeacherResponse.Writer;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +25,7 @@ public class QueryChallengeDetailsForTeacherService {
     public QueryChallengeDetailsForTeacherResponse execute(Long challengeId, QueryChallengeProgressRequest request) {
         Challenge challenge = challengeFacade.getChallengeById(challengeId);
 
-        List<ChallengeDetailsForTeacherVO> challengeDetailsForTeacherVOS = challengeStatusRepository.queryChallengeProgress(
+        List<ChallengeDetailsForTeacherVO> challengeDetailsForTeacherVO = challengeStatusRepository.queryChallengeProgress(
                 challenge,
                 request.getParticipantsScope(),
                 request.getParticipantsOrder(),
@@ -31,10 +33,10 @@ public class QueryChallengeDetailsForTeacherService {
                 request.getPage()
         );
 
-        List<QueryChallengeDetailsForTeacherResponse.UserChallengeProgressResponse> challengeProgressResponses =
-                challengeDetailsForTeacherVOS.stream()
-                .map(this::buildUserChallengeProgressResponse)
-                .collect(Collectors.toList());
+        List<UserChallengeProgressResponse> challengeProgressResponses =
+                challengeDetailsForTeacherVO.stream()
+                        .map(this::buildUserChallengeProgressResponse)
+                        .collect(Collectors.toList());
 
         User challengeCreator = challenge.getUser();
 
@@ -53,7 +55,7 @@ public class QueryChallengeDetailsForTeacherService {
                 .name(challenge.getName())
                 .startAt(challenge.getStartAt())
                 .successStandard(challenge.getSuccessStandard())
-                .writer(QueryChallengeDetailsForTeacherResponse.Writer.builder()
+                .writer(Writer.builder()
                         .userId(challengeCreator.getId())
                         .name(challengeCreator.getName())
                         .profileImageUrl(challengeCreator.getProfileImageUrl())
@@ -62,11 +64,11 @@ public class QueryChallengeDetailsForTeacherService {
                 .build();
     }
 
-    private QueryChallengeDetailsForTeacherResponse.UserChallengeProgressResponse buildUserChallengeProgressResponse(ChallengeDetailsForTeacherVO vo) {
+    private UserChallengeProgressResponse buildUserChallengeProgressResponse(ChallengeDetailsForTeacherVO vo) {
         if (vo.getUserId() == null) {
             return null;
         }
-        return QueryChallengeDetailsForTeacherResponse.UserChallengeProgressResponse.builder()
+        return UserChallengeProgressResponse.builder()
                 .classNum(vo.getClassNum())
                 .progress(vo.getProgress() == null ? 0 : vo.getProgress())
                 .grade(vo.getGrade())
