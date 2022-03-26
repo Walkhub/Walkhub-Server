@@ -2,17 +2,20 @@ package com.walkhub.walkhub.domain.exercise.presentation;
 
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.CreateExerciseRequest;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.FinishExerciseRequest;
+import com.walkhub.walkhub.domain.exercise.presentation.dto.request.QueryExerciseHistoryRequest;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.SaveExerciseAnalysisRequest;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.request.SaveLocationRequest;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.CreateExerciseResponse;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.ExerciseListResponse;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerciseAnalysisResponse;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerciseDetailsResponse;
+import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExerciseHistoryResponse;
 import com.walkhub.walkhub.domain.exercise.presentation.dto.response.QueryExercisingUserListResponse;
 import com.walkhub.walkhub.domain.exercise.service.CreateExerciseService;
 import com.walkhub.walkhub.domain.exercise.service.FinishExerciseService;
 import com.walkhub.walkhub.domain.exercise.service.QueryExerciseAnalysisService;
 import com.walkhub.walkhub.domain.exercise.service.QueryExerciseDetailsService;
+import com.walkhub.walkhub.domain.exercise.service.QueryExerciseHistoryService;
 import com.walkhub.walkhub.domain.exercise.service.QueryExerciseListService;
 import com.walkhub.walkhub.domain.exercise.service.QueryExercisingUserListService;
 import com.walkhub.walkhub.domain.exercise.service.SaveLocationService;
@@ -45,6 +48,7 @@ public class ExerciseController {
     private final QueryExerciseAnalysisService queryExerciseAnalysisService;
     private final QueryExerciseDetailsService queryExerciseDetailsService;
     private final QueryExercisingUserListService queryExercisingUserListService;
+    private final QueryExerciseHistoryService queryExerciseHistoryService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
@@ -91,4 +95,10 @@ public class ExerciseController {
     public QueryExercisingUserListResponse queryExercisingUserList() {
         return queryExercisingUserListService.execute();
     }
+
+    @GetMapping("/{user-id}")
+    public QueryExerciseHistoryResponse queryExerciseHistory(@PathVariable("user-id") Long userId, QueryExerciseHistoryRequest request) {
+        return queryExerciseHistoryService.execute(userId, request);
+    }
+
 }

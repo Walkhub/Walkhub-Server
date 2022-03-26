@@ -22,9 +22,9 @@ public class QueryClosesChallengeService {
 
         List<QueryChallengeListResponse.ChallengeResponse> challengeResponseList =
                 challengeStatusRepository.getAllChallengesByUser(userFacade.getCurrentUser())
-                .stream()
-                .map(challengeFacade::challengeResponseBuilder)
-                .collect(Collectors.toList());
+                        .stream()
+                        .map(challengeFacade::challengeResponseBuilder)
+                        .collect(Collectors.toList());
 
         return new QueryChallengeListResponse(challengeResponseList);
     }

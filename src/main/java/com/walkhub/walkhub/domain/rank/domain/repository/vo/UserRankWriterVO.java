@@ -8,15 +8,15 @@ import java.time.LocalDate;
 @Getter
 @Builder
 public class UserRankWriterVO {
-    private Long userId;
-    private LocalDate createdAt;
-    private String dateType;
-    private String scopeType;
-    private String name;
-    private Integer grade;
-    private Integer classNum;
-    private String profileImageUrl;
-    private Integer walkCount;
-    private Integer ranking;
-    private Long schoolId;
+    private final Long userId;
+    private final LocalDate createdAt;
+    private final String dateType;
+    private final String scopeType;
+    private final String name;
+    private final Integer grade;
+    private final Integer classNum;
+    private final String profileImageUrl;
+    private final Integer walkCount;
+    private final Integer ranking;
+    private final Long schoolId;
 }
