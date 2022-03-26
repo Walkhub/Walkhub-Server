@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @ServiceWithTransactionalReadOnly
-public class VerificationCodeService {
+public class GenerateVerificationCodeService {
 
     private final UserFacade userFacade;
 

@@ -11,13 +11,13 @@ import lombok.Getter;
 @Builder
 public class NotificationInformation {
 
-    private User user;
+    private final User user;
 
-    private String title;
+    private final String title;
 
-    private UserScope scope;
+    private final UserScope scope;
 
-    private String data;
+    private final String data;
 
     public static NotificationInformation challengeNotificationInformation(Challenge challenge) {
         return new NotificationInformation(challenge.getUser(), challenge.getName(),

@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-public interface ExerciseRepository extends CrudRepository<Exercise, Long> {
+public interface ExerciseRepository extends CrudRepository<Exercise, Long>, ExerciseRepositoryCustom {
     Optional<Exercise> findByIsExercisingTrueAndUser(User user);
 
     Page<Exercise> findAllByUser(User user, Pageable pageable);

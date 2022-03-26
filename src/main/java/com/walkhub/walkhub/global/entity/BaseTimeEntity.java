@@ -11,6 +11,6 @@ import java.time.ZonedDateTime;
 public abstract class BaseTimeEntity {
 
     @Column(nullable = false)
-    private ZonedDateTime createdAt = ZonedDateTime.now();
+    private final ZonedDateTime createdAt = ZonedDateTime.now();
 
 }

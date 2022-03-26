@@ -31,8 +31,8 @@ public class QueryExerciseAnalysisService {
 
         Map<LocalDate, List<ExerciseAnalysis>> exerciseAnalysisDateList =
                 exerciseAnalysisRepository.findAllByUserAndDateBetweenOrderByDate(user, startAt, now)
-                .stream()
-                .collect(Collectors.groupingBy(ExerciseAnalysis::getDate));
+                        .stream()
+                        .collect(Collectors.groupingBy(ExerciseAnalysis::getDate));
 
         List<Integer> walkCountList = new LinkedList<>();
 

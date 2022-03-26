@@ -9,10 +9,10 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class CreateClassRequest {
 
-    @NotNull(message = "grade는 null, 공백을 허용하지 않습니다.")
+    @NotNull(message = "grade는 null을 허용하지 않습니다.")
     private Integer grade;
 
-    @NotNull(message = "class_num은 null, 공백을 허용하지 않습니다.")
+    @NotNull(message = "class_num은 null을 허용하지 않습니다.")
     private Integer classNum;
 
 }
