@@ -39,7 +39,6 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
                 .join(notice.user, user)
                 .join(user.school, school)
                 .where(
-                        notice.scope.eq(scope),
                         scopeFilter(scope, userSchool)
                 )
                 .offset((long) page * size)
