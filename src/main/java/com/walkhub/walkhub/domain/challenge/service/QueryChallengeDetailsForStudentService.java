@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.challenge.service;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeRepository;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeDetailsForStudentVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForStudentResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForStudentResponse.Participant;
@@ -12,6 +13,7 @@ import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -27,10 +29,13 @@ public class QueryChallengeDetailsForStudentService {
         User user = userFacade.getCurrentUser();
 
         ChallengeDetailsForStudentVO vo = challengeRepository.queryChallengeDetailsForStudent(challenge, user);
-        return buildResponse(vo);
+        return buildResponse(challengeId, user, vo);
     }
 
-    private QueryChallengeDetailsForStudentResponse buildResponse(ChallengeDetailsForStudentVO vo) {
+    private QueryChallengeDetailsForStudentResponse buildResponse(Long challengeId, User user, ChallengeDetailsForStudentVO vo) {
+        List<RelatedChallengeParticipantsVO> relatedChallengeParticipantsList =
+                challengeRepository.getRelatedChallengeParticipantsList(challengeId, user);
+
         return QueryChallengeDetailsForStudentResponse.builder()
                 .name(vo.getName())
                 .content(vo.getContent())
@@ -51,7 +56,7 @@ public class QueryChallengeDetailsForStudentService {
                 .isMine(vo.getIsMine())
                 .isParticipated(vo.getIsParticipated())
                 .participantCount(vo.getParticipantCount())
-                .participantList(vo.getParticipantList()
+                .participantList(relatedChallengeParticipantsList
                         .stream()
                         .map(participant -> Participant.builder()
                                 .userId(participant.getUserId())
