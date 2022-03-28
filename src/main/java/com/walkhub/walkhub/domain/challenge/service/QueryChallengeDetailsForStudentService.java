@@ -6,8 +6,7 @@ import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeDetail
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForStudentResponse;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForStudentResponse.Participant;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForStudentResponse.Writer;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForStudentResponse.Person;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
@@ -48,7 +47,7 @@ public class QueryChallengeDetailsForStudentService {
                 .startAt(vo.getStartAt())
                 .endAt(vo.getEndAt())
                 .successStandard(vo.getSuccessStandard())
-                .writer(Writer.builder()
+                .writer(Person.builder()
                         .userId(vo.getWriterUserId())
                         .name(vo.getWriterName())
                         .profileImageUrl(vo.getWriterProfileImageUrl())
@@ -58,7 +57,7 @@ public class QueryChallengeDetailsForStudentService {
                 .participantCount(vo.getParticipantCount())
                 .participantList(relatedChallengeParticipantsList
                         .stream()
-                        .map(participant -> Participant.builder()
+                        .map(participant -> Person.builder()
                                 .userId(participant.getUserId())
                                 .name(participant.getName())
                                 .profileImageUrl(participant.getProfileImageUrl())
