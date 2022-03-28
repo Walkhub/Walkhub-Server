@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @Builder
@@ -27,8 +26,6 @@ public class QueryChallengeDetailsForTeacherResponse {
     private final Integer classNum;
     private final Integer grade;
     private final Integer successStandard;
-    private final Long participantCount;
-    private final List<UserChallengeProgressResponse> participantList;
 
     @Getter
     @Builder
@@ -36,22 +33,6 @@ public class QueryChallengeDetailsForTeacherResponse {
         private final Long userId;
         private final String name;
         private final String profileImageUrl;
-    }
-
-    @Getter
-    @Builder
-    public static class UserChallengeProgressResponse {
-        private final Long userId;
-        private final String name;
-        private final Integer grade;
-        private final Integer classNum;
-        private final Integer number;
-        private final String schoolName;
-        private final String profileImageUrl;
-        private final Integer totalWalkCount;
-        private final Long progress;
-        private final Boolean isSuccess;
-        private final LocalDate successDate;
     }
 
 }
