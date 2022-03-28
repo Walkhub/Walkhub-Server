@@ -15,7 +15,7 @@ public class QueryMyInformationService {
     private final UserFacade userFacade;
     private final SectionRepository sectionRepository;
 
-    public QueryMyInformationResponse queryMyInformation() {
+    public QueryMyInformationResponse execute() {
         User user = userFacade.getCurrentUser();
         Section section = user.hasSection() ? user.getSection() : Section.builder().build();
         School school = section.getSchool() != null ? section.getSchool() : School.builder().build();
