@@ -86,7 +86,7 @@ public class ExerciseController {
         return queryExerciseListService.execute(page);
     }
 
-    @GetMapping("{exercise-id}")
+    @GetMapping("/{exercise-id}")
     public QueryExerciseDetailsResponse queryExerciseDetails(@PathVariable("exercise-id") Long exerciseId) {
         return queryExerciseDetailsService.execute(exerciseId);
     }

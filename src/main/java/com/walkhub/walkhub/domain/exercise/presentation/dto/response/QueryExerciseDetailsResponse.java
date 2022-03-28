@@ -10,8 +10,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class QueryExerciseDetailsResponse {
-
-    private final String certifyingShot;
+    
     private final List<ExerciseResponse> exerciseList;
 
     @Getter
