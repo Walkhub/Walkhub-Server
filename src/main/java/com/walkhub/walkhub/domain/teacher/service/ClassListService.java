@@ -32,7 +32,7 @@ public class ClassListService {
                 .map(teacherFacade::buildClassResponse)
                 .collect(Collectors.toList());
 
-        return new ClassListResponse(user.getSchool().getAuthCode(), classList);
+        return new ClassListResponse(classList);
     }
 }
 
