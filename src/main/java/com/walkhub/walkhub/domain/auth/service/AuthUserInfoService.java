@@ -3,11 +3,11 @@ package com.walkhub.walkhub.domain.auth.service;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.AuthUserInfoResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
-@Service
+@ServiceWithTransactionalReadOnly
 public class AuthUserInfoService {
 
     private final UserFacade userFacade;
