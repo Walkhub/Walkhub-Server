@@ -17,6 +17,6 @@ public class ModifyNoticeService {
     public void execute(Long noticeId, ModifyNoticeRequest request) {
         Notice notice = noticeRepository.findById(noticeId)
                 .orElseThrow(() -> NoticeNotFoundException.EXCEPTION);
-        noticeRepository.save(new Notice(request.getTitle(), notice.getScope(), request.getContent(), notice.getUser()));
+        notice.updateNotice(request.getTitle(), request.getContent());
     }
 }
