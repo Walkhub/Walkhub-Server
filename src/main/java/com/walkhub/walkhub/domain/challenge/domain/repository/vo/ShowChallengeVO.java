@@ -23,8 +23,6 @@ public class ShowChallengeVO {
     private final String writerName;
     private final String writerProfileImageUrl;
     private final Long participantCount;
-    // 참여자 3명 추가
-//    private final List<RelatedChallengeParticipantsVO> participantList;
 
     @QueryProjection
     public ShowChallengeVO(Long challengeId, String name, String imageUrl, LocalDate startAt, LocalDate endAt,
@@ -44,6 +42,5 @@ public class ShowChallengeVO {
         this.writerName = writerName;
         this.writerProfileImageUrl = writerProfileImageUrl;
         this.participantCount = participantCount;
-//        this.participantList = participantList;
     }
 }

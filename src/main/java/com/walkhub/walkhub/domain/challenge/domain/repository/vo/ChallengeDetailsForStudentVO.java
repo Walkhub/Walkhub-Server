@@ -28,7 +28,6 @@ public class ChallengeDetailsForStudentVO {
     private final Boolean isMine;
     private final Boolean isParticipated;
     private final Long participantCount;
-//    private final List<RelatedChallengeParticipantsVO> participantList;
 
     @QueryProjection
     public ChallengeDetailsForStudentVO(String name, String content, UserScope userScope,
@@ -54,6 +53,5 @@ public class ChallengeDetailsForStudentVO {
         this.isMine = isMine;
         this.isParticipated = isParticipated;
         this.participantCount = participantCount;
-//        this.participantList = participantList;
     }
 }
