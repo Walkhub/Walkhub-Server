@@ -7,7 +7,6 @@ import com.walkhub.walkhub.global.enums.UserScope;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 public class ChallengeDetailsForStudentVO {
@@ -29,7 +28,7 @@ public class ChallengeDetailsForStudentVO {
     private final Boolean isMine;
     private final Boolean isParticipated;
     private final Long participantCount;
-    private final List<RelatedChallengeParticipantsVO> participantList;
+//    private final List<RelatedChallengeParticipantsVO> participantList;
 
     @QueryProjection
     public ChallengeDetailsForStudentVO(String name, String content, UserScope userScope,
@@ -37,7 +36,7 @@ public class ChallengeDetailsForStudentVO {
                                         String award, String imageUrl, LocalDate startAt, LocalDate endAt, Integer successStandard,
                                         Long writerUserId, String writerName, String writerProfileImageUrl,
                                         Boolean isMine, Boolean isParticipated,
-                                        Long participantCount, List<RelatedChallengeParticipantsVO> participantList) {
+                                        Long participantCount) {
         this.name = name;
         this.content = content;
         this.userScope = userScope;
@@ -55,6 +54,6 @@ public class ChallengeDetailsForStudentVO {
         this.isMine = isMine;
         this.isParticipated = isParticipated;
         this.participantCount = participantCount;
-        this.participantList = participantList;
+//        this.participantList = participantList;
     }
 }

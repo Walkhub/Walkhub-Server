@@ -6,7 +6,6 @@ import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 public class ShowChallengeVO {
@@ -24,13 +23,13 @@ public class ShowChallengeVO {
     private final String writerProfileImageUrl;
     private final Long participantCount;
     // 참여자 3명 추가
-    private final List<RelatedChallengeParticipantsVO> participantList;
+//    private final List<RelatedChallengeParticipantsVO> participantList;
 
     @QueryProjection
     public ShowChallengeVO(Long challengeId, String name, LocalDate startAt, LocalDate endAt,
                            Integer goal, GoalScope goalScope, GoalType goalType, String award,
                            Long writerId, String writerName, String writerProfileImageUrl,
-                           Long participantCount, List<RelatedChallengeParticipantsVO> participantList) {
+                           Long participantCount) {
         this.challengeId = challengeId;
         this.name = name;
         this.startAt = startAt;
@@ -43,6 +42,6 @@ public class ShowChallengeVO {
         this.writerName = writerName;
         this.writerProfileImageUrl = writerProfileImageUrl;
         this.participantCount = participantCount;
-        this.participantList = participantList;
+//        this.participantList = participantList;
     }
 }
