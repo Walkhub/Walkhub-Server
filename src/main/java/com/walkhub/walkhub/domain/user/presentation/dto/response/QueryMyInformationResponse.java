@@ -6,9 +6,9 @@ import lombok.Getter;
 @Getter
 @Builder
 public class QueryMyInformationResponse {
-    private String name;
-    private String profileImageUrl;
-    private String schoolName;
-    private Integer grade;
-    private Integer classNum;
+    private final String name;
+    private final String profileImageUrl;
+    private final String schoolName;
+    private final Integer grade;
+    private final Integer classNum;
 }
