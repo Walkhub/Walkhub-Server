@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class QueryChallengeListResponse {
+public class QueryChallengeListForStudentResponse {
 
     private final List<ChallengeResponse> challengeList;
 
@@ -20,6 +20,7 @@ public class QueryChallengeListResponse {
     public static class ChallengeResponse {
         private final Long id;
         private final String name;
+        private final String imageUrl;
         private final LocalDate startAt;
         private final LocalDate endAt;
         private final Integer goal;

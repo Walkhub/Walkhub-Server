@@ -30,11 +30,12 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
     private final JPAQueryFactory query;
 
     @Override
-    public List<ShowChallengeVO> queryChallenge(User userParam) {
+    public List<ShowChallengeVO> queryChallengeListForStudent(User userParam) {
         return query
                 .select(new QShowChallengeVO(
                         challenge.id.as("challengeId"),
                         challenge.name,
+                        challenge.imageUrl,
                         challenge.startAt,
                         challenge.endAt,
                         challenge.goal,

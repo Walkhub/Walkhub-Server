@@ -3,10 +3,10 @@ package com.walkhub.walkhub.domain.challenge.service;
 import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeRepository;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeVO;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse.ChallengeResponse;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse.Participant;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListResponse.Writer;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListForStudentResponse;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListForStudentResponse.ChallengeResponse;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListForStudentResponse.Participant;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListForStudentResponse.Writer;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
@@ -22,15 +22,15 @@ public class QueryChallengeListForStudentService {
     private final UserFacade userFacade;
     private final ChallengeRepository challengeRepository;
 
-    public QueryChallengeListResponse execute() {
+    public QueryChallengeListForStudentResponse execute() {
         User user = userFacade.getCurrentUser();
 
-        List<ChallengeResponse> challengeResponseList = challengeRepository.queryChallenge(user)
+        List<ChallengeResponse> challengeList = challengeRepository.queryChallengeListForStudent(user)
                 .stream()
                 .map(challenge -> this.challengeResponseBuilder(user, challenge))
                 .collect(Collectors.toList());
 
-        return new QueryChallengeListResponse(challengeResponseList);
+        return new QueryChallengeListForStudentResponse(challengeList);
     }
 
     private ChallengeResponse challengeResponseBuilder(User user, ShowChallengeVO vo) {
@@ -42,6 +42,7 @@ public class QueryChallengeListForStudentService {
         return ChallengeResponse.builder()
                 .id(vo.getChallengeId())
                 .name(vo.getName())
+                .imageUrl(vo.getImageUrl())
                 .startAt(vo.getStartAt())
                 .endAt(vo.getEndAt())
                 .goal(vo.getGoal())

@@ -12,6 +12,7 @@ public class ShowChallengeVO {
 
     private final Long challengeId;
     private final String name;
+    private final String imageUrl;
     private final LocalDate startAt;
     private final LocalDate endAt;
     private final Integer goal;
@@ -26,12 +27,13 @@ public class ShowChallengeVO {
 //    private final List<RelatedChallengeParticipantsVO> participantList;
 
     @QueryProjection
-    public ShowChallengeVO(Long challengeId, String name, LocalDate startAt, LocalDate endAt,
+    public ShowChallengeVO(Long challengeId, String name, String imageUrl, LocalDate startAt, LocalDate endAt,
                            Integer goal, GoalScope goalScope, GoalType goalType, String award,
                            Long writerId, String writerName, String writerProfileImageUrl,
                            Long participantCount) {
         this.challengeId = challengeId;
         this.name = name;
+        this.imageUrl = imageUrl;
         this.startAt = startAt;
         this.endAt = endAt;
         this.goal = goal;

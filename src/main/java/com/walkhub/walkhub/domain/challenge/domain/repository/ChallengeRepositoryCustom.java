@@ -9,7 +9,7 @@ import com.walkhub.walkhub.domain.user.domain.User;
 import java.util.List;
 
 public interface ChallengeRepositoryCustom {
-    List<ShowChallengeVO> queryChallenge(User user);
+    List<ShowChallengeVO> queryChallengeListForStudent(User user);
 
     ChallengeDetailsForStudentVO queryChallengeDetailsForStudent(Challenge challenge, User user);
 
