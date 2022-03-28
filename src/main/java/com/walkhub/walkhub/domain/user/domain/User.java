@@ -209,4 +209,12 @@ public class User extends BaseTimeEntity {
         this.isMeasuring = isMeasuring;
     }
 
+    public BigDecimal getHeight() {
+        return this.healthInfo.getHeight();
+    }
+
+    public Integer getWeight() {
+        return this.healthInfo.getWeight();
+    }
+
 }
