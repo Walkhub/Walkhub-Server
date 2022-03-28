@@ -6,6 +6,7 @@ import com.walkhub.walkhub.domain.teacher.presentation.dto.request.TeacherCodeRe
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.UpdateTeacherSchoolRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.UserSearchRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListResponse;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CodeResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.DetailsClassResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserDetailsResponse;
@@ -17,6 +18,7 @@ import com.walkhub.walkhub.domain.teacher.service.CreateClassService;
 import com.walkhub.walkhub.domain.teacher.service.DeleteClassService;
 import com.walkhub.walkhub.domain.teacher.service.DetailsClassService;
 import com.walkhub.walkhub.domain.teacher.service.GenerateVerificationCodeService;
+import com.walkhub.walkhub.domain.teacher.service.QueryMyClassService;
 import com.walkhub.walkhub.domain.teacher.service.QueryUserDetailsService;
 import com.walkhub.walkhub.domain.teacher.service.QueryUserListService;
 import com.walkhub.walkhub.domain.teacher.service.UpdateTeacherSchoolService;
@@ -53,6 +55,7 @@ public class TeacherController {
     private final ClassListService classListService;
     private final UpdateTeacherSchoolService updateTeacherSchoolService;
     private final UserSearchForTeacherService userSearchForTeacherService;
+    private final QueryMyClassService queryMyClassService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/classes")
@@ -109,4 +112,10 @@ public class TeacherController {
     public QueryUserListResponse searchUser(UserSearchRequest request) {
         return userSearchForTeacherService.execute(request);
     }
+
+    @GetMapping("/my-class")
+    public ClassResponse queryMyClass() {
+        return queryMyClassService.execute();
+    }
+
 }
