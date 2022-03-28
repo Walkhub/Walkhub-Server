@@ -1,9 +1,10 @@
 package com.walkhub.walkhub.domain.teacher.service;
 
+import com.walkhub.walkhub.domain.teacher.facade.TeacherFacade;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListResponse;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListResponse.ClassResponse;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListResponse.SectionResponse;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListResponse.TeacherResponse;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassResponse.SectionResponse;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassResponse.TeacherResponse;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassResponse;
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
@@ -21,34 +22,17 @@ public class ClassListService {
 
     private final UserFacade userFacade;
     private final UserRepository userRepository;
+    private final TeacherFacade teacherFacade;
 
     public ClassListResponse execute() {
         User user = userFacade.getCurrentUser();
         List<User> teachers = userRepository.findAllBySchoolAndAuthority(user.getSchool(), Authority.TEACHER);
 
         List<ClassResponse> classList = teachers.stream()
-                .map(this::buildClassResponse)
+                .map(teacherFacade::buildClassResponse)
                 .collect(Collectors.toList());
 
         return new ClassListResponse(user.getSchool().getAuthCode(), classList);
-    }
-
-    private ClassResponse buildClassResponse(User teacher) {
-        Section section = teacher.hasSection() ? teacher.getSection() : Section.builder().build();
-
-        return ClassResponse.builder()
-                .section(SectionResponse.builder()
-                        .sectionId(section.getId())
-                        .grade(section.getGrade())
-                        .classNum(section.getClassNum())
-                        .build())
-                .teacher(TeacherResponse.builder()
-                        .userId(teacher.getId())
-                        .name(teacher.getName())
-                        .profileImageUrl(teacher.getProfileImageUrl())
-                        .build())
-                .build();
-
     }
 }
 
