@@ -1,9 +1,9 @@
 package com.walkhub.walkhub.domain.user.service;
 
+import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.SectionRepository;
-import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryMyInformationResponse;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
@@ -17,11 +17,13 @@ public class QueryMyInformationService {
 
     public QueryMyInformationResponse queryMyInformation() {
         User user = userFacade.getCurrentUser();
-        Section section = sectionRepository.getById(user.getSection().getId());
+        Section section = user.hasSection() ? user.getSection() : Section.builder().build();
+        School school = section.getSchool() != null ? section.getSchool() : School.builder().build();
+
         return QueryMyInformationResponse.builder()
                 .name(user.getName())
                 .profileImageUrl(user.getProfileImageUrl())
-                .schoolName(section.getSchool().getName())
+                .schoolName(school.getName())
                 .grade(section.getGrade())
                 .classNum(section.getClassNum())
                 .build();
