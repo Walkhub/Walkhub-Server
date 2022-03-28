@@ -11,7 +11,7 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeDetailsForTeacherVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QChallengeProgressVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QChallengeDetailsForTeacherVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QShowParticipatedChallengeVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowParticipatedChallengeVO;
 import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsOrder;
@@ -103,7 +103,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
             SuccessScope successScope,
             Long page
     ) {
-        return queryFactory.select(new QChallengeProgressVO(
+        return queryFactory.select(new QChallengeDetailsForTeacherVO(
                 user.id,
                 user.name,
                 section.grade,
