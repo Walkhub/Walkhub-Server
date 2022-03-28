@@ -30,6 +30,6 @@ public class QueryExerciseDetailsService {
                         .build())
                 .collect(Collectors.toList());
 
-        return new QueryExerciseDetailsResponse(exercise.getImageUrl(), locations);
+        return new QueryExerciseDetailsResponse(locations);
     }
 }
