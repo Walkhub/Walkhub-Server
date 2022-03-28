@@ -3,13 +3,16 @@ package com.walkhub.walkhub.domain.auth.presentation;
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.CheckAccountIdRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.CheckAuthCodeRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.SignInRequest;
+import com.walkhub.walkhub.domain.auth.presentation.dto.response.AuthUserInfoResponse;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenRefreshResponse;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
+import com.walkhub.walkhub.domain.auth.service.AuthUserInfoService;
 import com.walkhub.walkhub.domain.auth.service.CheckAccountIdExistsService;
 import com.walkhub.walkhub.domain.auth.service.CheckAuthCodeExistsService;
 import com.walkhub.walkhub.domain.auth.service.TokenRefreshService;
 import com.walkhub.walkhub.domain.auth.service.UserSignInService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +32,7 @@ public class AuthController {
     private final TokenRefreshService tokenRefreshService;
     private final CheckAccountIdExistsService checkAccountIdExistsService;
     private final CheckAuthCodeExistsService checkAuthCodeExistsService;
+    private final AuthUserInfoService authUserInfoService;
 
     @PostMapping("/token")
     public UserTokenResponse userSignIn(@RequestBody @Valid SignInRequest request) {
@@ -48,5 +52,10 @@ public class AuthController {
     @RequestMapping(value = "/verification-codes", method = RequestMethod.HEAD)
     public void checkAuthCodeExists(@RequestBody @Valid CheckAuthCodeRequest request) {
         checkAuthCodeExistsService.execute(request);
+    }
+
+    @GetMapping("/auth/info")
+    public AuthUserInfoResponse authUserInfo() {
+        return authUserInfoService.execute();
     }
 }
