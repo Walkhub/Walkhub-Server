@@ -27,16 +27,8 @@ public class QueryChallengeListForStudentResponse {
         private final GoalScope goalScope;
         private final GoalType goalType;
         private final String award;
-        private final Person writer;
+        private final PersonResponse writer;
         private final Long participantCount;
-        private final List<Person> participantList;
-    }
-
-    @Getter
-    @Builder
-    public static class Person {
-        private final Long userId;
-        private final String name;
-        private final String profileImageUrl;
+        private final List<PersonResponse> participantList;
     }
 }

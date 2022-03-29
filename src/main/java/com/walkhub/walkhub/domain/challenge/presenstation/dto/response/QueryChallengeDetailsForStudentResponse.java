@@ -24,17 +24,9 @@ public class QueryChallengeDetailsForStudentResponse {
     private final LocalDate startAt;
     private final LocalDate endAt;
     private final Integer successStandard;
-    private final Person writer;
+    private final PersonResponse writer;
     private final Boolean isMine;
     private final Boolean isParticipated;
     private final Long participantCount;
-    private final List<Person> participantList;
-
-    @Getter
-    @Builder
-    public static class Person {
-        private final Long userId;
-        private final String name;
-        private final String profileImageUrl;
-    }
+    private final List<PersonResponse> participantList;
 }
