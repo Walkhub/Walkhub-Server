@@ -9,7 +9,9 @@ import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdatePasswordRe
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserAuthCodeRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
+import com.walkhub.walkhub.domain.user.presentation.dto.response.HealthResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryGoalWalkCountResponse;
+import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryMyInformationResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
 import com.walkhub.walkhub.domain.user.service.CheckClassCodeService;
@@ -17,7 +19,9 @@ import com.walkhub.walkhub.domain.user.service.ExitSectionService;
 import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
 import com.walkhub.walkhub.domain.user.service.JoinSectionService;
 import com.walkhub.walkhub.domain.user.service.QueryGoalWalkCountService;
+import com.walkhub.walkhub.domain.user.service.QueryMyInformationService;
 import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
+import com.walkhub.walkhub.domain.user.service.QueryUserHealthService;
 import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
 import com.walkhub.walkhub.domain.user.service.SearchAccountIdService;
 import com.walkhub.walkhub.domain.user.service.UpdateGoalWalkCountService;
@@ -58,6 +62,8 @@ public class UserController {
     private final ExitSectionService exitSectionService;
     private final QueryGoalWalkCountService queryGoalWalkCountService;
     private final CheckClassCodeService checkClassCodeService;
+    private final QueryUserHealthService queryUserHealthService;
+    private final QueryMyInformationService queryMyInformationService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
@@ -130,6 +136,16 @@ public class UserController {
     @RequestMapping(value = "/classes", method = RequestMethod.HEAD)
     public void checkClassCode(@RequestBody @Valid CheckClassCodeRequest request) {
         checkClassCodeService.execute(request.getCode());
+    }
+
+    @GetMapping("/health")
+    public HealthResponse userHealthInfo() {
+        return queryUserHealthService.execute();
+    }
+
+    @GetMapping("/info")
+    public QueryMyInformationResponse queryMyInfo() {
+        return queryMyInformationService.execute();
     }
 
 }
