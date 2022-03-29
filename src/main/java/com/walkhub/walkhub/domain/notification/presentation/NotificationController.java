@@ -4,7 +4,6 @@ import com.walkhub.walkhub.domain.notification.presentation.dto.request.Subscrib
 import com.walkhub.walkhub.domain.notification.presentation.dto.response.QueryNotificationListResponse;
 import com.walkhub.walkhub.domain.notification.service.NotificationReadService;
 import com.walkhub.walkhub.domain.notification.service.QueryNotificationListService;
-import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.infrastructure.fcm.FcmUtil;
 import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationRequest;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

@@ -4,7 +4,6 @@ import com.walkhub.walkhub.domain.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
