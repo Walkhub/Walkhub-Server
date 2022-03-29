@@ -3,12 +3,7 @@ package com.walkhub.walkhub.infrastructure.fcm;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.messaging.ApnsConfig;
-import com.google.firebase.messaging.Aps;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
+import com.google.firebase.messaging.*;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.exception.ChallengeNotExpirationException;
 import com.walkhub.walkhub.domain.challenge.exception.ChallengeNotSuccessException;
@@ -102,7 +97,7 @@ public class FirebaseNotification implements FcmUtil {
     public void subscribeTopic(List<User> users, NotificationRequest request) {
         try {
             for (int i = 0; i < users.size() / 1000; i++) {
-                List<String> deviceTokenListToSubscribe = users.subList(i, i * 1000)
+                List<String> deviceTokenListToSubscribe = users.subList(i * 1000, 1000 * i + 1000)
                         .stream().map(User::getDeviceToken)
                         .collect(Collectors.toList());
 
@@ -112,7 +107,7 @@ public class FirebaseNotification implements FcmUtil {
                         );
             }
         } catch (FirebaseMessagingException e) {
-            log.error(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -120,7 +115,7 @@ public class FirebaseNotification implements FcmUtil {
     public void unSubscribeTopic(List<User> users, NotificationRequest request) {
         try {
             for (int i = 0; i < users.size() / 1000; i++) {
-                List<String> deviceTokenListToSubscribe = users.subList(i, i * 1000)
+                List<String> deviceTokenListToSubscribe = users.subList(i * 1000, 1000 * i + 1000)
                         .stream().map(User::getDeviceToken)
                         .collect(Collectors.toList());
 
