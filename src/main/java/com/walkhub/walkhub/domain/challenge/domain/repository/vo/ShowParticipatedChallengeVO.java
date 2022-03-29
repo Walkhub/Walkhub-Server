@@ -8,39 +8,36 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 @Getter
-public class ShowChallengeVO {
+public class ShowParticipatedChallengeVO {
 
     private final Long challengeId;
     private final String name;
-    private final String imageUrl;
     private final LocalDate startAt;
     private final LocalDate endAt;
     private final Integer goal;
     private final GoalScope goalScope;
     private final GoalType goalType;
     private final String award;
+    private final Integer totalWalkCount;
     private final Long writerId;
     private final String writerName;
     private final String writerProfileImageUrl;
-    private final Long participantCount;
 
     @QueryProjection
-    public ShowChallengeVO(Long challengeId, String name, String imageUrl, LocalDate startAt, LocalDate endAt,
-                           Integer goal, GoalScope goalScope, GoalType goalType, String award,
-                           Long writerId, String writerName, String writerProfileImageUrl,
-                           Long participantCount) {
+    public ShowParticipatedChallengeVO(Long challengeId, String name, LocalDate startAt, LocalDate endAt,
+                                       Integer goal, GoalScope goalScope, GoalType goalType, String award, Integer totalWalkCount,
+                                       Long writerId, String writerName, String writerProfileImageUrl) {
         this.challengeId = challengeId;
         this.name = name;
-        this.imageUrl = imageUrl;
         this.startAt = startAt;
         this.endAt = endAt;
         this.goal = goal;
         this.goalScope = goalScope;
         this.goalType = goalType;
         this.award = award;
+        this.totalWalkCount = totalWalkCount;
         this.writerId = writerId;
         this.writerName = writerName;
         this.writerProfileImageUrl = writerProfileImageUrl;
-        this.participantCount = participantCount;
     }
 }

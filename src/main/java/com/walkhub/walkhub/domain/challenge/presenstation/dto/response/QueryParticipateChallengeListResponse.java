@@ -11,22 +11,22 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class QueryChallengeListResponse {
+public class QueryParticipateChallengeListResponse {
 
     private final List<ChallengeResponse> challengeList;
 
     @Getter
     @Builder
     public static class ChallengeResponse {
-        private final Long challengeId;
+        private final Long id;
         private final String name;
         private final LocalDate startAt;
         private final LocalDate endAt;
+        private final Integer goal;
         private final GoalScope goalScope;
         private final GoalType goalType;
+        private final Integer totalWalkCount;
         private final Writer writer;
-        private final Integer goal;
-        private final String award;
     }
 
     @Getter
