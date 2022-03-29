@@ -107,7 +107,7 @@ public class FirebaseNotification implements FcmUtil {
                         );
             }
         } catch (FirebaseMessagingException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 
