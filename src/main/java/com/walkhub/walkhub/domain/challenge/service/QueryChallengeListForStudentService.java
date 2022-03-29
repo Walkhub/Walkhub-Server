@@ -3,9 +3,9 @@ package com.walkhub.walkhub.domain.challenge.service;
 import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeRepository;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeVO;
+import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListForStudentResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListForStudentResponse.ChallengeResponse;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListForStudentResponse.Person;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class QueryChallengeListForStudentService {
 
     private final UserFacade userFacade;
+    private final ChallengeFacade challengeFacade;
     private final ChallengeRepository challengeRepository;
 
     public QueryChallengeListForStudentResponse execute() {
@@ -48,22 +49,17 @@ public class QueryChallengeListForStudentService {
                 .goalScope(vo.getGoalScope())
                 .goalType(vo.getGoalType())
                 .award(vo.getAward())
-                .writer(Person.builder()
-                        .userId(vo.getChallengeId())
-                        .name(vo.getWriterName())
-                        .profileImageUrl(vo.getWriterProfileImageUrl())
-                        .build())
+                .writer(challengeFacade.personBuilder(
+                        vo.getWriterId(), vo.getWriterName(), vo.getWriterProfileImageUrl()
+                ))
                 .participantCount(vo.getParticipantCount())
                 .participantList(relatedChallengeParticipantsList
                         .stream()
-                        .map(participant -> Person.builder()
-                                .userId(participant.getUserId())
-                                .name(participant.getName())
-                                .profileImageUrl(participant.getProfileImageUrl())
-                                .build())
+                        .map(participant -> challengeFacade.personBuilder(
+                                participant.getUserId(), participant.getName(), participant.getProfileImageUrl()
+                        ))
                         .collect(Collectors.toList())
                 )
                 .build();
     }
-
 }
