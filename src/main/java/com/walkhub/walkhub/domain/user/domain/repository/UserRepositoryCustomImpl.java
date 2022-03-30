@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.walkhub.walkhub.domain.exercise.domain.QExerciseAnalysis.exerciseAnalysis;
+import static com.walkhub.walkhub.domain.user.domain.QSection.section;
 import static com.walkhub.walkhub.domain.user.domain.QUser.user;
 
 @RequiredArgsConstructor
@@ -74,14 +75,15 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                         user.authority.eq(Authority.TEACHER).as("isTeacher")
                 ))
                 .from(user)
-                .join(user.exerciseAnalyses, exerciseAnalysis)
+                .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
+                .on(exerciseAnalysis.date.after(LocalDate.now().minusDays(7)))
+                .leftJoin(user.section, section)
                 .where(
                         user.school.eq(currentUser.getSchool()),
                         buildFilteringCondition(scope),
                         gradeEq(grade),
                         classNumEq(classNum),
-                        nameEq(name),
-                        exerciseAnalysis.date.after(LocalDate.now().minusDays(7))
+                        nameEq(name)
                 )
                 .orderBy(buildSortCondition(sort))
                 .groupBy(user.id)
@@ -98,7 +100,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     }
 
     private BooleanExpression nameEq(String name) {
-        return name.isEmpty() ? null : user.name.contains(name);
+        return name == null || name.isEmpty() ? null : user.name.contains(name);
     }
 
     private BooleanExpression buildFilteringCondition(AuthorityScope scope) {
