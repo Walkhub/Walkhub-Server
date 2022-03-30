@@ -2,10 +2,7 @@ package com.walkhub.walkhub.domain.teacher.service;
 
 import com.walkhub.walkhub.domain.teacher.facade.TeacherFacade;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListResponse;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassResponse.SectionResponse;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassResponse.TeacherResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassResponse;
-import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
