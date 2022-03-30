@@ -11,6 +11,7 @@ import com.walkhub.walkhub.domain.exercise.domain.Exercise;
 import com.walkhub.walkhub.domain.notice.domain.Notice;
 import com.walkhub.walkhub.domain.notification.domain.NotificationEntity;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationRepository;
+import com.walkhub.walkhub.domain.notification.presentation.dto.request.SubscribeRequest;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationInformation;
 import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationRequest;
@@ -94,10 +95,10 @@ public class FirebaseNotification implements FcmUtil {
     }
 
     @Override
-    public void subscribeTopic(List<User> users, NotificationRequest request) {
+    public void subscribeTopic(SubscribeRequest request) {
         try {
-            for (int i = 0; i < users.size() / 1000; i++) {
-                List<String> deviceTokenListToSubscribe = users.subList(i * 1000, 1000 * i + 1000)
+            for (int i = 0; i < request.getUsers().size() / 1000; i++) {
+                List<String> deviceTokenListToSubscribe = request.getUsers().subList(i * 1000, 1000 * i + 1000)
                         .stream().map(User::getDeviceToken)
                         .collect(Collectors.toList());
 
@@ -112,10 +113,10 @@ public class FirebaseNotification implements FcmUtil {
     }
 
     @Override
-    public void unSubscribeTopic(List<User> users, NotificationRequest request) {
+    public void unSubscribeTopic(SubscribeRequest request) {
         try {
-            for (int i = 0; i < users.size() / 1000; i++) {
-                List<String> deviceTokenListToSubscribe = users.subList(i * 1000, 1000 * i + 1000)
+            for (int i = 0; i < request.getUsers().size() / 1000; i++) {
+                List<String> deviceTokenListToSubscribe = request.getUsers().subList(i * 1000, 1000 * i + 1000)
                         .stream().map(User::getDeviceToken)
                         .collect(Collectors.toList());
 

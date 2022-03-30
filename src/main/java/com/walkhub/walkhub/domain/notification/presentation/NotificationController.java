@@ -5,7 +5,6 @@ import com.walkhub.walkhub.domain.notification.presentation.dto.response.QueryNo
 import com.walkhub.walkhub.domain.notification.service.NotificationReadService;
 import com.walkhub.walkhub.domain.notification.service.QueryNotificationListService;
 import com.walkhub.walkhub.infrastructure.fcm.FcmUtil;
-import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -34,13 +33,13 @@ public class NotificationController {
     }
 
     @PatchMapping
-    public void unSubscribeTopic(@RequestBody @Valid SubscribeRequest userRequest, NotificationRequest request) {
-        fcmUtil.unSubscribeTopic(userRequest.getUsers(), request);
+    public void unSubscribeTopic(@RequestBody @Valid  SubscribeRequest request) {
+        fcmUtil.unSubscribeTopic(request);
     }
 
     @PatchMapping("/on")
-    public void subscribeTopic(@RequestBody @Valid SubscribeRequest userRequest, NotificationRequest request) {
-        fcmUtil.subscribeTopic(userRequest.getUsers(), request);
+    public void subscribeTopic(@RequestBody @Valid SubscribeRequest request) {
+        fcmUtil.subscribeTopic(request);
     }
 
 }

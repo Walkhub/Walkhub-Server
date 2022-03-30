@@ -3,11 +3,9 @@ package com.walkhub.walkhub.infrastructure.fcm;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.exercise.domain.Exercise;
 import com.walkhub.walkhub.domain.notice.domain.Notice;
-import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.domain.notification.presentation.dto.request.SubscribeRequest;
 import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationRequest;
 import com.walkhub.walkhub.infrastructure.fcm.type.ContentType;
-
-import java.util.List;
 
 public interface FcmUtil {
 
@@ -15,9 +13,9 @@ public interface FcmUtil {
 
     void sendNotification(NotificationRequest sendDto);
 
-    void subscribeTopic(List<User> users, NotificationRequest request);
+    void subscribeTopic(SubscribeRequest request);
 
-    void unSubscribeTopic(List<User> users, NotificationRequest request);
+    void unSubscribeTopic(SubscribeRequest request);
 
     void sendNoticeNotification(Notice notice, ContentType contentType);
 
