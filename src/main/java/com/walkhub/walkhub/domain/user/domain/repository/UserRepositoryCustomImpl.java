@@ -8,7 +8,6 @@ import com.walkhub.walkhub.domain.teacher.type.AuthorityScope;
 import com.walkhub.walkhub.domain.teacher.type.SortStandard;
 import com.walkhub.walkhub.domain.teacher.vo.QUserListInfoVO;
 import com.walkhub.walkhub.domain.teacher.vo.UserListInfoVO;
-import com.walkhub.walkhub.domain.user.domain.QSection;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.Authority;
 import lombok.RequiredArgsConstructor;
