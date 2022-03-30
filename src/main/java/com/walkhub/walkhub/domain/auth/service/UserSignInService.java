@@ -25,7 +25,10 @@ public class UserSignInService {
     public UserTokenResponse execute(SignInRequest request) {
         User user = userRepository.findByAccountId(request.getAccountId())
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
-        HealthInfo healthInfo = user.getHealthInfo();
+
+        HealthInfo healthInfo =
+                user.getHealthInfo() != null ? user.getHealthInfo() : new HealthInfo(null, null);
+
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw PasswordMismatchException.EXCEPTION;
         }
