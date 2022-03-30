@@ -83,6 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/notices/list").authenticated()
                 .antMatchers(HttpMethod.POST, "/notices").hasAnyAuthority("ROOT", "SU")
                 .antMatchers(HttpMethod.DELETE, "/notices/{notice-id}").hasAnyAuthority("ROOT", "SU")
+                .antMatchers(HttpMethod.PATCH, "/notices/{notice-id}").hasAnyAuthority("ROOT", "SU")
 
                 // notifications
                 .antMatchers(HttpMethod.GET, "/notifications").authenticated()

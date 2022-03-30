@@ -44,6 +44,11 @@ public class Notice extends BaseTimeEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    public void updateNotice(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
     @Builder
     public Notice(String title, Scope scope, String content, User user) {
         this.title = title;
