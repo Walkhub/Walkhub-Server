@@ -6,7 +6,7 @@ import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListRespo
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
-import com.walkhub.walkhub.domain.rank.service.QuerySchoolRankService;
+import com.walkhub.walkhub.domain.rank.service.QueryMySchoolRankService;
 import com.walkhub.walkhub.domain.rank.service.QueryUserRankListByMySchoolService;
 import com.walkhub.walkhub.domain.rank.service.QueryUserRankListService;
 import com.walkhub.walkhub.domain.rank.service.SchoolSearchService;
@@ -29,7 +29,7 @@ public class RankController {
 
     private final UserSearchService userSearchService;
     private final QueryUserRankListByMySchoolService queryUserRankListByMySchoolService;
-    private final QuerySchoolRankService querySchoolRankService;
+    private final QueryMySchoolRankService queryMySchoolRankService;
     private final SchoolSearchService schoolSearchService;
     private final QueryUserRankListService queryUserRankListService;
 
@@ -42,7 +42,7 @@ public class RankController {
 
     @GetMapping("/schools")
     public SchoolRankResponse querySchoolRank(@RequestParam("schoolDateType") SchoolDateType dateType) {
-        return querySchoolRankService.execute(dateType);
+        return queryMySchoolRankService.execute(dateType);
     }
 
     @GetMapping("/schools/search")
