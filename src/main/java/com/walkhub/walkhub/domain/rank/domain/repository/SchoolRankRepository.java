@@ -10,8 +10,7 @@ import java.util.Optional;
 
 public interface SchoolRankRepository extends CrudRepository<SchoolRank, SchoolRankId> {
     Optional<SchoolRank> findBySchoolIdAndDateTypeAndCreatedAtBetween(
-            Long schoolId,
-            String dateType, LocalDate startAt, LocalDate endAt
+            Long schoolId, String dateType, LocalDate startAt, LocalDate endAt
     );
 
     List<SchoolRank> findAllByDateTypeAndCreatedAtBetweenOrderByRankingAsc(
@@ -19,7 +18,6 @@ public interface SchoolRankRepository extends CrudRepository<SchoolRank, SchoolR
     );
 
     List<SchoolRank> findAllByDateTypeAndNameContainingAndCreatedAtBetweenOrderByRankingAsc(
-            String dateType, String name, LocalDate startAt,
-            LocalDate endAt
+            String dateType, String name, LocalDate startAt, LocalDate endAt
     );
 }
