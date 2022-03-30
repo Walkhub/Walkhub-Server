@@ -14,6 +14,7 @@ import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryGoalWalkCo
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryMyInformationResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
+import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAuthInfoResponse;
 import com.walkhub.walkhub.domain.user.service.CheckClassCodeService;
 import com.walkhub.walkhub.domain.user.service.ExitSectionService;
 import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
@@ -21,6 +22,7 @@ import com.walkhub.walkhub.domain.user.service.JoinSectionService;
 import com.walkhub.walkhub.domain.user.service.QueryGoalWalkCountService;
 import com.walkhub.walkhub.domain.user.service.QueryMyInformationService;
 import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
+import com.walkhub.walkhub.domain.user.service.QueryUserAuthInfoService;
 import com.walkhub.walkhub.domain.user.service.QueryUserHealthService;
 import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
 import com.walkhub.walkhub.domain.user.service.SearchAccountIdService;
@@ -64,6 +66,7 @@ public class UserController {
     private final CheckClassCodeService checkClassCodeService;
     private final QueryUserHealthService queryUserHealthService;
     private final QueryMyInformationService queryMyInformationService;
+    private final QueryUserAuthInfoService queryUserAuthInfoService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
@@ -146,6 +149,11 @@ public class UserController {
     @GetMapping("/info")
     public QueryMyInformationResponse queryMyInfo() {
         return queryMyInformationService.execute();
+    }
+
+    @GetMapping("/auth/info")
+    public UserAuthInfoResponse queryMyAuthInfo() {
+        return queryUserAuthInfoService.execute();
     }
 
 }
