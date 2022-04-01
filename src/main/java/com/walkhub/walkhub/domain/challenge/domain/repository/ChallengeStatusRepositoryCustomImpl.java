@@ -202,21 +202,20 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     private NumberExpression<Integer> getChallengeTotalValue(Challenge challenge) {
+        NumberExpression<Integer> sum;
+
         if (challenge.getGoalType() == GoalType.WALK) {
-            return Expressions.asNumber(
-                    select(exerciseAnalysis.walkCount.sum())
-                            .from(exerciseAnalysis)
-                            .where(exerciseAnalysis.user.eq(user),
-                                    challengeDateFilter(challenge))
-            ).intValue();
+            sum = exerciseAnalysis.walkCount.sum();
         } else {
-            return Expressions.asNumber(
-                    select(exerciseAnalysis.distance.sum())
-                            .from(exerciseAnalysis)
-                            .where(exerciseAnalysis.user.eq(user),
-                                    challengeDateFilter(challenge))
-            ).intValue();
+            sum = exerciseAnalysis.distance.sum();
         }
+
+        return Expressions.asNumber(
+                select(sum)
+                        .from(exerciseAnalysis)
+                        .where(exerciseAnalysis.user.eq(user),
+                                challengeDateFilter(challenge))
+        );
     }
 
     private OrderSpecifier<?> challengeParticipantsOrder(ChallengeParticipantsOrder challengeParticipantsOrder) {
