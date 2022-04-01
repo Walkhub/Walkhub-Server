@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.teacher.service;
 
-import com.walkhub.walkhub.domain.school.domain.repository.SchoolRepository;
 import com.walkhub.walkhub.domain.teacher.facade.TeacherFacade;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassResponse;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ManageTeachersResponse;
