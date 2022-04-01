@@ -134,11 +134,11 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         isChallengeSuccessFilter(challenge))
                 //keyword -> name 검색
                 .where(userScopeFilter(participantsScope),
-                        user.name.contains(keyword),
-                        user.section.grade.eq(grade),
-                        user.section.classNum.eq(classNum))
+                        userNameContainsFilter(keyword),
+                        userGradeFilter(grade),
+                        userClassNumFilter(classNum))
                 .orderBy(challengeParticipantsOrder(participantsOrder))
-                .groupBy(user.id)
+                .groupBy(user.id, challengeStatus.createdAt)
                 .fetch();
     }
 
@@ -174,6 +174,18 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         challengeDateFilter(challenge)
                 )
                 .goe(challenge.getGoal());
+    }
+
+    private BooleanExpression userNameContainsFilter(String keyword) {
+        return keyword != null ? user.name.contains(keyword) : null;
+    }
+
+    private BooleanExpression userGradeFilter(Integer grade) {
+        return grade != null ? user.section.grade.eq(grade) : null;
+    }
+
+    private BooleanExpression userClassNumFilter(Integer classNum) {
+        return classNum != null ? user.section.classNum.eq(classNum) : null;
     }
 
     private BooleanExpression userScopeFilter(ChallengeParticipantsScope challengeParticipantsScope) {
