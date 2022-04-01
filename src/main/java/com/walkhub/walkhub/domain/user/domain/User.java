@@ -13,7 +13,6 @@ import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateUserInfoRe
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.global.exception.InvalidRoleException;
-import com.walkhub.walkhub.global.utils.code.RandomCodeUtil;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -196,13 +195,12 @@ public class User extends BaseTimeEntity {
         this.section = null;
     }
 
-    public String updateRootUserPassword() {
+    public void updateRootUserPassword(String password) {
         if (this.authority != Authority.ROOT) {
             throw InvalidRoleException.EXCEPTION;
         }
 
-        this.password = RandomCodeUtil.make(8);
-        return this.password;
+        this.password = password;
     }
 
     public void updateIsMeasuring(Boolean isMeasuring) {
