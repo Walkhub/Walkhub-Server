@@ -6,7 +6,6 @@ import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassRespons
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ManageTeachersResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
-import com.walkhub.walkhub.domain.user.exception.SchoolNotFoundException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import com.walkhub.walkhub.global.enums.Authority;
