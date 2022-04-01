@@ -114,13 +114,8 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         user.number,
                         school.name,
                         user.profileImageUrl,
-                        //total_walk_count 부분
-                        Expressions.asNumber(
-                                select(exerciseAnalysis.walkCount.sum())
-                                        .from(exerciseAnalysis)
-                                        .where(exerciseAnalysis.user.eq(user),
-                                                challengeDateFilter(challenge))
-                        ).intValue(),
+                        //total_walk_count || total_distance 부분
+                        getChallengeTotalValue(challenge),
                         //progress 부분
                         getChallengeProgress(challenge).multiply(100).round().longValue(),
                         //successDate 부분
@@ -214,6 +209,24 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
             return successProgress.divide(challenge.getGoal()).longValue();
         } else {
             return exerciseAnalysis.date.count().divide(challenge.getSuccessStandard());
+        }
+    }
+
+    private NumberExpression<Integer> getChallengeTotalValue(Challenge challenge) {
+        if (challenge.getGoalType() == GoalType.WALK) {
+            return Expressions.asNumber(
+                    select(exerciseAnalysis.walkCount.sum())
+                            .from(exerciseAnalysis)
+                            .where(exerciseAnalysis.user.eq(user),
+                                    challengeDateFilter(challenge))
+            ).intValue();
+        } else {
+            return Expressions.asNumber(
+                    select(exerciseAnalysis.distance.sum())
+                            .from(exerciseAnalysis)
+                            .where(exerciseAnalysis.user.eq(user),
+                                    challengeDateFilter(challenge))
+            ).intValue();
         }
     }
 
