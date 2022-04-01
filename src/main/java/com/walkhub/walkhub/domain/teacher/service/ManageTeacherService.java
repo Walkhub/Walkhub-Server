@@ -20,7 +20,6 @@ public class ManageTeacherService {
     private final TeacherFacade teacherFacade;
     private final UserFacade userFacade;
     private final UserRepository userRepository;
-    private final SchoolRepository schoolRepository;
 
     public ManageTeachersResponse execute() {
         User root = userFacade.getCurrentUser();
