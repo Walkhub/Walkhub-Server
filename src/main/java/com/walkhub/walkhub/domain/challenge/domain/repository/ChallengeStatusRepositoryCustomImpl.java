@@ -98,31 +98,37 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     @Override
     public List<ChallengeDetailsForTeacherVO> queryChallengeProgress(
             Challenge challenge,
+            String keyword,
             ChallengeParticipantsScope participantsScope,
             ChallengeParticipantsOrder participantsOrder,
-            SuccessScope successScope,
+            Integer grade,
+            Integer classNum,
             Long page
     ) {
-        return queryFactory.select(new QChallengeDetailsForTeacherVO(
-                user.id,
-                user.name,
-                section.grade,
-                section.classNum,
-                user.number,
-                school.name,
-                user.profileImageUrl,
-                Expressions.asNumber(
-                        select(exerciseAnalysis.walkCount.sum())
-                                .from(exerciseAnalysis)
-                                .where(exerciseAnalysis.user.eq(user),
-                                        challengeDateFilter(challenge))
-                ).intValue(),
-                getChallengeProgress(challenge).multiply(100).round().longValue(),
-                exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()),
-                new CaseBuilder()
-                        .when(exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()))
-                        .then(exerciseAnalysis.date.max())
-                        .otherwise(Expressions.nullExpression())))
+        return queryFactory
+                .select(new QChallengeDetailsForTeacherVO(
+                        user.id,
+                        user.name,
+                        section.grade,
+                        section.classNum,
+                        user.number,
+                        school.name,
+                        user.profileImageUrl,
+                        //total_walk_count 부분
+                        Expressions.asNumber(
+                                select(exerciseAnalysis.walkCount.sum())
+                                        .from(exerciseAnalysis)
+                                        .where(exerciseAnalysis.user.eq(user),
+                                                challengeDateFilter(challenge))
+                        ).intValue(),
+                        //progress 부분
+                        getChallengeProgress(challenge).multiply(100).round().longValue(),
+                        //successDate 부분
+                        exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()),
+                        new CaseBuilder()
+                                .when(exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()))
+                                .then(exerciseAnalysis.date.max())
+                                .otherwise(Expressions.nullExpression())))
                 .from(user)
                 .offset(page == null ? 0 : page * PARTICIPANTS_SIZE)
                 .limit(PARTICIPANTS_SIZE)
@@ -132,9 +138,12 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
                 .on(challengeDateFilter(challenge),
                         isChallengeSuccessFilter(challenge))
-                .where(userScopeFilter(participantsScope))
+                //keyword -> name 검색
+                .where(userScopeFilter(participantsScope),
+                        user.name.contains(keyword),
+                        user.section.grade.eq(grade),
+                        user.section.classNum.eq(classNum))
                 .orderBy(challengeParticipantsOrder(participantsOrder))
-                .having(challengeSuccessFilter(successScope, challenge))
                 .groupBy(user.id)
                 .fetch();
     }
