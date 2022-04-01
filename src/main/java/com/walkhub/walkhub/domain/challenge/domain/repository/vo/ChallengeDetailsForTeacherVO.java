@@ -14,7 +14,7 @@ public class ChallengeDetailsForTeacherVO {
     private final Integer number;
     private final String schoolName;
     private final String profileImageUrl;
-    private final Integer totalWalkCount;
+    private final Integer totalValue;
     private final Long progress;
     private final Boolean isSuccess;
     private final LocalDate successDate;
@@ -22,7 +22,7 @@ public class ChallengeDetailsForTeacherVO {
     @QueryProjection
     public ChallengeDetailsForTeacherVO(Long userId, String userName, Integer grade,
                                         Integer classNum, Integer number, String schoolName,
-                                        String profileImageUrl, Integer totalWalkCount, Long progress,
+                                        String profileImageUrl, Integer totalValue, Long progress,
                                         Boolean isSuccess, LocalDate successDate) {
         this.userId = userId;
         this.userName = userName;
@@ -31,7 +31,7 @@ public class ChallengeDetailsForTeacherVO {
         this.number = number;
         this.schoolName = schoolName;
         this.profileImageUrl = profileImageUrl;
-        this.totalWalkCount = totalWalkCount;
+        this.totalValue = totalValue;
         this.progress = progress;
         this.isSuccess = isSuccess;
         this.successDate = successDate;
