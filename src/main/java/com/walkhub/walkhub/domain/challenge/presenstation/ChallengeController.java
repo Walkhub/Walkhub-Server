@@ -93,7 +93,7 @@ public class ChallengeController {
 
     @GetMapping("/{challenge-id}/progress")
     public QueryChallengeParticipantListResponse queryChallengeParticipantList(@PathVariable("challenge-id") Long id,
-                                                                          ChallengeParticipantRequest request) {
+                                                                          @Valid ChallengeParticipantRequest request) {
         return queryChallengeParticipantListService.execute(id, request);
     }
 }
