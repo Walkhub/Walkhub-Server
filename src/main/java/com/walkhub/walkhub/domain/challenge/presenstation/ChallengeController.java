@@ -1,11 +1,14 @@
 package com.walkhub.walkhub.domain.challenge.presenstation;
 
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.ChallengeParticipantRequest;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.CreateChallengeRequest;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChallengeRequest;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeParticipantListResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForStudentResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListForStudentResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForTeacherResponse;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryParticipateChallengeListResponse;
+import com.walkhub.walkhub.domain.challenge.service.QueryChallengeParticipantListService;
 import com.walkhub.walkhub.domain.challenge.service.CreateChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.ParticipateChallengeService;
 import com.walkhub.walkhub.domain.challenge.service.QueryChallengeDetailsForStudentService;
@@ -41,6 +44,7 @@ public class ChallengeController {
     private final ParticipateChallengeService participateChallengeService;
     private final QueryParticipatedChallengeListService queryParticipatedChallengeListService;
     private final QueryChallengeDetailsForTeacherService queryChallengeDetailsForTeacherService;
+    private final QueryChallengeParticipantListService queryChallengeParticipantListService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
@@ -85,5 +89,11 @@ public class ChallengeController {
     @GetMapping("/participated")
     public QueryParticipateChallengeListResponse queryParticipatedChallengeList() {
         return queryParticipatedChallengeListService.execute();
+    }
+
+    @GetMapping("/{challenge-id}/progress")
+    public QueryChallengeParticipantListResponse queryChallengeParticipantList(@PathVariable("challenge-id") Long id,
+                                                                          ChallengeParticipantRequest request) {
+        return queryChallengeParticipantListService.execute(id, request);
     }
 }
