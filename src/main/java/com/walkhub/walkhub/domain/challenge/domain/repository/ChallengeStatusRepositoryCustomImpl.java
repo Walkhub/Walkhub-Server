@@ -17,7 +17,6 @@ import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowParticipate
 import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsOrder;
 import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsScope;
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
-import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.Authority;
@@ -182,16 +181,6 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
             return user.authority.eq(Authority.USER);
         } else if (challengeParticipantsScope == ChallengeParticipantsScope.TEACHER) {
             return user.authority.eq(Authority.TEACHER);
-        } else {
-            return null;
-        }
-    }
-
-    private BooleanExpression challengeSuccessFilter(SuccessScope successScope, Challenge challenge) {
-        if (successScope == SuccessScope.TRUE) {
-            return exerciseAnalysis.date.count().goe(challenge.getSuccessStandard());
-        } else if (successScope == SuccessScope.FALSE) {
-            return exerciseAnalysis.date.count().lt(challenge.getSuccessStandard());
         } else {
             return null;
         }
