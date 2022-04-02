@@ -5,24 +5,8 @@ import com.walkhub.walkhub.domain.teacher.presentation.dto.request.QueryUserList
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.TeacherCodeRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.UpdateTeacherSchoolRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.UserSearchRequest;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassListResponse;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.ClassResponse;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.CodeResponse;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.DetailsClassResponse;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserDetailsResponse;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserListResponse;
-import com.walkhub.walkhub.domain.teacher.presentation.dto.response.TokenResponse;
-import com.walkhub.walkhub.domain.teacher.service.ClassListService;
-import com.walkhub.walkhub.domain.teacher.service.ConfirmTeacherCodeService;
-import com.walkhub.walkhub.domain.teacher.service.CreateClassService;
-import com.walkhub.walkhub.domain.teacher.service.DeleteClassService;
-import com.walkhub.walkhub.domain.teacher.service.DetailsClassService;
-import com.walkhub.walkhub.domain.teacher.service.GenerateVerificationCodeService;
-import com.walkhub.walkhub.domain.teacher.service.QueryMyClassService;
-import com.walkhub.walkhub.domain.teacher.service.QueryUserDetailsService;
-import com.walkhub.walkhub.domain.teacher.service.QueryUserListService;
-import com.walkhub.walkhub.domain.teacher.service.UpdateTeacherSchoolService;
-import com.walkhub.walkhub.domain.teacher.service.UserSearchForTeacherService;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.*;
+import com.walkhub.walkhub.domain.teacher.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -56,6 +40,7 @@ public class TeacherController {
     private final UpdateTeacherSchoolService updateTeacherSchoolService;
     private final UserSearchForTeacherService userSearchForTeacherService;
     private final QueryMyClassService queryMyClassService;
+    private final ManageTeacherService manageTeacherService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/classes")
@@ -116,6 +101,11 @@ public class TeacherController {
     @GetMapping("/my-class")
     public ClassResponse queryMyClass() {
         return queryMyClassService.execute();
+    }
+
+    @GetMapping("/lists")
+    public ManageTeachersResponse manageTeachers() {
+        return manageTeacherService.execute();
     }
 
 }
