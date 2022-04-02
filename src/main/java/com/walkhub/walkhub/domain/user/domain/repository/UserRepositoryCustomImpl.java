@@ -1,14 +1,17 @@
 package com.walkhub.walkhub.domain.user.domain.repository;
 
+import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.MathExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.teacher.type.AuthorityScope;
 import com.walkhub.walkhub.domain.teacher.type.SortStandard;
-import com.walkhub.walkhub.domain.user.domain.repository.vo.QUserListInfoVO;
-import com.walkhub.walkhub.domain.user.domain.repository.vo.UserListInfoVO;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.domain.user.domain.repository.vo.QUserDetailsVO;
+import com.walkhub.walkhub.domain.user.domain.repository.vo.QUserListInfoVO;
+import com.walkhub.walkhub.domain.user.domain.repository.vo.UserDetailsVO;
+import com.walkhub.walkhub.domain.user.domain.repository.vo.UserListInfoVO;
 import com.walkhub.walkhub.global.enums.Authority;
 import lombok.RequiredArgsConstructor;
 
@@ -88,7 +91,24 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 .orderBy(buildSortCondition(sort))
                 .groupBy(user.id)
                 .fetch();
+    }
 
+    @Override
+    public UserDetailsVO queryUserDetails(Long userId, LocalDate startAt, LocalDate endAt) {
+        return queryFactory
+                .select(new QUserDetailsVO(
+                        GroupBy.list(exerciseAnalysis.walkCount),
+                        exerciseAnalysis.walkCount.avg().round().intValue(),
+                        exerciseAnalysis.walkCount.sum(),
+                        exerciseAnalysis.distance.avg().round().intValue(),
+                        exerciseAnalysis.distance.sum()
+                ))
+                .from(exerciseAnalysis)
+                .where(
+                        exerciseAnalysis.date.between(startAt, endAt),
+                        exerciseAnalysis.user.id.eq(userId)
+                )
+                .fetchOne();
     }
 
     private BooleanExpression gradeEq(Integer grade) {
