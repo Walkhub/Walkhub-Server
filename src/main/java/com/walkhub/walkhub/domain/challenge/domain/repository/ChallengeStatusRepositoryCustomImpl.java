@@ -114,11 +114,8 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         user.number,
                         school.name,
                         user.profileImageUrl,
-                        //total_walk_count || total_distance 부분
                         getChallengeTotalValue(challenge),
-                        //progress 부분
                         getChallengeProgress(challenge).multiply(100).round().longValue(),
-                        //successDate 부분
                         exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()),
                         new CaseBuilder()
                                 .when(exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()))
@@ -133,7 +130,6 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
                 .on(challengeDateFilter(challenge),
                         isChallengeSuccessFilter(challenge))
-                //keyword -> name 검색
                 .where(userScopeFilter(participantsScope),
                         userNameContainsFilter(name),
                         userGradeFilter(grade),
