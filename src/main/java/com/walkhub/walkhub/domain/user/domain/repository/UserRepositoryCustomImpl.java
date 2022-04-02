@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.user.domain.repository;
 
+import com.querydsl.core.group.Group;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.walkhub.walkhub.domain.exercise.domain.QExerciseAnalysis.exerciseAnalysis;
 import static com.walkhub.walkhub.domain.user.domain.QSection.section;
 import static com.walkhub.walkhub.domain.user.domain.QUser.user;
@@ -89,7 +91,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                         nameEq(name)
                 )
                 .orderBy(buildSortCondition(sort))
-                .groupBy(user.id)
+                .groupBy(user.id, exerciseAnalysis.walkCount, exerciseAnalysis.distance)
                 .fetch();
     }
 
@@ -97,16 +99,23 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     public UserDetailsVO queryUserDetails(Long userId, LocalDate startAt, LocalDate endAt) {
         return queryFactory
                 .select(new QUserDetailsVO(
-                        GroupBy.list(exerciseAnalysis.walkCount),
+                        user.id.as("userId"),
+                        user.name,
+                        user.profileImageUrl,
+                        section.grade,
+                        section.classNum,
+                        user.number,
                         exerciseAnalysis.walkCount.avg().round().intValue(),
                         exerciseAnalysis.walkCount.sum(),
                         exerciseAnalysis.distance.avg().round().intValue(),
                         exerciseAnalysis.distance.sum()
                 ))
-                .from(exerciseAnalysis)
+                .from(user)
+                .leftJoin(user.section, section)
+                .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
+                .on(exerciseAnalysis.date.between(startAt, endAt))
                 .where(
-                        exerciseAnalysis.date.between(startAt, endAt),
-                        exerciseAnalysis.user.id.eq(userId)
+                        user.id.eq(userId)
                 )
                 .fetchOne();
     }
