@@ -97,7 +97,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     @Override
     public List<ChallengeDetailsForTeacherVO> queryChallengeProgress(
             Challenge challenge,
-            String keyword,
+            String name,
             ChallengeParticipantsScope participantsScope,
             ChallengeParticipantsOrder participantsOrder,
             Integer grade,
@@ -134,7 +134,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         isChallengeSuccessFilter(challenge))
                 //keyword -> name 검색
                 .where(userScopeFilter(participantsScope),
-                        userNameContainsFilter(keyword),
+                        userNameContainsFilter(name),
                         userGradeFilter(grade),
                         userClassNumFilter(classNum))
                 .orderBy(challengeParticipantsOrder(participantsOrder))

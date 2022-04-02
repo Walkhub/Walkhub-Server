@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ChallengeStatusRepositoryCustom {
     List<ChallengeDetailsForTeacherVO> queryChallengeProgress(Challenge challenge,
-                                                              String keyword,
+                                                              String name,
                                                               ChallengeParticipantsScope participantsScope,
                                                               ChallengeParticipantsOrder participantsOrder,
                                                               Integer grade,

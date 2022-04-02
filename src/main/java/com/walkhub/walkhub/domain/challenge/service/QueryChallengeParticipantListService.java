@@ -24,7 +24,7 @@ public class QueryChallengeParticipantListService {
 
         Challenge challenge = challengeFacade.getChallengeById(id);
         List<QueryChallengeParticipantResponse> challengeParticipantList =
-                challengeStatusRepository.queryChallengeProgress(challenge, request.getKeyword(),
+                challengeStatusRepository.queryChallengeProgress(challenge, request.getName(),
                                 request.getUserScope(), request.getSort(), request.getGrade(),
                                 request.getClassNum(), request.getSize())
                         .stream()

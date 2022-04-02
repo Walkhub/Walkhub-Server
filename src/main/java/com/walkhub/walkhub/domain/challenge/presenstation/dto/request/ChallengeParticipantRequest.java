@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class ChallengeParticipantRequest {
 
-    private final String keyword;
+    private final String name;
 
     @NotNull(message = "sort는 Null일 수 없습니다.")
     private final ChallengeParticipantsOrder sort;
