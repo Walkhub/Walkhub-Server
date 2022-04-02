@@ -1,6 +1,8 @@
 package com.walkhub.walkhub.domain.rank.presentation;
 
 import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
+import com.walkhub.walkhub.domain.rank.domain.type.Scope;
+import com.walkhub.walkhub.domain.rank.domain.type.Sort;
 import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse;
@@ -18,9 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @RequiredArgsConstructor
 @RequestMapping("/ranks")
@@ -46,9 +45,11 @@ public class RankController {
     }
 
     @GetMapping("/schools/search")
-    public SchoolListResponse schoolSearch(@RequestParam("name") @NotNull @Size(max = 20) String name,
-                                           @RequestParam("schoolDateType") SchoolDateType dateType) {
-        return schoolSearchService.execute(name, dateType);
+    public SchoolListResponse schoolSearch(@RequestParam String name,
+                                           @RequestParam Sort sort,
+                                           @RequestParam Scope scope,
+                                           @RequestParam SchoolDateType schoolDateType) {
+        return schoolSearchService.execute(name, sort, scope, schoolDateType);
     }
 
     @GetMapping("/users/my-school")
