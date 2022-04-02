@@ -5,16 +5,18 @@ import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeDetail
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowParticipatedChallengeVO;
 import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsOrder;
 import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsScope;
-import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.user.domain.User;
 
 import java.util.List;
 
 public interface ChallengeStatusRepositoryCustom {
     List<ChallengeDetailsForTeacherVO> queryChallengeProgress(Challenge challenge,
+                                                              String name,
                                                               ChallengeParticipantsScope participantsScope,
                                                               ChallengeParticipantsOrder participantsOrder,
-                                                              SuccessScope successScope, Long page);
+                                                              Integer grade,
+                                                              Integer classNum,
+                                                              Long page);
 
     List<ShowParticipatedChallengeVO> getParticipatedChallengesByUser(User user);
 

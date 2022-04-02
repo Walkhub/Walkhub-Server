@@ -98,31 +98,29 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     @Override
     public List<ChallengeDetailsForTeacherVO> queryChallengeProgress(
             Challenge challenge,
+            String name,
             ChallengeParticipantsScope participantsScope,
             ChallengeParticipantsOrder participantsOrder,
-            SuccessScope successScope,
+            Integer grade,
+            Integer classNum,
             Long page
     ) {
-        return queryFactory.select(new QChallengeDetailsForTeacherVO(
-                user.id,
-                user.name,
-                section.grade,
-                section.classNum,
-                user.number,
-                school.name,
-                user.profileImageUrl,
-                Expressions.asNumber(
-                        select(exerciseAnalysis.walkCount.sum())
-                                .from(exerciseAnalysis)
-                                .where(exerciseAnalysis.user.eq(user),
-                                        challengeDateFilter(challenge))
-                ).intValue(),
-                getChallengeProgress(challenge).multiply(100).round().longValue(),
-                exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()),
-                new CaseBuilder()
-                        .when(exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()))
-                        .then(exerciseAnalysis.date.max())
-                        .otherwise(Expressions.nullExpression())))
+        return queryFactory
+                .select(new QChallengeDetailsForTeacherVO(
+                        user.id,
+                        user.name,
+                        section.grade,
+                        section.classNum,
+                        user.number,
+                        school.name,
+                        user.profileImageUrl,
+                        getChallengeTotalValue(challenge),
+                        getChallengeProgress(challenge).multiply(100).round().longValue(),
+                        exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()),
+                        new CaseBuilder()
+                                .when(exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()))
+                                .then(exerciseAnalysis.date.max())
+                                .otherwise(Expressions.nullExpression())))
                 .from(user)
                 .offset(page == null ? 0 : page * PARTICIPANTS_SIZE)
                 .limit(PARTICIPANTS_SIZE)
@@ -132,10 +130,12 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
                 .on(challengeDateFilter(challenge),
                         isChallengeSuccessFilter(challenge))
-                .where(userScopeFilter(participantsScope))
+                .where(userScopeFilter(participantsScope),
+                        userNameContainsFilter(name),
+                        userGradeFilter(grade),
+                        userClassNumFilter(classNum))
                 .orderBy(challengeParticipantsOrder(participantsOrder))
-                .having(challengeSuccessFilter(successScope, challenge))
-                .groupBy(user.id)
+                .groupBy(user.id, challengeStatus.createdAt)
                 .fetch();
     }
 
@@ -173,6 +173,18 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .goe(challenge.getGoal());
     }
 
+    private BooleanExpression userNameContainsFilter(String keyword) {
+        return keyword != null ? user.name.contains(keyword) : null;
+    }
+
+    private BooleanExpression userGradeFilter(Integer grade) {
+        return grade != null ? user.section.grade.eq(grade) : null;
+    }
+
+    private BooleanExpression userClassNumFilter(Integer classNum) {
+        return classNum != null ? user.section.classNum.eq(classNum) : null;
+    }
+
     private BooleanExpression userScopeFilter(ChallengeParticipantsScope challengeParticipantsScope) {
         if (challengeParticipantsScope == ChallengeParticipantsScope.STUDENT) {
             return user.authority.eq(Authority.USER);
@@ -206,6 +218,23 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
         } else {
             return exerciseAnalysis.date.count().divide(challenge.getSuccessStandard());
         }
+    }
+
+    private NumberExpression<Integer> getChallengeTotalValue(Challenge challenge) {
+        NumberExpression<Integer> sum;
+
+        if (challenge.getGoalType() == GoalType.WALK) {
+            sum = exerciseAnalysis.walkCount.sum();
+        } else {
+            sum = exerciseAnalysis.distance.sum();
+        }
+
+        return Expressions.asNumber(
+                select(sum)
+                        .from(exerciseAnalysis)
+                        .where(exerciseAnalysis.user.eq(user),
+                                challengeDateFilter(challenge))
+        );
     }
 
     private OrderSpecifier<?> challengeParticipantsOrder(ChallengeParticipantsOrder challengeParticipantsOrder) {
