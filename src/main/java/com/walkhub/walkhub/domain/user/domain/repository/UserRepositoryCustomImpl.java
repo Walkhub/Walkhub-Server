@@ -1,7 +1,5 @@
 package com.walkhub.walkhub.domain.user.domain.repository;
 
-import com.querydsl.core.group.Group;
-import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.MathExpressions;
@@ -19,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.walkhub.walkhub.domain.exercise.domain.QExerciseAnalysis.exerciseAnalysis;
 import static com.walkhub.walkhub.domain.user.domain.QSection.section;
 import static com.walkhub.walkhub.domain.user.domain.QUser.user;
@@ -34,7 +31,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         long size = 4;
         return queryFactory
                 .select(new QUserListInfoVO(
-                        user.id.as("userId"),
+                        user.id,
                         user.name,
                         user.profileImageUrl,
                         user.section.grade,
@@ -67,7 +64,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                                            User currentUser, String name) {
         return queryFactory
                 .select(new QUserListInfoVO(
-                        user.id.as("userId"),
+                        user.id,
                         user.name,
                         user.profileImageUrl,
                         user.section.grade,
@@ -99,7 +96,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     public UserDetailsVO queryUserDetails(Long userId, LocalDate startAt, LocalDate endAt) {
         return queryFactory
                 .select(new QUserDetailsVO(
-                        user.id.as("userId"),
+                        user.id,
                         user.name,
                         user.profileImageUrl,
                         section.grade,
