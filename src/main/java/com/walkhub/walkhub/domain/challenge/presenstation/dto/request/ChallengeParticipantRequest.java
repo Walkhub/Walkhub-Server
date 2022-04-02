@@ -4,7 +4,6 @@ import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsOrd
 import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsScope;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
