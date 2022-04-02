@@ -5,6 +5,10 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class UpdateSchoolPasswordResponse {
+public class RootAccountResponse {
+
+    private final String accountId;
+
     private final String password;
+
 }
