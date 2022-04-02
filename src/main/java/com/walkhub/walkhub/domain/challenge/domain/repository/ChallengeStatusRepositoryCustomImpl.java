@@ -63,6 +63,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .select(new QShowParticipatedChallengeVO(
                         challenge.id.as("challengeId"),
                         challenge.name,
+                        challenge.imageUrl,
                         challenge.startAt,
                         challenge.endAt,
                         challenge.goal,
@@ -70,12 +71,16 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         challenge.goalType,
                         challenge.award,
                         Expressions.asNumber(
-                                select(exerciseAnalysis.walkCount.sum())
-                                        .from(exerciseAnalysis)
-                                        .where(exerciseAnalysis.user.eq(user)
-                                                .and(exerciseAnalysis.date.goe(challenge.startAt))
-                                                .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
-                                                .and(exerciseAnalysis.date.loe(challenge.endAt)))
+                                select(new CaseBuilder()
+                                    .when(challenge.goalType.eq(GoalType.WALK))
+                                    .then(exerciseAnalysis.walkCount.sum())
+                                    .otherwise(exerciseAnalysis.distance.sum()
+                                    ))
+                                    .from(exerciseAnalysis)
+                                    .where(exerciseAnalysis.user.eq(user)
+                                        .and(exerciseAnalysis.date.goe(challenge.startAt))
+                                        .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
+                                        .and(exerciseAnalysis.date.loe(challenge.endAt)))
                         ).intValue(),
                         user.id.as("userId"),
                         user.name.as("writerName"),
