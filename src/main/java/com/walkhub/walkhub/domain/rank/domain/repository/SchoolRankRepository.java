@@ -8,16 +8,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface SchoolRankRepository extends CrudRepository<SchoolRank, SchoolRankId> {
+public interface SchoolRankRepository extends CrudRepository<SchoolRank, SchoolRankId>, SchoolRankRepositoryCustom {
     Optional<SchoolRank> findBySchoolIdAndDateTypeAndCreatedAtBetween(
             Long schoolId, String dateType, LocalDate startAt, LocalDate endAt
     );
 
     List<SchoolRank> findAllByDateTypeAndCreatedAtBetweenOrderByRankingAsc(
             String dateType, LocalDate createdAt, LocalDate createdAt2
-    );
-
-    List<SchoolRank> findAllByDateTypeAndNameContainingAndCreatedAtBetweenOrderByRankingAsc(
-            String dateType, String name, LocalDate startAt, LocalDate endAt
     );
 }
