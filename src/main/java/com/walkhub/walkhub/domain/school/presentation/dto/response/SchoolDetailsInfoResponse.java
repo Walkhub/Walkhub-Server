@@ -7,7 +7,7 @@ import lombok.Getter;
 @Builder
 public class SchoolDetailsInfoResponse {
 
-    private final Long userCount;
+    private final Long totalUserCount;
     private final Integer weekTotalWalkCount;
     private final Integer monthTotalWalkCount;
     private final Integer weekRanking;
