@@ -6,9 +6,11 @@ import com.querydsl.core.types.dsl.MathExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.teacher.type.AuthorityScope;
 import com.walkhub.walkhub.domain.teacher.type.SortStandard;
-import com.walkhub.walkhub.domain.teacher.vo.QUserListInfoVO;
-import com.walkhub.walkhub.domain.teacher.vo.UserListInfoVO;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.domain.user.domain.repository.vo.QUserDetailsVO;
+import com.walkhub.walkhub.domain.user.domain.repository.vo.QUserListInfoVO;
+import com.walkhub.walkhub.domain.user.domain.repository.vo.UserDetailsVO;
+import com.walkhub.walkhub.domain.user.domain.repository.vo.UserListInfoVO;
 import com.walkhub.walkhub.global.enums.Authority;
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +31,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         long size = 4;
         return queryFactory
                 .select(new QUserListInfoVO(
-                        user.id.as("userId"),
+                        user.id,
                         user.name,
                         user.profileImageUrl,
                         user.section.grade,
@@ -62,7 +64,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                                            User currentUser, String name) {
         return queryFactory
                 .select(new QUserListInfoVO(
-                        user.id.as("userId"),
+                        user.id,
                         user.name,
                         user.profileImageUrl,
                         user.section.grade,
@@ -86,9 +88,33 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                         nameEq(name)
                 )
                 .orderBy(buildSortCondition(sort))
-                .groupBy(user.id)
+                .groupBy(user.id, exerciseAnalysis.walkCount, exerciseAnalysis.distance)
                 .fetch();
+    }
 
+    @Override
+    public UserDetailsVO queryUserDetails(Long userId, LocalDate startAt, LocalDate endAt) {
+        return queryFactory
+                .select(new QUserDetailsVO(
+                        user.id,
+                        user.name,
+                        user.profileImageUrl,
+                        section.grade,
+                        section.classNum,
+                        user.number,
+                        exerciseAnalysis.walkCount.avg().round().intValue(),
+                        exerciseAnalysis.walkCount.sum(),
+                        exerciseAnalysis.distance.avg().round().intValue(),
+                        exerciseAnalysis.distance.sum()
+                ))
+                .from(user)
+                .leftJoin(user.section, section)
+                .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
+                .on(exerciseAnalysis.date.between(startAt, endAt))
+                .where(
+                        user.id.eq(userId)
+                )
+                .fetchOne();
     }
 
     private BooleanExpression gradeEq(Integer grade) {

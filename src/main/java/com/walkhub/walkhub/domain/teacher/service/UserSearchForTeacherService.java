@@ -2,7 +2,7 @@ package com.walkhub.walkhub.domain.teacher.service;
 
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.UserSearchRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserListResponse;
-import com.walkhub.walkhub.domain.teacher.vo.UserListInfoVO;
+import com.walkhub.walkhub.domain.user.domain.repository.vo.UserListInfoVO;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
