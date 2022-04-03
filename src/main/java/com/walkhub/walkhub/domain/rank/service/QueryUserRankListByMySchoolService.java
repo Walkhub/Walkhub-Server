@@ -57,6 +57,7 @@ public class QueryUserRankListByMySchoolService {
         }
 
         return UserRankListResponse.builder()
+                .isJoinedClass(user.hasSection())
                 .myRanking(myRank)
                 .rankList(userRankList)
                 .build();
@@ -71,6 +72,7 @@ public class QueryUserRankListByMySchoolService {
         List<UserRankResponse> userRankList = userRankFacade.buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
 
         return UserRankListResponse.builder()
+                .isJoinedClass(user.hasSection())
                 .myRanking(myRank)
                 .rankList(userRankList)
                 .build();
@@ -102,7 +104,7 @@ public class QueryUserRankListByMySchoolService {
                 .ranking(dayRank.getRanking())
                 .profileImageUrl(user.getProfileImageUrl())
                 .walkCount(dayRank.getWalkCount())
-                .isMeasuring(userRankFacade.isMeasuringByUserId(user.getId()))
+                .isMeasuring(user.getIsMeasuring())
                 .build();
     }
 
