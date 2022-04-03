@@ -23,15 +23,16 @@ public class SchoolDetailsInfoService {
         LocalDate now = LocalDate.now();
         LocalDate createAt = now.minusWeeks(1);
 
-        return schoolRankRepository
+        SchoolRank weekSchoolRank = schoolRankRepository
                 .findBySchoolIdAndDateTypeAndCreatedAtBetween(schoolId, DateType.WEEK.toString(), createAt, now)
-                .flatMap(weekSchoolRanks -> schoolRankRepository
-                        .findBySchoolIdAndDateTypeAndCreatedAtBetween(schoolId, DateType.MONTH.toString(),
-                                createAt, now)
-                        .map(monthSchoolRanks -> schoolDetailsInfoResponseBuilder(school, weekSchoolRanks,
-                                monthSchoolRanks))
-                )
-                .orElse(null);
+                .orElse(SchoolRank.builder().build());
+
+        SchoolRank monthSchoolRank = schoolRankRepository
+                .findBySchoolIdAndDateTypeAndCreatedAtBetween(schoolId, DateType.MONTH.toString(),
+                        createAt, now)
+                .orElse(SchoolRank.builder().build());
+
+        return schoolDetailsInfoResponseBuilder(school, weekSchoolRank, monthSchoolRank);
     }
 
     private SchoolDetailsInfoResponse schoolDetailsInfoResponseBuilder(School school,
