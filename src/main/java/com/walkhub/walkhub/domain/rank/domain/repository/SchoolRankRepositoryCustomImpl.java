@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import static com.walkhub.walkhub.domain.rank.domain.QSchoolRank.schoolRank;
 
 @RequiredArgsConstructor
-public class SchoolRankRepositoryCustomImpl implements SchoolRankRepositoryCustom{
+public class SchoolRankRepositoryCustomImpl implements SchoolRankRepositoryCustom {
 
 	private final JPAQueryFactory queryFactory;
 
@@ -45,7 +45,7 @@ public class SchoolRankRepositoryCustomImpl implements SchoolRankRepositoryCusto
 	}
 
 	private BooleanExpression nameLike(String name) {
-		return name != null ? schoolRank.name.like(name) : null;
+		return name != null ? schoolRank.name.contains(name) : null;
 	}
 
 	private OrderSpecifier<?> sort(Sort sort) {
