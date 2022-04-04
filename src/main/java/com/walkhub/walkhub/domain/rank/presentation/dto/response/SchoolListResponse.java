@@ -20,5 +20,6 @@ public class SchoolListResponse {
         private final Integer ranking;
         private final String logoImageUrl;
         private final Integer walkCount;
+        private final Long userCount;
     }
 }

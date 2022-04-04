@@ -1,7 +1,10 @@
 package com.walkhub.walkhub.domain.rank.presentation;
 
 import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
+import com.walkhub.walkhub.domain.rank.domain.type.Scope;
+import com.walkhub.walkhub.domain.rank.domain.type.Sort;
 import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
+import com.walkhub.walkhub.domain.rank.presentation.dto.request.SchoolSearchRequest;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListResponse;
@@ -12,16 +15,16 @@ import com.walkhub.walkhub.domain.rank.service.QueryUserRankListService;
 import com.walkhub.walkhub.domain.rank.service.SchoolSearchService;
 import com.walkhub.walkhub.domain.rank.service.UserSearchService;
 import com.walkhub.walkhub.global.enums.DateType;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
+@Validated
 @RequiredArgsConstructor
 @RequestMapping("/ranks")
 @RestController
@@ -46,9 +49,8 @@ public class RankController {
     }
 
     @GetMapping("/schools/search")
-    public SchoolListResponse schoolSearch(@RequestParam("name") @NotNull @Size(max = 20) String name,
-                                           @RequestParam("schoolDateType") SchoolDateType dateType) {
-        return schoolSearchService.execute(name, dateType);
+    public SchoolListResponse schoolSearch(@Valid SchoolSearchRequest request) {
+        return schoolSearchService.execute(request);
     }
 
     @GetMapping("/users/my-school")
