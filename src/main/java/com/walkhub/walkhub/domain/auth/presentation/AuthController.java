@@ -48,17 +48,17 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/account-id", method = RequestMethod.HEAD)
-    public void checkAccountIdExists(@RequestBody @Valid CheckAccountIdRequest request) {
+    public void checkAccountIdExists(@Valid CheckAccountIdRequest request) {
         checkAccountIdExistsService.execute(request);
     }
 
     @RequestMapping(value = "/verification-codes", method = RequestMethod.HEAD)
-    public void checkAuthCodeExists(@RequestBody @Valid CheckAuthCodeRequest request) {
+    public void checkAuthCodeExists(@Valid CheckAuthCodeRequest request) {
         checkAuthCodeExistsService.execute(request);
     }
 
     @RequestMapping(value = "/classes", method = RequestMethod.HEAD)
-    public void checkClassCode(@RequestBody @Valid CheckClassCodeRequest request) {
+    public void checkClassCode(@Valid CheckClassCodeRequest request) {
         checkClassCodeService.execute(request.getCode());
     }
 
