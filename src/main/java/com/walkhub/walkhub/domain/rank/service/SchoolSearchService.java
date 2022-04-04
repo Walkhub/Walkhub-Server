@@ -5,6 +5,7 @@ import com.walkhub.walkhub.domain.rank.domain.repository.vo.SchoolListVo;
 import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
 import com.walkhub.walkhub.domain.rank.domain.type.Scope;
 import com.walkhub.walkhub.domain.rank.domain.type.Sort;
+import com.walkhub.walkhub.domain.rank.presentation.dto.request.SchoolSearchRequest;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListResponse.SchoolResponse;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
@@ -19,9 +20,12 @@ public class SchoolSearchService {
 
     private final SchoolRankRepository schoolRankRepository;
 
-    public SchoolListResponse execute(String name, Sort sort, Scope scope, SchoolDateType schoolDateType) {
+    public SchoolListResponse execute(SchoolSearchRequest request) {
         List<SchoolListVo> schoolResponseList = schoolRankRepository.getSchoolListAndSearch(
-            name, sort, scope, schoolDateType
+            request.getName(),
+            request.getSort(),
+            request.getScope(),
+            request.getSchoolDateType()
         );
 
         return new SchoolListResponse(

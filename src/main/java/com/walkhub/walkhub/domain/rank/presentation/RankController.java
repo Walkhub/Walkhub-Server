@@ -4,6 +4,7 @@ import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
 import com.walkhub.walkhub.domain.rank.domain.type.Scope;
 import com.walkhub.walkhub.domain.rank.domain.type.Sort;
 import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
+import com.walkhub.walkhub.domain.rank.presentation.dto.request.SchoolSearchRequest;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListResponse;
@@ -45,11 +46,8 @@ public class RankController {
     }
 
     @GetMapping("/schools/search")
-    public SchoolListResponse schoolSearch(@RequestParam String name,
-                                           @RequestParam Sort sort,
-                                           @RequestParam Scope scope,
-                                           @RequestParam SchoolDateType schoolDateType) {
-        return schoolSearchService.execute(name, sort, scope, schoolDateType);
+    public SchoolListResponse schoolSearch(SchoolSearchRequest request) {
+        return schoolSearchService.execute(request);
     }
 
     @GetMapping("/users/my-school")
