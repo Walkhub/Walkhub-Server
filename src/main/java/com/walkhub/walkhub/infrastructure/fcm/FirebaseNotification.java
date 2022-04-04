@@ -3,12 +3,7 @@ package com.walkhub.walkhub.infrastructure.fcm;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.messaging.ApnsConfig;
-import com.google.firebase.messaging.Aps;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
+import com.google.firebase.messaging.*;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.exception.ChallengeNotExpirationException;
 import com.walkhub.walkhub.domain.challenge.exception.ChallengeNotSuccessException;
@@ -16,7 +11,9 @@ import com.walkhub.walkhub.domain.exercise.domain.Exercise;
 import com.walkhub.walkhub.domain.notice.domain.Notice;
 import com.walkhub.walkhub.domain.notification.domain.NotificationEntity;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationRepository;
+import com.walkhub.walkhub.domain.notification.presentation.dto.request.SubscribeRequest;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationInformation;
 import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationRequest;
 import com.walkhub.walkhub.infrastructure.fcm.type.ContentType;
@@ -39,6 +36,7 @@ import java.util.stream.Collectors;
 @Component
 public class FirebaseNotification implements FcmUtil {
 
+    private final UserRepository userRepository;
     private final NotificationRepository notificationRepository;
 
     @Value("${firebase.path}")
@@ -99,10 +97,12 @@ public class FirebaseNotification implements FcmUtil {
     }
 
     @Override
-    public void subscribeTopic(List<User> users, NotificationRequest request) {
+    public void subscribeTopic(SubscribeRequest request) {
+        List<User> userList = userRepository.findAllByIdIn(request.getUserIdList());
+
         try {
-            for (int i = 0; i < users.size() / 1000; i++) {
-                List<String> deviceTokenListToSubscribe = users.subList(i, i * 1000)
+            for (int i = 0; i < userList.size() / 1000; i++) {
+                List<String> deviceTokenListToSubscribe = userList.subList(i * 1000, 1000 * i + 1000)
                         .stream().map(User::getDeviceToken)
                         .collect(Collectors.toList());
 
@@ -117,10 +117,12 @@ public class FirebaseNotification implements FcmUtil {
     }
 
     @Override
-    public void unSubscribeTopic(List<User> users, NotificationRequest request) {
+    public void unSubscribeTopic(SubscribeRequest request) {
+        List<User> userList = userRepository.findAllByIdIn(request.getUserIdList());
+
         try {
-            for (int i = 0; i < users.size() / 1000; i++) {
-                List<String> deviceTokenListToSubscribe = users.subList(i, i * 1000)
+            for (int i = 0; i < userList.size() / 1000; i++) {
+                List<String> deviceTokenListToSubscribe = userList.subList(i * 1000, 1000 * i + 1000)
                         .stream().map(User::getDeviceToken)
                         .collect(Collectors.toList());
 
