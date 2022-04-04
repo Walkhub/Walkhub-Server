@@ -2,9 +2,6 @@ package com.walkhub.walkhub.domain.rank.service;
 
 import com.walkhub.walkhub.domain.rank.domain.repository.SchoolRankRepository;
 import com.walkhub.walkhub.domain.rank.domain.repository.vo.SchoolListVo;
-import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
-import com.walkhub.walkhub.domain.rank.domain.type.Scope;
-import com.walkhub.walkhub.domain.rank.domain.type.Sort;
 import com.walkhub.walkhub.domain.rank.presentation.dto.request.SchoolSearchRequest;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListResponse.SchoolResponse;

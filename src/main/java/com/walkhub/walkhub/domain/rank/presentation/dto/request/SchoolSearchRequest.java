@@ -12,12 +12,12 @@ import lombok.Getter;
 public class SchoolSearchRequest {
 	private final String name;
 
-	@NotNull
+	@NotNull(message = "sort는 Null일 수 없습니다.")
 	private final Sort sort;
 
-	@NotNull
+	@NotNull(message = "scope는 Null일 수 없습니다.")
 	private final Scope scope;
 
-	@NotNull
+	@NotNull(message = "schoolDateType는 Null일 수 없습니다.")
 	private final SchoolDateType schoolDateType;
 }
