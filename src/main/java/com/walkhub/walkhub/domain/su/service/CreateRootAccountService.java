@@ -2,6 +2,7 @@ package com.walkhub.walkhub.domain.su.service;
 
 import com.walkhub.walkhub.domain.school.domain.School;
 import com.walkhub.walkhub.domain.school.facade.SchoolFacade;
+import com.walkhub.walkhub.domain.su.exception.SchoolRootUserExistsException;
 import com.walkhub.walkhub.domain.su.presentation.dto.response.RootAccountResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
@@ -26,6 +27,10 @@ public class CreateRootAccountService {
         String password = RandomCodeUtil.make(8);
         School school = schoolFacade.getSchoolById(schoolId);
         String suAccount = school.getName() + "_admin";
+
+        if (userRepository.findBySchoolAndAuthority(school, Authority.SU).isPresent()) {
+            throw SchoolRootUserExistsException.EXCEPTION;
+        }
 
         userRepository.save(User.builder()
                 .accountId(suAccount)
