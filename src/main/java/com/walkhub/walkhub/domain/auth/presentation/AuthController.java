@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 @RequiredArgsConstructor
 @RestController
@@ -47,7 +48,7 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/account-id", method = RequestMethod.HEAD)
-    public void checkAccountIdExists(@Valid @RequestParam(name = "accountId", required = false) String accountId) {
+    public void checkAccountIdExists(@Valid @NotBlank @RequestParam(name = "accountId") String accountId) {
         checkAccountIdExistsService.execute(accountId);
     }
 
@@ -57,7 +58,7 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/classes", method = RequestMethod.HEAD)
-    public void checkClassCode(@Valid @RequestParam(name = "code", required = false) String code) {
+    public void checkClassCode(@Valid @NotBlank @RequestParam(name = "code") String code) {
         checkClassCodeService.execute(code);
     }
 
