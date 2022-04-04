@@ -43,6 +43,7 @@ public enum ErrorCode {
     SOCKET_CLIENT_NOT_FOUND(404, "SOCKET-404-1", "Socket Client Not Found"),
 
     USER_EXISTS(409, "USER-409-1", "User Exists"),
+    SCHOOL_ROOT_EXISTS(409, "SCHOOL-409-1", "School Root Exists"),
 
     BADGE_NOT_FOUND(404, "BADGE-404-1", "Badge Not Found"),
 
