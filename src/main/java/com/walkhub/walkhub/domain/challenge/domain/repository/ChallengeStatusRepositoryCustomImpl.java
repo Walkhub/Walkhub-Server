@@ -82,9 +82,9 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                                         .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
                                         .and(exerciseAnalysis.date.loe(challenge.endAt)))
                         ).intValue(),
-                        user.id.as("userId"),
+                        user.id.as("writerId"),
                         user.name.as("writerName"),
-                        user.profileImageUrl.as("profileImageUrl")
+                        user.profileImageUrl.as("writerProfileImageUrl")
                 ))
                 .from(challenge)
                 .join(challenge.user, user)
