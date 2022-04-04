@@ -70,16 +70,6 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         challenge.goalScope,
                         challenge.goalType,
                         challenge.award,
-//                        Expressions.asNumber(
-//                                select(new CaseBuilder()
-//                                    .when(challenge.goalType.eq(GoalType.WALK))
-//                                    .then(exerciseAnalysis.walkCount.sum())
-//                                    .otherwise(exerciseAnalysis.distance.sum()
-//                                    ))
-//                                    .from(exerciseAnalysis)
-//                                    .where(exerciseAnalysis.user.eq(user)
-//                                        )
-//                        ).intValue(),
                         new CaseBuilder()
                             .when(challenge.goalType.eq(GoalType.WALK))
                             .then(exerciseAnalysis.walkCount.sum())
@@ -99,12 +89,6 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .where(challengeStatus.user.eq(userParam))
                 .fetch();
     }
-
-//    private NumberExpression<Integer> totalValueFilter() {
-//        if (challenge.goalType.eq)
-//            return exerciseAnalysis.walkCount.sum();
-//        return exerciseAnalysis.distance.sum();
-//    }
 
     private BooleanExpression challengeDateFilter(Challenge challenge) {
         return exerciseAnalysis.date.goe(challenge.getStartAt())
