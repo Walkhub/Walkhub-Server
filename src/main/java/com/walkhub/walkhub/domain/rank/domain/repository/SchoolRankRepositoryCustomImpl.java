@@ -3,11 +3,11 @@ package com.walkhub.walkhub.domain.rank.domain.repository;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.walkhub.walkhub.domain.rank.domain.repository.vo.QSchoolListVo;
+import com.walkhub.walkhub.domain.rank.domain.repository.vo.SchoolListVo;
 import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
 import com.walkhub.walkhub.domain.rank.domain.type.Scope;
 import com.walkhub.walkhub.domain.rank.domain.type.Sort;
-import com.walkhub.walkhub.domain.rank.presentation.dto.response.QSchoolListResponse_SchoolResponse;
-import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListResponse.SchoolResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 
@@ -19,10 +19,10 @@ public class SchoolRankRepositoryCustomImpl implements SchoolRankRepositoryCusto
 	private final JPAQueryFactory queryFactory;
 
 	@Override
-	public List<SchoolResponse> getSchoolListAndSearch(String name, Sort sort, Scope scope,
+	public List<SchoolListVo> getSchoolListAndSearch(String name, Sort sort, Scope scope,
 		SchoolDateType schoolDateType) {
 		return queryFactory
-			.select(new QSchoolListResponse_SchoolResponse(
+			.select(new QSchoolListVo(
 				schoolRank.schoolId,
 				schoolRank.name,
 				schoolRank.ranking,
