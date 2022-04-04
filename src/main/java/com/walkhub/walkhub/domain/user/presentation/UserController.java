@@ -1,7 +1,6 @@
 package com.walkhub.walkhub.domain.user.presentation;
 
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
-import com.walkhub.walkhub.domain.user.presentation.dto.request.CheckClassCodeRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.InputHealthInformationRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinSectionRequest;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdateGoalWalkCountRequest;
@@ -14,7 +13,6 @@ import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryGoalWalkCo
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryMyInformationResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
-import com.walkhub.walkhub.domain.user.service.CheckClassCodeService;
 import com.walkhub.walkhub.domain.user.service.ExitSectionService;
 import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
 import com.walkhub.walkhub.domain.user.service.JoinSectionService;
@@ -38,7 +36,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
