@@ -9,6 +9,7 @@ import java.util.List;
 @Builder
 public class UserRankListResponse {
 
+    private final Boolean isJoinedClass;
     private final UserRankResponse myRanking;
     private final List<UserRankResponse> rankList;
 

@@ -1,4 +1,4 @@
-package com.walkhub.walkhub.domain.teacher.vo;
+package com.walkhub.walkhub.domain.user.domain.repository.vo;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
@@ -18,7 +18,6 @@ public class UserListInfoVO {
     private final Boolean isTeacher;
 
     @QueryProjection
-
     public UserListInfoVO(Long userId, String name, String profileImageUrl, Integer grade, Integer classNum,
                           Integer number, Double averageWalkCount, Integer totalWalkCount, Double averageDistance,
                           Integer totalDistance, Boolean isTeacher) {

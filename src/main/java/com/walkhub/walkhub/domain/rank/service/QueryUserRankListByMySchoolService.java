@@ -10,7 +10,6 @@ import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListRes
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse.UserRankResponse;
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import com.walkhub.walkhub.global.enums.DateType;
@@ -26,7 +25,6 @@ public class QueryUserRankListByMySchoolService {
     private final UserRankRepository userRankRepository;
     private final ExerciseAnalysisCacheRepository exerciseAnalysisCacheRepository;
     private final UserFacade userFacade;
-    private final UserRepository userRepository;
     private final UserRankFacade userRankFacade;
 
     public UserRankListResponse execute(UserRankScope scope, DateType dateType) {
@@ -59,6 +57,7 @@ public class QueryUserRankListByMySchoolService {
         }
 
         return UserRankListResponse.builder()
+                .isJoinedClass(user.hasSection())
                 .myRanking(myRank)
                 .rankList(userRankList)
                 .build();
@@ -73,6 +72,7 @@ public class QueryUserRankListByMySchoolService {
         List<UserRankResponse> userRankList = userRankFacade.buildWeekOrMonthUsersRankResponse(usersWeekOrMonthRank);
 
         return UserRankListResponse.builder()
+                .isJoinedClass(user.hasSection())
                 .myRanking(myRank)
                 .rankList(userRankList)
                 .build();
@@ -104,7 +104,7 @@ public class QueryUserRankListByMySchoolService {
                 .ranking(dayRank.getRanking())
                 .profileImageUrl(user.getProfileImageUrl())
                 .walkCount(dayRank.getWalkCount())
-                .isMeasuring(userRankFacade.isMeasuringByUserId(user.getId()))
+                .isMeasuring(user.getIsMeasuring())
                 .build();
     }
 
