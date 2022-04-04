@@ -12,6 +12,7 @@ import com.walkhub.walkhub.domain.auth.service.TokenRefreshService;
 import com.walkhub.walkhub.domain.auth.service.UserSignInService;
 import com.walkhub.walkhub.domain.user.service.CheckClassCodeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
+@Validated
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/users")
@@ -48,7 +50,7 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/account-id", method = RequestMethod.HEAD)
-    public void checkAccountIdExists(@Valid @NotBlank @RequestParam(name = "accountId") String accountId) {
+    public void checkAccountIdExists(@NotBlank @RequestParam(name = "accountId") String accountId) {
         checkAccountIdExistsService.execute(accountId);
     }
 
@@ -58,7 +60,7 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/classes", method = RequestMethod.HEAD)
-    public void checkClassCode(@Valid @NotBlank @RequestParam(name = "code") String code) {
+    public void checkClassCode(@NotBlank @RequestParam(name = "code") String code) {
         checkClassCodeService.execute(code);
     }
 
