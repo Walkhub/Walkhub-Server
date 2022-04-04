@@ -61,7 +61,6 @@ public class UserController {
     private final UpdateGoalWalkCountService updateGoalWalkCountService;
     private final ExitSectionService exitSectionService;
     private final QueryGoalWalkCountService queryGoalWalkCountService;
-    private final CheckClassCodeService checkClassCodeService;
     private final QueryUserHealthService queryUserHealthService;
     private final QueryMyInformationService queryMyInformationService;
 
@@ -131,11 +130,6 @@ public class UserController {
     @DeleteMapping("/classes")
     public void exitSection() {
         exitSectionService.execute();
-    }
-
-    @RequestMapping(value = "/classes", method = RequestMethod.HEAD)
-    public void checkClassCode(@RequestBody @Valid CheckClassCodeRequest request) {
-        checkClassCodeService.execute(request.getCode());
     }
 
     @GetMapping("/health")

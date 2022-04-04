@@ -11,6 +11,8 @@ import com.walkhub.walkhub.domain.auth.service.CheckAccountIdExistsService;
 import com.walkhub.walkhub.domain.auth.service.CheckAuthCodeExistsService;
 import com.walkhub.walkhub.domain.auth.service.TokenRefreshService;
 import com.walkhub.walkhub.domain.auth.service.UserSignInService;
+import com.walkhub.walkhub.domain.user.presentation.dto.request.CheckClassCodeRequest;
+import com.walkhub.walkhub.domain.user.service.CheckClassCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -33,6 +35,7 @@ public class AuthController {
     private final CheckAccountIdExistsService checkAccountIdExistsService;
     private final CheckAuthCodeExistsService checkAuthCodeExistsService;
     private final AuthUserInfoService authUserInfoService;
+    private final CheckClassCodeService checkClassCodeService;
 
     @PostMapping("/token")
     public UserTokenResponse userSignIn(@RequestBody @Valid SignInRequest request) {
@@ -52,6 +55,11 @@ public class AuthController {
     @RequestMapping(value = "/verification-codes", method = RequestMethod.HEAD)
     public void checkAuthCodeExists(@RequestBody @Valid CheckAuthCodeRequest request) {
         checkAuthCodeExistsService.execute(request);
+    }
+
+    @RequestMapping(value = "/classes", method = RequestMethod.HEAD)
+    public void checkClassCode(@RequestBody @Valid CheckClassCodeRequest request) {
+        checkClassCodeService.execute(request.getCode());
     }
 
     @GetMapping("/auth/info")
