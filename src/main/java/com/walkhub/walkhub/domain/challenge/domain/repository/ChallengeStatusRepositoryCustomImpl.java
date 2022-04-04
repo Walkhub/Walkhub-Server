@@ -70,18 +70,20 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         challenge.goalScope,
                         challenge.goalType,
                         challenge.award,
-                        Expressions.asNumber(
-                                select(new CaseBuilder()
-                                    .when(challenge.goalType.eq(GoalType.WALK))
-                                    .then(exerciseAnalysis.walkCount.sum())
-                                    .otherwise(exerciseAnalysis.distance.sum()
-                                    ))
-                                    .from(exerciseAnalysis)
-                                    .where(exerciseAnalysis.user.eq(user)
-                                        .and(exerciseAnalysis.date.goe(challenge.startAt))
-                                        .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
-                                        .and(exerciseAnalysis.date.loe(challenge.endAt)))
-                        ).intValue(),
+//                        Expressions.asNumber(
+//                                select(new CaseBuilder()
+//                                    .when(challenge.goalType.eq(GoalType.WALK))
+//                                    .then(exerciseAnalysis.walkCount.sum())
+//                                    .otherwise(exerciseAnalysis.distance.sum()
+//                                    ))
+//                                    .from(exerciseAnalysis)
+//                                    .where(exerciseAnalysis.user.eq(user)
+//                                        )
+//                        ).intValue(),
+                        new CaseBuilder()
+                            .when(challenge.goalType.eq(GoalType.WALK))
+                            .then(exerciseAnalysis.walkCount.sum())
+                            .otherwise(exerciseAnalysis.distance.sum()),
                         user.id.as("writerId"),
                         user.name.as("writerName"),
                         user.profileImageUrl.as("writerProfileImageUrl")
@@ -89,10 +91,20 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .from(challenge)
                 .join(challenge.user, user)
                 .join(challengeStatus)
-                .on(challengeStatus.challenge.eq(challenge))
+                .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
+                .on(challengeStatus.challenge.eq(challenge)
+                    ,(exerciseAnalysis.date.goe(challenge.startAt))
+                    ,(exerciseAnalysis.date.goe(challengeStatus.createdAt))
+                    ,(exerciseAnalysis.date.loe(challenge.endAt)))
                 .where(challengeStatus.user.eq(userParam))
                 .fetch();
     }
+
+//    private NumberExpression<Integer> totalValueFilter() {
+//        if (challenge.goalType.eq)
+//            return exerciseAnalysis.walkCount.sum();
+//        return exerciseAnalysis.distance.sum();
+//    }
 
     private BooleanExpression challengeDateFilter(Challenge challenge) {
         return exerciseAnalysis.date.goe(challenge.getStartAt())
