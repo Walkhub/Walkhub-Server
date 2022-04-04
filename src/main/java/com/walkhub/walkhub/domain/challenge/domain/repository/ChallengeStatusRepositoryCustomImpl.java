@@ -63,28 +63,29 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .select(new QShowParticipatedChallengeVO(
                         challenge.id.as("challengeId"),
                         challenge.name,
+                        challenge.imageUrl,
                         challenge.startAt,
                         challenge.endAt,
                         challenge.goal,
                         challenge.goalScope,
                         challenge.goalType,
                         challenge.award,
-                        Expressions.asNumber(
-                                select(exerciseAnalysis.walkCount.sum())
-                                        .from(exerciseAnalysis)
-                                        .where(exerciseAnalysis.user.eq(user)
-                                                .and(exerciseAnalysis.date.goe(challenge.startAt))
-                                                .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
-                                                .and(exerciseAnalysis.date.loe(challenge.endAt)))
-                        ).intValue(),
-                        user.id.as("userId"),
+                        new CaseBuilder()
+                            .when(challenge.goalType.eq(GoalType.WALK))
+                            .then(exerciseAnalysis.walkCount.sum())
+                            .otherwise(exerciseAnalysis.distance.sum()),
+                        user.id.as("writerId"),
                         user.name.as("writerName"),
-                        user.profileImageUrl.as("profileImageUrl")
+                        user.profileImageUrl.as("writerProfileImageUrl")
                 ))
                 .from(challenge)
                 .join(challenge.user, user)
                 .join(challengeStatus)
-                .on(challengeStatus.challenge.eq(challenge))
+                .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
+                .on(challengeStatus.challenge.eq(challenge)
+                    ,(exerciseAnalysis.date.goe(challenge.startAt))
+                    ,(exerciseAnalysis.date.goe(challengeStatus.createdAt))
+                    ,(exerciseAnalysis.date.loe(challenge.endAt)))
                 .where(challengeStatus.user.eq(userParam))
                 .fetch();
     }

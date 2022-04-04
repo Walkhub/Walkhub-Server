@@ -20,12 +20,13 @@ public class QueryParticipateChallengeListResponse {
     public static class ChallengeResponse {
         private final Long id;
         private final String name;
+        private final String imageUrl;
         private final LocalDate startAt;
         private final LocalDate endAt;
         private final Integer goal;
         private final GoalScope goalScope;
         private final GoalType goalType;
-        private final Integer totalWalkCount;
+        private final Integer totalValue;
         private final Writer writer;
     }
 
