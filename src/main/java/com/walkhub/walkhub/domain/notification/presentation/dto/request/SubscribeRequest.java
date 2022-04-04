@@ -13,7 +13,7 @@ import java.util.List;
 public class SubscribeRequest {
 
     @NotNull(message = "List는 Null일 수 없습니다.")
-    private List<User> users;
+    private List<Long> userIdList;
 
     @NotNull(message = "topic은 Null일 수 없습니다.")
     private Type type;

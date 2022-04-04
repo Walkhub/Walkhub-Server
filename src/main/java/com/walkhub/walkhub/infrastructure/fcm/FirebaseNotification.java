@@ -13,6 +13,7 @@ import com.walkhub.walkhub.domain.notification.domain.NotificationEntity;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationRepository;
 import com.walkhub.walkhub.domain.notification.presentation.dto.request.SubscribeRequest;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationInformation;
 import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationRequest;
 import com.walkhub.walkhub.infrastructure.fcm.type.ContentType;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
 @Component
 public class FirebaseNotification implements FcmUtil {
 
+    private final UserRepository userRepository;
     private final NotificationRepository notificationRepository;
 
     @Value("${firebase.path}")
@@ -96,9 +98,11 @@ public class FirebaseNotification implements FcmUtil {
 
     @Override
     public void subscribeTopic(SubscribeRequest request) {
+        List<User> userList = userRepository.findAllByIdIn(request.getUserIdList());
+
         try {
-            for (int i = 0; i < request.getUsers().size() / 1000; i++) {
-                List<String> deviceTokenListToSubscribe = request.getUsers().subList(i * 1000, 1000 * i + 1000)
+            for (int i = 0; i < userList.size() / 1000; i++) {
+                List<String> deviceTokenListToSubscribe = userList.subList(i * 1000, 1000 * i + 1000)
                         .stream().map(User::getDeviceToken)
                         .collect(Collectors.toList());
 
@@ -114,9 +118,11 @@ public class FirebaseNotification implements FcmUtil {
 
     @Override
     public void unSubscribeTopic(SubscribeRequest request) {
+        List<User> userList = userRepository.findAllByIdIn(request.getUserIdList());
+
         try {
-            for (int i = 0; i < request.getUsers().size() / 1000; i++) {
-                List<String> deviceTokenListToSubscribe = request.getUsers().subList(i * 1000, 1000 * i + 1000)
+            for (int i = 0; i < userList.size() / 1000; i++) {
+                List<String> deviceTokenListToSubscribe = userList.subList(i * 1000, 1000 * i + 1000)
                         .stream().map(User::getDeviceToken)
                         .collect(Collectors.toList());
 
