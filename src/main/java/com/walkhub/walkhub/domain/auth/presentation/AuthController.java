@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.auth.presentation;
 
-import com.walkhub.walkhub.domain.auth.presentation.dto.request.CheckAccountIdRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.CheckAuthCodeRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.SignInRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.AuthUserInfoResponse;
@@ -11,7 +10,6 @@ import com.walkhub.walkhub.domain.auth.service.CheckAccountIdExistsService;
 import com.walkhub.walkhub.domain.auth.service.CheckAuthCodeExistsService;
 import com.walkhub.walkhub.domain.auth.service.TokenRefreshService;
 import com.walkhub.walkhub.domain.auth.service.UserSignInService;
-import com.walkhub.walkhub.domain.user.presentation.dto.request.CheckClassCodeRequest;
 import com.walkhub.walkhub.domain.user.service.CheckClassCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -48,8 +47,8 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/account-id", method = RequestMethod.HEAD)
-    public void checkAccountIdExists(@Valid CheckAccountIdRequest request) {
-        checkAccountIdExistsService.execute(request);
+    public void checkAccountIdExists(@Valid @RequestParam(name = "accountId", required = false) String accountId) {
+        checkAccountIdExistsService.execute(accountId);
     }
 
     @RequestMapping(value = "/verification-codes", method = RequestMethod.HEAD)
@@ -58,8 +57,8 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/classes", method = RequestMethod.HEAD)
-    public void checkClassCode(@Valid CheckClassCodeRequest request) {
-        checkClassCodeService.execute(request.getCode());
+    public void checkClassCode(@Valid @RequestParam(name = "code", required = false) String code) {
+        checkClassCodeService.execute(code);
     }
 
     @GetMapping("/auth/info")
