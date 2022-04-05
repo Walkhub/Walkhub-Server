@@ -14,27 +14,10 @@ import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.global.exception.InvalidRoleException;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
@@ -42,6 +25,9 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(indexes = {
+        @Index(name = "user_account_id_index", columnList = "account_id", unique = true),
+        @Index(name = "user_authority_index", columnList = "authority")})
 public class User extends BaseTimeEntity {
 
     @Id
@@ -148,10 +134,6 @@ public class User extends BaseTimeEntity {
         this.badge = badge;
     }
 
-    public void setSection(Section section) {
-        this.section = section;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -177,6 +159,10 @@ public class User extends BaseTimeEntity {
             throw SectionNotFoundException.EXCEPTION;
         }
         return this.section;
+    }
+
+    public void setSection(Section section) {
+        this.section = section;
     }
 
     public boolean hasSection() {
