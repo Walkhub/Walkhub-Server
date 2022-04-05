@@ -25,9 +25,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(indexes = {
-        @Index(name = "user_account_id_index", columnList = "account_id", unique = true),
-        @Index(name = "user_authority_index", columnList = "authority")})
+@Cacheable
 public class User extends BaseTimeEntity {
 
     @Id
