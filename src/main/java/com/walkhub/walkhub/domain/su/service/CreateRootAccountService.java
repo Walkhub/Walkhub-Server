@@ -28,7 +28,7 @@ public class CreateRootAccountService {
         School school = schoolFacade.getSchoolById(schoolId);
         String suAccount = school.getName() + "_admin";
 
-        if (userRepository.findBySchoolAndAuthority(school, Authority.SU).isPresent()) {
+        if (userRepository.findBySchoolAndAuthority(school, Authority.ROOT).isPresent()) {
             throw SchoolRootUserExistsException.EXCEPTION;
         }
 
