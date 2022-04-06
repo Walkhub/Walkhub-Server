@@ -43,8 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 
-                //Teacher가 요청해도 상관없는 Api를 그냥 authenticated
-                //아직 만들지 않은 Api들은 적지 않음
+                //Teacher나 User가 요청해도 상관없는 Api를 그냥 authenticated
 
                 // users
                 .antMatchers(HttpMethod.HEAD, "/users/classes").authenticated()
