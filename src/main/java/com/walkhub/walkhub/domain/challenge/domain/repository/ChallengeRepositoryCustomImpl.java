@@ -1,20 +1,19 @@
 package com.walkhub.walkhub.domain.challenge.domain.repository;
 
 import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeDetailsForStudentVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QChallengeDetailsForStudentVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QRelatedChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QShowChallengeVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.*;
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.UserScope;
+import com.walkhub.walkhub.global.error.exception.WalkhubException;
+import io.micrometer.core.instrument.util.StringUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -53,6 +52,33 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
                 .where(
                         (challenge.userScope.eq(UserScope.ALL).or(challenge.user.school.eq(userParam.getSchool()))),
                         (challenge.endAt.after(LocalDate.now()))
+                )
+                .fetch();
+    }
+
+    @Override
+    public List<ShowChallengeListForTeacherVo> queryChallengeListForTeacher(User userParam, Boolean isProgress) {
+        return query
+                .select(new QShowChallengeListForTeacherVo(
+                        challenge.id.as("challengeId"),
+                        challenge.name,
+                        challenge.imageUrl,
+                        challenge.startAt,
+                        challenge.endAt,
+                        challenge.goal,
+                        challenge.goalScope,
+                        challenge.goalType,
+                        challenge.award,
+                        user.id.as("writerId"),
+                        user.name.as("writerName"),
+                        user.profileImageUrl.as("profileImageUrl"),
+                        challenge.isNotNull(),
+                        getParticipantCountByChallenge()
+                ))
+                .from(challenge)
+                .join(challenge.user, user)
+                .where(
+                        (challenge.userScope.eq(UserScope.ALL).or(challenge.user.school.eq(userParam.getSchool())))
                 )
                 .fetch();
     }
