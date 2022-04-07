@@ -83,9 +83,9 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
     private BooleanExpression dateFilter(Boolean isProgress) {
         LocalDate now = LocalDate.now();
 
-        if (isProgress) {
+        if (isProgress.equals(true)) {
             return challenge.startAt.before(now).and(challenge.endAt.after(now));
-        } else if(!isProgress) {
+        } else if(isProgress.equals(false)) {
             return challenge.startAt.after(now).or(challenge.endAt.before(now));
         } else {
             return null;
