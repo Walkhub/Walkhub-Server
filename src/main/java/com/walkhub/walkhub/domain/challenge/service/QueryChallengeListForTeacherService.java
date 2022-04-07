@@ -1,7 +1,7 @@
 package com.walkhub.walkhub.domain.challenge.service;
 
 import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeRepository;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeListForTeacherVo;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeVO;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeListForTeacherResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
@@ -22,7 +22,7 @@ public class QueryChallengeListForTeacherService {
 
     public QueryChallengeListForTeacherResponse execute(Boolean isProgress) {
         User user = userFacade.getCurrentUser();
-        List<ShowChallengeListForTeacherVo> challengeList = challengeRepository.queryChallengeListForTeacher(user, isProgress);
+        List<ShowChallengeVO> challengeList = challengeRepository.queryChallengeListForTeacher(user, isProgress);
 
         return new QueryChallengeListForTeacherResponse(challengeList.stream()
                 .map(showChallengeListForTeacherVo ->
@@ -36,7 +36,6 @@ public class QueryChallengeListForTeacherService {
                                 .goalScope(showChallengeListForTeacherVo.getGoalScope())
                                 .goalType(showChallengeListForTeacherVo.getGoalType())
                                 .award(showChallengeListForTeacherVo.getAward())
-                                .isProgress(showChallengeListForTeacherVo.getIsProgress())
                                 .writer(challengeFacade.personBuilder(
                                         showChallengeListForTeacherVo.getWriterId(),
                                         showChallengeListForTeacherVo.getWriterName(),

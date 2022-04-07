@@ -54,9 +54,9 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
     }
 
     @Override
-    public List<ShowChallengeListForTeacherVo> queryChallengeListForTeacher(User userParam, Boolean isProgress) {
+    public List<ShowChallengeVO> queryChallengeListForTeacher(User userParam, Boolean isProgress) {
         return query
-                .select(new QShowChallengeListForTeacherVo(
+                .select(new QShowChallengeVO(
                         challenge.id.as("challengeId"),
                         challenge.name,
                         challenge.imageUrl,
@@ -69,7 +69,6 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
                         user.id.as("writerId"),
                         user.name.as("writerName"),
                         user.profileImageUrl.as("profileImageUrl"),
-                        dateFilter(isProgress),
                         getParticipantCountByChallenge()
                 ))
                 .from(challenge)
@@ -86,10 +85,11 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
 
         if (isProgress) {
             return challenge.startAt.before(now).and(challenge.endAt.after(now));
-        } else {
+        } else if(!isProgress) {
             return challenge.startAt.after(now).or(challenge.endAt.before(now));
+        } else {
+            return null;
         }
-
     }
 
     @Override
