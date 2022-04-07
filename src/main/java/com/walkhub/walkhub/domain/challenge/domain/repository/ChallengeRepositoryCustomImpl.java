@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.domain.challenge.domain.repository;
 
 import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
@@ -53,7 +54,7 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
     }
 
     @Override
-    public List<ShowChallengeListForTeacherVo> queryChallengeListForTeacher(User userParam, LocalDate date) {
+    public List<ShowChallengeListForTeacherVo> queryChallengeListForTeacher(User userParam, Boolean isProgress) {
         return query
                 .select(new QShowChallengeListForTeacherVo(
                         challenge.id.as("challengeId"),
@@ -68,16 +69,28 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
                         user.id.as("writerId"),
                         user.name.as("writerName"),
                         user.profileImageUrl.as("profileImageUrl"),
-                        challenge.isNotNull(),
+                        dateFilter(isProgress),
                         getParticipantCountByChallenge()
                 ))
                 .from(challenge)
                 .join(challenge.user, user)
                 .where(
                         (challenge.userScope.eq(UserScope.ALL).or(challenge.user.school.eq(userParam.getSchool()))),
-                        (challenge.endAt.between(date, date).isTrue())
+                        dateFilter(isProgress)
                 )
                 .fetch();
+    }
+
+    private BooleanExpression dateFilter(Boolean isProgress) {
+        LocalDate now = LocalDate.now();
+
+        if (isProgress) {
+            return challenge.startAt.before(now).and(challenge.endAt.after(now));
+        } else if(!isProgress) {
+            return challenge.startAt.after(now).or(challenge.endAt.before(now));
+        } else {
+            return null;
+        }
     }
 
     @Override
