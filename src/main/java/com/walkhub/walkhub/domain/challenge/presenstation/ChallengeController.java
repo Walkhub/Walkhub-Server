@@ -80,7 +80,7 @@ public class ChallengeController {
     }
 
     @GetMapping("/lists/teachers")
-    public QueryChallengeListForTeacherResponse queryChallengeListForTeacher(@RequestParam LocalDate date) {
-        return queryChallengeListForTeacherService.execute(date);
+    public QueryChallengeListForTeacherResponse queryChallengeListForTeacher(@RequestParam Boolean isProgress) {
+        return queryChallengeListForTeacherService.execute(isProgress);
     }
 }
