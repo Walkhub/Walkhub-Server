@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 
 @RequiredArgsConstructor
 @RequestMapping("/challenges")
@@ -79,7 +80,7 @@ public class ChallengeController {
     }
 
     @GetMapping("/lists/teachers")
-    public QueryChallengeListForTeacherResponse queryChallengeListForTeacher(@RequestParam Boolean isProgress) {
-        return queryChallengeListForTeacherService.execute(isProgress);
+    public QueryChallengeListForTeacherResponse queryChallengeListForTeacher(@RequestParam LocalDate date) {
+        return queryChallengeListForTeacherService.execute(date);
     }
 }

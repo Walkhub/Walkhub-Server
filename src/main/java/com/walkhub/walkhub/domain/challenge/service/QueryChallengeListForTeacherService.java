@@ -8,7 +8,6 @@ import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,9 +21,9 @@ public class QueryChallengeListForTeacherService {
     private final ChallengeFacade challengeFacade;
     private final ChallengeRepository challengeRepository;
 
-    public QueryChallengeListForTeacherResponse execute(Boolean isProgress) {
+    public QueryChallengeListForTeacherResponse execute(LocalDate date) {
         User user = userFacade.getCurrentUser();
-        List<ShowChallengeListForTeacherVo> challengeList = challengeRepository.queryChallengeListForTeacher(user, isProgress);
+        List<ShowChallengeListForTeacherVo> challengeList = challengeRepository.queryChallengeListForTeacher(user, date);
 
         return new QueryChallengeListForTeacherResponse(challengeList.stream()
                 .map(showChallengeListForTeacherVo ->

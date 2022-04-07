@@ -1,7 +1,6 @@
 package com.walkhub.walkhub.domain.challenge.domain.repository;
 
 import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
@@ -17,7 +16,6 @@ import java.util.List;
 
 import static com.walkhub.walkhub.domain.challenge.domain.QChallenge.challenge;
 import static com.walkhub.walkhub.domain.challenge.domain.QChallengeStatus.challengeStatus;
-import static com.walkhub.walkhub.domain.rank.domain.QUserRank.userRank;
 import static com.walkhub.walkhub.domain.user.domain.QSection.section;
 import static com.walkhub.walkhub.domain.user.domain.QUser.user;
 
@@ -55,7 +53,7 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
     }
 
     @Override
-    public List<ShowChallengeListForTeacherVo> queryChallengeListForTeacher(User userParam, Boolean isProgress) {
+    public List<ShowChallengeListForTeacherVo> queryChallengeListForTeacher(User userParam, LocalDate date) {
         return query
                 .select(new QShowChallengeListForTeacherVo(
                         challenge.id.as("challengeId"),
@@ -77,13 +75,9 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
                 .join(challenge.user, user)
                 .where(
                         (challenge.userScope.eq(UserScope.ALL).or(challenge.user.school.eq(userParam.getSchool()))),
-                        userEq(userParam)
-                        )
+                        (challenge.endAt.between(date, date).isTrue())
+                )
                 .fetch();
-    }
-
-    private BooleanExpression userEq(User user) {
-        return user != null ? challengeStatus.user.eq(user).isTrue() : null;
     }
 
     @Override
