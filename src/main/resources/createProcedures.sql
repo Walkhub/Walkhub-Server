@@ -122,7 +122,7 @@ ELSE
 UPDATE user_rank
 SET ranking    = ranking_in,
     walk_count = walk_count_in
-WHERE account_id = user_id_in
+WHERE user_id = user_id_in
   AND created_at = created_at_in
   AND date_type = date_type_in
   AND scope_type = scope_type_in;
