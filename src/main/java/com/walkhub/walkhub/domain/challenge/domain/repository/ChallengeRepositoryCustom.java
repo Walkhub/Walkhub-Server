@@ -7,13 +7,12 @@ import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeLi
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeVO;
 import com.walkhub.walkhub.domain.user.domain.User;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface ChallengeRepositoryCustom {
     List<ShowChallengeVO> queryChallengeListForStudent(User user);
 
-    List<ShowChallengeListForTeacherVo> queryChallengeListForTeacher(User user, LocalDate date);
+    List<ShowChallengeListForTeacherVo> queryChallengeListForTeacher(User user, Boolean isProgress);
 
     ChallengeDetailsForStudentVO queryChallengeDetailsForStudent(Challenge challenge, User user);
 

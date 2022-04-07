@@ -9,7 +9,6 @@ import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,9 +20,9 @@ public class QueryChallengeListForTeacherService {
     private final ChallengeFacade challengeFacade;
     private final ChallengeRepository challengeRepository;
 
-    public QueryChallengeListForTeacherResponse execute(LocalDate date) {
+    public QueryChallengeListForTeacherResponse execute(Boolean isProgress) {
         User user = userFacade.getCurrentUser();
-        List<ShowChallengeListForTeacherVo> challengeList = challengeRepository.queryChallengeListForTeacher(user, date);
+        List<ShowChallengeListForTeacherVo> challengeList = challengeRepository.queryChallengeListForTeacher(user, isProgress);
 
         return new QueryChallengeListForTeacherResponse(challengeList.stream()
                 .map(showChallengeListForTeacherVo ->
@@ -39,7 +38,8 @@ public class QueryChallengeListForTeacherService {
                                 .award(showChallengeListForTeacherVo.getAward())
                                 .isProgress(showChallengeListForTeacherVo.getIsProgress())
                                 .writer(challengeFacade.personBuilder(
-                                        showChallengeListForTeacherVo.getWriterId(), showChallengeListForTeacherVo.getWriterName(),
+                                        showChallengeListForTeacherVo.getWriterId(),
+                                        showChallengeListForTeacherVo.getWriterName(),
                                         showChallengeListForTeacherVo.getWriterProfileImageUrl()
                                 ))
                                 .participantCount(showChallengeListForTeacherVo.getParticipantCount())
