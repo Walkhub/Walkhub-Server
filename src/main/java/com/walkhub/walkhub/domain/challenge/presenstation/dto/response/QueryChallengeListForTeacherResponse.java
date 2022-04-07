@@ -31,6 +31,5 @@ public class QueryChallengeListForTeacherResponse {
         private final GoalType goalType;
         private final PersonResponse writer;
         private final Long participantCount;
-        private final Boolean isProgress;
     }
 }
