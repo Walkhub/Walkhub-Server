@@ -19,7 +19,7 @@ public class SchoolDetailsInfoService {
     public SchoolDetailsInfoResponse execute(Long schoolId) {
         LocalDate now = LocalDate.now();
         LocalDate createAt = now.minusWeeks(1);
-        LocalDate startDateOfLastWeek = now.minusDays(now.getDayOfWeek().getValue() - 1);
+        LocalDate startDateOfLastWeek = now.minusDays(now.getDayOfWeek().getValue() - 1L);
 
         SchoolRank weekSchoolRank = buildWeekSchoolRank(schoolId, startDateOfLastWeek);
         SchoolRank monthSchoolRank = buildMonthSchoolRank(schoolId, createAt, now);
