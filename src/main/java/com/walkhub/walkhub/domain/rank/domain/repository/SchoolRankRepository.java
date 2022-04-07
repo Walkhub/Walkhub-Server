@@ -13,5 +13,5 @@ public interface SchoolRankRepository extends CrudRepository<SchoolRank, SchoolR
             Long schoolId, String dateType, LocalDate startAt, LocalDate endAt
     );
 
-    Optional<SchoolRank> findByDateTypeAndCreatedAt(String dateType, LocalDate createAt);
+    Optional<SchoolRank> findBySchoolIdAndDateTypeAndCreatedAt(Long schoolId, String dateType, LocalDate createAt);
 }
