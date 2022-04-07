@@ -20,7 +20,7 @@ public class CheckAuthCodeExistsService {
         UserAuthCode authCode = userAuthCodeRepository.findById(request.getPhoneNumber())
                 .orElseThrow(() -> UserAuthCodeNotFoundException.EXCEPTION);
 
-        if (!passwordEncoder.matches(authCode.getCode(), request.getAuthCode())) {
+        if (!passwordEncoder.matches(request.getAuthCode(), authCode.getCode())) {
             throw InvalidCodeException.EXCEPTION;
         }
     }

@@ -22,11 +22,10 @@ public class UpdatePasswordService {
 
     @Transactional
     public void execute(UpdatePasswordRequest request) {
-
         UserAuthCode code = userAuthCodeRepository.findById(request.getPhoneNumber())
                 .orElseThrow(() -> UserAuthCodeNotFoundException.EXCEPTION);
 
-        if (!code.getCode().equals(request.getAuthCode())) {
+        if (!passwordEncoder.matches(request.getAuthCode(), code.getCode())) {
             throw UnauthorizedUserAuthCodeException.EXCEPTION;
         }
 
