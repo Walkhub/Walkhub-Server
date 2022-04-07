@@ -86,11 +86,10 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
 
         if (isProgress) {
             return challenge.startAt.before(now).and(challenge.endAt.after(now));
-        } else if(!isProgress) {
-            return challenge.startAt.after(now).or(challenge.endAt.before(now));
         } else {
-            return null;
+            return challenge.startAt.after(now).or(challenge.endAt.before(now));
         }
+
     }
 
     @Override
