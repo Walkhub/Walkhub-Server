@@ -21,21 +21,30 @@ public class SchoolDetailsInfoService {
         LocalDate createAt = now.minusWeeks(1);
         LocalDate startDateOfLastWeek = now.minusDays(now.getDayOfWeek().getValue() - 1);
 
-        SchoolRank weekSchoolRank = schoolRankRepository
-                .findByDateTypeAndCreatedAt(DateType.WEEK.toString(), startDateOfLastWeek)
-                .orElseGet(() -> schoolRankRepository.findByDateTypeAndCreatedAt(
-                            DateType.WEEK.toString(), startDateOfLastWeek.minusWeeks(1))
-                .orElseGet(() -> SchoolRank.builder().build()));
-
-        SchoolRank monthSchoolRank = schoolRankRepository
-                .findBySchoolIdAndDateTypeAndCreatedAtBetween(
-                        schoolId, DateType.MONTH.toString(), createAt, now)
-                .orElseGet(() -> SchoolRank.builder().build());
+        SchoolRank weekSchoolRank = buildWeekSchoolRank(schoolId, startDateOfLastWeek);
+        SchoolRank monthSchoolRank = buildMonthSchoolRank(schoolId, createAt, now);
 
         return SchoolDetailsInfoResponse.builder()
                 .week(buildDateSchoolRank(weekSchoolRank))
                 .month(buildDateSchoolRank(monthSchoolRank))
                 .build();
+    }
+
+    private SchoolRank buildWeekSchoolRank(Long schoolId, LocalDate now) {
+        return schoolRankRepository
+                .findBySchoolIdAndDateTypeAndCreatedAt(schoolId, DateType.WEEK.toString(), now)
+                .orElseGet(() -> schoolRankRepository.findBySchoolIdAndDateTypeAndCreatedAt(
+                        schoolId, DateType.WEEK.toString(), now.minusWeeks(1))
+                .orElseGet(() -> SchoolRank.builder().build()));
+    }
+
+    private SchoolRank buildMonthSchoolRank(Long schoolId, LocalDate createAt, LocalDate now) {
+        return schoolRankRepository
+                .findBySchoolIdAndDateTypeAndCreatedAtBetween(
+                        schoolId, DateType.MONTH.toString(), createAt, now)
+                .orElseGet(() -> schoolRankRepository.findBySchoolIdAndDateTypeAndCreatedAtBetween(
+                        schoolId, DateType.MONTH.toString(), createAt.minusWeeks(1), now)
+                .orElseGet(() -> SchoolRank.builder().build()));
     }
 
     private DateRankResponse buildDateSchoolRank(SchoolRank schoolRank) {
