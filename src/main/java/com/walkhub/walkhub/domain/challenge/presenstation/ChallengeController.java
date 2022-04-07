@@ -25,7 +25,7 @@ public class ChallengeController {
     private final QueryParticipatedChallengeListService queryParticipatedChallengeListService;
     private final QueryChallengeDetailsForTeacherService queryChallengeDetailsForTeacherService;
     private final QueryChallengeParticipantListService queryChallengeParticipantListService;
-    private final QueryChallengeLisForTeacherService queryChallengeLisForTeacherService;
+    private final QueryChallengeListForTeacherService queryChallengeListForTeacherService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
@@ -80,6 +80,6 @@ public class ChallengeController {
 
     @GetMapping("/lists/teachers")
     public QueryChallengeListForTeacherResponse queryChallengeListForTeacher(@RequestParam Boolean isProgress) {
-        return queryChallengeLisForTeacherService.execute(isProgress);
+        return queryChallengeListForTeacherService.execute(isProgress);
     }
 }
