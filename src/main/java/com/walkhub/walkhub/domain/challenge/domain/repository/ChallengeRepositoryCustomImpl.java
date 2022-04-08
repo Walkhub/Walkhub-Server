@@ -54,9 +54,9 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
     }
 
     @Override
-    public List<ShowChallengeVO> queryChallengeListForTeacher(User userParam, Boolean isProgress) {
+    public List<ShowChallengeListForTeacherVo> queryChallengeListForTeacher(User userParam, Boolean isProgress) {
         return query
-                .select(new QShowChallengeVO(
+                .select(new QShowChallengeListForTeacherVo(
                         challenge.id.as("challengeId"),
                         challenge.name,
                         challenge.imageUrl,
@@ -65,7 +65,6 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
                         challenge.goal,
                         challenge.goalScope,
                         challenge.goalType,
-                        challenge.award,
                         user.id.as("writerId"),
                         user.name.as("writerName"),
                         user.profileImageUrl.as("profileImageUrl"),
