@@ -57,7 +57,7 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
     public List<ShowChallengeListForTeacherVo> queryChallengeListForTeacher(User userParam, Boolean isProgress) {
         return query
                 .select(new QShowChallengeListForTeacherVo(
-                        challenge.id.as("challengeId"),
+                        challenge.id,
                         challenge.name,
                         challenge.imageUrl,
                         challenge.startAt,
@@ -65,9 +65,9 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
                         challenge.goal,
                         challenge.goalScope,
                         challenge.goalType,
-                        user.id.as("writerId"),
-                        user.name.as("writerName"),
-                        user.profileImageUrl.as("profileImageUrl"),
+                        user.id,
+                        user.name,
+                        user.profileImageUrl,
                         getParticipantCountByChallenge()
                 ))
                 .from(challenge)
