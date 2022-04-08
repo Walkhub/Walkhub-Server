@@ -2,9 +2,8 @@ package com.walkhub.walkhub.domain.school.service;
 
 import com.walkhub.walkhub.domain.rank.domain.SchoolRank;
 import com.walkhub.walkhub.domain.rank.domain.repository.SchoolRankRepository;
-import com.walkhub.walkhub.domain.school.domain.School;
-import com.walkhub.walkhub.domain.school.facade.SchoolFacade;
 import com.walkhub.walkhub.domain.school.presentation.dto.response.SchoolDetailsInfoResponse;
+import com.walkhub.walkhub.domain.school.presentation.dto.response.SchoolDetailsInfoResponse.DateRankResponse;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import com.walkhub.walkhub.global.enums.DateType;
 import lombok.RequiredArgsConstructor;
@@ -16,34 +15,34 @@ import java.time.LocalDate;
 public class SchoolDetailsInfoService {
 
     private final SchoolRankRepository schoolRankRepository;
-    private final SchoolFacade schoolFacade;
 
     public SchoolDetailsInfoResponse execute(Long schoolId) {
-        School school = schoolFacade.getSchoolById(schoolId);
         LocalDate now = LocalDate.now();
-        LocalDate createAt = now.minusWeeks(1);
+        LocalDate createdAt = now.minusDays(now.getDayOfWeek().getValue() - 1L);
 
-        SchoolRank weekSchoolRank = schoolRankRepository
-                .findBySchoolIdAndDateTypeAndCreatedAtBetween(schoolId, DateType.WEEK.toString(), createAt, now)
-                .orElse(SchoolRank.builder().build());
+        SchoolRank weekSchoolRank = buildWeekOrMonthSchoolRank(schoolId, DateType.WEEK.toString(), createdAt);
+        SchoolRank monthSchoolRank = buildWeekOrMonthSchoolRank(schoolId, DateType.MONTH.toString(), createdAt);
 
-        SchoolRank monthSchoolRank = schoolRankRepository
-                .findBySchoolIdAndDateTypeAndCreatedAtBetween(schoolId, DateType.MONTH.toString(),
-                        createAt, now)
-                .orElse(SchoolRank.builder().build());
-
-        return schoolDetailsInfoResponseBuilder(school, weekSchoolRank, monthSchoolRank);
+        return SchoolDetailsInfoResponse.builder()
+                .week(buildDateSchoolRank(weekSchoolRank))
+                .month(buildDateSchoolRank(monthSchoolRank))
+                .build();
     }
 
-    private SchoolDetailsInfoResponse schoolDetailsInfoResponseBuilder(School school,
-                                                                       SchoolRank weekSchoolRanks,
-                                                                       SchoolRank monthSchoolRanks) {
-        return SchoolDetailsInfoResponse.builder()
-                .userCount(school.getUserCount())
-                .weekTotalWalkCount(weekSchoolRanks.getWalkCount())
-                .monthTotalWalkCount(monthSchoolRanks.getWalkCount())
-                .weekRanking(weekSchoolRanks.getRanking())
-                .monthRanking(monthSchoolRanks.getRanking())
+    private SchoolRank buildWeekOrMonthSchoolRank(Long schoolId, String dateType, LocalDate createdAt) {
+        return schoolRankRepository
+                .findBySchoolIdAndDateTypeAndCreatedAt(schoolId, dateType, createdAt)
+                .orElseGet(() -> schoolRankRepository.findBySchoolIdAndDateTypeAndCreatedAt(
+                        schoolId, dateType, createdAt.minusWeeks(1))
+                .orElseGet(() -> SchoolRank.builder().build()));
+    }
+
+    private DateRankResponse buildDateSchoolRank(SchoolRank schoolRank) {
+        return DateRankResponse.builder()
+                .userCount(schoolRank.getUserCount())
+                .date(schoolRank.getCreatedAt())
+                .totalWalkCount(schoolRank.getWalkCount())
+                .ranking(schoolRank.getRanking())
                 .build();
     }
 

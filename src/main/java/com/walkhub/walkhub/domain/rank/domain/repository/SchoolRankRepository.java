@@ -5,7 +5,6 @@ import com.walkhub.walkhub.domain.rank.domain.SchoolRankId;
 import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 public interface SchoolRankRepository extends CrudRepository<SchoolRank, SchoolRankId>, SchoolRankRepositoryCustom {
@@ -13,7 +12,5 @@ public interface SchoolRankRepository extends CrudRepository<SchoolRank, SchoolR
             Long schoolId, String dateType, LocalDate startAt, LocalDate endAt
     );
 
-    List<SchoolRank> findAllByDateTypeAndNameContainingAndCreatedAtBetweenOrderByRankingAsc(
-            String dateType, String name, LocalDate startAt, LocalDate endAt
-    );
+    Optional<SchoolRank> findBySchoolIdAndDateTypeAndCreatedAt(Long schoolId, String dateType, LocalDate createAt);
 }
