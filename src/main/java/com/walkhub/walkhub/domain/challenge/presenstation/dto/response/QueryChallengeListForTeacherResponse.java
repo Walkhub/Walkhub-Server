@@ -24,7 +24,6 @@ public class QueryChallengeListForTeacherResponse {
         private final String imageUrl;
         private final LocalDate startAt;
         private final LocalDate endAt;
-        private final String award;
         private final Integer goal;
         private final UserScope userScope;
         private final GoalScope goalScope;
