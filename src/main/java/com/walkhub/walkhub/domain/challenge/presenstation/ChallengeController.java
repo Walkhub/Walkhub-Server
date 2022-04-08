@@ -79,7 +79,7 @@ public class ChallengeController {
     }
 
     @GetMapping("/lists/teachers")
-    public QueryChallengeListForTeacherResponse queryChallengeListForTeacher(@RequestParam Boolean isProgress) {
+    public QueryChallengeListForTeacherResponse queryChallengeListForTeacher(@RequestParam(required = false) Boolean isProgress) {
         return queryChallengeListForTeacherService.execute(isProgress);
     }
 }
