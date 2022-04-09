@@ -1,16 +1,12 @@
 package com.walkhub.walkhub.domain.challenge.domain.repository;
 
 import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeDetailsForStudentVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QChallengeDetailsForStudentVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QRelatedChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QShowChallengeVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.*;
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.UserScope;
@@ -55,6 +51,44 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
                         (challenge.endAt.after(LocalDate.now()))
                 )
                 .fetch();
+    }
+
+    @Override
+    public List<ShowChallengeListForTeacherVo> queryChallengeListForTeacher(User userParam, Boolean isProgress) {
+        return query
+                .select(new QShowChallengeListForTeacherVo(
+                        challenge.id,
+                        challenge.name,
+                        challenge.imageUrl,
+                        challenge.startAt,
+                        challenge.endAt,
+                        challenge.goal,
+                        challenge.goalScope,
+                        challenge.goalType,
+                        user.id,
+                        user.name,
+                        user.profileImageUrl,
+                        getParticipantCountByChallenge()
+                ))
+                .from(challenge)
+                .join(challenge.user, user)
+                .where(
+                        (challenge.userScope.eq(UserScope.ALL).or(challenge.user.school.eq(userParam.getSchool()))),
+                        dateFilter(isProgress)
+                )
+                .fetch();
+    }
+
+    private BooleanExpression dateFilter(Boolean isProgress) {
+        LocalDate now = LocalDate.now();
+
+        if (isProgress.equals(true)) {
+            return challenge.startAt.before(now).and(challenge.endAt.after(now));
+        } else if(isProgress.equals(false)) {
+            return challenge.startAt.after(now).or(challenge.endAt.before(now));
+        } else {
+            return null;
+        }
     }
 
     @Override
