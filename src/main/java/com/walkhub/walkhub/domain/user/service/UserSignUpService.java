@@ -21,7 +21,6 @@ import com.walkhub.walkhub.domain.user.exception.DefaultTitleBadgeNotFound;
 import com.walkhub.walkhub.domain.user.exception.SchoolNotFoundException;
 import com.walkhub.walkhub.domain.user.exception.UnauthorizedUserAuthCodeException;
 import com.walkhub.walkhub.domain.user.exception.UserAuthCodeNotFoundException;
-import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import com.walkhub.walkhub.global.enums.Authority;
@@ -38,7 +37,6 @@ import java.time.ZonedDateTime;
 public class UserSignUpService {
 
     private final UserAuthCodeRepository userAuthCodeRepository;
-    private final UserFacade userFacade;
     private final SchoolRepository schoolRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
