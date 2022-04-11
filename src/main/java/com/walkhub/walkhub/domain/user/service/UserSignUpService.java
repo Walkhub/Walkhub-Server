@@ -60,8 +60,6 @@ public class UserSignUpService {
         if (!passwordEncoder.matches(request.getAuthCode(), code.getCode()))
             throw UnauthorizedUserAuthCodeException.EXCEPTION;
 
-        userFacade.checkUserExists(request.getAccountId());
-
         Badge defaultTitleBadge = badgeRepository.findByCode(BadgeType.NEWBIE)
                 .orElseThrow(() -> DefaultTitleBadgeNotFound.EXCEPTION);
 
