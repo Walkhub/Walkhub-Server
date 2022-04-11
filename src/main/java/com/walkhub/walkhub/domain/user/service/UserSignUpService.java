@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.user.service;
 
-import com.walkhub.walkhub.domain.auth.exception.PhoneNumberExistsException;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.walkhub.walkhub.domain.badge.domain.Badge;
 import com.walkhub.walkhub.domain.badge.domain.BadgeCollection;
@@ -21,6 +20,7 @@ import com.walkhub.walkhub.domain.user.exception.DefaultTitleBadgeNotFound;
 import com.walkhub.walkhub.domain.user.exception.SchoolNotFoundException;
 import com.walkhub.walkhub.domain.user.exception.UnauthorizedUserAuthCodeException;
 import com.walkhub.walkhub.domain.user.exception.UserAuthCodeNotFoundException;
+import com.walkhub.walkhub.domain.user.exception.UserExistsException;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import com.walkhub.walkhub.global.enums.Authority;
@@ -49,7 +49,7 @@ public class UserSignUpService {
     @Transactional
     public UserTokenResponse execute(UserSignUpRequest request) {
         if (userRepository.findByPhoneNumber(request.getPhoneNumber()).isPresent()) {
-            throw PhoneNumberExistsException.EXCEPTION;
+            throw UserExistsException.EXCEPTION;
         }
 
         UserAuthCode code = userAuthCodeRepository.findById(request.getPhoneNumber())
