@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 
 @RequiredArgsConstructor
 @RequestMapping("/exercises")
@@ -96,8 +97,9 @@ public class ExerciseController {
         return queryExercisingUserListService.execute();
     }
 
-    @GetMapping("/{user-id}")
-    public QueryExerciseHistoryResponse queryExerciseHistory(@PathVariable("user-id") Long userId, QueryExerciseHistoryRequest request) {
+    @GetMapping("/history/{user-id}")
+    public QueryExerciseHistoryResponse queryExerciseHistory(@PathVariable("user-id") Long userId,
+                                                             @Valid QueryExerciseHistoryRequest request) {
         return queryExerciseHistoryService.execute(userId, request);
     }
 
