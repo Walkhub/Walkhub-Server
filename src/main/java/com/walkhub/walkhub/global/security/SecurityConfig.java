@@ -73,11 +73,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // exercises
                 .antMatchers(HttpMethod.GET, "/exercises/lists").authenticated()
-                .antMatchers(HttpMethod.GET, "/exercises/lists").hasAnyAuthority("TEACHER", "ROOT")
+                .antMatchers(HttpMethod.GET, "/exercises/history/{user-id}").hasAnyAuthority("TEACHER", "ROOT")
                 .antMatchers(HttpMethod.GET, "/exercises/analysis").authenticated()
                 .antMatchers(HttpMethod.GET, "/exercises/{exercise-id}").authenticated()
                 .antMatchers(HttpMethod.GET, "/exercises/users/lists").permitAll()
-                .antMatchers(HttpMethod.POST, "/exercises/").authenticated()
+                .antMatchers(HttpMethod.POST, "/exercises").authenticated()
                 .antMatchers(HttpMethod.POST, "/exercises/locations/{exercise-id}").authenticated()
                 .antMatchers(HttpMethod.PUT, "/exercises").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/exercises/{exercise-id}").authenticated()
