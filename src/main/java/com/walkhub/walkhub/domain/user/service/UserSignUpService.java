@@ -20,6 +20,7 @@ import com.walkhub.walkhub.domain.user.exception.DefaultTitleBadgeNotFound;
 import com.walkhub.walkhub.domain.user.exception.SchoolNotFoundException;
 import com.walkhub.walkhub.domain.user.exception.UnauthorizedUserAuthCodeException;
 import com.walkhub.walkhub.domain.user.exception.UserAuthCodeNotFoundException;
+import com.walkhub.walkhub.domain.user.exception.UserExistsException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
@@ -36,8 +37,8 @@ import java.time.ZonedDateTime;
 @ServiceWithTransactionalReadOnly
 public class UserSignUpService {
 
-    private final UserAuthCodeRepository userAuthCodeRepository;
     private final UserFacade userFacade;
+    private final UserAuthCodeRepository userAuthCodeRepository;
     private final SchoolRepository schoolRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -49,6 +50,10 @@ public class UserSignUpService {
 
     @Transactional
     public UserTokenResponse execute(UserSignUpRequest request) {
+        if (userRepository.findByPhoneNumber(request.getPhoneNumber()).isPresent()) {
+            throw UserExistsException.EXCEPTION;
+        }
+
         UserAuthCode code = userAuthCodeRepository.findById(request.getPhoneNumber())
                 .orElseThrow(() -> UserAuthCodeNotFoundException.EXCEPTION);
 

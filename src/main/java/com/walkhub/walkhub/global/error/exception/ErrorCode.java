@@ -24,6 +24,8 @@ public enum ErrorCode {
     INVALID_CODE(401, "USER-401-2", "Invalid Code"),
 
     FORBIDDEN(403, "COMMON-403-1", "Forbidden"),
+    CHALLENGE_NOT_EXPIRATION(403, "CHALLENGE-403-1", "Challenge Not Expiration"),
+    CHALLENGE_NOT_SUCCESS(403, "CHALLENGE-403-2", "Challenge Not Success"),
 
     USER_NOT_FOUND(404, "USER-404-1", "User Not Found"),
     USER_AUTH_CODE_NOT_FOUND(404, "USER-404-2", "User AuthCode Not Found"),
@@ -36,21 +38,16 @@ public enum ErrorCode {
     CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge Not Found"),
     BADGE_TYPE_NOT_FOUND(404, "BADGE-404-1", "Badge Type Not Found"),
     ROOT_USER_NOT_FOUND(404, "USER-404-6", "Root User Not Found."),
-
     EXERCISE_NOT_FOUND(404, "EXERCISE-404-1", "Exercise Not Found"),
     EXERCISE_ANALYSIS_NOT_FOUND(404, "EXERCISE-404-2", "Exercise Analysis Not Found"),
     NOTICE_NOT_FOUND(404, "NOTICE-404-1", "Notice Not Found"),
     SOCKET_CLIENT_NOT_FOUND(404, "SOCKET-404-1", "Socket Client Not Found"),
+    BADGE_NOT_FOUND(404, "BADGE-404-1", "Badge Not Found"),
+    NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification Not Found."),
+    CALORIE_LEVEL_NOT_FOUND(404, "CALORIE_LEVEL-404-1", "Calorie Level Not Found"),
 
     USER_EXISTS(409, "USER-409-1", "User Exists"),
     SCHOOL_ROOT_EXISTS(409, "SCHOOL-409-1", "School Root Exists"),
-
-    BADGE_NOT_FOUND(404, "BADGE-404-1", "Badge Not Found"),
-
-    NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification Not Found."),
-
-    CALORIE_LEVEL_NOT_FOUND(404, "CALORIE_LEVEL-404-1", "Calorie Level Not Found"),
-
     ALREADY_CREATED(409, "SECTION-409-1", "Already Created"),
     ALREADY_JOINED(409, "USER-409-2", "Already Joined"),
     ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated"),
@@ -59,10 +56,7 @@ public enum ErrorCode {
     REDIS_TRANSACTION_EXCEPTION(500, "REDIS-500-1", "Cannot Read Cache From Redis"),
     INTERNAL_SERVER_ERROR(500, "SERVER-500-1", "Internal Server Error"),
 
-    DEFAULT_TITLE_BADGE_NOT_FOUND(503, "SERVER-503-1", "Contact The Server Developer"),
-
-    CHALLENGE_NOT_EXPIRATION(403, "CHALLENGE-403-1", "Challenge Not Expiration"),
-    CHALLENGE_NOT_SUCCESS(403, "CHALLENGE-403-2", "Challenge Not Success");
+    DEFAULT_TITLE_BADGE_NOT_FOUND(503, "SERVER-503-1", "Contact The Server Developer");
 
     private final int status;
     private final String code;
