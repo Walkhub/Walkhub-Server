@@ -21,6 +21,7 @@ import com.walkhub.walkhub.domain.user.exception.SchoolNotFoundException;
 import com.walkhub.walkhub.domain.user.exception.UnauthorizedUserAuthCodeException;
 import com.walkhub.walkhub.domain.user.exception.UserAuthCodeNotFoundException;
 import com.walkhub.walkhub.domain.user.exception.UserExistsException;
+import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import com.walkhub.walkhub.global.enums.Authority;
@@ -36,6 +37,7 @@ import java.time.ZonedDateTime;
 @ServiceWithTransactionalReadOnly
 public class UserSignUpService {
 
+    private final UserFacade userFacade;
     private final UserAuthCodeRepository userAuthCodeRepository;
     private final SchoolRepository schoolRepository;
     private final UserRepository userRepository;
@@ -57,6 +59,8 @@ public class UserSignUpService {
 
         if (!passwordEncoder.matches(request.getAuthCode(), code.getCode()))
             throw UnauthorizedUserAuthCodeException.EXCEPTION;
+
+        userFacade.checkUserExists(request.getAccountId());
 
         Badge defaultTitleBadge = badgeRepository.findByCode(BadgeType.NEWBIE)
                 .orElseThrow(() -> DefaultTitleBadgeNotFound.EXCEPTION);
