@@ -20,8 +20,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -66,6 +68,9 @@ public class Exercise extends BaseTimeEntity {
 
     @Column(nullable = false, columnDefinition = "integer default 0")
     private Integer pausedTime;
+
+    @OneToMany(mappedBy = "exercise")
+    private List<Location> locations;
 
     @Builder
     public Exercise(User user, Integer goal, GoalType goalType) {
