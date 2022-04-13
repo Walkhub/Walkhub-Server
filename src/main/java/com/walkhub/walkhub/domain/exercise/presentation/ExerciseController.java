@@ -96,8 +96,9 @@ public class ExerciseController {
         return queryExercisingUserListService.execute();
     }
 
-    @GetMapping("/{user-id}")
-    public QueryExerciseHistoryResponse queryExerciseHistory(@PathVariable("user-id") Long userId, QueryExerciseHistoryRequest request) {
+    @GetMapping("/history/{user-id}")
+    public QueryExerciseHistoryResponse queryExerciseHistory(@PathVariable("user-id") Long userId,
+                                                             @Valid QueryExerciseHistoryRequest request) {
         return queryExerciseHistoryService.execute(userId, request);
     }
 

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import static com.querydsl.jpa.JPAExpressions.select;
 import static com.walkhub.walkhub.domain.exercise.domain.QExercise.exercise;
 import static com.walkhub.walkhub.domain.exercise.domain.QLocation.location;
 
@@ -23,7 +24,6 @@ public class ExerciseRepositoryCustomImpl implements ExerciseRepositoryCustom {
 
     @Override
     public List<ExerciseVO> queryExerciseHistoryList(Long userId, ZonedDateTime startAt, ZonedDateTime endAt, Integer page) {
-
         return queryFactory
                 .select(
                         new QExerciseVO(
@@ -42,8 +42,14 @@ public class ExerciseRepositoryCustomImpl implements ExerciseRepositoryCustom {
                         )
                 )
                 .from(exercise)
-                .join(location.exercise, exercise)
-                .on(location.sequence.eq(location.sequence.max()))
+                .leftJoin(exercise.locations, location)
+                .on(
+                        Expressions.asNumber(
+                                select(location.sequence.max())
+                                        .from(location)
+                                        .where(location.exercise.eq(exercise))
+                        ).eq(location.sequence)
+                )
                 .offset(page == null ? 0 : page * PARTICIPANTS_SIZE)
                 .limit(PARTICIPANTS_SIZE)
                 .where(
