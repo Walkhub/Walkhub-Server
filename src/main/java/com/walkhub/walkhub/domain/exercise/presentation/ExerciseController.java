@@ -34,7 +34,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 
 @RequiredArgsConstructor
 @RequestMapping("/exercises")
