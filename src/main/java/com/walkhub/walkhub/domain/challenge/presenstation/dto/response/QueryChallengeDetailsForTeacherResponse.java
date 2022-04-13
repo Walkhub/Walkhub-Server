@@ -26,6 +26,7 @@ public class QueryChallengeDetailsForTeacherResponse {
     private final Integer classNum;
     private final Integer grade;
     private final Integer successStandard;
+    private final Boolean isMine;
 
     @Getter
     @Builder

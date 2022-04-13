@@ -6,6 +6,7 @@ import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChal
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForTeacherResponse.Writer;
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 
@@ -13,9 +14,12 @@ import lombok.RequiredArgsConstructor;
 @ServiceWithTransactionalReadOnly
 public class QueryChallengeDetailsForTeacherService {
 
+    private final UserFacade userFacade;
     private final ChallengeFacade challengeFacade;
 
     public QueryChallengeDetailsForTeacherResponse execute(Long challengeId) {
+        User user = userFacade.getCurrentUser();
+
         Challenge challenge = challengeFacade.getChallengeById(challengeId);
         User challengeCreator = challenge.getUser();
         Section section = challengeCreator.hasSection() ? challengeCreator.getSection() : Section.builder().build();
@@ -38,6 +42,7 @@ public class QueryChallengeDetailsForTeacherService {
                 .classNum(section.getClassNum())
                 .grade(section.getGrade())
                 .successStandard(challenge.getSuccessStandard())
+                .isMine(challenge.getUser() == user)
                 .build();
     }
 }
