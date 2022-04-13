@@ -1,9 +1,7 @@
 package com.walkhub.walkhub.domain.rank.job;
 
 import com.walkhub.walkhub.domain.rank.domain.repository.vo.UserRankWriterVO;
-import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankInfo;
-import com.walkhub.walkhub.global.enums.DateType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -26,19 +24,7 @@ import javax.sql.DataSource;
 import java.sql.Types;
 import java.time.LocalDate;
 
-import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.CALL_SAVE_PROCEDURE;
-import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.CHUNK_SIZE;
-import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.MONTH_USER_CLASS_RANK_READER;
-import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.MONTH_USER_CLASS_RANK_STEP;
-import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.MONTH_USER_SCHOOL_RANK_READER;
-import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.MONTH_USER_SCHOOL_RANK_STEP;
-import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.SELECT_BY_CLASS_PROCEDURE;
-import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.SELECT_BY_SCHOOL_PROCEDURE;
-import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.USER_RANK_JOB;
-import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.WEEK_USER_CLASS_RANK_READER;
-import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.WEEK_USER_CLASS_RANK_STEP;
-import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.WEEK_USER_SCHOOL_RANK_READER;
-import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.WEEK_USER_SCHOOL_RANK_STEP;
+import static com.walkhub.walkhub.domain.rank.job.constant.RankJobConstant.*;
 
 @Configuration
 @RequiredArgsConstructor
@@ -105,36 +91,35 @@ public class UserRankJob {
     @Bean
     @StepScope
     public StoredProcedureItemReader<UserRankInfo> weekUserSchoolRankReader(@Value("#{jobParameters[stepKey]}") Integer type) {
-        return callProcedure(WEEK_USER_SCHOOL_RANK_READER, SELECT_BY_SCHOOL_PROCEDURE, 7);
+        return callProcedure(WEEK_USER_SCHOOL_RANK_READER, SELECT_USER_RANK_BY_SCHOOL_PROCEDURE, 7);
     }
 
     @Bean
     @StepScope
     public StoredProcedureItemReader<UserRankInfo> monthUserSchoolRankReader(@Value("#{jobParameters[stepKey]}") Integer type) {
-        return callProcedure(MONTH_USER_SCHOOL_RANK_READER, SELECT_BY_SCHOOL_PROCEDURE, 28);
+        return callProcedure(MONTH_USER_SCHOOL_RANK_READER, SELECT_USER_RANK_BY_SCHOOL_PROCEDURE, 28);
     }
 
     @Bean
     @StepScope
     public StoredProcedureItemReader<UserRankInfo> weekUserClassRankReader(@Value("#{jobParameters[stepKey]}") Integer type) {
-        return callProcedure(WEEK_USER_CLASS_RANK_READER, SELECT_BY_CLASS_PROCEDURE, 7);
+        return callProcedure(WEEK_USER_CLASS_RANK_READER, SELECT_USER_RANK_BY_CLASS_PROCEDURE, 7);
     }
 
     @Bean
     @StepScope
     public StoredProcedureItemReader<UserRankInfo> monthUserClassRankReader(@Value("#{jobParameters[stepKey]}") Integer type) {
-        return callProcedure(MONTH_USER_CLASS_RANK_READER, SELECT_BY_CLASS_PROCEDURE, 28);
+        return callProcedure(MONTH_USER_CLASS_RANK_READER, SELECT_USER_RANK_BY_CLASS_PROCEDURE, 28);
     }
 
     @Bean
     @StepScope
-    public ItemProcessor<UserRankInfo, UserRankWriterVO> weekUserSchoolRankProcessor(@Value("#{jobParameters[jobKey" +
-            "]}") String jobKey) {
+    public ItemProcessor<UserRankInfo, UserRankWriterVO> weekUserSchoolRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
         return rankInfo -> UserRankWriterVO.builder()
                 .userId(rankInfo.getUserId())
                 .createdAt(LocalDate.now())
-                .dateType(DateType.WEEK.name())
-                .scopeType(UserRankScope.SCHOOL.name())
+                .dateType(DATE_WEEK)
+                .scopeType(USER_SCOPE_SCHOOL)
                 .schoolId(rankInfo.getSchoolId())
                 .name(rankInfo.getName())
                 .grade(rankInfo.getGrade())
@@ -147,13 +132,12 @@ public class UserRankJob {
 
     @Bean
     @StepScope
-    public ItemProcessor<UserRankInfo, UserRankWriterVO> monthUserSchoolRankProcessor(@Value("#{jobParameters[jobKey" +
-            "]}") String jobKey) {
+    public ItemProcessor<UserRankInfo, UserRankWriterVO> monthUserSchoolRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
         return rankInfo -> UserRankWriterVO.builder()
                 .userId(rankInfo.getUserId())
                 .createdAt(LocalDate.now())
-                .dateType(DateType.MONTH.name())
-                .scopeType(UserRankScope.SCHOOL.name())
+                .dateType(DATE_MONTH)
+                .scopeType(USER_SCOPE_SCHOOL)
                 .schoolId(rankInfo.getSchoolId())
                 .name(rankInfo.getName())
                 .grade(rankInfo.getGrade())
@@ -170,8 +154,8 @@ public class UserRankJob {
         return rankInfo -> UserRankWriterVO.builder()
                 .userId(rankInfo.getUserId())
                 .createdAt(LocalDate.now())
-                .dateType(DateType.WEEK.name())
-                .scopeType(UserRankScope.CLASS.name())
+                .dateType(DATE_WEEK)
+                .scopeType(USER_SCOPE_CLASS)
                 .schoolId(rankInfo.getSchoolId())
                 .name(rankInfo.getName())
                 .grade(rankInfo.getGrade())
@@ -184,13 +168,12 @@ public class UserRankJob {
 
     @Bean
     @StepScope
-    public ItemProcessor<UserRankInfo, UserRankWriterVO> monthUserClassRankProcessor(@Value("#{jobParameters[jobKey" +
-            "]}") String jobKey) {
+    public ItemProcessor<UserRankInfo, UserRankWriterVO> monthUserClassRankProcessor(@Value("#{jobParameters[jobKey]}") String jobKey) {
         return rankInfo -> UserRankWriterVO.builder()
                 .userId(rankInfo.getUserId())
                 .createdAt(LocalDate.now())
-                .dateType(DateType.MONTH.name())
-                .scopeType(UserRankScope.CLASS.name())
+                .dateType(DATE_WEEK)
+                .scopeType(USER_SCOPE_CLASS)
                 .schoolId(rankInfo.getSchoolId())
                 .name(rankInfo.getName())
                 .grade(rankInfo.getGrade())
@@ -206,7 +189,7 @@ public class UserRankJob {
     public JdbcBatchItemWriter<UserRankWriterVO> userRankWriter(@Value("#{jobParameters[jobKey]}") String jobKey) {
         JdbcBatchItemWriter<UserRankWriterVO> writer = new JdbcBatchItemWriterBuilder<UserRankWriterVO>()
                 .dataSource(dataSource)
-                .sql(CALL_SAVE_PROCEDURE)
+                .sql(SAVE_USER_RANK_PROCEDURE)
                 .beanMapped()
                 .build();
 
