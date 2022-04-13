@@ -1,7 +1,6 @@
 package com.walkhub.walkhub.domain.rank.job;
 
 import com.walkhub.walkhub.domain.rank.domain.repository.vo.UserRankWriterVO;
-import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
