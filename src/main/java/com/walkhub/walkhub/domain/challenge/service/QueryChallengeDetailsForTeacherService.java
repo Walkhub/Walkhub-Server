@@ -25,6 +25,7 @@ public class QueryChallengeDetailsForTeacherService {
         Section section = challengeCreator.hasSection() ? challengeCreator.getSection() : Section.builder().build();
 
         return QueryChallengeDetailsForTeacherResponse.builder()
+                .schoolName(challengeCreator.getSchool().getName())
                 .name(challenge.getName())
                 .content(challenge.getContent())
                 .imageUrl(challenge.getImageUrl())
@@ -42,7 +43,7 @@ public class QueryChallengeDetailsForTeacherService {
                 .classNum(section.getClassNum())
                 .grade(section.getGrade())
                 .successStandard(challenge.getSuccessStandard())
-                .isMine(challenge.getUser() == user)
+                .isMine(challengeCreator == user)
                 .build();
     }
 }

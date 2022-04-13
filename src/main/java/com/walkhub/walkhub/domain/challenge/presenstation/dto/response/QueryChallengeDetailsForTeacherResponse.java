@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Builder
 public class QueryChallengeDetailsForTeacherResponse {
 
+    private final String schoolName;
     private final String name;
     private final String content;
     private final String imageUrl;
