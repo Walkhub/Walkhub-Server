@@ -44,7 +44,7 @@ public class QueryChallengeParticipantListService {
                 .schoolName(vo.getSchoolName())
                 .profileImageUrl(vo.getProfileImageUrl())
                 .totalWalkCount(vo.getTotalValue())
-                .progress(vo.getProgress())
+                .progress(vo.getProgress() != null ? vo.getProgress() : 0)
                 .isSuccess(vo.getIsSuccess())
                 .successDate(vo.getSuccessDate())
                 .build();
