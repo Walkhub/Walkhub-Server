@@ -14,6 +14,7 @@ import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,18 +39,7 @@ public class QueryChallengeDetailsForStudentService {
         List<RelatedChallengeParticipantsVO> relatedChallengeParticipantsList =
                 challengeRepository.getRelatedChallengeParticipantsList(challengeId, user);
 
-        int value;
-        if (GoalType.WALK == vo.getGoalType()) {
-            value = exerciseAnalysisRepository.findAllByUserAndDateBetween(user, vo.getStartAt(), vo.getEndAt())
-                    .stream()
-                    .mapToInt(ExerciseAnalysis::getWalkCount)
-                    .sum();
-        } else {
-            value = exerciseAnalysisRepository.findAllByUserAndDateBetween(user, vo.getStartAt(), vo.getEndAt())
-                    .stream()
-                    .mapToInt(ExerciseAnalysis::getDistance)
-                    .sum();
-        }
+        int value = builderValue(vo.getGoalType(), vo.getStartAt(), vo.getEndAt(), user);
 
         return QueryChallengeDetailsForStudentResponse.builder()
                 .name(vo.getName())
@@ -77,5 +67,19 @@ public class QueryChallengeDetailsForStudentService {
                         ))
                         .collect(Collectors.toList()))
                 .build();
+    }
+
+    private Integer builderValue(GoalType goalType, LocalDate startAt, LocalDate endAt, User user) {
+        if (GoalType.WALK == goalType) {
+            return exerciseAnalysisRepository.findAllByUserAndDateBetween(user, startAt, endAt)
+                    .stream()
+                    .mapToInt(ExerciseAnalysis::getWalkCount)
+                    .sum();
+        } else {
+            return exerciseAnalysisRepository.findAllByUserAndDateBetween(user, startAt, endAt)
+                    .stream()
+                    .mapToInt(ExerciseAnalysis::getDistance)
+                    .sum();
+        }
     }
 }
