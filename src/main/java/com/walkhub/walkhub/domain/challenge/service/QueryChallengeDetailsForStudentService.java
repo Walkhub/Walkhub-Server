@@ -38,16 +38,20 @@ public class QueryChallengeDetailsForStudentService {
         List<RelatedChallengeParticipantsVO> relatedChallengeParticipantsList =
                 challengeRepository.getRelatedChallengeParticipantsList(challengeId, user);
 
-        int currentWalkCount = exerciseAnalysisRepository
-                .findAllByUserAndDateBetween(user, vo.getStartAt(), vo.getEndAt())
-                .stream()
-                .mapToInt(ExerciseAnalysis::getWalkCount)
-                .sum();
-        int currentDistance = exerciseAnalysisRepository
-                .findAllByUserAndDateBetween(user, vo.getStartAt(), vo.getEndAt())
-                .stream()
-                .mapToInt(ExerciseAnalysis::getDistance)
-                .sum();
+        int value;
+        if (GoalType.WALK == vo.getGoalType()) {
+            value = exerciseAnalysisRepository
+                    .findAllByUserAndDateBetween(user, vo.getStartAt(), vo.getEndAt())
+                    .stream()
+                    .mapToInt(ExerciseAnalysis::getWalkCount)
+                    .sum();
+        } else {
+            value = exerciseAnalysisRepository
+                    .findAllByUserAndDateBetween(user, vo.getStartAt(), vo.getEndAt())
+                    .stream()
+                    .mapToInt(ExerciseAnalysis::getDistance)
+                    .sum();
+        }
 
         return QueryChallengeDetailsForStudentResponse.builder()
                 .name(vo.getName())
@@ -61,7 +65,7 @@ public class QueryChallengeDetailsForStudentService {
                 .startAt(vo.getStartAt())
                 .endAt(vo.getEndAt())
                 .successStandard(vo.getSuccessStandard())
-                .value(vo.getGoalType() == GoalType.WALK ? currentWalkCount : currentDistance)
+                .value(value)
                 .writer(challengeFacade.personBuilder(
                         vo.getWriterUserId(), vo.getWriterName(), vo.getWriterProfileImageUrl()
                 ))
