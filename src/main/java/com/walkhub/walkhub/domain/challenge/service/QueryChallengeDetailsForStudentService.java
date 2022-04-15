@@ -40,14 +40,12 @@ public class QueryChallengeDetailsForStudentService {
 
         int value;
         if (GoalType.WALK == vo.getGoalType()) {
-            value = exerciseAnalysisRepository
-                    .findAllByUserAndDateBetween(user, vo.getStartAt(), vo.getEndAt())
+            value = exerciseAnalysisRepository.findAllByUserAndDateBetween(user, vo.getStartAt(), vo.getEndAt())
                     .stream()
                     .mapToInt(ExerciseAnalysis::getWalkCount)
                     .sum();
         } else {
-            value = exerciseAnalysisRepository
-                    .findAllByUserAndDateBetween(user, vo.getStartAt(), vo.getEndAt())
+            value = exerciseAnalysisRepository.findAllByUserAndDateBetween(user, vo.getStartAt(), vo.getEndAt())
                     .stream()
                     .mapToInt(ExerciseAnalysis::getDistance)
                     .sum();
