@@ -6,6 +6,9 @@ import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeDetail
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForStudentResponse;
+import com.walkhub.walkhub.domain.exercise.domain.ExerciseAnalysis;
+import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
+import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
@@ -21,6 +24,7 @@ public class QueryChallengeDetailsForStudentService {
     private final UserFacade userFacade;
     private final ChallengeFacade challengeFacade;
     private final ChallengeRepository challengeRepository;
+    private final ExerciseAnalysisRepository exerciseAnalysisRepository;
 
     public QueryChallengeDetailsForStudentResponse execute(Long challengeId) {
         Challenge challenge = challengeFacade.getChallengeById(challengeId);
@@ -34,6 +38,17 @@ public class QueryChallengeDetailsForStudentService {
         List<RelatedChallengeParticipantsVO> relatedChallengeParticipantsList =
                 challengeRepository.getRelatedChallengeParticipantsList(challengeId, user);
 
+        int currentWalkCount = exerciseAnalysisRepository
+                .findAllByUserAndDateBetween(user, vo.getStartAt(), vo.getEndAt())
+                .stream()
+                .mapToInt(ExerciseAnalysis::getWalkCount)
+                .sum();
+        int currentDistance = exerciseAnalysisRepository
+                .findAllByUserAndDateBetween(user, vo.getStartAt(), vo.getEndAt())
+                .stream()
+                .mapToInt(ExerciseAnalysis::getDistance)
+                .sum();
+
         return QueryChallengeDetailsForStudentResponse.builder()
                 .name(vo.getName())
                 .content(vo.getContent())
@@ -46,6 +61,7 @@ public class QueryChallengeDetailsForStudentService {
                 .startAt(vo.getStartAt())
                 .endAt(vo.getEndAt())
                 .successStandard(vo.getSuccessStandard())
+                .value(vo.getGoalType() == GoalType.WALK ? currentWalkCount : currentDistance)
                 .writer(challengeFacade.personBuilder(
                         vo.getWriterUserId(), vo.getWriterName(), vo.getWriterProfileImageUrl()
                 ))
