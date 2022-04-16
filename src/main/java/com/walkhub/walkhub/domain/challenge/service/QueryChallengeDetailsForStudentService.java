@@ -6,11 +6,15 @@ import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeDetail
 import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForStudentResponse;
+import com.walkhub.walkhub.domain.exercise.domain.ExerciseAnalysis;
+import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
+import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +25,7 @@ public class QueryChallengeDetailsForStudentService {
     private final UserFacade userFacade;
     private final ChallengeFacade challengeFacade;
     private final ChallengeRepository challengeRepository;
+    private final ExerciseAnalysisRepository exerciseAnalysisRepository;
 
     public QueryChallengeDetailsForStudentResponse execute(Long challengeId) {
         Challenge challenge = challengeFacade.getChallengeById(challengeId);
@@ -34,6 +39,8 @@ public class QueryChallengeDetailsForStudentService {
         List<RelatedChallengeParticipantsVO> relatedChallengeParticipantsList =
                 challengeRepository.getRelatedChallengeParticipantsList(challengeId, user);
 
+        int value = builderValue(vo.getGoalType(), vo.getStartAt(), vo.getEndAt(), user);
+
         return QueryChallengeDetailsForStudentResponse.builder()
                 .name(vo.getName())
                 .content(vo.getContent())
@@ -46,6 +53,7 @@ public class QueryChallengeDetailsForStudentService {
                 .startAt(vo.getStartAt())
                 .endAt(vo.getEndAt())
                 .successStandard(vo.getSuccessStandard())
+                .value(value)
                 .writer(challengeFacade.personBuilder(
                         vo.getWriterUserId(), vo.getWriterName(), vo.getWriterProfileImageUrl()
                 ))
@@ -59,5 +67,19 @@ public class QueryChallengeDetailsForStudentService {
                         ))
                         .collect(Collectors.toList()))
                 .build();
+    }
+
+    private Integer builderValue(GoalType goalType, LocalDate startAt, LocalDate endAt, User user) {
+        if (GoalType.WALK == goalType) {
+            return exerciseAnalysisRepository.findAllByUserAndDateBetween(user, startAt, endAt)
+                    .stream()
+                    .mapToInt(ExerciseAnalysis::getWalkCount)
+                    .sum();
+        } else {
+            return exerciseAnalysisRepository.findAllByUserAndDateBetween(user, startAt, endAt)
+                    .stream()
+                    .mapToInt(ExerciseAnalysis::getDistance)
+                    .sum();
+        }
     }
 }
