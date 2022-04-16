@@ -57,6 +57,11 @@ public class ChallengeController {
         return queryChallengeListForStudentService.execute();
     }
 
+    @GetMapping("/web/lists")
+    public QueryChallengeListForTeacherResponse queryChallengeListForTeacher(@RequestParam(required = false) Boolean isProgress) {
+        return queryChallengeListForTeacherService.execute(isProgress);
+    }
+
     @GetMapping("/app/{challenge-id}")
     public QueryChallengeDetailsForStudentResponse queryChallengeDetailsForStudent(@PathVariable("challenge-id") Long challengeId) {
         return queryChallengeDetailsForStudentService.execute(challengeId);
@@ -78,8 +83,4 @@ public class ChallengeController {
         return queryChallengeParticipantListService.execute(id, request);
     }
 
-    @GetMapping("/lists/teachers")
-    public QueryChallengeListForTeacherResponse queryChallengeListForTeacher(@RequestParam(required = false) Boolean isProgress) {
-        return queryChallengeListForTeacherService.execute(isProgress);
-    }
 }
