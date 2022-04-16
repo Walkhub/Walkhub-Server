@@ -40,6 +40,7 @@ public class QueryChallengeDetailsForTeacherService {
                 .goal(challenge.getGoal())
                 .goalScope(challenge.getGoalScope())
                 .goalType(challenge.getGoalType())
+                .userScope(challenge.getUserScope())
                 .classNum(section.getClassNum())
                 .grade(section.getGrade())
                 .successStandard(challenge.getSuccessStandard())
