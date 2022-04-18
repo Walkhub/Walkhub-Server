@@ -13,20 +13,7 @@ import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryGoalWalkCo
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryMyInformationResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.QueryUserProfileResponse;
 import com.walkhub.walkhub.domain.user.presentation.dto.response.UserAccountIdResponse;
-import com.walkhub.walkhub.domain.user.service.ExitSectionService;
-import com.walkhub.walkhub.domain.user.service.InputHealthInformationService;
-import com.walkhub.walkhub.domain.user.service.JoinSectionService;
-import com.walkhub.walkhub.domain.user.service.QueryGoalWalkCountService;
-import com.walkhub.walkhub.domain.user.service.QueryMyInformationService;
-import com.walkhub.walkhub.domain.user.service.QueryMyPageService;
-import com.walkhub.walkhub.domain.user.service.QueryUserHealthService;
-import com.walkhub.walkhub.domain.user.service.QueryUserProfileService;
-import com.walkhub.walkhub.domain.user.service.SearchAccountIdService;
-import com.walkhub.walkhub.domain.user.service.UpdateGoalWalkCountService;
-import com.walkhub.walkhub.domain.user.service.UpdatePasswordService;
-import com.walkhub.walkhub.domain.user.service.UpdateUserInfoService;
-import com.walkhub.walkhub.domain.user.service.UserAuthCodeService;
-import com.walkhub.walkhub.domain.user.service.UserSignUpService;
+import com.walkhub.walkhub.domain.user.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,6 +47,7 @@ public class UserController {
     private final QueryGoalWalkCountService queryGoalWalkCountService;
     private final QueryUserHealthService queryUserHealthService;
     private final QueryMyInformationService queryMyInformationService;
+    private final LogoutService logoutService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/verification-codes")
@@ -137,6 +125,12 @@ public class UserController {
     @GetMapping("/info")
     public QueryMyInformationResponse queryMyInfo() {
         return queryMyInformationService.execute();
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/logout")
+    public void logout() {
+        logoutService.execute();
     }
 
 }
