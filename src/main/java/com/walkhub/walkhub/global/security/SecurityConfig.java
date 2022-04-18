@@ -66,6 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PATCH, "/users/password").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/users").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/users/classes").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/users/logout").authenticated()
 
                 //levels
                 .antMatchers(HttpMethod.GET, "/levels/lists").authenticated()
