@@ -2,7 +2,6 @@ package com.walkhub.walkhub.domain.rank.service;
 
 import com.walkhub.walkhub.domain.rank.domain.SchoolRank;
 import com.walkhub.walkhub.domain.rank.domain.repository.SchoolRankRepository;
-import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse.MySchoolResponse;
 import com.walkhub.walkhub.domain.user.domain.Section;
@@ -20,14 +19,11 @@ public class QueryMySchoolRankService {
     private final SchoolRankRepository schoolRankRepository;
     private final UserFacade userFacade;
 
-    public SchoolRankResponse execute(SchoolDateType dateType) {
+    public SchoolRankResponse execute(Long schoolId) {
         User user = userFacade.getCurrentUser();
         LocalDate now = LocalDate.now();
 
-        MySchoolResponse mySchoolResponse = schoolRankRepository.
-                findBySchoolIdAndDateTypeAndCreatedAtBetween(
-                        user.getSchool().getId(), dateType.toString(), now.minusWeeks(1), now
-                )
+        MySchoolResponse mySchoolResponse = schoolRankRepository.findAllBySchoolId(schoolId)
                 .map(schoolRank -> mySchoolResponseBuilder(schoolRank, user))
                 .orElse(null);
 

@@ -36,8 +36,8 @@ public class RankController {
     private final QueryUserRankListService queryUserRankListService;
 
     @GetMapping("/schools")
-    public SchoolRankResponse querySchoolRank(@RequestParam("schoolDateType") SchoolDateType dateType) {
-        return queryMySchoolRankService.execute(dateType);
+    public SchoolRankResponse querySchoolRank(Long schoolId) {
+        return queryMySchoolRankService.execute(schoolId);
     }
 
     @GetMapping("/schools/search")
