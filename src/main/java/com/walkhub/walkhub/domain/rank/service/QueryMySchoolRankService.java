@@ -1,7 +1,6 @@
 package com.walkhub.walkhub.domain.rank.service;
 
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse.MySchoolResponse;
-import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
@@ -16,7 +15,6 @@ public class QueryMySchoolRankService {
 
     public MySchoolResponse execute() {
         User user = userFacade.getCurrentUser();
-        Section section = user.hasSection() ? user.getSection() : Section.builder().build();
 
         return MySchoolResponse.builder()
                 .schoolId(user.getSchool().getId())
