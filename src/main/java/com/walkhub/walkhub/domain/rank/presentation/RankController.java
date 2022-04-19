@@ -1,8 +1,6 @@
 package com.walkhub.walkhub.domain.rank.presentation;
 
 import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
-import com.walkhub.walkhub.domain.rank.domain.type.Scope;
-import com.walkhub.walkhub.domain.rank.domain.type.Sort;
 import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
 import com.walkhub.walkhub.domain.rank.presentation.dto.request.SchoolSearchRequest;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListResponse;
@@ -15,7 +13,6 @@ import com.walkhub.walkhub.domain.rank.service.QueryUserRankListService;
 import com.walkhub.walkhub.domain.rank.service.SchoolSearchService;
 import com.walkhub.walkhub.domain.rank.service.UserSearchService;
 import com.walkhub.walkhub.global.enums.DateType;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +20,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @Validated
 @RequiredArgsConstructor
@@ -36,13 +35,6 @@ public class RankController {
     private final SchoolSearchService schoolSearchService;
     private final QueryUserRankListService queryUserRankListService;
 
-    @GetMapping("/users/search/{school-id}")
-    public UserListResponse userSearch(@PathVariable("school-id") Long schoolId,
-                                       @RequestParam String name,
-                                       @RequestParam DateType dateType) {
-        return userSearchService.execute(schoolId, name, dateType);
-    }
-
     @GetMapping("/schools")
     public SchoolRankResponse querySchoolRank(@RequestParam("schoolDateType") SchoolDateType dateType) {
         return queryMySchoolRankService.execute(dateType);
@@ -53,15 +45,23 @@ public class RankController {
         return schoolSearchService.execute(request);
     }
 
+    @GetMapping("/users/{school-id}")
+    public UserRankListResponse queryUserRankList(@PathVariable("school-id") Long schoolId,
+                                                  @RequestParam DateType dateType) {
+        return queryUserRankListService.execute(schoolId, dateType);
+    }
+
     @GetMapping("/users/my-school")
     public UserRankListResponse queryUserRankListByMySchool(@RequestParam UserRankScope scope,
                                                             @RequestParam DateType dateType) {
         return queryUserRankListByMySchoolService.execute(scope, dateType);
     }
 
-    @GetMapping("/users/{school-id}")
-    public UserRankListResponse queryUserRankList(@RequestParam DateType dateType,
-                                                  @PathVariable("school-id") Long schoolId) {
-        return queryUserRankListService.execute(schoolId, dateType);
+    @GetMapping("/users/search/{school-id}")
+    public UserListResponse userSearch(@PathVariable("school-id") Long schoolId,
+                                       @RequestParam String name,
+                                       @RequestParam DateType dateType) {
+        return userSearchService.execute(schoolId, name, dateType);
     }
+
 }
