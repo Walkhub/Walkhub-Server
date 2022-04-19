@@ -1,10 +1,8 @@
 package com.walkhub.walkhub.domain.rank.domain;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
+import com.walkhub.walkhub.global.enums.DateType;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -14,11 +12,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class UserRankId implements Serializable {
-    private String userId;
+    private Long userId;
 
     private LocalDate createdAt;
 
-    private String dateType;
+    private DateType dateType;
 
-    private String scopeType;
+    private UserRankScope scopeType;
 }
