@@ -9,8 +9,6 @@ import java.util.List;
 @Builder
 public class UserRankListResponse {
 
-    private final Boolean isJoinedClass;
-    private final UserRankResponse myRanking;
     private final List<UserRankResponse> rankList;
 
     @Getter
@@ -21,6 +19,5 @@ public class UserRankListResponse {
         private final Integer ranking;
         private final String profileImageUrl;
         private final Integer walkCount;
-        private final Boolean isMeasuring;
     }
 }

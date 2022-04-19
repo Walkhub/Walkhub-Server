@@ -6,6 +6,7 @@ import com.walkhub.walkhub.domain.rank.presentation.dto.request.SchoolSearchRequ
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListResponse;
+import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListByMySchoolResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
 import com.walkhub.walkhub.domain.rank.service.QueryMySchoolRankService;
 import com.walkhub.walkhub.domain.rank.service.QueryUserRankListByMySchoolService;
@@ -52,7 +53,7 @@ public class RankController {
     }
 
     @GetMapping("/users/my-school")
-    public UserRankListResponse queryUserRankListByMySchool(@RequestParam UserRankScope scope,
+    public UserRankListByMySchoolResponse queryUserRankListByMySchool(@RequestParam UserRankScope scope,
                                                             @RequestParam DateType dateType) {
         return queryUserRankListByMySchoolService.execute(scope, dateType);
     }
