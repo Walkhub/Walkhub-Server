@@ -22,7 +22,7 @@ public class LogoutService {
         User user = userFacade.getCurrentUser();
         user.setDeviceToken(null);
 
-        RefreshToken refreshToken = refreshTokenRepository.findByAccountId(user.getAccountId())
+        RefreshToken refreshToken = refreshTokenRepository.findById(user.getAccountId())
                 .orElseThrow(() -> RefreshTokenNotFoundException.EXCEPTION);
 
         refreshTokenRepository.delete(refreshToken);
