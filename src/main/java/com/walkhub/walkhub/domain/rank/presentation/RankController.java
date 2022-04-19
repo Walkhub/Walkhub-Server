@@ -1,25 +1,16 @@
 package com.walkhub.walkhub.domain.rank.presentation;
 
-import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
 import com.walkhub.walkhub.domain.rank.domain.type.UserRankScope;
 import com.walkhub.walkhub.domain.rank.presentation.dto.request.SchoolSearchRequest;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolListResponse;
-import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse;
+import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankResponse.MySchoolResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
-import com.walkhub.walkhub.domain.rank.service.QueryMySchoolRankService;
-import com.walkhub.walkhub.domain.rank.service.QueryUserRankListByMySchoolService;
-import com.walkhub.walkhub.domain.rank.service.QueryUserRankListService;
-import com.walkhub.walkhub.domain.rank.service.SchoolSearchService;
-import com.walkhub.walkhub.domain.rank.service.UserSearchService;
+import com.walkhub.walkhub.domain.rank.service.*;
 import com.walkhub.walkhub.global.enums.DateType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -36,8 +27,8 @@ public class RankController {
     private final QueryUserRankListService queryUserRankListService;
 
     @GetMapping("/schools")
-    public SchoolRankResponse querySchoolRank(Long schoolId) {
-        return queryMySchoolRankService.execute(schoolId);
+    public MySchoolResponse querySchoolRank() {
+        return queryMySchoolRankService.execute();
     }
 
     @GetMapping("/schools/search")
