@@ -22,8 +22,8 @@ public class QueryMySchoolRankService {
                 .schoolId(user.getSchool().getId())
                 .name(user.getSchool().getName())
                 .logoImageUrl(user.getSchool().getLogoImageUrl())
-                .grade(section.getGrade())
-                .classNum(section.getClassNum())
+                .grade(user.getSection().getGrade())
+                .classNum(user.getSection().getClassNum())
                 .build();
     }
 }
