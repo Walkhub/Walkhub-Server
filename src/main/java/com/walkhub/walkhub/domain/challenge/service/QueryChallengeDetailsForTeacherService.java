@@ -3,8 +3,6 @@ package com.walkhub.walkhub.domain.challenge.service;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForTeacherResponse;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForTeacherResponse.Writer;
-import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
@@ -19,32 +17,8 @@ public class QueryChallengeDetailsForTeacherService {
 
     public QueryChallengeDetailsForTeacherResponse execute(Long challengeId) {
         User user = userFacade.getCurrentUser();
-
         Challenge challenge = challengeFacade.getChallengeById(challengeId);
-        User challengeCreator = challenge.getUser();
-        Section section = challengeCreator.hasSection() ? challengeCreator.getSection() : Section.builder().build();
 
-        return QueryChallengeDetailsForTeacherResponse.builder()
-                .schoolName(challengeCreator.getSchool().getName())
-                .name(challenge.getName())
-                .content(challenge.getContent())
-                .imageUrl(challenge.getImageUrl())
-                .writer(Writer.builder()
-                        .userId(challengeCreator.getId())
-                        .name(challengeCreator.getName())
-                        .profileImageUrl(challengeCreator.getProfileImageUrl())
-                        .build())
-                .award(challenge.getAward())
-                .startAt(challenge.getStartAt())
-                .endAt(challenge.getEndAt())
-                .goal(challenge.getGoal())
-                .goalScope(challenge.getGoalScope())
-                .goalType(challenge.getGoalType())
-                .userScope(challenge.getUserScope())
-                .classNum(section.getClassNum())
-                .grade(section.getGrade())
-                .successStandard(challenge.getSuccessStandard())
-                .isMine(challengeCreator == user)
-                .build();
+        return challengeFacade.builderChallenge(user, challenge);
     }
 }
