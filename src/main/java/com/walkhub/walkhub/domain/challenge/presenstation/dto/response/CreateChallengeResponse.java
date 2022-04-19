@@ -7,6 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CreateChallengeResponse {
 
-    private final Long ChallengeId;
+    private final Long challengeId;
 
 }
