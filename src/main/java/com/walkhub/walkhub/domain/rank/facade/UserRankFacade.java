@@ -1,6 +1,7 @@
 package com.walkhub.walkhub.domain.rank.facade;
 
 import com.walkhub.walkhub.domain.rank.domain.repository.vo.UserRankVO;
+import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListByMySchoolResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,19 @@ public class UserRankFacade {
 
     public List<UserRankListResponse.UserRankResponse> buildWeekOrMonthUsersRankResponse(List<UserRankVO> userRanks) {
         return userRanks.stream()
-                .map(userRank -> UserRankListResponse.UserRankResponse.builder()
+            .map(userRank -> UserRankListResponse.UserRankResponse.builder()
+                .userId(userRank.getUserId())
+                .name(userRank.getName())
+                .ranking(userRank.getRanking())
+                .profileImageUrl(userRank.getProfileImageUrl())
+                .walkCount(userRank.getWalkCount())
+                .build()
+            ).collect(Collectors.toList());
+    }
+
+    public List<UserRankListByMySchoolResponse.UserRankResponse> buildWeekOrMonthUsersRankResponseWithIsMeasuring(List<UserRankVO> userRanks) {
+        return userRanks.stream()
+                .map(userRank -> UserRankListByMySchoolResponse.UserRankResponse.builder()
                         .userId(userRank.getUserId())
                         .name(userRank.getName())
                         .ranking(userRank.getRanking())
