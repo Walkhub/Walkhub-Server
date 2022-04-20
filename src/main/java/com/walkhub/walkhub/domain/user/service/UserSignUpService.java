@@ -16,11 +16,7 @@ import com.walkhub.walkhub.domain.user.domain.UserAuthCode;
 import com.walkhub.walkhub.domain.user.domain.repository.UserAuthCodeRepository;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
-import com.walkhub.walkhub.domain.user.exception.DefaultTitleBadgeNotFound;
-import com.walkhub.walkhub.domain.user.exception.SchoolNotFoundException;
-import com.walkhub.walkhub.domain.user.exception.UnauthorizedUserAuthCodeException;
-import com.walkhub.walkhub.domain.user.exception.UserAuthCodeNotFoundException;
-import com.walkhub.walkhub.domain.user.exception.UserExistsException;
+import com.walkhub.walkhub.domain.user.exception.*;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
@@ -84,6 +80,7 @@ public class UserSignUpService {
                 .isMeasuring(false)
                 .badge(defaultTitleBadge)
                 .calorieLevel(calorieLevel)
+                .deviceToken(request.getDeviceToken())
                 .build();
         userRepository.save(user);
 

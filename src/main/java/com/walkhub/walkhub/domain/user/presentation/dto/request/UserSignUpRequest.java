@@ -49,4 +49,7 @@ public class UserSignUpRequest {
 
     private Sex sex;
 
+    @NotBlank(message = "device_token은 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
+    private String deviceToken;
+
 }
