@@ -103,7 +103,7 @@ public class User extends BaseTimeEntity {
     @Builder
     public User(String accountId, String password, String phoneNumber, String name,
                 Authority authority, Section section, School school, boolean isMeasuring,
-                Integer weight, BigDecimal height, Sex sex, Badge badge, CalorieLevel calorieLevel) {
+                Integer weight, BigDecimal height, Sex sex, Badge badge, CalorieLevel calorieLevel, String deviceToken) {
         this.accountId = accountId;
         this.password = password;
         this.phoneNumber = phoneNumber;
@@ -117,6 +117,7 @@ public class User extends BaseTimeEntity {
         if (sex != null) this.sex = sex;
         this.badge = badge;
         this.maxLevel = calorieLevel;
+        this.deviceToken = deviceToken;
     }
 
     public void setDeviceToken(String deviceToken) {
@@ -165,10 +166,6 @@ public class User extends BaseTimeEntity {
 
     public boolean hasSection() {
         return this.section != null;
-    }
-
-    public boolean hasSchool() {
-        return this.school != null;
     }
 
     public void setMaxLevel(CalorieLevel calorieLevel) {
