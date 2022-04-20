@@ -200,7 +200,7 @@ public class User extends BaseTimeEntity {
     }
 
     public String getSchoolName() {
-        return this.getSchool().getName();
+        return this.school.getName();
     }
 
 }
