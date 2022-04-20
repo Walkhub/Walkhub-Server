@@ -139,7 +139,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/teachers/classes").hasAuthority("TEACHER")
                 .antMatchers(HttpMethod.PATCH, "/teachers/verification-codes").hasAuthority("USER")
                 .antMatchers(HttpMethod.PATCH, "/teachers/schools").hasAuthority("TEACHER")
-                .antMatchers(HttpMethod.DELETE, "/teachers/classes{section-id}").hasAuthority("TEACHER")
+                .antMatchers(HttpMethod.DELETE, "/teachers/classes/{section-id}").hasAuthority("TEACHER")
                 .antMatchers(HttpMethod.DELETE, "/teachers/{teacher-id}").hasAuthority("ROOT")
 
                 // su
