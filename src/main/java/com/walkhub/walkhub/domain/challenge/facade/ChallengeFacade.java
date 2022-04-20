@@ -35,7 +35,7 @@ public class ChallengeFacade {
                 challenge.getUser().getSection() : Section.builder().build();
 
         return QueryChallengeDetailsForTeacherResponse.builder()
-                .schoolName(user.getSchool().getName())
+                .schoolName(user.getSchoolName())
                 .name(challenge.getName())
                 .content(challenge.getContent())
                 .imageUrl(challenge.getImageUrl())
