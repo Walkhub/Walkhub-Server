@@ -31,8 +31,7 @@ public class ChallengeFacade {
     }
 
     public QueryChallengeDetailsForTeacherResponse builderChallenge(User user, Challenge challenge) {
-        Section section = challenge.getUser().getSection() != null ?
-                challenge.getUser().getSection() : Section.builder().build();
+        Section section = getSection(challenge);
 
         return QueryChallengeDetailsForTeacherResponse.builder()
                 .schoolName(user.getSchoolName())
@@ -56,5 +55,9 @@ public class ChallengeFacade {
                 .successStandard(challenge.getSuccessStandard())
                 .isMine(user == challenge.getUser())
                 .build();
+    }
+
+    public Section getSection(Challenge challenge) {
+        return challenge.getUser().hasSection() ? challenge.getUser().getSection() : Section.builder().build();
     }
 }
