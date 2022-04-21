@@ -126,7 +126,7 @@ public class Challenge {
         this.user = null;
     }
 
-    public Section getSection() {
+    public Section getWriterSection() {
         return this.user.hasSection() ? this.user.getSection() : Section.builder().build();
     }
 }
