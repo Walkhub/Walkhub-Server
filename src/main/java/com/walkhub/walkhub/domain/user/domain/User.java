@@ -196,4 +196,8 @@ public class User extends BaseTimeEntity {
         return this.healthInfo.getWeight();
     }
 
+    public String getSchoolName() {
+        return this.school.getName();
+    }
+
 }
