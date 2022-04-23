@@ -29,7 +29,7 @@ public class ChallengeController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public QueryChallengeDetailsForTeacherResponse createChallenge(@RequestBody @Valid CreateChallengeRequest request) {
+    public CreateChallengeResponse createChallenge(@RequestBody @Valid CreateChallengeRequest request) {
         return createChallengeService.execute(request);
     }
 

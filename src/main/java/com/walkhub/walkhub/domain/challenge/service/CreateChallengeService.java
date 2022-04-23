@@ -2,9 +2,8 @@ package com.walkhub.walkhub.domain.challenge.service;
 
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.domain.repository.ChallengeRepository;
-import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.CreateChallengeRequest;
-import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeDetailsForTeacherResponse;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.CreateChallengeResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
@@ -19,10 +18,9 @@ public class CreateChallengeService {
 
     private final UserFacade userFacade;
     private final ChallengeRepository challengeRepository;
-    private final ChallengeFacade challengeFacade;
 
     @Transactional
-    public QueryChallengeDetailsForTeacherResponse execute(CreateChallengeRequest request) {
+    public CreateChallengeResponse execute(CreateChallengeRequest request) {
         User user = userFacade.getCurrentUser();
         UserScope userScope = user.getAuthority() == Authority.SU ? UserScope.ALL : request.getUserScope();
 
@@ -42,6 +40,6 @@ public class CreateChallengeService {
                 .build();
         challengeRepository.save(challenge);
 
-        return challengeFacade.builderChallenge(user, challenge);
+        return new CreateChallengeResponse(challenge.getId());
     }
 }
