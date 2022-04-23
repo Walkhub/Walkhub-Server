@@ -8,6 +8,7 @@ import lombok.Getter;
 @Builder
 public class DetailsClassResponse {
 
+    private final Integer userCount;
     private final Integer grade;
     private final Integer classNum;
     private final String classCode;
