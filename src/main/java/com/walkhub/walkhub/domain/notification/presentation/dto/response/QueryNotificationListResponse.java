@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Getter
@@ -22,5 +23,16 @@ public class QueryNotificationListResponse {
         private final Type type;
         private final String data;
         private final boolean isRead;
+        private final Writer writer;
+        private final ZonedDateTime createAt;
     }
+
+    @Getter
+    @Builder
+    public static class Writer {
+        private final Long id;
+        private final String name;
+        private final String profileImageUrl;
+    }
+
 }
