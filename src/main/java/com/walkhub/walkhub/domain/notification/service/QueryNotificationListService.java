@@ -13,7 +13,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.walkhub.walkhub.domain.notification.presentation.dto.response.QueryNotificationListResponse.NotificationResponse;
+import static com.walkhub.walkhub.domain.notification.presentation.dto.response.QueryNotificationListResponse.*;
 
 @RequiredArgsConstructor
 @ServiceWithTransactionalReadOnly
@@ -27,13 +27,13 @@ public class QueryNotificationListService {
         User user = userFacade.getCurrentUser();
         List<NotificationResponse> notificationLists = notificationListRepository.findByUser(user, pageable)
                 .stream()
-                .map(this::getNotification)
+                .map(notificationList -> notificationBuilder(notificationList, user))
                 .collect(Collectors.toList());
 
         return new QueryNotificationListResponse(notificationLists);
     }
 
-    private NotificationResponse getNotification(NotificationList notificationList) {
+    private NotificationResponse notificationBuilder(NotificationList notificationList, User user) {
         NotificationEntity notificationEntity = notificationList.getNotificationEntity();
         return NotificationResponse.builder()
                 .id(notificationEntity.getId())
@@ -42,6 +42,12 @@ public class QueryNotificationListService {
                 .type(notificationEntity.getType())
                 .data(notificationEntity.getData())
                 .isRead(notificationList.getIsRead())
+                .writer(Writer.builder()
+                        .id(user.getId())
+                        .name(user.getName())
+                        .profileImageUrl(user.getProfileImageUrl())
+                        .build())
+                .createAt(notificationEntity.getCreatedAt())
                 .build();
     }
 
