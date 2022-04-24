@@ -28,6 +28,7 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
                         notice.id,
                         notice.title,
                         notice.content,
+                        notice.scope,
                         notice.createdAt,
                         new QQueryNoticeListResponse_Writer(
                                 user.id,

@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.notice.presentation.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.querydsl.core.annotations.QueryProjection;
+import com.walkhub.walkhub.domain.notice.domain.type.Scope;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,17 +23,19 @@ public class QueryNoticeListResponse {
         private final Long id;
         private final String title;
         private final String content;
+        private final Scope scope;
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private final ZonedDateTime createdAt;
         private final Writer writer;
 
         @QueryProjection
-        public NoticeResponse(Long id, String title, String content, ZonedDateTime createdAt,
+        public NoticeResponse(Long id, String title, String content, Scope scope, ZonedDateTime createdAt,
                               Writer writer) {
             this.id = id;
             this.title = title;
             this.content = content;
+            this.scope = scope;
             this.createdAt = createdAt;
             this.writer = writer;
         }
