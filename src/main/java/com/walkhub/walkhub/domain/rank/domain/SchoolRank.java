@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.rank.domain;
 
+import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +28,8 @@ public class SchoolRank {
     private LocalDate createdAt;
 
     @Id
-    private String dateType;
+    @Column(length = 5)
+    private SchoolDateType dateType;
 
     @NotNull
     @Size(max = 20)
@@ -43,7 +45,8 @@ public class SchoolRank {
     @NotNull
     private Integer walkCount;
 
-    @Column(columnDefinition = "TINYINT", nullable = false)
+    @NotNull
+    @Column(columnDefinition = "TINYINT")
     private Integer ranking;
 
 }

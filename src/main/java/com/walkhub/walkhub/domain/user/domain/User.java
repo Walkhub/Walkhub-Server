@@ -19,6 +19,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -26,70 +27,85 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Cacheable
+@Table(uniqueConstraints = {
+        @UniqueConstraint(
+                name = "user_uk",
+                columnNames = {"section_id", "number"}
+        )
+})
 public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
+    @Size(max = 30)
+    @Column(unique = true)
     private String accountId;
 
-    @Column(length = 60, nullable = false)
+    @NotNull
+    @Size(max = 60)
     private String password;
 
-    @Column(length = 11)
+    @NotNull
+    @Size(max = 11)
+    @Column(unique = true)
     private String phoneNumber;
 
-    @Column(length = 10, nullable = false)
+    @NotNull
+    @Size(max = 10)
     private String name;
 
+    @NotNull
     @ColumnDefault(DefaultImage.USER_PROFILE_IMAGE)
     private String profileImageUrl;
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(length = 7)
     private Authority authority;
+
+    @Column(columnDefinition = "TINYINT unsigned")
+    private Integer number;
+
+    @NotNull
+    @ColumnDefault("0")
+    private Boolean isMeasuring;
+
+    @Setter
+    @Embedded
+    private HealthInfo healthInfo;
+
+    @Setter
+    @NotNull
+    @ColumnDefault("'X'")
+    @Enumerated(EnumType.STRING)
+    @Column(length = 6)
+    private Sex sex;
+
+    @NotNull
+    @ColumnDefault("10000")
+    private Integer dailyWalkCountGoal;
+
+    @Column(name = "app_device_token")
+    private String deviceToken;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "title_badge_id", nullable = false)
+    private Badge badge;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "section_id")
     private Section section;
 
-    @Column(columnDefinition = "TINYINT unsigned")
-    private Integer number;
-
-    @ColumnDefault("0")
-    @Column(nullable = false)
-    private Boolean isMeasuring;
-
-    @Embedded
-    @Setter
-    private HealthInfo healthInfo;
-
-    @NotNull
-    @ColumnDefault("'X'")
-    @Enumerated(EnumType.STRING)
-    @Setter
-    private Sex sex;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "title_badge_id")
-    private Badge badge;
-
-    @Column(name = "app_device_token")
-    private String deviceToken;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "school_id")
+    @JoinColumn(name = "school_id", nullable = false)
     private School school;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "max_level_id")
+    @JoinColumn(name = "max_level_id", nullable = false)
     private CalorieLevel maxLevel;
-
-    @ColumnDefault("10000")
-    @Column(nullable = false)
-    private Integer dailyWalkCountGoal;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<ChallengeStatus> challengeStatuses;

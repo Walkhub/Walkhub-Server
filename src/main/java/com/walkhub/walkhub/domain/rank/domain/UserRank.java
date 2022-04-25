@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Getter
@@ -27,26 +29,32 @@ public class UserRank {
 
     @Id
     @Enumerated(EnumType.STRING)
+    @Column(length = 5)
     private DateType dateType;
 
     @Id
     @Enumerated(EnumType.STRING)
+    @Column(length = 6)
     private UserRankScope scopeType;
 
-    @Column(length = 20, nullable = false)
+    @NotNull
+    @Size(max = 20)
     private String name;
 
     private Integer grade;
 
     private Integer classNum;
 
+    @NotNull
     private String profileImageUrl;
 
-    @Column(nullable = false)
+    @NotNull
     private Integer walkCount;
 
-    @Column(columnDefinition = "TINYINT", nullable = false)
+    @NotNull
+    @Column(columnDefinition = "TINYINT")
     private Integer ranking;
 
+    @NotNull
     private Long schoolId;
 }

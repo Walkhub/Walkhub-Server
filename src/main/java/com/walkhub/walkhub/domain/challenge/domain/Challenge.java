@@ -13,20 +13,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.Cacheable;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -40,27 +29,30 @@ public class Challenge {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 200, nullable = false)
+    @NotNull
+    @Size(max = 200)
     private String name;
 
+    @NotNull
     @ColumnDefault(DefaultImage.CHALLENGE_IMAGE)
     private String imageUrl;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @NotNull
+    @Column(columnDefinition = "TEXT")
     private String content;
 
-    @Column(nullable = false)
+    @NotNull
     private LocalDate startAt;
 
-    @Column(nullable = false)
+    @NotNull
     private LocalDate endAt;
 
-    @Column(nullable = false)
+    @NotNull
     private String award;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(length = 6)
+    @Column(length = 7)
     private UserScope userScope;
 
     @NotNull

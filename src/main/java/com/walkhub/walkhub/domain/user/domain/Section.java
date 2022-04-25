@@ -8,30 +8,39 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Cacheable
-@Table(name = "section")
+@Table(name = "section", uniqueConstraints = {
+        @UniqueConstraint(
+                name = "section_uk",
+                columnNames = {"grade", "classNum", "school_id"}
+        )
+})
 public class Section extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "char(7)", nullable = false)
+    @NotNull
+    @Column(columnDefinition = "char(7)", unique = true)
     private String classCode;
 
-    @Column(columnDefinition = "TINYINT", nullable = false)
+    @NotNull
+    @Column(columnDefinition = "TINYINT")
     private Integer grade;
 
-    @Column(columnDefinition = "TINYINT", nullable = false)
+    @NotNull
+    @Column(columnDefinition = "TINYINT")
     private Integer classNum;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "school_id")
+    @JoinColumn(name = "school_id", nullable = false)
     private School school;
 
     @OneToMany(mappedBy = "section")
@@ -42,10 +51,6 @@ public class Section extends BaseTimeEntity {
         this.grade = grade;
         this.classNum = classNum;
         this.school = school;
-        this.classCode = classCode;
-    }
-
-    public void setClassCode(String classCode) {
         this.classCode = classCode;
     }
 }

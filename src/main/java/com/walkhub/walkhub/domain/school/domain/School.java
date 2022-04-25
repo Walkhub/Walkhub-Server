@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Getter
@@ -22,20 +24,23 @@ public class School extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 20, nullable = false)
+    @NotNull
+    @Size(max = 20)
+    @Column(unique = true)
     private String name;
 
+    @NotNull
     @ColumnDefault(DefaultImage.SCHOOL_LOGO_IMAGE)
     private String logoImageUrl;
 
+    @NotNull
     @ColumnDefault("0")
-    @Column(nullable = false)
     private Long userCount;
 
-    @Column(columnDefinition = "char(7)")
+    @Column(columnDefinition = "char(7)", unique = true)
     private String authCode;
 
-    @OneToMany(mappedBy = "school")
+    @OneToMany(mappedBy = "school", cascade = CascadeType.REMOVE)
     private List<Section> sections;
 
     @Builder

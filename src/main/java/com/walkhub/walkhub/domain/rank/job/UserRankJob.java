@@ -172,7 +172,7 @@ public class UserRankJob {
         return rankInfo -> UserRankWriterVO.builder()
                 .userId(rankInfo.getUserId())
                 .createdAt(LocalDate.now())
-                .dateType(DATE_WEEK)
+                .dateType(DATE_MONTH)
                 .scopeType(USER_SCOPE_CLASS)
                 .schoolId(rankInfo.getSchoolId())
                 .name(rankInfo.getName())

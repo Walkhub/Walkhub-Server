@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -27,41 +28,50 @@ public class Exercise extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "integer default 0")
+    @NotNull
+    @ColumnDefault("0")
     private Integer walkCount;
 
     private ZonedDateTime endAt;
 
-    @Column(nullable = false, columnDefinition = "integer default 0")
+    @NotNull
+    @ColumnDefault("0")
     private Integer distance;
 
-    @Column(nullable = false, columnDefinition = "integer default 0")
+    @NotNull
+    @ColumnDefault("0")
     private Double calorie;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(nullable = false, columnDefinition = "integer default 6000")
+    @NotNull
+    @ColumnDefault("6000")
     private Integer goal;
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(length = 8)
     private GoalType goalType;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @NotNull
+    @ColumnDefault("0")
     private Boolean isExercising;
 
-    @Column(nullable = false, columnDefinition = "integer default 0")
+    @NotNull
+    @ColumnDefault("0")
     private Long cheeringCount;
 
-    @Column(nullable = false, columnDefinition = "varchar(255) default " + DefaultImage.EXERCISE_IMAGE)
+    @NotNull
+    @ColumnDefault(DefaultImage.CHALLENGE_IMAGE)
     private String imageUrl;
 
-    @Column(nullable = false, columnDefinition = "integer default 0")
+    @NotNull
+    @ColumnDefault("0")
     private Integer pausedTime;
 
-    @OneToMany(mappedBy = "exercise")
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.REMOVE)
     private List<Location> locations;
 
     @Builder
