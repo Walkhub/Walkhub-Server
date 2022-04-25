@@ -1,6 +1,6 @@
 package com.walkhub.walkhub.domain.notification.domain.type;
 
-public enum Type {
+public enum NotificationType {
     NOTICE,
     CHALLENGE,
     CHALLENGE_EXPIRATION,
