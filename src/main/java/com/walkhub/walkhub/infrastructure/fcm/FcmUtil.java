@@ -5,7 +5,6 @@ import com.walkhub.walkhub.domain.exercise.domain.Exercise;
 import com.walkhub.walkhub.domain.notice.domain.Notice;
 import com.walkhub.walkhub.domain.notification.presentation.dto.request.SubscribeRequest;
 import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationRequest;
-import com.walkhub.walkhub.infrastructure.fcm.type.ContentType;
 
 public interface FcmUtil {
 
@@ -17,12 +16,12 @@ public interface FcmUtil {
 
     void unSubscribeTopic(SubscribeRequest request);
 
-    void sendNoticeNotification(Notice notice, ContentType contentType);
+    void sendNoticeNotification(Notice notice);
 
-    void sendChallengeExpirationNotification(Challenge challenge, ContentType contentType);
+    void sendChallengeExpirationNotification(Challenge challenge);
 
-    void sendChallengeSuccessNotification(Challenge challenge, ContentType contentType, Exercise exercise);
+    void sendChallengeSuccessNotification(Challenge challenge, Exercise exercise);
 
-    void sendChallengeCanParticipate(Challenge challenge, ContentType contentType);
+    void sendChallengeCanParticipate(Challenge challenge);
 
 }
