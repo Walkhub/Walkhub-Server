@@ -10,4 +10,5 @@ public class DefaultImage {
     public static final String SCHOOL_LOGO_IMAGE = "'c'";
     public static final String BADGE_IMAGE = "'d'";
     public static final String EXERCISE_IMAGE = "'e'";
+    public static final String CALORIE_LEVEL_IMAGE = "'f'";
 }
