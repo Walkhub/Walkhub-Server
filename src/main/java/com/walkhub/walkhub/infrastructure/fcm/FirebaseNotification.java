@@ -137,31 +137,31 @@ public class FirebaseNotification implements FcmUtil {
     }
 
     @Override
-    public void sendNoticeNotification(Notice notice, ContentType contentType) {
-        noticeSendNotificationBuilder(notice, contentType);
+    public void sendNoticeNotification(Notice notice) {
+        noticeSendNotificationBuilder(notice, ContentType.CREATE_NOTICE);
     }
 
     @Override
-    public void sendChallengeExpirationNotification(Challenge challenge, ContentType contentType) {
+    public void sendChallengeExpirationNotification(Challenge challenge) {
         if (LocalDate.now().isEqual(challenge.getEndAt())) {
-            challengeSendNotificationBuilder(challenge, contentType);
+            challengeSendNotificationBuilder(challenge, ContentType.EXPIRED_CHALLENGE);
         }
         throw ChallengeNotExpirationException.EXCEPTION;
 
     }
 
     @Override
-    public void sendChallengeSuccessNotification(Challenge challenge, ContentType contentType, Exercise exercise) {
+    public void sendChallengeSuccessNotification(Challenge challenge, Exercise exercise) {
         if (exercise.getWalkCount().equals(challenge.getGoal())) {
-            challengeSendNotificationBuilder(challenge, contentType);
+            challengeSendNotificationBuilder(challenge, ContentType.SUCCESS_CHALLENGE);
         }
         throw ChallengeNotSuccessException.EXCEPTION;
 
     }
 
     @Override
-    public void sendChallengeCanParticipate(Challenge challenge, ContentType contentType) {
-        challengeSendNotificationBuilder(challenge, contentType);
+    public void sendChallengeCanParticipate(Challenge challenge) {
+        challengeSendNotificationBuilder(challenge, ContentType.CAN_PARTICIPATE_CHALLENGE);
     }
 
     private NotificationRequest notificationBuilder(NotificationInformation notificationInformation, String content) {
@@ -177,7 +177,7 @@ public class FirebaseNotification implements FcmUtil {
     private void challengeSendNotificationBuilder(Challenge challenge, ContentType contentType) {
         sendNotification(
                 notificationBuilder(NotificationInformation.challengeNotificationInformation(challenge),
-                        " [ " + challenge.getName() + " ]" + contentType.getContent())
+                        "축하드려요!" + " [ " + challenge.getName() + " ]" + contentType.getContent())
         );
 
     }
