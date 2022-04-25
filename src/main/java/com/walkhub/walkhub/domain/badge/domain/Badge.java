@@ -26,16 +26,20 @@ public class Badge extends BaseTimeEntity {
 
     @NotNull
     @Size(max = 20)
+    @Column(unique = true)
     private String name;
 
+    @NotNull
     @ColumnDefault(DefaultImage.BADGE_IMAGE)
     private String imageUrl;
 
     @NotNull
+    @Column(unique = true)
     private String unlockCondition;
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(unique = true)
     private BadgeType code;
 
     @OneToMany(mappedBy = "badge", cascade = CascadeType.REMOVE)
