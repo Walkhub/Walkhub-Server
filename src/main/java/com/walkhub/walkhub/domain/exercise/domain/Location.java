@@ -5,14 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Getter
@@ -26,14 +21,14 @@ public class Location {
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exercise_id")
+    @JoinColumn(name = "exercise_id", nullable = false)
     private Exercise exercise;
 
-    @Column(nullable = false)
+    @NotNull
     @Digits(integer = 2, fraction = 8)
     private BigDecimal latitude;
 
-    @Column(nullable = false)
+    @NotNull
     @Digits(integer = 3, fraction = 8)
     private BigDecimal longitude;
 
