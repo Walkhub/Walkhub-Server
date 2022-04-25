@@ -47,7 +47,7 @@ public class QueryNotificationListService {
                         .name(user.getName())
                         .profileImageUrl(user.getProfileImageUrl())
                         .build())
-                .createAt(notificationEntity.getCreatedAt())
+                .createdAt(notificationEntity.getCreatedAt())
                 .build();
     }
 

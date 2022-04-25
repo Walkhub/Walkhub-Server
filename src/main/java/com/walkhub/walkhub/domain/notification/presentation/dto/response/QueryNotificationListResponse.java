@@ -24,7 +24,7 @@ public class QueryNotificationListResponse {
         private final String data;
         private final boolean isRead;
         private final Writer writer;
-        private final ZonedDateTime createAt;
+        private final ZonedDateTime createdAt;
     }
 
     @Getter
