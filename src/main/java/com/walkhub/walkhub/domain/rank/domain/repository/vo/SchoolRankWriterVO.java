@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.rank.domain.repository.vo;
 
-import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,7 +11,7 @@ public class SchoolRankWriterVO {
 
     private Long schoolId;
     private LocalDate createdAt;
-    private SchoolDateType dateType;
+    private String dateType;
     private String name;
     private String logoImageUrl;
     private Long userCount;
