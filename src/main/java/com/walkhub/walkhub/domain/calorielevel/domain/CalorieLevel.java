@@ -1,12 +1,15 @@
 package com.walkhub.walkhub.domain.calorielevel.domain;
 
+import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,7 +22,7 @@ public class CalorieLevel {
     private Long id;
 
     @NotNull
-    @Column(length = 10)
+    @Size(max = 10)
     private String foodName;
 
     @NotNull
@@ -29,10 +32,11 @@ public class CalorieLevel {
     private String message;
 
     @NotNull
+    @ColumnDefault(DefaultImage.CALORIE_LEVEL_IMAGE)
     private String foodImageUrl;
 
     @NotNull
-    @Column(columnDefinition = "TINYINT")
+    @Column(columnDefinition = "TINYINT", unique = true)
     private Integer level;
 
     @NotNull
