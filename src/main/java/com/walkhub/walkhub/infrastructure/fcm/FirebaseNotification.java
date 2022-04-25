@@ -138,7 +138,7 @@ public class FirebaseNotification implements FcmUtil {
 
     @Override
     public void sendNoticeNotification(Notice notice) {
-        noticeSendNotificationBuilder(notice, ContentType.CREATE_NOTICE);
+        noticeSendNotificationBuilder(notice);
     }
 
     @Override
@@ -182,10 +182,10 @@ public class FirebaseNotification implements FcmUtil {
 
     }
 
-    private void noticeSendNotificationBuilder(Notice notice, ContentType contentType) {
+    private void noticeSendNotificationBuilder(Notice notice) {
         sendNotification(
                 notificationBuilder(NotificationInformation.noticeNotificationInformation(notice),
-                        " [ " + notice.getTitle() + " ] " + contentType.getContent())
+                        " [ " + notice.getTitle() + " ] " + ContentType.CREATE_NOTICE.getContent())
         );
     }
 
