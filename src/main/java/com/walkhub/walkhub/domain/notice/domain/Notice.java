@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,10 +22,12 @@ public class Notice extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 200, nullable = false)
+    @NotNull
+    @Size(max = 200)
     private String title;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @NotNull
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @NotNull
@@ -36,16 +39,16 @@ public class Notice extends BaseTimeEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public void updateNotice(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
-
     @Builder
     public Notice(String title, Scope scope, String content, User user) {
         this.title = title;
         this.scope = scope;
         this.content = content;
         this.user = user;
+    }
+
+    public void updateNotice(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 }
