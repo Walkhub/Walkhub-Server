@@ -16,6 +16,7 @@ import com.walkhub.walkhub.global.exception.InvalidRoleException;
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -27,6 +28,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Cacheable
+@DynamicInsert
 @Table(uniqueConstraints = {
         @UniqueConstraint(
                 name = "user_uk",
