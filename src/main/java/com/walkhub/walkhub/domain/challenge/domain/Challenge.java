@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicInsert
 @Entity
 @Cacheable
 public class Challenge {
@@ -33,8 +35,8 @@ public class Challenge {
     @Size(max = 200)
     private String name;
 
-    @NotNull
     @ColumnDefault(DefaultImage.CHALLENGE_IMAGE)
+    @Column(nullable = false)
     private String imageUrl;
 
     @NotNull
