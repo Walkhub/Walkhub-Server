@@ -10,6 +10,9 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 public class UpdatePasswordRequest {
 
+    @NotBlank(message = "password는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
+    private String password;
+
     @NotBlank(message = "new_password는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
     @Pattern(regexp = "(?=.*[a-z])(?=.*[0-9])(?=.*[!#$%&'()*+,./:;<=>?@＼^_`{|}~])[a-zA-Z0-9!#$%&'()*+,./:;" +
             "<=>?@＼^_`{|}~]{8,30}$",

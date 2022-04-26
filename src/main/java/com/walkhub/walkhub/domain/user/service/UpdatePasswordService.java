@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.user.service;
 
+import com.walkhub.walkhub.domain.auth.exception.PasswordMismatchException;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UpdatePasswordRequest;
@@ -18,6 +19,10 @@ public class UpdatePasswordService {
     @Transactional
     public void execute(UpdatePasswordRequest request) {
         User user = userFacade.getCurrentUser();
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw PasswordMismatchException.EXCEPTION;
+        }
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
     }
