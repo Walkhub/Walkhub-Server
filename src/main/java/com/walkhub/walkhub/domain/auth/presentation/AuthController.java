@@ -2,6 +2,7 @@ package com.walkhub.walkhub.domain.auth.presentation;
 
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.CheckAuthCodeRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.SignInRequest;
+import com.walkhub.walkhub.domain.auth.presentation.dto.request.VerificationPasswordRequest;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.AuthUserInfoResponse;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenRefreshResponse;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenResponse;
@@ -10,6 +11,7 @@ import com.walkhub.walkhub.domain.auth.service.CheckAccountIdExistsService;
 import com.walkhub.walkhub.domain.auth.service.CheckAuthCodeExistsService;
 import com.walkhub.walkhub.domain.auth.service.TokenRefreshService;
 import com.walkhub.walkhub.domain.auth.service.UserSignInService;
+import com.walkhub.walkhub.domain.auth.service.VerificationPasswordService;
 import com.walkhub.walkhub.domain.user.service.CheckClassCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -38,6 +40,7 @@ public class AuthController {
     private final CheckAuthCodeExistsService checkAuthCodeExistsService;
     private final AuthUserInfoService authUserInfoService;
     private final CheckClassCodeService checkClassCodeService;
+    private final VerificationPasswordService verificationPasswordService;
 
     @PostMapping("/token")
     public UserTokenResponse userSignIn(@RequestBody @Valid SignInRequest request) {
@@ -67,5 +70,10 @@ public class AuthController {
     @GetMapping("/auth/info")
     public AuthUserInfoResponse authUserInfo() {
         return authUserInfoService.execute();
+    }
+
+    @PostMapping("/verification-password")
+    public void verificationCurrentPassword(@RequestBody @Valid VerificationPasswordRequest request) {
+        verificationPasswordService.execute(request);
     }
 }

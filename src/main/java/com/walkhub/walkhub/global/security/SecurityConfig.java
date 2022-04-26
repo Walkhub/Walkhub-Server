@@ -58,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/users/verification-codes").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
                 .antMatchers(HttpMethod.POST, "/users/classes").authenticated()
+                .antMatchers(HttpMethod.POST, "/users/verification-password").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users/{user-id}/independence").hasAuthority("TEACHER")
                 .antMatchers(HttpMethod.PATCH, "/users/goal").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/users/token").authenticated()
