@@ -6,6 +6,7 @@ import com.walkhub.walkhub.domain.exercise.presentation.dto.request.FinishExerci
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
+import com.walkhub.walkhub.global.exception.InvalidRoleException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,10 @@ public class FinishExerciseService {
         User user = userFacade.getCurrentUser();
         Exercise exercise = exerciseFacade.getById(exerciseId);
 
+        if (!user.equals(exercise.getUser())) {
+            throw InvalidRoleException.EXCEPTION;
+        }
+
         exercise.closeExercise(
                 request.getWalkCount(),
                 request.getDistance(),
@@ -28,8 +33,6 @@ public class FinishExerciseService {
                 request.getImageUrl(),
                 request.getPausedTime()
         );
-
-        user.updateIsMeasuring(false);
     }
 
 }

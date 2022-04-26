@@ -35,8 +35,6 @@ public class CreateExerciseService {
                         .build()
         );
 
-        user.updateIsMeasuring(true);
-
         return new CreateExerciseResponse(exercise.getId());
     }
 }
