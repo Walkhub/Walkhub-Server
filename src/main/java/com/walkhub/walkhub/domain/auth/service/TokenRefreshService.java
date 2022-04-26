@@ -5,6 +5,7 @@ import com.walkhub.walkhub.domain.auth.domain.repository.RefreshTokenRepository;
 import com.walkhub.walkhub.domain.auth.exception.RefreshTokenNotFoundException;
 import com.walkhub.walkhub.domain.auth.presentation.dto.response.UserTokenRefreshResponse;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
+import com.walkhub.walkhub.global.security.jwt.JwtProperties;
 import com.walkhub.walkhub.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ public class TokenRefreshService {
 
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final JwtProperties jwtProperties;
 
     @Transactional
     public UserTokenRefreshResponse execute(String refreshToken) {
@@ -22,7 +24,7 @@ public class TokenRefreshService {
                 .orElseThrow(() -> RefreshTokenNotFoundException.EXCEPTION);
 
         String newRefreshToken = jwtTokenProvider.generateRefreshToken(redisRefreshToken.getAccountId());
-        redisRefreshToken.updateToken(newRefreshToken);
+        redisRefreshToken.updateToken(newRefreshToken, jwtProperties.getRefreshExp());
 
         String accessToken = jwtTokenProvider.generateAccessToken(redisRefreshToken.getAccountId());
         return UserTokenRefreshResponse.builder()
