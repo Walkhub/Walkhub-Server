@@ -16,20 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 @ServiceWithTransactionalReadOnly
 public class UpdatePasswordService {
 
-    private final UserAuthCodeRepository userAuthCodeRepository;
     private final UserFacade userFacade;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void execute(UpdatePasswordRequest request) {
-        UserAuthCode code = userAuthCodeRepository.findById(request.getPhoneNumber())
-                .orElseThrow(() -> UserAuthCodeNotFoundException.EXCEPTION);
-
-        if (!passwordEncoder.matches(request.getAuthCode(), code.getCode())) {
-            throw UnauthorizedUserAuthCodeException.EXCEPTION;
-        }
-
-        User user = userFacade.getUserByAccountId(request.getAccountId());
+        User user = userFacade.getCurrentUser();
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
     }
