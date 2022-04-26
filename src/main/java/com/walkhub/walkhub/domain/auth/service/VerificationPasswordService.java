@@ -4,12 +4,12 @@ import com.walkhub.walkhub.domain.auth.exception.PasswordMismatchException;
 import com.walkhub.walkhub.domain.auth.presentation.dto.request.VerificationPasswordRequest;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
+import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
-@Service
+@ServiceWithTransactionalReadOnly
 public class VerificationPasswordService {
 
     private final UserFacade userFacade;
