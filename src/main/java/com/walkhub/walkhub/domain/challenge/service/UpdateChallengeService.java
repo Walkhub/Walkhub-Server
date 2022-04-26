@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.challenge.service;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.facade.ChallengeFacade;
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.request.UpdateChallengeRequest;
+import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.ChallengeResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
@@ -18,7 +19,7 @@ public class UpdateChallengeService {
     private final ChallengeFacade challengeFacade;
 
     @Transactional
-    public void execute(Long id, UpdateChallengeRequest request) {
+    public ChallengeResponse execute(Long id, UpdateChallengeRequest request) {
         User user = userFacade.getCurrentUser();
         Challenge challenge = challengeFacade.getChallengeById(id);
 
@@ -27,5 +28,7 @@ public class UpdateChallengeService {
         }
 
         challenge.updateChallenge(request);
+
+        return new ChallengeResponse(challenge.getId());
     }
 }

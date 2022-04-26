@@ -29,15 +29,15 @@ public class ChallengeController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public CreateChallengeResponse createChallenge(@RequestBody @Valid CreateChallengeRequest request) {
+    public ChallengeResponse createChallenge(@RequestBody @Valid CreateChallengeRequest request) {
         return createChallengeService.execute(request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/{challenge-id}")
-    public void updateChallenge(@PathVariable("challenge-id") Long id,
+    public ChallengeResponse updateChallenge(@PathVariable("challenge-id") Long id,
                                 @RequestBody @Valid UpdateChallengeRequest request) {
-        updateChallengeService.execute(id, request);
+        return updateChallengeService.execute(id, request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
