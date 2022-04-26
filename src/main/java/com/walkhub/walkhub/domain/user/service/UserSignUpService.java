@@ -16,6 +16,7 @@ import com.walkhub.walkhub.domain.user.domain.UserAuthCode;
 import com.walkhub.walkhub.domain.user.domain.repository.UserAuthCodeRepository;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.domain.type.HealthInfo;
+import com.walkhub.walkhub.domain.user.domain.type.Sex;
 import com.walkhub.walkhub.domain.user.exception.*;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.UserSignUpRequest;
@@ -53,8 +54,9 @@ public class UserSignUpService {
         UserAuthCode code = userAuthCodeRepository.findById(request.getPhoneNumber())
                 .orElseThrow(() -> UserAuthCodeNotFoundException.EXCEPTION);
 
-        if (!passwordEncoder.matches(request.getAuthCode(), code.getCode()))
+        if (!passwordEncoder.matches(request.getAuthCode(), code.getCode())) {
             throw UnauthorizedUserAuthCodeException.EXCEPTION;
+        }
 
         userFacade.checkUserExists(request.getAccountId());
 
@@ -67,7 +69,7 @@ public class UserSignUpService {
         CalorieLevel calorieLevel = calorieLevelRepository.findByLevel(1)
                 .orElseThrow(() -> CalorieLevelNotFoundException.EXCEPTION);
 
-        User user = User.builder()
+        User user = userRepository.save(User.builder()
                 .accountId(request.getAccountId())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .phoneNumber(request.getPhoneNumber())
@@ -77,12 +79,10 @@ public class UserSignUpService {
                 .height(request.getHeight())
                 .weight(request.getWeight())
                 .sex(request.getSex())
-                .isMeasuring(false)
                 .badge(defaultTitleBadge)
                 .calorieLevel(calorieLevel)
                 .deviceToken(request.getDeviceToken())
-                .build();
-        userRepository.save(user);
+                .build());
 
         badgeCollectionRepository.save(
                 BadgeCollection.builder()
@@ -104,7 +104,7 @@ public class UserSignUpService {
                 .authority(user.getAuthority())
                 .height(healthInfo.getHeight())
                 .weight(healthInfo.getWeight())
-                .sex(user.getSex())
+                .sex(user.getSex() == null ? Sex.X : user.getSex())
                 .build();
     }
 }

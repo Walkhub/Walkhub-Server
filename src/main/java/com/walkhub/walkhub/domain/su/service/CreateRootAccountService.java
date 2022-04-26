@@ -38,7 +38,6 @@ public class CreateRootAccountService {
                 .authority(Authority.ROOT)
                 .name(suAccount)
                 .school(school)
-                .isMeasuring(false)
                 .sex(Sex.X)
                 .build());
 

@@ -59,8 +59,8 @@ public class User extends BaseTimeEntity {
     @Size(max = 10)
     private String name;
 
-    @NotNull
     @ColumnDefault(DefaultImage.USER_PROFILE_IMAGE)
+    @Column(nullable = false)
     private String profileImageUrl;
 
     @NotNull
@@ -71,8 +71,8 @@ public class User extends BaseTimeEntity {
     @Column(columnDefinition = "TINYINT unsigned")
     private Integer number;
 
-    @NotNull
     @ColumnDefault("0")
+    @Column(nullable = false)
     private Boolean isMeasuring;
 
     @Setter
@@ -80,14 +80,13 @@ public class User extends BaseTimeEntity {
     private HealthInfo healthInfo;
 
     @Setter
-    @NotNull
     @ColumnDefault("'X'")
     @Enumerated(EnumType.STRING)
-    @Column(length = 6)
+    @Column(length = 6, nullable = false)
     private Sex sex;
 
-    @NotNull
     @ColumnDefault("10000")
+    @Column(nullable = false)
     private Integer dailyWalkCountGoal;
 
     @Column(name = "app_device_token")
@@ -120,19 +119,16 @@ public class User extends BaseTimeEntity {
 
     @Builder
     public User(String accountId, String password, String phoneNumber, String name,
-                Authority authority, Section section, School school, boolean isMeasuring,
-                Integer weight, BigDecimal height, Sex sex, Badge badge, CalorieLevel calorieLevel, String deviceToken) {
+                Authority authority, School school, Integer weight, BigDecimal height,
+                Sex sex, Badge badge, CalorieLevel calorieLevel, String deviceToken) {
         this.accountId = accountId;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.name = name;
         this.authority = authority;
-        this.section = section;
         this.school = school;
-        this.isMeasuring = isMeasuring;
         this.healthInfo = new HealthInfo(weight, height);
-        this.dailyWalkCountGoal = 10000;
-        if (sex != null) this.sex = sex;
+        this.sex = sex;
         this.badge = badge;
         this.maxLevel = calorieLevel;
         this.deviceToken = deviceToken;
