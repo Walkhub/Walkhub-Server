@@ -29,12 +29,12 @@ public class School extends BaseTimeEntity {
     @Column(unique = true)
     private String name;
 
-    @NotNull
     @ColumnDefault(DefaultImage.SCHOOL_LOGO_IMAGE)
+    @Column(nullable = false)
     private String logoImageUrl;
 
-    @NotNull
     @ColumnDefault("0")
+    @Column(nullable = false)
     private Long userCount;
 
     @Column(columnDefinition = "char(7)", unique = true)
