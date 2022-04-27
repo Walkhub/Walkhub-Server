@@ -28,26 +28,22 @@ public class Exercise extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     @ColumnDefault("0")
+    @Column(nullable = false)
     private Integer walkCount;
 
     private ZonedDateTime endAt;
 
-    @NotNull
     @ColumnDefault("0")
+    @Column(nullable = false)
     private Integer distance;
 
-    @NotNull
     @ColumnDefault("0")
+    @Column(nullable = false)
     private Double calorie;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @NotNull
     @ColumnDefault("6000")
+    @Column(nullable = false)
     private Integer goal;
 
     @NotNull
@@ -55,21 +51,24 @@ public class Exercise extends BaseTimeEntity {
     @Column(length = 8)
     private GoalType goalType;
 
-    @NotNull
-    @ColumnDefault("0")
+    @ColumnDefault("1")
+    @Column(nullable = false)
     private Boolean isExercising;
 
-    @NotNull
     @ColumnDefault("0")
+    @Column(nullable = false)
     private Long cheeringCount;
 
-    @NotNull
     @ColumnDefault(DefaultImage.CHALLENGE_IMAGE)
     private String imageUrl;
 
-    @NotNull
     @ColumnDefault("0")
+    @Column(nullable = false)
     private Integer pausedTime;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @OneToMany(mappedBy = "exercise", cascade = CascadeType.REMOVE)
     private List<Location> locations;
@@ -78,8 +77,9 @@ public class Exercise extends BaseTimeEntity {
     public Exercise(User user, Integer goal, GoalType goalType) {
         this.user = user;
         this.goalType = goalType;
-        if (goal != null) this.goal = goal;
-        this.isExercising = true;
+        this.goal = goal;
+
+        user.updateIsMeasuring(true);
     }
 
     public void closeExercise(Integer walkCount, Integer distance, Double calorie, String imageUrl,
@@ -91,6 +91,8 @@ public class Exercise extends BaseTimeEntity {
         if (imageUrl != null) this.imageUrl = imageUrl;
         this.isExercising = false;
         this.pausedTime = pausedTime;
+
+        user.updateIsMeasuring(false);
     }
 
     public void addCheeringCount() {

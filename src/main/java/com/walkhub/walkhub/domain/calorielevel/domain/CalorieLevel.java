@@ -2,7 +2,6 @@ package com.walkhub.walkhub.domain.calorielevel.domain;
 
 import com.walkhub.walkhub.infrastructure.image.DefaultImage;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -42,14 +41,4 @@ public class CalorieLevel {
     @NotNull
     private Double calorie;
 
-    @Builder
-    public CalorieLevel(String foodName, String size, String message, String foodImageUrl, Integer level,
-                        Double calorie) {
-        this.foodName = foodName;
-        this.size = size;
-        this.message = message;
-        this.foodImageUrl = foodImageUrl;
-        this.level = level;
-        this.calorie = calorie;
-    }
 }

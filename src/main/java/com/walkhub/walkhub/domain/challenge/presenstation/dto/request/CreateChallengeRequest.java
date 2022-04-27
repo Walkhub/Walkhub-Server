@@ -20,7 +20,6 @@ public class CreateChallengeRequest {
     @NotBlank(message = "content는 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
     private String content;
 
-    @NotBlank(message = "image_url은 Null, 공백, 띄어쓰기를 허용하지 않습니다.")
     private String imageUrl;
 
     @NotNull(message = "start_at은 Null일 수 없습니다.")

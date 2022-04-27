@@ -10,7 +10,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class CreateExerciseRequest {
 
-    @NotNull(message = "goal은 null, 공백을 허용하지 않습니다.")
     private Integer goal;
 
     @NotNull(message = "goal_type은 null, 공백을 허용하지 않습니다.")
