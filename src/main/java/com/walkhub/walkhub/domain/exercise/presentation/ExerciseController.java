@@ -52,7 +52,7 @@ public class ExerciseController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public CreateExerciseResponse createExercise(@RequestBody CreateExerciseRequest request) {
+    public CreateExerciseResponse createExercise(@RequestBody @Valid CreateExerciseRequest request) {
         return createExerciseService.execute(request);
     }
 
