@@ -13,16 +13,18 @@ import java.time.LocalDate;
 public class PrintExcelRequest {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private LocalDate startAt;
+    @NotNull(message = "start_at은 Null일 수 없습니다.")
+    private final LocalDate startAt;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private LocalDate endAt;
+    @NotNull(message = "end_at은 Null일 수 없습니다.")
+    private final LocalDate endAt;
 
     @NotNull(message = "user_type은 Null일 수 없습니다.")
-    private UserType userType;
+    private final UserType userType;
 
-    private Integer grade;
+    private final Integer grade;
 
-    private Integer classNum;
+    private final Integer classNum;
 
 }
