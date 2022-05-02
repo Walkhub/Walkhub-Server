@@ -22,7 +22,7 @@ public class PrintExcelService {
         User user = userFacade.getCurrentUser();
 
         List<PrintExcelVo> printExcelVoList =
-                exerciseAnalysisRepository.getPrintExcelVoList(printExcelRequest, user.getSchoolId());
+                exerciseAnalysisRepository.getPrintExcelVoList(printExcelRequest, user.getUserSchoolId());
 
         return new PrintExcelResponse(printExcelVoList);
     }
