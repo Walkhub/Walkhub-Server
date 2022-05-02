@@ -39,7 +39,7 @@ public class QueryChallengeDetailsForStudentService {
         List<RelatedChallengeParticipantsVO> relatedChallengeParticipantsList =
                 challengeRepository.getRelatedChallengeParticipantsList(challengeId, user);
 
-        int value = builderValue(vo.getGoalType(), vo.getStartAt(), vo.getEndAt(), user);
+        int totalValue = buildTotalValue(vo.getGoalType(), vo.getStartAt(), vo.getEndAt(), user);
 
         return QueryChallengeDetailsForStudentResponse.builder()
                 .name(vo.getName())
@@ -53,12 +53,12 @@ public class QueryChallengeDetailsForStudentService {
                 .startAt(vo.getStartAt())
                 .endAt(vo.getEndAt())
                 .successStandard(vo.getSuccessStandard())
-                .value(value)
+                .totalValue(totalValue)
                 .writer(challengeFacade.personBuilder(
                         vo.getWriterUserId(), vo.getWriterName(), vo.getWriterProfileImageUrl()
                 ))
                 .isMine(vo.getIsMine())
-                .isParticipated(vo.getIsParticipated())
+                .isParticipated(vo.getIsParticipated() != null && vo.getIsParticipated())
                 .participantCount(vo.getParticipantCount())
                 .participantList(relatedChallengeParticipantsList
                         .stream()
@@ -69,7 +69,7 @@ public class QueryChallengeDetailsForStudentService {
                 .build();
     }
 
-    private Integer builderValue(GoalType goalType, LocalDate startAt, LocalDate endAt, User user) {
+    private Integer buildTotalValue(GoalType goalType, LocalDate startAt, LocalDate endAt, User user) {
         if (GoalType.WALK == goalType) {
             return exerciseAnalysisRepository.findAllByUserAndDateBetween(user, startAt, endAt)
                     .stream()
