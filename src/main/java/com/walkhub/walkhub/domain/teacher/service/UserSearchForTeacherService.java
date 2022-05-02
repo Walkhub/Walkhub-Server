@@ -2,8 +2,9 @@ package com.walkhub.walkhub.domain.teacher.service;
 
 import com.walkhub.walkhub.domain.teacher.presentation.dto.request.UserSearchRequest;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserListResponse;
-import com.walkhub.walkhub.domain.user.domain.repository.vo.UserListInfoVO;
+import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserListResponse.UserListInfo;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
+import com.walkhub.walkhub.domain.user.domain.repository.vo.UserListInfoVO;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
@@ -19,15 +20,15 @@ public class UserSearchForTeacherService {
     public QueryUserListResponse execute(UserSearchRequest request) {
         return QueryUserListResponse.builder()
                 .userList(userRepository.searchUser(request.getScope(), request.getSort(), request.getGrade(),
-                        request.getClassNum(), userFacade.getCurrentUser(), request.getName())
+                                request.getClassNum(), userFacade.getCurrentUser(), request.getName())
                         .stream().map(this::buildUserListResponse)
                         .collect(Collectors.toList())
                 )
                 .build();
     }
 
-    private QueryUserListResponse.UserListInfo buildUserListResponse(UserListInfoVO users) {
-        return QueryUserListResponse.UserListInfo.builder()
+    private UserListInfo buildUserListResponse(UserListInfoVO users) {
+        return UserListInfo.builder()
                 .userId(users.getUserId())
                 .name(users.getName())
                 .profileImageUrl(users.getProfileImageUrl())
