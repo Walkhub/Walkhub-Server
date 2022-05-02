@@ -16,7 +16,6 @@ public class ClassResponse {
         private final Long sectionId;
         private final Integer grade;
         private final Integer classNum;
-        private final Integer userCount;
     }
 
     @Getter
