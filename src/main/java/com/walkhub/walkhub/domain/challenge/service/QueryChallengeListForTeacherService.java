@@ -44,7 +44,7 @@ public class QueryChallengeListForTeacherService {
                 .goalType(vo.getGoalType())
                 .writer(challengeFacade.personBuilder(
                         vo.getWriterId(),
-                        vo.getWriterProfileImageUrl(),
+                        vo.getWriterName(),
                         vo.getWriterProfileImageUrl()
                 ))
                 .participantCount(vo.getParticipantCount())
