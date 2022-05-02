@@ -24,7 +24,7 @@ public class QueryChallengeDetailsForStudentResponse {
     private final LocalDate startAt;
     private final LocalDate endAt;
     private final Integer successStandard;
-    private final Integer value;
+    private final Integer totalValue;
     private final PersonResponse writer;
     private final Boolean isMine;
     private final Boolean isParticipated;

@@ -53,7 +53,7 @@ public class QueryChallengeDetailsForStudentService {
                 .startAt(vo.getStartAt())
                 .endAt(vo.getEndAt())
                 .successStandard(vo.getSuccessStandard())
-                .value(totalValue)
+                .totalValue(totalValue)
                 .writer(challengeFacade.personBuilder(
                         vo.getWriterUserId(), vo.getWriterName(), vo.getWriterProfileImageUrl()
                 ))
