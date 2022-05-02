@@ -2,7 +2,6 @@ package com.walkhub.walkhub.domain.challenge.presenstation.dto.response;
 
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
-import com.walkhub.walkhub.global.enums.UserScope;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
