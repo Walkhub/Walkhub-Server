@@ -21,7 +21,7 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<NoticeResponse> queryNoticeByScopeAndPage(Scope scope, Integer page, School userSchool) {
+    public List<NoticeResponse> findAll(Scope scope, Integer page, School userSchool) {
         long size = 10;
         return queryFactory
                 .select(new QQueryNoticeListResponse_NoticeResponse(
@@ -44,6 +44,31 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
                 )
                 .offset((long) page * size)
                 .limit(size)
+                .orderBy(notice.createdAt.desc())
+                .fetch();
+    }
+
+    @Override
+    public List<NoticeResponse> findAll(Scope scope, School userSchool) {
+        return queryFactory
+                .select(new QQueryNoticeListResponse_NoticeResponse(
+                        notice.id,
+                        notice.title,
+                        notice.content,
+                        notice.scope,
+                        notice.createdAt,
+                        new QQueryNoticeListResponse_Writer(
+                                user.id,
+                                user.name,
+                                user.profileImageUrl
+                        ))
+                )
+                .from(notice)
+                .join(notice.user, user)
+                .join(user.school, school)
+                .where(
+                        scopeFilter(scope, userSchool)
+                )
                 .orderBy(notice.createdAt.desc())
                 .fetch();
     }

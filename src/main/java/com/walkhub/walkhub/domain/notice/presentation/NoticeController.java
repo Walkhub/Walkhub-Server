@@ -25,7 +25,7 @@ public class NoticeController {
     private final ModifyNoticeService modifyNoticeService;
 
     @GetMapping("/list")
-    public QueryNoticeListResponse queryNoticeList(@RequestParam Scope scope, @RequestParam Integer page) {
+    public QueryNoticeListResponse queryNoticeList(@RequestParam Scope scope, @RequestParam(required = false) Integer page) {
         return queryNoticeListService.execute(scope, page);
     }
 

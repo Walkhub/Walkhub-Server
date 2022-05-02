@@ -20,9 +20,13 @@ public class QueryNoticeListService {
 
     public QueryNoticeListResponse execute(Scope scope, Integer page) {
         User user = userFacade.getCurrentUser();
+        List<NoticeResponse> noticeResponseList;
 
-        List<NoticeResponse> noticeResponseList = noticeRepository
-                .queryNoticeByScopeAndPage(scope, page, user.getSchool());
+        if (page == null) {
+            noticeResponseList = noticeRepository.findAll(scope, user.getSchool());
+        } else {
+            noticeResponseList = noticeRepository.findAll(scope, page, user.getSchool());
+        }
 
         return new QueryNoticeListResponse(noticeResponseList);
     }
