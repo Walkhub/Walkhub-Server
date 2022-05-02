@@ -4,6 +4,7 @@ import com.walkhub.walkhub.domain.excel.presentation.dto.request.PrintExcelReque
 import com.walkhub.walkhub.domain.excel.presentation.dto.response.PrintExcelResponse;
 import com.walkhub.walkhub.domain.excel.presentation.dto.response.PrintExcelResponse.PrintExcelVo;
 import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
+import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +19,10 @@ public class PrintExcelService {
     private final UserFacade userFacade;
 
     public PrintExcelResponse execute(PrintExcelRequest printExcelRequest) {
-        Long schoolId = userFacade.getCurrentUser().getSchool().getId();
+        User user = userFacade.getCurrentUser();
+
         List<PrintExcelVo> printExcelVoList =
-                exerciseAnalysisRepository.getPrintExcelVoList(printExcelRequest, schoolId);
+                exerciseAnalysisRepository.getPrintExcelVoList(printExcelRequest, user.getSchoolId());
 
         return new PrintExcelResponse(printExcelVoList);
     }

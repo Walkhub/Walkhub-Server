@@ -214,4 +214,8 @@ public class User extends BaseTimeEntity {
         return this.school.getName();
     }
 
+    public Long getSchoolId() {
+        return this.school.getId();
+    }
+
 }
