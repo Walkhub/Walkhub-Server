@@ -25,7 +25,6 @@ public class QueryChallengeListForTeacherResponse {
         private final LocalDate startAt;
         private final LocalDate endAt;
         private final Integer goal;
-        private final UserScope userScope;
         private final GoalScope goalScope;
         private final GoalType goalType;
         private final PersonResponse writer;
