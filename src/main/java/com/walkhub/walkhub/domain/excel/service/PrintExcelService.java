@@ -19,8 +19,8 @@ public class PrintExcelService {
 
     public PrintExcelResponse execute(PrintExcelRequest printExcelRequest) {
         Long schoolId = userFacade.getCurrentUser().getSchool().getId();
-        List<PrintExcelVo> printExcelVoList =
-                exerciseAnalysisRepository.getPrintExcelVoList(printExcelRequest, schoolId);
+        List<PrintExcelVo> printExcelVoList = exerciseAnalysisRepository.getPrintExcelVoList(printExcelRequest,
+                schoolId);
 
         return new PrintExcelResponse(printExcelVoList);
     }
