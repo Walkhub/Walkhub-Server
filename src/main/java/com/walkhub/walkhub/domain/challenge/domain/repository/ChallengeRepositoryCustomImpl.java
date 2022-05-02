@@ -17,6 +17,7 @@ import java.util.List;
 
 import static com.walkhub.walkhub.domain.challenge.domain.QChallenge.challenge;
 import static com.walkhub.walkhub.domain.challenge.domain.QChallengeStatus.challengeStatus;
+import static com.walkhub.walkhub.domain.school.domain.QSchool.school;
 import static com.walkhub.walkhub.domain.user.domain.QSection.section;
 import static com.walkhub.walkhub.domain.user.domain.QUser.user;
 
@@ -45,9 +46,9 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
                 ))
                 .from(challenge)
                 .join(challenge.user, user)
-                .join(challenge.challengeStatuses, challengeStatus)
+                .leftJoin(challenge.challengeStatuses, challengeStatus)
                 .where(
-                        (challenge.userScope.eq(UserScope.ALL).or(challenge.user.school.eq(userParam.getSchool()))),
+                        (challenge.userScope.eq(UserScope.ALL).or(user.school.eq(userParam.getSchool()))),
                         (challenge.endAt.after(LocalDate.now()))
                 )
                 .fetch();
