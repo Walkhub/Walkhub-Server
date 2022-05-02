@@ -58,7 +58,7 @@ public class QueryChallengeDetailsForStudentService {
                         vo.getWriterUserId(), vo.getWriterName(), vo.getWriterProfileImageUrl()
                 ))
                 .isMine(vo.getIsMine())
-                .isParticipated(vo.getIsParticipated())
+                .isParticipated(vo.getIsParticipated() != null && vo.getIsParticipated())
                 .participantCount(vo.getParticipantCount())
                 .participantList(relatedChallengeParticipantsList
                         .stream()
