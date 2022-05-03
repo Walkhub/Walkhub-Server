@@ -7,5 +7,6 @@ import com.walkhub.walkhub.domain.school.domain.School;
 import java.util.List;
 
 public interface NoticeRepositoryCustom {
-    List<NoticeResponse> queryNoticeByScopeAndPage(Scope scope, Integer page, School userSchool);
+    List<NoticeResponse> findAll(Scope scope, Integer page, School userSchool);
+    List<NoticeResponse> findAll(Scope scope, School userSchool);
 }

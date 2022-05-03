@@ -18,7 +18,7 @@ public class SchoolRankScheduler {
     private final JobLauncher jobLauncher;
     private final UniqueIdGenerator uniqueIdGenerator;
 
-    @Scheduled(cron = "0 0 2 ? * 2", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 0 2 * * MON", zone = "Asia/Seoul")
     public void saveSchoolRank() throws
             JobInstanceAlreadyCompleteException,
             JobExecutionAlreadyRunningException,

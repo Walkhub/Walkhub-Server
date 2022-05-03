@@ -45,9 +45,9 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
                 ))
                 .from(challenge)
                 .join(challenge.user, user)
-                .join(challenge.challengeStatuses, challengeStatus)
+                .leftJoin(challenge.challengeStatuses, challengeStatus)
                 .where(
-                        (challenge.userScope.eq(UserScope.ALL).or(challenge.user.school.eq(userParam.getSchool()))),
+                        (challenge.userScope.eq(UserScope.ALL).or(user.school.eq(userParam.getSchool()))),
                         (challenge.endAt.after(LocalDate.now()))
                 )
                 .fetch();
@@ -84,7 +84,7 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
 
         if (isProgress.equals(true)) {
             return challenge.startAt.before(now).and(challenge.endAt.after(now));
-        } else if(isProgress.equals(false)) {
+        } else if (isProgress.equals(false)) {
             return challenge.startAt.after(now).or(challenge.endAt.before(now));
         } else {
             return null;
@@ -109,13 +109,13 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
                         user.id.as("writerId"),
                         user.name.as("writerName"),
                         user.profileImageUrl.as("profileImageUrl"),
-                        challenge.user.eq(user),
+                        user.eq(userParam),
                         challengeStatus.user.eq(userParam),
                         getParticipantCountByChallenge()
                 ))
                 .from(challenge)
                 .join(challenge.user, user)
-                .join(challengeStatus)
+                .leftJoin(challengeStatus)
                 .on(challengeStatus.challenge.eq(challenge))
                 .where(challenge.id.eq(challengeParam.getId()))
                 .fetchOne();
@@ -124,7 +124,7 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
     private Expression<Long> getParticipantCountByChallenge() {
         List<ChallengeStatus> challengeStatuses = query
                 .selectFrom(challengeStatus)
-                .where(challengeStatus.challenge.id.eq(challenge.id))
+                .join(challengeStatus.challenge, challenge)
                 .fetch();
 
         Long participantCount = challengeStatuses.size() > 3 ? (long) challengeStatuses.size() - 3 : 0;
@@ -142,12 +142,14 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
                         user.profileImageUrl
                 ))
                 .from(user)
+                .join(challenge)
+                .on(challenge.id.eq(challengeId))
                 .join(challengeStatus)
-                .on(challengeStatus.user.eq(user))
+                .on(challengeStatus.user.eq(user),
+                        challengeStatus.challenge.eq(challenge))
                 .join(section)
-                .on(section.id.eq(user.section.id))
+                .on(section.eq(user.section))
                 .where(
-                        challengeStatus.challenge.id.eq(challengeId),
                         user.school.eq(currentUser.getSchool())
                 )
                 .orderBy(

@@ -2,11 +2,7 @@ package com.walkhub.walkhub.domain.challenge.domain.repository;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.CaseBuilder;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberExpression;
-import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
@@ -71,22 +67,24 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         challenge.goalType,
                         challenge.award,
                         new CaseBuilder()
-                            .when(challenge.goalType.eq(GoalType.WALK))
-                            .then(exerciseAnalysis.walkCount.sum())
-                            .otherwise(exerciseAnalysis.distance.sum()),
+                                .when(challenge.goalType.eq(GoalType.WALK))
+                                .then(exerciseAnalysis.walkCount.sum())
+                                .otherwise(exerciseAnalysis.distance.sum()),
                         user.id.as("writerId"),
                         user.name.as("writerName"),
                         user.profileImageUrl.as("writerProfileImageUrl")
                 ))
                 .from(challenge)
                 .join(challenge.user, user)
-                .join(challengeStatus)
-                .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
-                .on(challengeStatus.challenge.eq(challenge)
-                    ,(exerciseAnalysis.date.goe(challenge.startAt))
-                    ,(exerciseAnalysis.date.goe(challengeStatus.createdAt))
-                    ,(exerciseAnalysis.date.loe(challenge.endAt)))
+                .leftJoin(challengeStatus)
+                .on(challengeStatus.challenge.eq(challenge))
+                .leftJoin(exerciseAnalysis)
+                .on(exerciseAnalysis.user.eq(userParam),
+                        exerciseAnalysis.date.goe(challengeStatus.createdAt),
+                        exerciseAnalysis.date.goe(challenge.startAt),
+                        exerciseAnalysis.date.loe(challenge.endAt))
                 .where(challengeStatus.user.eq(userParam))
+                .groupBy(exerciseAnalysis.user, challenge.id)
                 .fetch();
     }
 
