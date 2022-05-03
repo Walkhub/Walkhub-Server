@@ -26,40 +26,6 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<UserListInfoVO> queryUserList(Integer page, AuthorityScope scope, SortStandard sort, Integer grade,
-                                              Integer classNum, User currentUser) {
-        long size = 4;
-        return queryFactory
-                .select(new QUserListInfoVO(
-                        user.id,
-                        user.name,
-                        user.profileImageUrl,
-                        user.section.grade,
-                        user.section.classNum,
-                        user.number,
-                        MathExpressions.round(exerciseAnalysis.walkCount.avg(), 1).as("averageWalkCount"),
-                        exerciseAnalysis.walkCount.sum().as("totalWalkCount"),
-                        MathExpressions.round(exerciseAnalysis.distance.avg(), 1).as("averageDistance"),
-                        exerciseAnalysis.distance.sum().as("totalDistance"),
-                        user.authority.eq(Authority.TEACHER).as("isTeacher")
-                ))
-                .from(user)
-                .join(user.exerciseAnalyses, exerciseAnalysis)
-                .where(
-                        user.school.eq(currentUser.getSchool()),
-                        buildFilteringCondition(scope),
-                        gradeEq(grade),
-                        classNumEq(classNum),
-                        exerciseAnalysis.date.after(LocalDate.now().minusDays(7))
-                )
-                .offset((long) page * size)
-                .limit(size)
-                .orderBy(buildSortCondition(sort))
-                .groupBy(user.id)
-                .fetch();
-    }
-
-    @Override
     public List<UserListInfoVO> searchUser(AuthorityScope scope, SortStandard sort, Integer grade, Integer classNum,
                                            User currentUser, String name) {
         return queryFactory
@@ -70,11 +36,11 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                         user.section.grade,
                         user.section.classNum,
                         user.number,
-                        MathExpressions.round(exerciseAnalysis.walkCount.avg(), 1).as("averageWalkCount"),
-                        exerciseAnalysis.walkCount.sum().as("totalWalkCount"),
-                        MathExpressions.round(exerciseAnalysis.distance.avg(), 1).as("averageDistance"),
-                        exerciseAnalysis.distance.sum().as("totalDistance"),
-                        user.authority.eq(Authority.TEACHER).as("isTeacher")
+                        MathExpressions.round(exerciseAnalysis.walkCount.avg(), 1).coalesce((double) 0),
+                        exerciseAnalysis.walkCount.sum().coalesce(0),
+                        MathExpressions.round(exerciseAnalysis.distance.avg(), 1).coalesce((double) 0),
+                        exerciseAnalysis.distance.sum().coalesce(0),
+                        user.authority.eq(Authority.TEACHER)
                 ))
                 .from(user)
                 .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
@@ -88,7 +54,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                         nameEq(name)
                 )
                 .orderBy(buildSortCondition(sort))
-                .groupBy(user.id, exerciseAnalysis.walkCount, exerciseAnalysis.distance)
+                .groupBy(user.id, exerciseAnalysis.user)
                 .fetch();
     }
 
@@ -102,10 +68,10 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                         section.grade,
                         section.classNum,
                         user.number,
-                        exerciseAnalysis.walkCount.avg().round().intValue(),
-                        exerciseAnalysis.walkCount.sum(),
-                        exerciseAnalysis.distance.avg().round().intValue(),
-                        exerciseAnalysis.distance.sum()
+                        exerciseAnalysis.walkCount.avg().round().intValue().coalesce(0),
+                        exerciseAnalysis.walkCount.sum().coalesce(0),
+                        exerciseAnalysis.distance.avg().round().intValue().coalesce(0),
+                        exerciseAnalysis.distance.sum().coalesce(0)
                 ))
                 .from(user)
                 .leftJoin(user.section, section)
