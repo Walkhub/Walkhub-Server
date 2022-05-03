@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.challenge.domain.repository;
 
-import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
