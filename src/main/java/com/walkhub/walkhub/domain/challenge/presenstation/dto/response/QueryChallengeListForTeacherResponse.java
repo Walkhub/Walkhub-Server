@@ -2,7 +2,6 @@ package com.walkhub.walkhub.domain.challenge.presenstation.dto.response;
 
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
-import com.walkhub.walkhub.global.enums.UserScope;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,7 +24,6 @@ public class QueryChallengeListForTeacherResponse {
         private final LocalDate startAt;
         private final LocalDate endAt;
         private final Integer goal;
-        private final UserScope userScope;
         private final GoalScope goalScope;
         private final GoalType goalType;
         private final PersonResponse writer;
