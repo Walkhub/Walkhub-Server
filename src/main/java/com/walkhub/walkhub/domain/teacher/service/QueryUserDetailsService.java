@@ -1,7 +1,6 @@
 package com.walkhub.walkhub.domain.teacher.service;
 
 import com.walkhub.walkhub.domain.exercise.facade.ExerciseAnalysisFacade;
-import com.walkhub.walkhub.domain.exercise.facade.ExerciseFacade;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserDetailsResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
