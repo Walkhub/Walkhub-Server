@@ -6,10 +6,9 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.MathExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.excel.domain.type.UserType;
+import com.walkhub.walkhub.domain.excel.domain.vo.QUserInfoExcelVo;
+import com.walkhub.walkhub.domain.excel.domain.vo.UserInfoExcelVo;
 import com.walkhub.walkhub.domain.excel.presentation.dto.request.UserInfoExcelRequest;
-import com.walkhub.walkhub.domain.excel.presentation.dto.response.QUserInfoExcelResponse_UserInfoVo;
-import com.walkhub.walkhub.domain.excel.presentation.dto.response.UserInfoExcelResponse;
-import com.walkhub.walkhub.domain.excel.presentation.dto.response.UserInfoExcelResponse.UserInfoVo;
 import com.walkhub.walkhub.domain.teacher.type.AuthorityScope;
 import com.walkhub.walkhub.domain.teacher.type.SortStandard;
 import com.walkhub.walkhub.domain.user.domain.User;
@@ -125,14 +124,14 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     }
 
     @Override
-    public List<UserInfoVo> getPrintExcelVoList(UserInfoExcelRequest request, Long schoolId) {
+    public List<UserInfoExcelVo> getUserInfoExcelList(UserInfoExcelRequest request, Long schoolId) {
         SortStandard sort = request.getSort();
         UserType userType = request.getUserType();
         Integer grade = request.getGrade();
         Integer classNum = request.getClassNum();
 
         return queryFactory
-                .select(new QUserInfoExcelResponse_UserInfoVo(
+                .select(new QUserInfoExcelVo(
                         user.name,
                         section.grade,
                         section.classNum,
