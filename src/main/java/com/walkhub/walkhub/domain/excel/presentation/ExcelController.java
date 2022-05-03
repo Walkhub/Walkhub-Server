@@ -1,8 +1,8 @@
 package com.walkhub.walkhub.domain.excel.presentation;
 
-import com.walkhub.walkhub.domain.excel.presentation.dto.request.PrintExcelRequest;
-import com.walkhub.walkhub.domain.excel.presentation.dto.response.PrintExcelResponse;
-import com.walkhub.walkhub.domain.excel.service.PrintExcelService;
+import com.walkhub.walkhub.domain.excel.presentation.dto.request.UserInfoExcelRequest;
+import com.walkhub.walkhub.domain.excel.presentation.dto.response.UserInfoExcelResponse;
+import com.walkhub.walkhub.domain.excel.service.UserInfoExcelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ExcelController {
 
-    private final PrintExcelService printExcelService;
+    private final UserInfoExcelService userInfoExcelService;
 
     @GetMapping
-    public PrintExcelResponse getExcel(PrintExcelRequest printExcelRequest) {
-        return printExcelService.execute(printExcelRequest);
+    public UserInfoExcelResponse getUserInfoExcel(UserInfoExcelRequest request) {
+        return userInfoExcelService.execute(request);
     }
 }
