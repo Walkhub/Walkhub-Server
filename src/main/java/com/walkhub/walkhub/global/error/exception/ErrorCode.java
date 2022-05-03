@@ -34,7 +34,7 @@ public enum ErrorCode {
     SECTION_NOT_FOUND(404, "SECTION-404-1", "Section Not Found"),
     REFRESH_TOKEN_NOT_FOUND(404, "AUTH-404-1", "Refresh Token Not Found"),
     PHONE_NUMBER_NOT_FOUND(404, "USER-404-5", "PhoneNumber Not Found"),
-    PHONE_NUMBER_MATCHED(409,"USER-404-6", "Phone Number Matched"),
+    PHONE_NUMBER_MATCHED(409,"USER-409-6", "Phone Number Matched"),
     VERIFICATION_CODE_NOT_FOUND(404, "TEACHER-404-1", "Verification Code Not Found"),
     CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge Not Found"),
     BADGE_TYPE_NOT_FOUND(404, "BADGE-404-1", "Badge Type Not Found"),
