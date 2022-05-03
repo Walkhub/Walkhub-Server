@@ -21,15 +21,15 @@ public class ManageTeacherService {
     private final UserRepository userRepository;
 
     public ManageTeachersResponse execute() {
-        User root = userFacade.getCurrentUser();
+        User teacher = userFacade.getCurrentUser();
 
-        List<ClassResponse> teacherList = userRepository.findAllBySchoolAndAuthority(root.getSchool(), Authority.TEACHER)
+        List<ClassResponse> teacherList = userRepository.findAllBySchoolAndAuthority(teacher.getSchool(), Authority.TEACHER)
                 .stream()
                 .map(teacherFacade::buildClassResponse)
                 .collect(Collectors.toList());
 
         return ManageTeachersResponse.builder()
-                .authCode(root.getSchool().getAuthCode())
+                .authCode(teacher.getSchool().getAuthCode())
                 .teacherList(teacherList)
                 .build();
     }
