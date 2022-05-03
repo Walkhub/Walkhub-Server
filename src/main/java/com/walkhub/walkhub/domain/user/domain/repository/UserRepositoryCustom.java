@@ -1,5 +1,7 @@
 package com.walkhub.walkhub.domain.user.domain.repository;
 
+import com.walkhub.walkhub.domain.excel.presentation.dto.request.UserInfoExcelRequest;
+import com.walkhub.walkhub.domain.excel.presentation.dto.response.UserInfoExcelResponse.UserInfoVo;
 import com.walkhub.walkhub.domain.teacher.type.AuthorityScope;
 import com.walkhub.walkhub.domain.teacher.type.SortStandard;
 import com.walkhub.walkhub.domain.user.domain.User;
@@ -17,4 +19,6 @@ public interface UserRepositoryCustom {
                                     User currentUser, String name);
 
     UserDetailsVO queryUserDetails(Long userId, LocalDate startAt, LocalDate endAt);
+
+    List<UserInfoVo> getPrintExcelVoList(UserInfoExcelRequest request, Long schoolId);
 }

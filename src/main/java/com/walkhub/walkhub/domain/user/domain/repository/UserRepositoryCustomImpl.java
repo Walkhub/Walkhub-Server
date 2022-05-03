@@ -1,9 +1,15 @@
 package com.walkhub.walkhub.domain.user.domain.repository;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.MathExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.walkhub.walkhub.domain.excel.domain.type.UserType;
+import com.walkhub.walkhub.domain.excel.presentation.dto.request.UserInfoExcelRequest;
+import com.walkhub.walkhub.domain.excel.presentation.dto.response.QUserInfoExcelResponse_UserInfoVo;
+import com.walkhub.walkhub.domain.excel.presentation.dto.response.UserInfoExcelResponse;
+import com.walkhub.walkhub.domain.excel.presentation.dto.response.UserInfoExcelResponse.UserInfoVo;
 import com.walkhub.walkhub.domain.teacher.type.AuthorityScope;
 import com.walkhub.walkhub.domain.teacher.type.SortStandard;
 import com.walkhub.walkhub.domain.user.domain.User;
@@ -18,6 +24,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.walkhub.walkhub.domain.exercise.domain.QExerciseAnalysis.exerciseAnalysis;
+import static com.walkhub.walkhub.domain.school.domain.QSchool.school;
 import static com.walkhub.walkhub.domain.user.domain.QSection.section;
 import static com.walkhub.walkhub.domain.user.domain.QUser.user;
 
@@ -117,6 +124,39 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 .fetchOne();
     }
 
+    @Override
+    public List<UserInfoVo> getPrintExcelVoList(UserInfoExcelRequest request, Long schoolId) {
+        SortStandard sort = request.getSort();
+        UserType userType = request.getUserType();
+        Integer grade = request.getGrade();
+        Integer classNum = request.getClassNum();
+
+        return queryFactory
+                .select(new QUserInfoExcelResponse_UserInfoVo(
+                        user.name,
+                        section.grade,
+                        section.classNum,
+                        user.number,
+                        exerciseAnalysis.walkCount.sum(),
+                        exerciseAnalysis.walkCount.avg().intValue(),
+                        exerciseAnalysis.distance.sum(),
+                        exerciseAnalysis.distance.avg().intValue(),
+                        user.authority,
+                        school.name
+                ))
+                .from(exerciseAnalysis)
+                .join(exerciseAnalysis.user, user)
+                .join(user.school, school)
+                .leftJoin(user.section, section)
+                .where(
+                        school.id.eq(schoolId),
+                        userTypeFilter(userType, grade, classNum)
+                )
+                .orderBy(buildSortCondition(sort))
+                .groupBy(user)
+                .fetch();
+    }
+
     private BooleanExpression gradeEq(Integer grade) {
         return grade != null ? user.section.grade.eq(grade) : null;
     }
@@ -150,11 +190,13 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 };
             case WALK_COUNT:
                 return new OrderSpecifier[]{
-                        exerciseAnalysis.walkCount.sum().desc()
+                        exerciseAnalysis.walkCount.sum().desc(),
+                        user.name.asc()
                 };
             case DISTANCE:
                 return new OrderSpecifier[]{
-                        exerciseAnalysis.distance.sum().desc()
+                        exerciseAnalysis.distance.sum().desc(),
+                        user.name.asc()
                 };
             default:
                 return new OrderSpecifier[]{
@@ -164,4 +206,42 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 };
         }
     }
+
+    private BooleanBuilder userTypeFilter(UserType userType, Integer grade, Integer classNum) {
+        BooleanBuilder builder = new BooleanBuilder();
+
+        switch (userType) {
+            case STUDENT: {
+                builder.and(user.authority.eq(Authority.USER));
+                builder.and(nullFilter(grade, classNum));
+                break;
+            }
+            case TEACHER: {
+                builder.and(user.authority.eq(Authority.TEACHER));
+                break;
+            }
+            case ALL: {
+                builder.and(user.authority.eq(Authority.USER).or(
+                        user.authority.eq(Authority.TEACHER)
+                ));
+            }
+        }
+
+        return builder;
+    }
+
+    private BooleanBuilder nullFilter(Integer grade, Integer classNum) {
+        BooleanBuilder builder = new BooleanBuilder();
+
+        if (grade != null) {
+            builder.and(section.grade.eq(grade));
+
+            if (classNum != null) {
+                builder.and(section.classNum.eq(classNum));
+            }
+        }
+
+        return builder;
+    }
+
 }
