@@ -15,7 +15,7 @@ public class ExcelController {
 
     private final UserInfoExcelService userInfoExcelService;
 
-    @GetMapping
+    @GetMapping("users")
     public UserInfoExcelResponse getUserInfoExcel(UserInfoExcelRequest request) {
         return userInfoExcelService.execute(request);
     }
