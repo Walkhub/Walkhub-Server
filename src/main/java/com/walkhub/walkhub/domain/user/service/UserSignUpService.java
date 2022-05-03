@@ -47,9 +47,8 @@ public class UserSignUpService {
 
     @Transactional
     public UserTokenResponse execute(UserSignUpRequest request) {
-        if (userRepository.findByPhoneNumber(request.getPhoneNumber()).isPresent()) {
-            throw UserExistsException.EXCEPTION;
-        }
+
+        userFacade.checkUserPhoneNumber(request.getPhoneNumber());
 
         UserAuthCode code = userAuthCodeRepository.findById(request.getPhoneNumber())
                 .orElseThrow(() -> UserAuthCodeNotFoundException.EXCEPTION);
