@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @ServiceWithTransactionalReadOnly
-public class ClassListService {
+public class QueryClassListService {
 
     private final UserFacade userFacade;
     private final UserRepository userRepository;
