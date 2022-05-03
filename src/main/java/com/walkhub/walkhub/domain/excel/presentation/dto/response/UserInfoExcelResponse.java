@@ -9,12 +9,12 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class PrintExcelResponse {
+public class UserInfoExcelResponse {
 
-    private final List<PrintExcelVo> userList;
+    private final List<UserInfoVo> userList;
 
     @Getter
-    public static class PrintExcelVo {
+    public static class UserInfoVo {
 
         private final String name;
         private final Integer grade;
@@ -28,9 +28,9 @@ public class PrintExcelResponse {
         private final String schoolName;
 
         @QueryProjection
-        public PrintExcelVo(String name, Integer grade, Integer classNum, Integer number,
-                            Integer allWalkCount, Integer averageWalkCount, Integer allDistance,
-                            Integer averageDistance, Authority authority, String schoolName) {
+        public UserInfoVo(String name, Integer grade, Integer classNum, Integer number,
+                          Integer allWalkCount, Integer averageWalkCount, Integer allDistance,
+                          Integer averageDistance, Authority authority, String schoolName) {
             this.name = name;
             this.grade = grade;
             this.classNum = classNum;

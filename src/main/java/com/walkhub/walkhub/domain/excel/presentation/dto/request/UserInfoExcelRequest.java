@@ -1,24 +1,18 @@
 package com.walkhub.walkhub.domain.excel.presentation.dto.request;
 
 import com.walkhub.walkhub.domain.excel.domain.type.UserType;
+import com.walkhub.walkhub.domain.teacher.type.SortStandard;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
-public class PrintExcelRequest {
+public class UserInfoExcelRequest {
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @NotNull(message = "start_at은 Null일 수 없습니다.")
-    private final LocalDate startAt;
-
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @NotNull(message = "end_at은 Null일 수 없습니다.")
-    private final LocalDate endAt;
+    @NotNull(message = "sort는 Null일 수 없습니다.")
+    private final SortStandard sort;
 
     @NotNull(message = "user_type은 Null일 수 없습니다.")
     private final UserType userType;
