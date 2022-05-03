@@ -36,7 +36,7 @@ public class TeacherController {
     private final DetailsClassService detailsClassService;
     private final QueryUserDetailsService queryUserDetailsService;
     private final ConfirmTeacherCodeService confirmTeacherCodeService;
-    private final ClassListService classListService;
+    private final QueryClassListService queryClassListService;
     private final UpdateTeacherSchoolService updateTeacherSchoolService;
     private final UserSearchForTeacherService userSearchForTeacherService;
     private final QueryMyClassService queryMyClassService;
@@ -84,7 +84,7 @@ public class TeacherController {
 
     @GetMapping("/classes/lists")
     public ClassListResponse classList() {
-        return classListService.execute();
+        return queryClassListService.execute();
     }
 
     @PatchMapping("/schools")
