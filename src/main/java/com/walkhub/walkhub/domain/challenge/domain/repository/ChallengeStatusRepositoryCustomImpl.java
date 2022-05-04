@@ -88,12 +88,6 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .fetch();
     }
 
-    private BooleanExpression challengeDateFilter(Challenge challenge) {
-        return exerciseAnalysis.date.goe(challenge.getStartAt())
-                .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
-                .and(exerciseAnalysis.date.loe(challenge.getEndAt()));
-    }
-
     @Override
     public List<ChallengeDetailsForTeacherVO> queryChallengeProgress(
             Challenge challenge,
@@ -172,6 +166,12 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .goe(challenge.getGoal());
     }
 
+    private BooleanExpression challengeDateFilter(Challenge challenge) {
+        return exerciseAnalysis.date.goe(challenge.getStartAt())
+                .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
+                .and(exerciseAnalysis.date.loe(challenge.getEndAt()));
+    }
+
     private BooleanExpression userNameContainsFilter(String keyword) {
         return keyword != null ? user.name.contains(keyword) : null;
     }
@@ -189,16 +189,6 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
             return user.authority.eq(Authority.USER);
         } else if (challengeParticipantsScope == ChallengeParticipantsScope.TEACHER) {
             return user.authority.eq(Authority.TEACHER);
-        } else {
-            return null;
-        }
-    }
-
-    private BooleanExpression challengeSuccessFilter(SuccessScope successScope, Challenge challenge) {
-        if (successScope == SuccessScope.TRUE) {
-            return exerciseAnalysis.date.count().goe(challenge.getSuccessStandard());
-        } else if (successScope == SuccessScope.FALSE) {
-            return exerciseAnalysis.date.count().lt(challenge.getSuccessStandard());
         } else {
             return null;
         }
