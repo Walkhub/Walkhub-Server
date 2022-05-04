@@ -36,5 +36,5 @@ public interface UserRepository extends CrudRepository<User, Long>, UserReposito
 
     Integer countBySectionAndAuthority(Section section, Authority authority);
 
-    Optional<Integer> findBySectionAndNumber(Section section, Integer number);
+    Optional<User> findBySectionAndNumber(Section section, Integer number);
 }
