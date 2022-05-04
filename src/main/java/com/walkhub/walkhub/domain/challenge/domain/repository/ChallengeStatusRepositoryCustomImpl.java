@@ -89,7 +89,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
 
     @Override
     public List<ChallengeDetailsForTeacherVO> queryChallengeProgress(
-            Challenge challenge,
+            Challenge challengeParam,
             String name,
             ChallengeParticipantsScope participantsScope,
             ChallengeParticipantsOrder participantsOrder,
@@ -106,11 +106,11 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         user.number,
                         school.name,
                         user.profileImageUrl,
-                        getChallengeTotalValue(challenge),
-                        getChallengeProgress(challenge).multiply(100).round().longValue(),
-                        exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()),
+                        getChallengeTotalValue(challengeParam),
+                        getChallengeProgress(challengeParam).multiply(100).round().longValue(),
+                        exerciseAnalysis.date.count().goe(challengeParam.getSuccessStandard()),
                         new CaseBuilder()
-                                .when(exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()))
+                                .when(exerciseAnalysis.date.count().goe(challengeParam.getSuccessStandard()))
                                 .then(exerciseAnalysis.date.max())
                                 .otherwise(Expressions.nullExpression())))
                 .from(user)
@@ -119,10 +119,12 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .leftJoin(user.section, section)
                 .join(user.school, school)
                 .join(user.challengeStatuses, challengeStatus)
+                .join(challengeStatus.challenge, challenge)
                 .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
-                .on(challengeDateFilter(challenge),
-                        isChallengeSuccessFilter(challenge))
-                .where(userScopeFilter(participantsScope),
+                .on(challengeDateFilter(challengeParam),
+                        isChallengeSuccessFilter(challengeParam))
+                .where(challenge.eq(challengeParam),
+                        userScopeFilter(participantsScope),
                         userNameContainsFilter(name),
                         userGradeFilter(grade),
                         userClassNumFilter(classNum))
@@ -133,7 +135,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
 
     @Override
     public List<ChallengeDetailsForTeacherVO> queryChallengeProgress(
-            Challenge challenge,
+            Challenge challengeParam,
             String name,
             ChallengeParticipantsScope participantsScope,
             ChallengeParticipantsOrder participantsOrder,
@@ -149,21 +151,23 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         user.number,
                         school.name,
                         user.profileImageUrl,
-                        getChallengeTotalValue(challenge),
-                        getChallengeProgress(challenge).multiply(100).round().longValue(),
-                        exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()),
+                        getChallengeTotalValue(challengeParam),
+                        getChallengeProgress(challengeParam).multiply(100).round().longValue(),
+                        exerciseAnalysis.date.count().goe(challengeParam.getSuccessStandard()),
                         new CaseBuilder()
-                                .when(exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()))
+                                .when(exerciseAnalysis.date.count().goe(challengeParam.getSuccessStandard()))
                                 .then(exerciseAnalysis.date.max())
                                 .otherwise(Expressions.nullExpression())))
                 .from(user)
                 .leftJoin(user.section, section)
                 .join(user.school, school)
                 .join(user.challengeStatuses, challengeStatus)
+                .join(challengeStatus.challenge, challenge)
                 .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
-                .on(challengeDateFilter(challenge),
-                        isChallengeSuccessFilter(challenge))
-                .where(userScopeFilter(participantsScope),
+                .on(challengeDateFilter(challengeParam),
+                        isChallengeSuccessFilter(challengeParam))
+                .where(challenge.eq(challengeParam),
+                        userScopeFilter(participantsScope),
                         userNameContainsFilter(name),
                         userGradeFilter(grade),
                         userClassNumFilter(classNum))
