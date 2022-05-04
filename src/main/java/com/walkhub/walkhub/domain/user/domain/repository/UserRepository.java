@@ -35,4 +35,6 @@ public interface UserRepository extends CrudRepository<User, Long>, UserReposito
     List<User> findAllBySchoolAndIsMeasuringTrue(School school);
 
     Integer countBySectionAndAuthority(Section section, Authority authority);
+
+    Optional<User> findBySectionAndNumber(Section section, Integer number);
 }
