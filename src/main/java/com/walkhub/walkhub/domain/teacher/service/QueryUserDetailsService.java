@@ -1,7 +1,6 @@
 package com.walkhub.walkhub.domain.teacher.service;
 
-import com.walkhub.walkhub.domain.exercise.domain.ExerciseAnalysis;
-import com.walkhub.walkhub.domain.exercise.domain.repository.ExerciseAnalysisRepository;
+import com.walkhub.walkhub.domain.exercise.facade.ExerciseAnalysisFacade;
 import com.walkhub.walkhub.domain.teacher.presentation.dto.response.QueryUserDetailsResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
@@ -12,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @ServiceWithTransactionalReadOnly
@@ -20,17 +18,13 @@ public class QueryUserDetailsService {
 
     private final UserFacade userFacade;
     private final UserRepository userRepository;
-    private final ExerciseAnalysisRepository exerciseAnalysisRepository;
+    private final ExerciseAnalysisFacade exerciseAnalysisFacade;
 
     public QueryUserDetailsResponse execute(Long userId, LocalDate startAt, LocalDate endAt) {
         User user = userFacade.getUserById(userId);
-
         UserDetailsVO vo = userRepository.queryUserDetails(userId, startAt, endAt);
 
-        List<Integer> walkCountList = exerciseAnalysisRepository.findAllByUserAndDateBetween(user, startAt, endAt)
-                .stream()
-                .map(ExerciseAnalysis::getWalkCount)
-                .collect(Collectors.toList());
+        List<Integer> walkCountList = exerciseAnalysisFacade.getWalkCountList(user, startAt, endAt);
 
         return QueryUserDetailsResponse.builder()
                 .userId(vo.getUserId())

@@ -21,7 +21,8 @@ public class UserSearchForTeacherService {
         return QueryUserListResponse.builder()
                 .userList(userRepository.searchUser(request.getScope(), request.getSort(), request.getGrade(),
                                 request.getClassNum(), userFacade.getCurrentUser(), request.getName())
-                        .stream().map(this::buildUserListResponse)
+                        .stream()
+                        .map(this::buildUserListResponse)
                         .collect(Collectors.toList())
                 )
                 .build();
