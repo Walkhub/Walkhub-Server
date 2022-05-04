@@ -18,6 +18,13 @@ public interface ChallengeStatusRepositoryCustom {
                                                               Integer classNum,
                                                               Long page);
 
+    List<ChallengeDetailsForTeacherVO> queryChallengeProgress(Challenge challenge,
+                                                              String name,
+                                                              ChallengeParticipantsScope participantsScope,
+                                                              ChallengeParticipantsOrder participantsOrder,
+                                                              Integer grade,
+                                                              Integer classNum);
+
     List<ShowParticipatedChallengeVO> getParticipatedChallengesByUser(User user);
 
     void deleteNotOverChallengeStatusByUserId(Long userId);

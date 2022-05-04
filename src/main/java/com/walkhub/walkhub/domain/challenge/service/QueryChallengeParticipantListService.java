@@ -23,15 +23,23 @@ public class QueryChallengeParticipantListService {
     public QueryChallengeParticipantListResponse execute(Long id, ChallengeParticipantRequest request) {
 
         Challenge challenge = challengeFacade.getChallengeById(id);
-        List<QueryChallengeParticipantResponse> challengeParticipantList =
-                challengeStatusRepository.queryChallengeProgress(challenge, request.getName(),
-                                request.getUserScope(), request.getSort(), request.getGrade(),
-                                request.getClassNum(), request.getSize())
-                        .stream()
-                        .map(this::builderChallengeParticipantResponse)
-                        .collect(Collectors.toList());
+        List<ChallengeDetailsForTeacherVO> challengeParticipantList;
 
-        return new QueryChallengeParticipantListResponse(challengeParticipantList);
+        if (request.getPage() == null) {
+            challengeParticipantList = challengeStatusRepository.queryChallengeProgress(challenge, request.getName(),
+                    request.getUserScope(), request.getSort(), request.getGrade(),
+                    request.getClassNum());
+        } else {
+            challengeParticipantList = challengeStatusRepository.queryChallengeProgress(challenge, request.getName(),
+                    request.getUserScope(), request.getSort(), request.getGrade(),
+                    request.getClassNum(), request.getPage());
+        }
+
+        List<QueryChallengeParticipantResponse> responseList = challengeParticipantList.stream()
+                .map(this::builderChallengeParticipantResponse)
+                .collect(Collectors.toList());
+
+        return new QueryChallengeParticipantListResponse(responseList);
     }
 
     private QueryChallengeParticipantResponse builderChallengeParticipantResponse(ChallengeDetailsForTeacherVO vo) {
@@ -44,7 +52,7 @@ public class QueryChallengeParticipantListService {
                 .schoolName(vo.getSchoolName())
                 .profileImageUrl(vo.getProfileImageUrl())
                 .totalWalkCount(vo.getTotalValue())
-                .progress(vo.getProgress() != null ? vo.getProgress() : 0)
+                .progress(vo.getProgress())
                 .isSuccess(vo.getIsSuccess())
                 .successDate(vo.getSuccessDate())
                 .build();

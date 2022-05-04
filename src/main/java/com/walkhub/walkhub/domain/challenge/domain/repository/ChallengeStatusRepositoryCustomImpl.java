@@ -13,7 +13,6 @@ import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowParticipate
 import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsOrder;
 import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsScope;
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
-import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.Authority;
@@ -115,8 +114,49 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                                 .then(exerciseAnalysis.date.max())
                                 .otherwise(Expressions.nullExpression())))
                 .from(user)
-                .offset(page == null ? 0 : page * PARTICIPANTS_SIZE)
+                .offset(page * PARTICIPANTS_SIZE)
                 .limit(PARTICIPANTS_SIZE)
+                .leftJoin(user.section, section)
+                .join(user.school, school)
+                .join(user.challengeStatuses, challengeStatus)
+                .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
+                .on(challengeDateFilter(challenge),
+                        isChallengeSuccessFilter(challenge))
+                .where(userScopeFilter(participantsScope),
+                        userNameContainsFilter(name),
+                        userGradeFilter(grade),
+                        userClassNumFilter(classNum))
+                .orderBy(challengeParticipantsOrder(participantsOrder))
+                .groupBy(user.id, challengeStatus.createdAt)
+                .fetch();
+    }
+
+    @Override
+    public List<ChallengeDetailsForTeacherVO> queryChallengeProgress(
+            Challenge challenge,
+            String name,
+            ChallengeParticipantsScope participantsScope,
+            ChallengeParticipantsOrder participantsOrder,
+            Integer grade,
+            Integer classNum
+    ) {
+        return queryFactory
+                .select(new QChallengeDetailsForTeacherVO(
+                        user.id,
+                        user.name,
+                        section.grade,
+                        section.classNum,
+                        user.number,
+                        school.name,
+                        user.profileImageUrl,
+                        getChallengeTotalValue(challenge),
+                        getChallengeProgress(challenge).multiply(100).round().longValue(),
+                        exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()),
+                        new CaseBuilder()
+                                .when(exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()))
+                                .then(exerciseAnalysis.date.max())
+                                .otherwise(Expressions.nullExpression())))
+                .from(user)
                 .leftJoin(user.section, section)
                 .join(user.school, school)
                 .join(user.challengeStatuses, challengeStatus)
