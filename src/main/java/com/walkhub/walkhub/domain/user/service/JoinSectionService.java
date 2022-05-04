@@ -5,7 +5,7 @@ import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.SectionRepository;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
 import com.walkhub.walkhub.domain.user.exception.AlreadyJoinedException;
-import com.walkhub.walkhub.domain.user.exception.AlreadyNumberException;
+import com.walkhub.walkhub.domain.user.exception.AlreadyParticipatedNumberException;
 import com.walkhub.walkhub.domain.user.exception.SectionNotFoundException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.domain.user.presentation.dto.request.JoinSectionRequest;
@@ -33,7 +33,7 @@ public class JoinSectionService {
                 .orElseThrow(() -> SectionNotFoundException.EXCEPTION);
 
         if (userRepository.findBySectionAndNumber(section, request.getNumber()).isPresent()) {
-            throw AlreadyNumberException.EXCEPTION;
+            throw AlreadyParticipatedNumberException.EXCEPTION;
         }
 
         user.setSection(section);

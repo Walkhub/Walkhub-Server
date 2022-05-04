@@ -52,7 +52,7 @@ public enum ErrorCode {
     ALREADY_JOINED(409, "USER-409-2", "Already Joined"),
     ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated"),
     ALREADY_EXERCISING(409, "EXERCISE-409-1", "Already Exercising"),
-    ALREADY_NUMBER(409, "USER-409-3", "Already Number"),
+    ALREADY_PARTICIPATED_NUMBER(409, "USER-409-3", "Already Participated Number"),
 
     REDIS_TRANSACTION_EXCEPTION(500, "REDIS-500-1", "Cannot Read Cache From Redis"),
     INTERNAL_SERVER_ERROR(500, "SERVER-500-1", "Internal Server Error"),
