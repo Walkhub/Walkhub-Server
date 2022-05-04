@@ -34,7 +34,6 @@ public enum ErrorCode {
     SECTION_NOT_FOUND(404, "SECTION-404-1", "Section Not Found"),
     REFRESH_TOKEN_NOT_FOUND(404, "AUTH-404-1", "Refresh Token Not Found"),
     PHONE_NUMBER_NOT_FOUND(404, "USER-404-5", "PhoneNumber Not Found"),
-    PHONE_NUMBER_MATCHED(409,"USER-409-6", "Phone Number Matched"),
     VERIFICATION_CODE_NOT_FOUND(404, "TEACHER-404-1", "Verification Code Not Found"),
     CHALLENGE_NOT_FOUND(404, "CHALLENGE-404-1", "Challenge Not Found"),
     BADGE_TYPE_NOT_FOUND(404, "BADGE-404-1", "Badge Type Not Found"),
@@ -47,10 +46,11 @@ public enum ErrorCode {
     NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification Not Found."),
     CALORIE_LEVEL_NOT_FOUND(404, "CALORIE_LEVEL-404-1", "Calorie Level Not Found"),
 
-    USER_EXISTS(409, "USER-409-1", "User Exists"),
     SCHOOL_ROOT_EXISTS(409, "SCHOOL-409-1", "School Root Exists"),
     ALREADY_CREATED(409, "SECTION-409-1", "Already Created"),
+    USER_EXISTS(409, "USER-409-1", "User Exists"),
     ALREADY_JOINED(409, "USER-409-2", "Already Joined"),
+    PHONE_NUMBER_MATCHED(409,"USER-409-6", "Phone Number Matched"),
     ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated"),
     ALREADY_EXERCISING(409, "EXERCISE-409-1", "Already Exercising"),
 
