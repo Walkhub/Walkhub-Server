@@ -5,6 +5,7 @@ import com.walkhub.walkhub.domain.user.domain.UserAuthCode;
 import com.walkhub.walkhub.domain.user.domain.repository.UserAuthCodeRepository;
 import com.walkhub.walkhub.domain.user.exception.InvalidCodeException;
 import com.walkhub.walkhub.domain.user.exception.UserAuthCodeNotFoundException;
+import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,10 +16,14 @@ public class CheckAuthCodeExistsService {
 
     private final UserAuthCodeRepository userAuthCodeRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserFacade userFacade;
 
     public void execute(CheckAuthCodeRequest request) {
+
         UserAuthCode authCode = userAuthCodeRepository.findById(request.getPhoneNumber())
                 .orElseThrow(() -> UserAuthCodeNotFoundException.EXCEPTION);
+
+        userFacade.checkUserPhoneNumber(request.getPhoneNumber());
 
         if (!passwordEncoder.matches(request.getAuthCode(), authCode.getCode())) {
             throw InvalidCodeException.EXCEPTION;

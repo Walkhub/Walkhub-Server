@@ -46,10 +46,11 @@ public enum ErrorCode {
     NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification Not Found."),
     CALORIE_LEVEL_NOT_FOUND(404, "CALORIE_LEVEL-404-1", "Calorie Level Not Found"),
 
-    USER_EXISTS(409, "USER-409-1", "User Exists"),
     SCHOOL_ROOT_EXISTS(409, "SCHOOL-409-1", "School Root Exists"),
     ALREADY_CREATED(409, "SECTION-409-1", "Already Created"),
+    USER_EXISTS(409, "USER-409-1", "User Exists"),
     ALREADY_JOINED(409, "USER-409-2", "Already Joined"),
+    PHONE_NUMBER_MATCHED(409,"USER-409-6", "Phone Number Matched"),
     ALREADY_PARTICIPATED(409, "CHALLENGE-409-1", "Already Participated"),
     ALREADY_EXERCISING(409, "EXERCISE-409-1", "Already Exercising"),
 
