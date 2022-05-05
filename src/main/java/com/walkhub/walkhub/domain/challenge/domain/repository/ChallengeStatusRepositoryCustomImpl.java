@@ -1,5 +1,7 @@
 package com.walkhub.walkhub.domain.challenge.domain.repository;
 
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.*;
@@ -22,7 +24,6 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.querydsl.jpa.JPAExpressions.select;
 import static com.walkhub.walkhub.domain.challenge.domain.QChallenge.challenge;
 import static com.walkhub.walkhub.domain.challenge.domain.QChallengeStatus.challengeStatus;
 import static com.walkhub.walkhub.domain.exercise.domain.QExerciseAnalysis.exerciseAnalysis;
@@ -107,7 +108,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         school.name,
                         user.profileImageUrl,
                         getChallengeTotalValue(challengeParam),
-                        getChallengeProgress(challengeParam).multiply(100).round().longValue(),
+                        getChallengeProgress(challengeParam),
                         exerciseAnalysis.date.count().goe(challengeParam.getSuccessStandard()),
                         new CaseBuilder()
                                 .when(exerciseAnalysis.date.count().goe(challengeParam.getSuccessStandard()))
@@ -152,7 +153,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         school.name,
                         user.profileImageUrl,
                         getChallengeTotalValue(challengeParam),
-                        getChallengeProgress(challengeParam).multiply(100).round().longValue(),
+                        getChallengeProgress(challengeParam),
                         exerciseAnalysis.date.count().goe(challengeParam.getSuccessStandard()),
                         new CaseBuilder()
                                 .when(exerciseAnalysis.date.count().goe(challengeParam.getSuccessStandard()))
@@ -238,22 +239,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
         }
     }
 
-    private NumberExpression<Long> getChallengeProgress(Challenge challenge) {
-        NumberExpression<Integer> successProgress;
-
-        if (challenge.getGoalScope() == GoalScope.ALL) {
-            if (challenge.getGoalType() == GoalType.DISTANCE) {
-                successProgress = exerciseAnalysis.distance.sum();
-            } else {
-                successProgress = exerciseAnalysis.walkCount.sum();
-            }
-            return successProgress.divide(challenge.getGoal()).longValue();
-        } else {
-            return exerciseAnalysis.date.count().divide(challenge.getSuccessStandard());
-        }
-    }
-
-    private NumberExpression<Integer> getChallengeTotalValue(Challenge challenge) {
+    private Expression<Integer> getChallengeTotalValue(Challenge challenge) {
         NumberExpression<Integer> sum;
 
         if (challenge.getGoalType() == GoalType.WALK) {
@@ -262,12 +248,28 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
             sum = exerciseAnalysis.distance.sum();
         }
 
-        return Expressions.asNumber(
-                select(sum)
+        return ExpressionUtils.as(
+                JPAExpressions.select(sum)
                         .from(exerciseAnalysis)
                         .where(exerciseAnalysis.user.eq(user),
-                                challengeDateFilter(challenge))
+                                challengeDateFilter(challenge)),
+                "totalValue"
         );
+    }
+
+    private NumberExpression<Integer> getChallengeProgress(Challenge challenge) {
+        NumberExpression<Integer> successProgress;
+
+        if (challenge.getGoalScope() == GoalScope.ALL) {
+            if (challenge.getGoalType() == GoalType.DISTANCE) {
+                successProgress = exerciseAnalysis.distance.sum();
+            } else {
+                successProgress = exerciseAnalysis.walkCount.sum();
+            }
+            return successProgress.divide(challenge.getGoal()).multiply(100).round();
+        } else {
+            return exerciseAnalysis.date.count().intValue().divide(challenge.getSuccessStandard()).multiply(100).round();
+        }
     }
 
     private OrderSpecifier<?> challengeParticipantsOrder(ChallengeParticipantsOrder challengeParticipantsOrder) {
