@@ -18,9 +18,9 @@ public class ExerciseAnalysisCacheRepositoryImpl implements ExerciseAnalysisCach
 
     @Override
     public void saveExerciseCache(Long schoolId, Long userId, Double walkCount) {
-        zSetOperations.add(getExerciseAnalysisKey(schoolId), userId, walkCount);
-        Date today = java.sql.Date.valueOf(LocalDate.now());
-        zSetOperations.getOperations().expireAt(getExerciseAnalysisKey(schoolId), today);
+        String exerciseAnalysisKey = getExerciseAnalysisKey(schoolId);
+        zSetOperations.add(exerciseAnalysisKey, userId, walkCount);
+        setExpiration(exerciseAnalysisKey);
     }
 
     @Override
@@ -74,5 +74,10 @@ public class ExerciseAnalysisCacheRepositoryImpl implements ExerciseAnalysisCach
 
     private String getExerciseAnalysisKey(Long schoolId) {
         return EXERCISE_ANALYSIS_KEY + schoolId;
+    }
+
+    private void setExpiration(String exerciseAnalysisKey) {
+        Date tomorrow = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
+        zSetOperations.getOperations().expireAt(exerciseAnalysisKey, tomorrow);
     }
 }
