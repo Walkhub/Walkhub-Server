@@ -2,6 +2,7 @@ package com.walkhub.walkhub.infrastructure.image.s3;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.walkhub.walkhub.global.exception.SaveImageFailedException;
 import com.walkhub.walkhub.infrastructure.image.ImageUtil;
@@ -22,10 +23,15 @@ public class S3Facade implements ImageUtil {
     public String uploadImage(MultipartFile image) {
         String fileName = s3Properties.getBucket() + "/" + UUID.randomUUID() + image.getOriginalFilename();
 
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(image.getSize());
+        objectMetadata.setContentType(image.getContentType());
+
         try {
-            amazonS3Client.putObject(new PutObjectRequest(s3Properties.getBucket(), fileName, image.getInputStream(),
-                    null)
-                    .withCannedAcl(CannedAccessControlList.PublicRead));
+            amazonS3Client.putObject(
+                    new PutObjectRequest(s3Properties.getBucket(), fileName, image.getInputStream(), objectMetadata)
+                            .withCannedAcl(CannedAccessControlList.PublicRead)
+            );
         } catch (Exception e) {
             throw SaveImageFailedException.EXCEPTION;
         }
