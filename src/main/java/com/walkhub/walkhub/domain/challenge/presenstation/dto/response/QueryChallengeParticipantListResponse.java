@@ -24,7 +24,7 @@ public class QueryChallengeParticipantListResponse {
         private final String schoolName;
         private final String profileImageUrl;
         private final Integer totalWalkCount;
-        private final Long progress;
+        private final Integer progress;
         private final Boolean isSuccess;
         private final LocalDate successDate;
     }
