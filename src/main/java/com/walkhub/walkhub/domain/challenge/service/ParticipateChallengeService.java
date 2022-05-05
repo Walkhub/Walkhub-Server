@@ -44,7 +44,7 @@ public class ParticipateChallengeService {
     }
 
     private boolean verifyScope(User user, User writer, Challenge challenge) {
-        Section userSection = user.hasSection() ? user.getSection() : Section.builder().build();
+        Section userSection = user.hasSection() ? user.getSection() : Section.builder().grade(0).classNum(0).build();
         Section writerSection = writer.hasSection() ? writer.getSection() : Section.builder().build();
 
         switch (challenge.getUserScope()) {
