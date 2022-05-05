@@ -23,20 +23,28 @@ public class S3Facade implements ImageUtil {
     public String uploadImage(MultipartFile image) {
         String fileName = s3Properties.getBucket() + "/" + UUID.randomUUID() + image.getOriginalFilename();
 
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentLength(image.getSize());
-        objectMetadata.setContentType(image.getContentType());
-
         try {
-            amazonS3Client.putObject(
-                    new PutObjectRequest(s3Properties.getBucket(), fileName, image.getInputStream(), objectMetadata)
-                            .withCannedAcl(CannedAccessControlList.PublicRead)
+            PutObjectRequest putObjectRequest = new PutObjectRequest(
+                    s3Properties.getBucket(),
+                    fileName,
+                    image.getInputStream(),
+                    getObjectMetadata(image.getSize(), image.getContentType())
             );
+
+            amazonS3Client.putObject(putObjectRequest.withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (Exception e) {
             throw SaveImageFailedException.EXCEPTION;
         }
 
         return getFileUrl(fileName);
+    }
+
+    private ObjectMetadata getObjectMetadata(Long size, String contentType) {
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(size);
+        objectMetadata.setContentType(contentType);
+
+        return objectMetadata;
     }
 
     public String getFileUrl(String fileName) {
