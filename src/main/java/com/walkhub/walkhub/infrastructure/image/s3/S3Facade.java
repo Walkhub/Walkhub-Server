@@ -28,7 +28,7 @@ public class S3Facade implements ImageUtil {
                     s3Properties.getBucket(),
                     fileName,
                     image.getInputStream(),
-                    getObjectMetadata(image.getSize(), image.getContentType())
+                    getObjectMetadata(image)
             );
 
             amazonS3Client.putObject(putObjectRequest.withCannedAcl(CannedAccessControlList.PublicRead));
@@ -39,10 +39,10 @@ public class S3Facade implements ImageUtil {
         return getFileUrl(fileName);
     }
 
-    private ObjectMetadata getObjectMetadata(Long size, String contentType) {
+    private ObjectMetadata getObjectMetadata(MultipartFile image) {
         ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentLength(size);
-        objectMetadata.setContentType(contentType);
+        objectMetadata.setContentLength(image.getSize());
+        objectMetadata.setContentType(image.getContentType());
 
         return objectMetadata;
     }
