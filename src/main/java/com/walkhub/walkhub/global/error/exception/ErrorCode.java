@@ -45,6 +45,7 @@ public enum ErrorCode {
     BADGE_NOT_FOUND(404, "BADGE-404-1", "Badge Not Found"),
     NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification Not Found."),
     CALORIE_LEVEL_NOT_FOUND(404, "CALORIE_LEVEL-404-1", "Calorie Level Not Found"),
+    IMAGE_VALUE_NOT_FOUND(404, "COMMON-400-1", "Image Value Not Found"),
 
     SCHOOL_ROOT_EXISTS(409, "SCHOOL-409-1", "School Root Exists"),
     ALREADY_CREATED(409, "SECTION-409-1", "Already Created"),

@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.walkhub.walkhub.global.exception.ImageValueNotFoundException;
 import com.walkhub.walkhub.global.exception.SaveImageFailedException;
 import com.walkhub.walkhub.infrastructure.image.ImageUtil;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,10 @@ public class S3Facade implements ImageUtil {
 
     @Override
     public String uploadImage(MultipartFile image) {
+        if (image.isEmpty()) {
+            throw ImageValueNotFoundException.EXCEPTION;
+        }
+
         String fileName = s3Properties.getBucket() + "/" + UUID.randomUUID() + image.getOriginalFilename();
 
         try {
