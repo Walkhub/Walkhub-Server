@@ -121,16 +121,16 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .join(user.school, school)
                 .join(user.challengeStatuses, challengeStatus)
                 .join(challengeStatus.challenge, challenge)
+                .on(challenge.eq(challengeParam))
                 .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
                 .on(challengeDateFilter(challengeParam),
                         isChallengeSuccessFilter(challengeParam))
-                .where(challenge.eq(challengeParam),
-                        userScopeFilter(participantsScope),
+                .where(userScopeFilter(participantsScope),
                         userNameContainsFilter(name),
                         userGradeFilter(grade),
                         userClassNumFilter(classNum))
-                .orderBy(challengeParticipantsOrder(participantsOrder))
-                .groupBy(user.id, challengeStatus.createdAt)
+                .orderBy(challengeParticipantsOrder(participantsOrder), user.name.asc())
+                .groupBy(user.id, challengeStatus.createdAt, exerciseAnalysis.user)
                 .fetch();
     }
 
@@ -172,7 +172,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         userNameContainsFilter(name),
                         userGradeFilter(grade),
                         userClassNumFilter(classNum))
-                .orderBy(challengeParticipantsOrder(participantsOrder))
+                .orderBy(challengeParticipantsOrder(participantsOrder), user.name.asc())
                 .groupBy(user.id, challengeStatus.createdAt, exerciseAnalysis.user)
                 .fetch();
     }
