@@ -14,6 +14,7 @@ public enum ErrorCode {
     AGENCY_CODE_NOT_MATCH(400, "SCHOOL-400-1", "AgencyCode Not Match"),
     CANNOT_CHEER_MYSELF(400, "SOCKET-400-1", "Can Not Cheer Myself"),
     USER_NOT_EXERCISING(400, "EXERCISE-400-1", "User Not Exercising"),
+    IMAGE_VALUE_NOT_FOUND(400, "COMMON-404-1", "Image Value Not Found"),
 
     EXPIRED_JWT(401, "COMMON-401-1", "Expired Jwt"),
     INVALID_JWT(401, "COMMON-401-2", "Invalid Jwt"),

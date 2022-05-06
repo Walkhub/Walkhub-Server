@@ -2,7 +2,9 @@ package com.walkhub.walkhub.infrastructure.image.s3;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.walkhub.walkhub.global.exception.ImageValueNotFoundException;
 import com.walkhub.walkhub.global.exception.SaveImageFailedException;
 import com.walkhub.walkhub.infrastructure.image.ImageUtil;
 import lombok.RequiredArgsConstructor;
@@ -20,17 +22,34 @@ public class S3Facade implements ImageUtil {
 
     @Override
     public String uploadImage(MultipartFile image) {
+        if (image.isEmpty()) {
+            throw ImageValueNotFoundException.EXCEPTION;
+        }
+
         String fileName = s3Properties.getBucket() + "/" + UUID.randomUUID() + image.getOriginalFilename();
 
         try {
-            amazonS3Client.putObject(new PutObjectRequest(s3Properties.getBucket(), fileName, image.getInputStream(),
-                    null)
-                    .withCannedAcl(CannedAccessControlList.PublicRead));
+            PutObjectRequest putObjectRequest = new PutObjectRequest(
+                    s3Properties.getBucket(),
+                    fileName,
+                    image.getInputStream(),
+                    getObjectMetadata(image)
+            );
+
+            amazonS3Client.putObject(putObjectRequest.withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (Exception e) {
             throw SaveImageFailedException.EXCEPTION;
         }
 
         return getFileUrl(fileName);
+    }
+
+    private ObjectMetadata getObjectMetadata(MultipartFile image) {
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(image.getSize());
+        objectMetadata.setContentType(image.getContentType());
+
+        return objectMetadata;
     }
 
     public String getFileUrl(String fileName) {
