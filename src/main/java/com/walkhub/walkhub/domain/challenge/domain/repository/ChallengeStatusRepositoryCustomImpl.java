@@ -258,15 +258,15 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     private NumberExpression<Integer> getChallengeProgress(Challenge challenge) {
-        NumberExpression<Integer> successProgress;
+        NumberExpression<Integer> sum;
 
         if (challenge.getGoalScope() == GoalScope.ALL) {
             if (challenge.getGoalType() == GoalType.DISTANCE) {
-                successProgress = exerciseAnalysis.distance.sum();
+                sum = exerciseAnalysis.distance.sum();
             } else {
-                successProgress = exerciseAnalysis.walkCount.sum();
+                sum = exerciseAnalysis.walkCount.sum();
             }
-            return successProgress.divide(challenge.getGoal()).multiply(100).round();
+            return sum.divide(challenge.getGoal()).multiply(100).round();
         } else {
             return exerciseAnalysis.date.count().intValue().divide(challenge.getSuccessStandard()).multiply(100).round();
         }
