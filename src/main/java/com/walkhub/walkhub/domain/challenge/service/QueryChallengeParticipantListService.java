@@ -9,6 +9,7 @@ import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChal
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeParticipantListResponse.QueryChallengeParticipantResponse;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,15 +24,28 @@ public class QueryChallengeParticipantListService {
     public QueryChallengeParticipantListResponse execute(Long id, ChallengeParticipantRequest request) {
 
         Challenge challenge = challengeFacade.getChallengeById(id);
-        List<QueryChallengeParticipantResponse> challengeParticipantList =
-                challengeStatusRepository.queryChallengeProgress(challenge, request.getName(),
-                                request.getUserScope(), request.getSort(), request.getGrade(),
-                                request.getClassNum(), request.getSize())
-                        .stream()
-                        .map(this::builderChallengeParticipantResponse)
-                        .collect(Collectors.toList());
+        List<ChallengeDetailsForTeacherVO> challengeParticipantList;
+        int totalPage = 0;
 
-        return new QueryChallengeParticipantListResponse(challengeParticipantList);
+        if (request.getPage() == null) {
+            challengeParticipantList = challengeStatusRepository.queryChallengeProgress(challenge, request.getName(),
+                    request.getUserScope(), request.getSort(), request.getGrade(),
+                    request.getClassNum());
+        } else {
+            Page<ChallengeDetailsForTeacherVO> pageChallengeParticipantList =
+                    challengeStatusRepository.queryChallengeProgress(challenge, request.getName(),
+                            request.getUserScope(), request.getSort(), request.getGrade(),
+                            request.getClassNum(), request.getPage());
+
+            challengeParticipantList = pageChallengeParticipantList.getContent();
+            totalPage = pageChallengeParticipantList.getTotalPages();
+        }
+
+        List<QueryChallengeParticipantResponse> responseList = challengeParticipantList.stream()
+                .map(this::builderChallengeParticipantResponse)
+                .collect(Collectors.toList());
+
+        return new QueryChallengeParticipantListResponse(totalPage, responseList);
     }
 
     private QueryChallengeParticipantResponse builderChallengeParticipantResponse(ChallengeDetailsForTeacherVO vo) {
@@ -43,8 +57,8 @@ public class QueryChallengeParticipantListService {
                 .number(vo.getNumber())
                 .schoolName(vo.getSchoolName())
                 .profileImageUrl(vo.getProfileImageUrl())
-                .totalWalkCount(vo.getTotalValue())
-                .progress(vo.getProgress() != null ? vo.getProgress() : 0)
+                .totalWalkCount(vo.getTotalValue() == null ? 0 : vo.getTotalValue())
+                .progress(vo.getProgress() == null ? 0 : vo.getProgress())
                 .isSuccess(vo.getIsSuccess())
                 .successDate(vo.getSuccessDate())
                 .build();

@@ -23,7 +23,6 @@ public class ChallengeParticipantRequest {
 
     private final Integer classNum;
 
-    @NotNull(message = "size는 Null일 수 없습니다.")
-    private Long size;
+    private Long page;
 
 }

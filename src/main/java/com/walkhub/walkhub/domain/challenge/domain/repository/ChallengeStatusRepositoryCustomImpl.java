@@ -1,5 +1,7 @@
 package com.walkhub.walkhub.domain.challenge.domain.repository;
 
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.*;
@@ -13,17 +15,18 @@ import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowParticipate
 import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsOrder;
 import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsScope;
 import com.walkhub.walkhub.domain.challenge.domain.type.GoalScope;
-import com.walkhub.walkhub.domain.challenge.domain.type.SuccessScope;
 import com.walkhub.walkhub.domain.exercise.domain.type.GoalType;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.global.enums.UserScope;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.querydsl.jpa.JPAExpressions.select;
 import static com.walkhub.walkhub.domain.challenge.domain.QChallenge.challenge;
 import static com.walkhub.walkhub.domain.challenge.domain.QChallengeStatus.challengeStatus;
 import static com.walkhub.walkhub.domain.exercise.domain.QExerciseAnalysis.exerciseAnalysis;
@@ -88,21 +91,62 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .fetch();
     }
 
-    private BooleanExpression challengeDateFilter(Challenge challenge) {
-        return exerciseAnalysis.date.goe(challenge.getStartAt())
-                .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
-                .and(exerciseAnalysis.date.loe(challenge.getEndAt()));
-    }
-
     @Override
-    public List<ChallengeDetailsForTeacherVO> queryChallengeProgress(
-            Challenge challenge,
+    public Page<ChallengeDetailsForTeacherVO> queryChallengeProgress(
+            Challenge challengeParam,
             String name,
             ChallengeParticipantsScope participantsScope,
             ChallengeParticipantsOrder participantsOrder,
             Integer grade,
             Integer classNum,
             Long page
+    ) {
+        List<ChallengeDetailsForTeacherVO> results = queryFactory
+                .select(new QChallengeDetailsForTeacherVO(
+                        user.id,
+                        user.name,
+                        section.grade,
+                        section.classNum,
+                        user.number,
+                        school.name,
+                        user.profileImageUrl,
+                        getChallengeTotalValue(challengeParam),
+                        getChallengeProgress(challengeParam),
+                        exerciseAnalysis.date.count().goe(challengeParam.getSuccessStandard()),
+                        new CaseBuilder()
+                                .when(exerciseAnalysis.date.count().goe(challengeParam.getSuccessStandard()))
+                                .then(exerciseAnalysis.date.max())
+                                .otherwise(Expressions.nullExpression())))
+                .from(user)
+                .offset(page * PARTICIPANTS_SIZE)
+                .limit(PARTICIPANTS_SIZE)
+                .leftJoin(user.section, section)
+                .join(user.school, school)
+                .join(user.challengeStatuses, challengeStatus)
+                .join(challengeStatus.challenge, challenge)
+                .on(challenge.eq(challengeParam))
+                .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
+                .on(challengeDateFilter(challengeParam),
+                        isChallengeSuccessFilter(challengeParam))
+                .where(userScopeFilter(participantsScope),
+                        userNameContainsFilter(name),
+                        userGradeFilter(grade),
+                        userClassNumFilter(classNum))
+                .orderBy(challengeParticipantsOrder(participantsOrder), user.name.asc())
+                .groupBy(user.id, challengeStatus.createdAt, exerciseAnalysis.user)
+                .fetch();
+
+        return PageableExecutionUtils.getPage(results, Pageable.unpaged(), results::size);
+    }
+
+    @Override
+    public List<ChallengeDetailsForTeacherVO> queryChallengeProgress(
+            Challenge challengeParam,
+            String name,
+            ChallengeParticipantsScope participantsScope,
+            ChallengeParticipantsOrder participantsOrder,
+            Integer grade,
+            Integer classNum
     ) {
         return queryFactory
                 .select(new QChallengeDetailsForTeacherVO(
@@ -113,28 +157,28 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                         user.number,
                         school.name,
                         user.profileImageUrl,
-                        getChallengeTotalValue(challenge),
-                        getChallengeProgress(challenge).multiply(100).round().longValue(),
-                        exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()),
+                        getChallengeTotalValue(challengeParam),
+                        getChallengeProgress(challengeParam),
+                        exerciseAnalysis.date.count().goe(challengeParam.getSuccessStandard()),
                         new CaseBuilder()
-                                .when(exerciseAnalysis.date.count().goe(challenge.getSuccessStandard()))
+                                .when(exerciseAnalysis.date.count().goe(challengeParam.getSuccessStandard()))
                                 .then(exerciseAnalysis.date.max())
                                 .otherwise(Expressions.nullExpression())))
                 .from(user)
-                .offset(page == null ? 0 : page * PARTICIPANTS_SIZE)
-                .limit(PARTICIPANTS_SIZE)
                 .leftJoin(user.section, section)
                 .join(user.school, school)
                 .join(user.challengeStatuses, challengeStatus)
+                .join(challengeStatus.challenge, challenge)
+                .on(challenge.eq(challengeParam))
                 .leftJoin(user.exerciseAnalyses, exerciseAnalysis)
-                .on(challengeDateFilter(challenge),
-                        isChallengeSuccessFilter(challenge))
+                .on(challengeDateFilter(challengeParam),
+                        isChallengeSuccessFilter(challengeParam))
                 .where(userScopeFilter(participantsScope),
                         userNameContainsFilter(name),
                         userGradeFilter(grade),
                         userClassNumFilter(classNum))
-                .orderBy(challengeParticipantsOrder(participantsOrder))
-                .groupBy(user.id, challengeStatus.createdAt)
+                .orderBy(challengeParticipantsOrder(participantsOrder), user.name.asc())
+                .groupBy(user.id, challengeStatus.createdAt, exerciseAnalysis.user)
                 .fetch();
     }
 
@@ -172,6 +216,12 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .goe(challenge.getGoal());
     }
 
+    private BooleanExpression challengeDateFilter(Challenge challenge) {
+        return exerciseAnalysis.date.goe(challenge.getStartAt())
+                .and(exerciseAnalysis.date.goe(challengeStatus.createdAt))
+                .and(exerciseAnalysis.date.loe(challenge.getEndAt()));
+    }
+
     private BooleanExpression userNameContainsFilter(String keyword) {
         return keyword != null ? user.name.contains(keyword) : null;
     }
@@ -194,58 +244,63 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
         }
     }
 
-    private BooleanExpression challengeSuccessFilter(SuccessScope successScope, Challenge challenge) {
-        if (successScope == SuccessScope.TRUE) {
-            return exerciseAnalysis.date.count().goe(challenge.getSuccessStandard());
-        } else if (successScope == SuccessScope.FALSE) {
-            return exerciseAnalysis.date.count().lt(challenge.getSuccessStandard());
-        } else {
-            return null;
-        }
-    }
-
-    private NumberExpression<Long> getChallengeProgress(Challenge challenge) {
-        NumberExpression<Integer> successProgress;
-
-        if (challenge.getGoalScope() == GoalScope.ALL) {
-            if (challenge.getGoalType() == GoalType.DISTANCE) {
-                successProgress = exerciseAnalysis.distance.sum();
-            } else {
-                successProgress = exerciseAnalysis.walkCount.sum();
-            }
-            return successProgress.divide(challenge.getGoal()).longValue();
-        } else {
-            return exerciseAnalysis.date.count().divide(challenge.getSuccessStandard());
-        }
-    }
-
-    private NumberExpression<Integer> getChallengeTotalValue(Challenge challenge) {
-        NumberExpression<Integer> sum;
+    private Expression<Integer> getChallengeTotalValue(Challenge challenge) {
+        NumberExpression<Integer> exerciseAmount;
 
         if (challenge.getGoalType() == GoalType.WALK) {
-            sum = exerciseAnalysis.walkCount.sum();
+            exerciseAmount = exerciseAnalysis.walkCount;
         } else {
-            sum = exerciseAnalysis.distance.sum();
+            exerciseAmount = exerciseAnalysis.distance;
         }
 
-        return Expressions.asNumber(
-                select(sum)
+        return ExpressionUtils.as(
+                JPAExpressions.select(exerciseAmount.sum())
                         .from(exerciseAnalysis)
                         .where(exerciseAnalysis.user.eq(user),
-                                challengeDateFilter(challenge))
+                                challengeDateFilter(challenge)),
+                "totalValue"
         );
     }
 
-    private OrderSpecifier<?> challengeParticipantsOrder(ChallengeParticipantsOrder challengeParticipantsOrder) {
-        if (challengeParticipantsOrder == ChallengeParticipantsOrder.SUCCESS_DATE) {
-            return new OrderSpecifier<>(Order.DESC, exerciseAnalysis.date.max());
-        } else if (challengeParticipantsOrder == ChallengeParticipantsOrder.PROGRESS) {
-            return new OrderSpecifier<>(Order.DESC,
-                    exerciseAnalysis.walkCount.sum().divide(exerciseAnalysis.date.count()));
-        } else if (challengeParticipantsOrder == ChallengeParticipantsOrder.SCHOOL_NAME) {
-            return new OrderSpecifier<>(Order.ASC, school.name);
+    private Expression<Integer> getChallengeProgress(Challenge challenge) {
+        NumberExpression<Integer> sum;
+
+        if (challenge.getGoalScope() == GoalScope.ALL) {
+            if (challenge.getGoalType() == GoalType.DISTANCE) {
+                sum = exerciseAnalysis.distance.sum();
+            } else {
+                sum = exerciseAnalysis.walkCount.sum();
+            }
+            return ExpressionUtils.as(
+                    JPAExpressions.select(sum.divide(challenge.getGoal()).multiply(100).round())
+                            .from(exerciseAnalysis)
+                            .where(exerciseAnalysis.user.eq(user),
+                                    challengeDateFilter(challenge)),
+                    "progress"
+            );
         } else {
-            return new OrderSpecifier<>(Order.ASC, user.name);
+            return exerciseAnalysis.date.count().intValue().divide(challenge.getSuccessStandard()).multiply(100).round();
+        }
+    }
+
+    private OrderSpecifier<?> challengeParticipantsOrder(ChallengeParticipantsOrder challengeParticipantsOrder) {
+        switch (challengeParticipantsOrder) {
+            case SUCCESS_DATE: {
+                return new OrderSpecifier<>(Order.DESC, exerciseAnalysis.date.max());
+            }
+            case PROGRESS: {
+                return new OrderSpecifier<>(Order.DESC,
+                        exerciseAnalysis.walkCount.sum().divide(exerciseAnalysis.date.count()));
+            }
+            case SCHOOL_NAME: {
+                return new OrderSpecifier<>(Order.ASC, school.name);
+            }
+            case USER_NAME: {
+                return new OrderSpecifier<>(Order.ASC, user.name);
+            }
+            default: {
+                return null;
+            }
         }
     }
 }

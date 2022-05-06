@@ -15,14 +15,14 @@ public class ChallengeDetailsForTeacherVO {
     private final String schoolName;
     private final String profileImageUrl;
     private final Integer totalValue;
-    private final Long progress;
+    private final Integer progress;
     private final Boolean isSuccess;
     private final LocalDate successDate;
 
     @QueryProjection
     public ChallengeDetailsForTeacherVO(Long userId, String userName, Integer grade,
                                         Integer classNum, Integer number, String schoolName,
-                                        String profileImageUrl, Integer totalValue, Long progress,
+                                        String profileImageUrl, Integer totalValue, Integer progress,
                                         Boolean isSuccess, LocalDate successDate) {
         this.userId = userId;
         this.userName = userName;
