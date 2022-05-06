@@ -15,7 +15,7 @@ public class SchoolDetailsInfoResponse {
     @Getter
     @Builder
     public static class DateRankResponse {
-        private final Long userCount;
+        private final Long totalUserCount;
         private final LocalDate date;
         private final Integer totalWalkCount;
         private final Integer ranking;

@@ -39,7 +39,7 @@ public class SchoolDetailsInfoService {
 
     private DateRankResponse buildDateSchoolRank(SchoolRank schoolRank) {
         return DateRankResponse.builder()
-                .userCount(schoolRank.getUserCount())
+                .totalUserCount(schoolRank.getUserCount())
                 .date(schoolRank.getCreatedAt())
                 .totalWalkCount(schoolRank.getWalkCount())
                 .ranking(schoolRank.getRanking())
