@@ -1,11 +1,14 @@
 package com.walkhub.walkhub.domain.rank.domain;
 
+import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -18,5 +21,5 @@ public class SchoolRankId implements Serializable {
 
     private LocalDate createdAt;
 
-    private String dateType;
+    private SchoolDateType dateType;
 }
