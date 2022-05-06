@@ -20,6 +20,9 @@ import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.Authority;
 import com.walkhub.walkhub.global.enums.UserScope;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -89,7 +92,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     @Override
-    public List<ChallengeDetailsForTeacherVO> queryChallengeProgress(
+    public Page<ChallengeDetailsForTeacherVO> queryChallengeProgress(
             Challenge challengeParam,
             String name,
             ChallengeParticipantsScope participantsScope,
@@ -98,7 +101,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
             Integer classNum,
             Long page
     ) {
-        return queryFactory
+        List<ChallengeDetailsForTeacherVO> results = queryFactory
                 .select(new QChallengeDetailsForTeacherVO(
                         user.id,
                         user.name,
@@ -132,6 +135,8 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
                 .orderBy(challengeParticipantsOrder(participantsOrder), user.name.asc())
                 .groupBy(user.id, challengeStatus.createdAt, exerciseAnalysis.user)
                 .fetch();
+
+        return PageableExecutionUtils.getPage(results, Pageable.unpaged(), results::size);
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChal
 import com.walkhub.walkhub.domain.challenge.presenstation.dto.response.QueryChallengeParticipantListResponse.QueryChallengeParticipantResponse;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,22 +25,27 @@ public class QueryChallengeParticipantListService {
 
         Challenge challenge = challengeFacade.getChallengeById(id);
         List<ChallengeDetailsForTeacherVO> challengeParticipantList;
+        int totalPage = 0;
 
         if (request.getPage() == null) {
             challengeParticipantList = challengeStatusRepository.queryChallengeProgress(challenge, request.getName(),
                     request.getUserScope(), request.getSort(), request.getGrade(),
                     request.getClassNum());
         } else {
-            challengeParticipantList = challengeStatusRepository.queryChallengeProgress(challenge, request.getName(),
-                    request.getUserScope(), request.getSort(), request.getGrade(),
-                    request.getClassNum(), request.getPage());
+            Page<ChallengeDetailsForTeacherVO> pageChallengeParticipantList =
+                    challengeStatusRepository.queryChallengeProgress(challenge, request.getName(),
+                            request.getUserScope(), request.getSort(), request.getGrade(),
+                            request.getClassNum(), request.getPage());
+
+            challengeParticipantList = pageChallengeParticipantList.getContent();
+            totalPage = pageChallengeParticipantList.getTotalPages();
         }
 
         List<QueryChallengeParticipantResponse> responseList = challengeParticipantList.stream()
                 .map(this::builderChallengeParticipantResponse)
                 .collect(Collectors.toList());
 
-        return new QueryChallengeParticipantListResponse(responseList);
+        return new QueryChallengeParticipantListResponse(totalPage, responseList);
     }
 
     private QueryChallengeParticipantResponse builderChallengeParticipantResponse(ChallengeDetailsForTeacherVO vo) {

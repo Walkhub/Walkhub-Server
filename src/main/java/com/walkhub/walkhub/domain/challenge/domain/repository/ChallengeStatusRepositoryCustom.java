@@ -6,11 +6,12 @@ import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowParticipate
 import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsOrder;
 import com.walkhub.walkhub.domain.challenge.domain.type.ChallengeParticipantsScope;
 import com.walkhub.walkhub.domain.user.domain.User;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface ChallengeStatusRepositoryCustom {
-    List<ChallengeDetailsForTeacherVO> queryChallengeProgress(Challenge challenge,
+    Page<ChallengeDetailsForTeacherVO> queryChallengeProgress(Challenge challenge,
                                                               String name,
                                                               ChallengeParticipantsScope participantsScope,
                                                               ChallengeParticipantsOrder participantsOrder,

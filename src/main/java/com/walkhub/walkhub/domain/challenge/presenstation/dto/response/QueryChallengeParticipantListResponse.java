@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class QueryChallengeParticipantListResponse {
 
+    private final Integer totalPage;
     private final List<QueryChallengeParticipantResponse> participantList;
 
     @Getter
