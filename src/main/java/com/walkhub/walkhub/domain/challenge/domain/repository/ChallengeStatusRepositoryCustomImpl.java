@@ -240,16 +240,16 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
     }
 
     private Expression<Integer> getChallengeTotalValue(Challenge challenge) {
-        NumberExpression<Integer> sum;
+        NumberExpression<Integer> exerciseAmount;
 
         if (challenge.getGoalType() == GoalType.WALK) {
-            sum = exerciseAnalysis.walkCount.sum();
+            exerciseAmount = exerciseAnalysis.walkCount;
         } else {
-            sum = exerciseAnalysis.distance.sum();
+            exerciseAmount = exerciseAnalysis.distance;
         }
 
         return ExpressionUtils.as(
-                JPAExpressions.select(sum)
+                JPAExpressions.select(exerciseAmount.sum())
                         .from(exerciseAnalysis)
                         .where(exerciseAnalysis.user.eq(user),
                                 challengeDateFilter(challenge)),
@@ -257,7 +257,7 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
         );
     }
 
-    private NumberExpression<Integer> getChallengeProgress(Challenge challenge) {
+    private Expression<Integer> getChallengeProgress(Challenge challenge) {
         NumberExpression<Integer> sum;
 
         if (challenge.getGoalScope() == GoalScope.ALL) {
@@ -266,7 +266,13 @@ public class ChallengeStatusRepositoryCustomImpl implements ChallengeStatusRepos
             } else {
                 sum = exerciseAnalysis.walkCount.sum();
             }
-            return sum.divide(challenge.getGoal()).multiply(100).round();
+            return ExpressionUtils.as(
+                    JPAExpressions.select(sum.divide(challenge.getGoal()).multiply(100).round())
+                            .from(exerciseAnalysis)
+                            .where(exerciseAnalysis.user.eq(user),
+                                    challengeDateFilter(challenge)),
+                    "progress"
+            );
         } else {
             return exerciseAnalysis.date.count().intValue().divide(challenge.getSuccessStandard()).multiply(100).round();
         }
