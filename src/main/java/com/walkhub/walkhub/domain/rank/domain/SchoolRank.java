@@ -28,8 +28,8 @@ public class SchoolRank {
     private LocalDate createdAt;
 
     @Id
-    @Enumerated(EnumType.STRING)
     @Column(length = 5)
+    @Enumerated(EnumType.STRING)
     private SchoolDateType dateType;
 
     @NotNull
