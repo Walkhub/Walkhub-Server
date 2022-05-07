@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface SchoolRankRepositoryCustom {
 
-    List<SchoolListVo> getSchoolSearch(Sort sort, SchoolDateType dateType, LocalDate createdAt, String name);
+    List<SchoolListVo> getSchoolSearch(SchoolDateType dateType, LocalDate createdAt, String name, Sort sort);
 }

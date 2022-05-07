@@ -22,7 +22,7 @@ public class SchoolSearchService {
         LocalDate date = LocalDate.now().minusDays(1);
 
         List<SchoolResponse> schoolRankList = schoolRankRepository
-                .getSchoolSearch(request.getSort(), request.getSchoolDateType(), date, request.getName())
+                .getSchoolSearch(request.getSchoolDateType(), date, request.getName(), request.getSort())
                 .stream()
                 .map(this::schoolResponse)
                 .collect(Collectors.toList());
