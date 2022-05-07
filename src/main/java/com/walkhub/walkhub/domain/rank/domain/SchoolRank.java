@@ -29,6 +29,7 @@ public class SchoolRank {
 
     @Id
     @Column(length = 5)
+    @Enumerated(EnumType.STRING)
     private SchoolDateType dateType;
 
     @NotNull

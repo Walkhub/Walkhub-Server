@@ -2,10 +2,10 @@ package com.walkhub.walkhub.domain.school.service;
 
 import com.walkhub.walkhub.domain.rank.domain.SchoolRank;
 import com.walkhub.walkhub.domain.rank.domain.repository.SchoolRankRepository;
+import com.walkhub.walkhub.domain.rank.domain.type.SchoolDateType;
 import com.walkhub.walkhub.domain.school.presentation.dto.response.SchoolDetailsInfoResponse;
 import com.walkhub.walkhub.domain.school.presentation.dto.response.SchoolDetailsInfoResponse.DateRankResponse;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
-import com.walkhub.walkhub.global.enums.DateType;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
@@ -20,8 +20,8 @@ public class SchoolDetailsInfoService {
         LocalDate now = LocalDate.now();
         LocalDate createdAt = now.minusDays(now.getDayOfWeek().getValue() - 1L);
 
-        SchoolRank weekSchoolRank = buildWeekOrMonthSchoolRank(schoolId, DateType.WEEK.toString(), createdAt);
-        SchoolRank monthSchoolRank = buildWeekOrMonthSchoolRank(schoolId, DateType.MONTH.toString(), createdAt);
+        SchoolRank weekSchoolRank = buildWeekOrMonthSchoolRank(schoolId, SchoolDateType.WEEK, createdAt);
+        SchoolRank monthSchoolRank = buildWeekOrMonthSchoolRank(schoolId, SchoolDateType.MONTH, createdAt);
 
         return SchoolDetailsInfoResponse.builder()
                 .week(buildDateSchoolRank(weekSchoolRank))
@@ -29,7 +29,7 @@ public class SchoolDetailsInfoService {
                 .build();
     }
 
-    private SchoolRank buildWeekOrMonthSchoolRank(Long schoolId, String dateType, LocalDate createdAt) {
+    private SchoolRank buildWeekOrMonthSchoolRank(Long schoolId, SchoolDateType dateType, LocalDate createdAt) {
         return schoolRankRepository
                 .findBySchoolIdAndDateTypeAndCreatedAt(schoolId, dateType, createdAt)
                 .orElseGet(() -> schoolRankRepository.findBySchoolIdAndDateTypeAndCreatedAt(
@@ -39,7 +39,7 @@ public class SchoolDetailsInfoService {
 
     private DateRankResponse buildDateSchoolRank(SchoolRank schoolRank) {
         return DateRankResponse.builder()
-                .userCount(schoolRank.getUserCount())
+                .totalUserCount(schoolRank.getUserCount())
                 .date(schoolRank.getCreatedAt())
                 .totalWalkCount(schoolRank.getWalkCount())
                 .ranking(schoolRank.getRanking())
