@@ -21,7 +21,7 @@ public class SchoolRankRepositoryCustomImpl implements SchoolRankRepositoryCusto
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<SchoolListVo> getSchoolSearch(Sort sort, SchoolDateType dateType, LocalDate createdAt, String name) {
+    public List<SchoolListVo> getSchoolSearch(SchoolDateType dateType, LocalDate createdAt, String name, Sort sort) {
         return queryFactory
                 .select(new QSchoolListVo(
                         schoolRank.schoolId,
@@ -33,28 +33,20 @@ public class SchoolRankRepositoryCustomImpl implements SchoolRankRepositoryCusto
                 ))
                 .from(schoolRank)
                 .where(
-                        dateTypeEq(dateType),
-                        nameEq(name),
-                        createdAtEq(createdAt)
+                        schoolRank.dateType.eq(dateType),
+                        schoolRank.createdAt.eq(createdAt),
+                        isNameContain(name)
                 )
                 .orderBy(schoolRankSort(sort))
                 .fetch();
     }
 
-    private BooleanExpression dateTypeEq(SchoolDateType dateType) {
-        return dateType != null ? schoolRank.dateType.eq(dateType) : null;
-    }
-
-    private BooleanExpression nameEq(String name) {
+    private BooleanExpression isNameContain(String name) {
         return name != null ? schoolRank.name.contains(name) : null;
     }
 
-    private BooleanExpression createdAtEq(LocalDate date) {
-        return date != null ? schoolRank.createdAt.eq(date) : null;
-    }
-
     private OrderSpecifier<?> schoolRankSort(Sort sort) {
-        if (Sort.NAME == sort) {
+        if (Sort.NAME.equals(sort)) {
             return new OrderSpecifier<>(Order.ASC, schoolRank.name);
         } else {
             return new OrderSpecifier<>(Order.ASC, schoolRank.ranking);
