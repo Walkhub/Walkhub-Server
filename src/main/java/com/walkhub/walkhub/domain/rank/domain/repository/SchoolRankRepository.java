@@ -11,16 +11,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface SchoolRankRepository extends CrudRepository<SchoolRank, SchoolRankId> {
+public interface SchoolRankRepository extends CrudRepository<SchoolRank, SchoolRankId>, SchoolRankRepositoryCustom {
 
     Optional<SchoolRank> findBySchoolIdAndDateTypeAndCreatedAt(Long schoolId, SchoolDateType dateType, LocalDate createdAt);
-
-    List<SchoolRank> findAllByDateTypeAndCreatedAtAndNameContainingOrderByName(SchoolDateType dateType, LocalDate createdAt, @NotNull @Size(max = 20) String name);
-
-    List<SchoolRank> findAllByDateTypeAndCreatedAtAndNameContainingOrderByRanking(SchoolDateType dateType, LocalDate createdAt, @NotNull @Size(max = 20) String name);
-
-    List<SchoolRank> findAllByDateTypeAndCreatedAtOrderByName(SchoolDateType dateType, LocalDate createdAt);
-
-    List<SchoolRank> findAllByDateTypeAndCreatedAtOrderByRanking(SchoolDateType dateType, LocalDate createdAt);
 
 }
