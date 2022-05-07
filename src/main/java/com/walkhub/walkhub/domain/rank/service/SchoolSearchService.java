@@ -23,28 +23,37 @@ public class SchoolSearchService {
         List<SchoolRank> schoolList;
         LocalDate date = LocalDate.now().minusDays(1);
 
-        if (Sort.NAME == request.getSort()) {
-            schoolList = schoolRankRepository
-                    .findAllByDateTypeAndCreatedAtAndNameContainingOrderByName(
-                            request.getSchoolDateType().toString(),
-                            date,
-                            request.getName()
-                    );
+        if (request.getName() != null) {
+            if (Sort.NAME == request.getSort()) {
+                schoolList = schoolRankRepository
+                        .findAllByDateTypeAndCreatedAtAndNameContainingOrderByName(
+                                request.getSchoolDateType(),
+                                date,
+                                request.getName()
+                        );
+            } else {
+                schoolList = schoolRankRepository
+                        .findAllByDateTypeAndCreatedAtAndNameContainingOrderByRanking(
+                                request.getSchoolDateType(),
+                                date,
+                                request.getName()
+                        );
+            }
         } else {
-            schoolList = schoolRankRepository
-                    .findAllByDateTypeAndCreatedAtAndNameContainingOrderByRanking(
-                            request.getSchoolDateType().toString(),
-                            date,
-                            request.getName()
-                    );
+            if (Sort.NAME == request.getSort()) {
+                schoolList = schoolRankRepository
+                        .findAllByDateTypeAndCreatedAtOrderByName(request.getSchoolDateType(), date);
+            } else {
+                schoolList = schoolRankRepository
+                        .findAllByDateTypeAndCreatedAtOrderByRanking(request.getSchoolDateType(), date);
+            }
         }
 
-        return new SchoolListResponse(
-                schoolList
-                        .stream()
-                        .map(this::schoolResponse)
-                        .collect(Collectors.toList())
-        );
+        List<SchoolResponse> schoolResponse = schoolList.stream()
+                .map(this::schoolResponse)
+                .collect(Collectors.toList());
+
+        return new SchoolListResponse(schoolResponse);
     }
 
     private SchoolResponse schoolResponse(SchoolRank schoolRank) {
