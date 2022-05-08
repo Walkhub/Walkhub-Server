@@ -1,6 +1,6 @@
 package com.walkhub.walkhub.domain.rank.service;
 
-import com.walkhub.walkhub.domain.exercise.cache.ExerciseAnalysisCacheRepositoryImpl;
+import com.walkhub.walkhub.domain.exercise.cache.ExerciseAnalysisCacheRepository;
 import com.walkhub.walkhub.domain.exercise.cache.ExerciseAnalysisDto;
 import com.walkhub.walkhub.domain.rank.domain.UserRank;
 import com.walkhub.walkhub.domain.rank.domain.repository.UserRankRepository;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class UserSearchService {
 
     private final UserRankRepository userRankRepository;
-    private final ExerciseAnalysisCacheRepositoryImpl exerciseAnalysisCacheRepository;
+    private final ExerciseAnalysisCacheRepository exerciseAnalysisCacheRepository;
     private final UserRepository userRepository;
 
     public UserListResponse execute(Long schoolId, String name, DateType dateType) {
