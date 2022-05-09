@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class QueryExerciseHistoryResponse {
 
+    private final Integer totalPage;
     private final List<ExerciseHistory> exerciseAnalysisList;
 
     @Getter
