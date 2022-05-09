@@ -51,7 +51,7 @@ public class ExerciseRepositoryCustomImpl implements ExerciseRepositoryCustom {
                                         .where(location.exercise.eq(exercise))
                         ).eq(location.sequence)
                 )
-                .offset(page * PARTICIPANTS_SIZE)
+                .offset((long) page * PARTICIPANTS_SIZE)
                 .limit(PARTICIPANTS_SIZE)
                 .where(
                         exercise.createdAt.between(startAt, endAt),
