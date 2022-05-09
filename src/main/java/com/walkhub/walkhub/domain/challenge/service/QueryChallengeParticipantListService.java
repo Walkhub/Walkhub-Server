@@ -25,6 +25,8 @@ public class QueryChallengeParticipantListService {
 
         Challenge challenge = challengeFacade.getChallengeById(id);
         List<ChallengeDetailsForTeacherVO> challengeParticipantList;
+
+        Long participantCount = (long) challenge.getChallengeStatuses().size();
         int totalPage = 0;
 
         if (request.getPage() == null) {
@@ -45,7 +47,7 @@ public class QueryChallengeParticipantListService {
                 .map(this::builderChallengeParticipantResponse)
                 .collect(Collectors.toList());
 
-        return new QueryChallengeParticipantListResponse(totalPage, responseList);
+        return new QueryChallengeParticipantListResponse(totalPage, participantCount, responseList);
     }
 
     private QueryChallengeParticipantResponse builderChallengeParticipantResponse(ChallengeDetailsForTeacherVO vo) {

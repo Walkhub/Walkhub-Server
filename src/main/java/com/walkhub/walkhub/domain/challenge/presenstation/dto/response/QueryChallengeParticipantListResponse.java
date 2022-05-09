@@ -12,6 +12,7 @@ import java.util.List;
 public class QueryChallengeParticipantListResponse {
 
     private final Integer totalPage;
+    private final Long participantCount;
     private final List<QueryChallengeParticipantResponse> participantList;
 
     @Getter
