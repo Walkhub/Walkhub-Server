@@ -56,6 +56,7 @@ public class ExerciseRepositoryCustomImpl implements ExerciseRepositoryCustom {
                 .limit(PARTICIPANTS_SIZE)
                 .where(
                         exercise.createdAt.between(startAt, endAt),
+                        exercise.endAt.isNotNull(),
                         exercise.user.id.eq(userId)
                 )
                 .fetch();
