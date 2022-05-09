@@ -26,7 +26,7 @@ public class QueryChallengeParticipantListService {
         Challenge challenge = challengeFacade.getChallengeById(id);
         List<ChallengeDetailsForTeacherVO> challengeParticipantList;
 
-        Long participantCount = (long) challenge.getChallengeStatuses().size();
+        long participantCount = 0;
         int totalPage = 0;
 
         if (request.getPage() == null) {
@@ -41,6 +41,7 @@ public class QueryChallengeParticipantListService {
 
             challengeParticipantList = pageChallengeParticipantList.getContent();
             totalPage = pageChallengeParticipantList.getTotalPages();
+            participantCount = pageChallengeParticipantList.getTotalElements();
         }
 
         List<QueryChallengeParticipantResponse> responseList = challengeParticipantList.stream()
