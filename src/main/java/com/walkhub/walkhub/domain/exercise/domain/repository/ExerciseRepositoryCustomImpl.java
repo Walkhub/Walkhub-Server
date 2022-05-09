@@ -7,6 +7,9 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.exercise.vo.ExerciseVO;
 import com.walkhub.walkhub.domain.exercise.vo.QExerciseVO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -23,19 +26,17 @@ public class ExerciseRepositoryCustomImpl implements ExerciseRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<ExerciseVO> queryExerciseHistoryList(Long userId, ZonedDateTime startAt, ZonedDateTime endAt, Integer page) {
-        return queryFactory
+    public Page<ExerciseVO> queryExerciseHistoryList(Long userId, ZonedDateTime startAt, ZonedDateTime endAt, Integer page) {
+        List<ExerciseVO> results = queryFactory
                 .select(
                         new QExerciseVO(
                                 exercise.id,
                                 exercise.imageUrl,
                                 exercise.walkCount,
-                                exercise.distance.castToNum(Double.TYPE)
-                                        .divide(differenceSec(exercise.createdAt, exercise.endAt)
-                                                .subtract(exercise.pausedTime)),
+                                exercise.distance.divide(100).castToNum(Double.TYPE)
+                                        .divide(getExerciseTime(differenceSec(exercise.endAt, exercise.createdAt))),
                                 exercise.calorie,
-                                differenceMinute(exercise.createdAt, exercise.endAt)
-                                        .subtract(exercise.pausedTime),
+                                getExerciseTime(differenceMinute(exercise.endAt, exercise.createdAt)),
                                 location.latitude,
                                 location.longitude,
                                 exercise.endAt
@@ -50,23 +51,27 @@ public class ExerciseRepositoryCustomImpl implements ExerciseRepositoryCustom {
                                         .where(location.exercise.eq(exercise))
                         ).eq(location.sequence)
                 )
-                .offset(page == null ? 0 : page * PARTICIPANTS_SIZE)
+                .offset(page * PARTICIPANTS_SIZE)
                 .limit(PARTICIPANTS_SIZE)
                 .where(
                         exercise.createdAt.between(startAt, endAt),
                         exercise.user.id.eq(userId)
                 )
                 .fetch();
+
+        return PageableExecutionUtils.getPage(results, Pageable.unpaged(), results::size);
+    }
+
+    private NumberExpression<Integer> differenceSec(DateTimePath<?> start, DateTimePath<?> end) {
+        return Expressions.numberTemplate(Integer.class, "timestampdiff(second, {0}, {1})", end, start);
     }
 
     private NumberExpression<Integer> differenceMinute(DateTimePath<?> start, DateTimePath<?> end) {
-        return Expressions.asNumber(start.minute())
-                .subtract(Expressions.asNumber(end.minute()));
+        return Expressions.numberTemplate(Integer.class, "timestampdiff(minute, {0}, {1})", end, start);
     }
 
-    private NumberExpression<Double> differenceSec(DateTimePath<?> start, DateTimePath<?> end) {
-        return differenceMinute(start, end)
-                .multiply(60).castToNum(Double.TYPE);
+    private NumberExpression<Integer> getExerciseTime(NumberExpression<Integer> difference) {
+        return difference.subtract(exercise.pausedTime);
     }
 
 }
