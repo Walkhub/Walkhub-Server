@@ -34,7 +34,7 @@ public class QueryExerciseHistoryResponse {
             this.exerciseId = exerciseVO.getExerciseId();
             this.certifyingShot = exerciseVO.getCertifyingShot();
             this.walkCount = exerciseVO.getWalkCount();
-            this.speed = exerciseVO.getSpeed();
+            this.speed = Math.round(exerciseVO.getSpeed() * 10) / 10.0;
             this.calorie = exerciseVO.getCalorie();
             this.time = exerciseVO.getTime();
             this.latitude = exerciseVO.getLatitude();

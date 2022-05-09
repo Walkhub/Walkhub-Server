@@ -34,7 +34,8 @@ public class ExerciseRepositoryCustomImpl implements ExerciseRepositoryCustom {
                                 exercise.imageUrl,
                                 exercise.walkCount,
                                 exercise.distance.divide(100).castToNum(Double.TYPE)
-                                        .divide(getExerciseTime(differenceSec(exercise.endAt, exercise.createdAt))),
+                                        .divide(getExerciseTime(differenceSec(exercise.endAt, exercise.createdAt)))
+                                        .coalesce((double) 0),
                                 exercise.calorie,
                                 getExerciseTime(differenceMinute(exercise.endAt, exercise.createdAt)),
                                 location.latitude,
