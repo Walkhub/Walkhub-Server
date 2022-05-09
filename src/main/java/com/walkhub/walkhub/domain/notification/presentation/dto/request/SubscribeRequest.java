@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class SubscribeRequest {
 
-    @NotNull(message = "List는 Null일 수 없습니다.")
+    @NotNull(message = "user_id는 Null일 수 없습니다.")
     private Long userId;
 
     @NotNull(message = "topic은 Null일 수 없습니다.")
