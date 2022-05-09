@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.exercise.presentation.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.walkhub.walkhub.domain.exercise.vo.ExerciseVO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,8 @@ public class QueryExerciseHistoryResponse {
         private final Integer time;
         private final BigDecimal latitude;
         private final BigDecimal longitude;
+
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private final ZonedDateTime endAt;
 
         public ExerciseHistory(ExerciseVO exerciseVO) {
