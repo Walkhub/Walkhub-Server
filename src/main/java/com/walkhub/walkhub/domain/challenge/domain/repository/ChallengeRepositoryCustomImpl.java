@@ -50,6 +50,7 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
                         (challenge.userScope.eq(UserScope.ALL).or(user.school.eq(userParam.getSchool()))),
                         (challenge.endAt.after(LocalDate.now()))
                 )
+                .groupBy(challenge.id)
                 .fetch();
     }
 
