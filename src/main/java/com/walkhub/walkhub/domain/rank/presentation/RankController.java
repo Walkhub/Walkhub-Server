@@ -7,11 +7,19 @@ import com.walkhub.walkhub.domain.rank.presentation.dto.response.SchoolRankRespo
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserListResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListByMySchoolResponse;
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListResponse;
-import com.walkhub.walkhub.domain.rank.service.*;
+import com.walkhub.walkhub.domain.rank.service.QueryMySchoolRankService;
+import com.walkhub.walkhub.domain.rank.service.QueryUserRankListByMySchoolService;
+import com.walkhub.walkhub.domain.rank.service.QueryUserRankListService;
+import com.walkhub.walkhub.domain.rank.service.SchoolSearchService;
+import com.walkhub.walkhub.domain.rank.service.UserSearchService;
 import com.walkhub.walkhub.global.enums.DateType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -45,7 +53,7 @@ public class RankController {
 
     @GetMapping("/users/my-school")
     public UserRankListByMySchoolResponse queryUserRankListByMySchool(@RequestParam UserRankScope scope,
-                                                            @RequestParam DateType dateType) {
+                                                                      @RequestParam DateType dateType) {
         return queryUserRankListByMySchoolService.execute(scope, dateType);
     }
 
