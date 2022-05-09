@@ -5,14 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
 public class SubscribeRequest {
 
     @NotNull(message = "List는 Null일 수 없습니다.")
-    private List<Long> userIdList;
+    private Long userId;
 
     @NotNull(message = "topic은 Null일 수 없습니다.")
     private NotificationType type;
