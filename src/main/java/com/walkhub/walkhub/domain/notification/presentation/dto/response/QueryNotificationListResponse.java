@@ -22,7 +22,7 @@ public class QueryNotificationListResponse {
         private final String content;
         private final NotificationType type;
         private final String data;
-        private final boolean isRead;
+        private final Boolean isRead;
         private final Writer writer;
         private final ZonedDateTime createdAt;
     }
