@@ -6,7 +6,14 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.walkhub.walkhub.domain.challenge.domain.Challenge;
 import com.walkhub.walkhub.domain.challenge.domain.ChallengeStatus;
-import com.walkhub.walkhub.domain.challenge.domain.repository.vo.*;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ChallengeDetailsForStudentVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QChallengeDetailsForStudentVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QRelatedChallengeParticipantsVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QShowChallengeListForTeacherVo;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.QShowChallengeVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.RelatedChallengeParticipantsVO;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeListForTeacherVo;
+import com.walkhub.walkhub.domain.challenge.domain.repository.vo.ShowChallengeVO;
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.global.enums.UserScope;
@@ -85,8 +92,7 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
 
         if (isProgress == null) {
             return null;
-        }
-        else if (isProgress.equals(true)) {
+        } else if (isProgress.equals(true)) {
             return challenge.startAt.before(now).and(challenge.endAt.after(now));
         } else if (isProgress.equals(false)) {
             return challenge.startAt.after(now).or(challenge.endAt.before(now));
@@ -137,7 +143,8 @@ public class ChallengeRepositoryCustomImpl implements ChallengeRepositoryCustom 
 
     @Override
     public List<RelatedChallengeParticipantsVO> getRelatedChallengeParticipantsList(Long challengeId, User currentUser) {
-        Section currentUserSection = currentUser.hasSection() ? currentUser.getSection() : Section.builder().build();
+        Section currentUserSection = currentUser.hasSection() ?
+                currentUser.getSection() : Section.builder().grade(0).classNum(0).build();
 
         return query
                 .select(new QRelatedChallengeParticipantsVO(
