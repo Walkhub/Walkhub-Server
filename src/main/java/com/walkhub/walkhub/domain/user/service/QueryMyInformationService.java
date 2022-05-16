@@ -17,7 +17,7 @@ public class QueryMyInformationService {
     public QueryMyInformationResponse execute() {
         User user = userFacade.getCurrentUser();
         Section section = user.hasSection() ? user.getSection() : Section.builder().build();
-        School school = user.getSchool() != null ? user.getSchool() : School.builder().build();
+        School school = user.getSchool();
 
         return QueryMyInformationResponse.builder()
                 .name(user.getName())
