@@ -33,7 +33,6 @@ public class UpdateUserInfoService {
             challengeStatusRepository.deleteNotOverChallengeStatusByUserId(user.getId());
         }
 
-
     }
 
 }
