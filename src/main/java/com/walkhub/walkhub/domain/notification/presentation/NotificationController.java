@@ -1,9 +1,11 @@
 package com.walkhub.walkhub.domain.notification.presentation;
 
 import com.walkhub.walkhub.domain.notification.presentation.dto.request.SubscribeRequest;
+import com.walkhub.walkhub.domain.notification.presentation.dto.response.NotificationWhetherResponse;
 import com.walkhub.walkhub.domain.notification.presentation.dto.response.QueryNotificationListResponse;
 import com.walkhub.walkhub.domain.notification.service.NotificationReadService;
 import com.walkhub.walkhub.domain.notification.service.QueryNotificationListService;
+import com.walkhub.walkhub.domain.notification.service.QueryNotificationWhetherListService;
 import com.walkhub.walkhub.infrastructure.fcm.FcmUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,7 @@ public class NotificationController {
     private final NotificationReadService notificationReadService;
     private final QueryNotificationListService queryNotificationListService;
     private final FcmUtil fcmUtil;
+    private final QueryNotificationWhetherListService queryNotificationWhetherListService;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/{notification-id}")
@@ -40,6 +43,11 @@ public class NotificationController {
     @PatchMapping("/on")
     public void subscribeTopic(@RequestBody @Valid SubscribeRequest request) {
         fcmUtil.subscribeTopic(request);
+    }
+
+    @GetMapping("/status")
+    public NotificationWhetherResponse notificationWhether() {
+        return queryNotificationWhetherListService.execute();
     }
 
 }
