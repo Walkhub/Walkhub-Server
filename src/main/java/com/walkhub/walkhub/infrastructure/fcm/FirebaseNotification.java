@@ -94,7 +94,7 @@ public class FirebaseNotification implements FcmUtil {
                                 .setSound("default")
                                 .build())
                         .build())
-                .setTopic((request.getType().toString()))
+                .setTopic((request.getTopic().toString()))
                 .build();
         FirebaseMessaging.getInstance().sendAsync(message);
     }
