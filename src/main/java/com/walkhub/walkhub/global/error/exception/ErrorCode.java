@@ -44,8 +44,10 @@ public enum ErrorCode {
     NOTICE_NOT_FOUND(404, "NOTICE-404-1", "Notice Not Found"),
     SOCKET_CLIENT_NOT_FOUND(404, "SOCKET-404-1", "Socket Client Not Found"),
     BADGE_NOT_FOUND(404, "BADGE-404-1", "Badge Not Found"),
-    NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification Not Found."),
     CALORIE_LEVEL_NOT_FOUND(404, "CALORIE_LEVEL-404-1", "Calorie Level Not Found"),
+
+    NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification Not Found."),
+    TOPIC_NOT_FOUND(404, "NOTIFICATION-404-2", "Topic Not Found"),
 
     SCHOOL_ROOT_EXISTS(409, "SCHOOL-409-1", "School Root Exists"),
     ALREADY_CREATED(409, "SECTION-409-1", "Already Created"),
