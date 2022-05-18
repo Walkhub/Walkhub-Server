@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.notification.presentation.dto.request;
 
-import com.walkhub.walkhub.domain.notification.domain.type.NotificationType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +14,6 @@ public class SubscribeRequest {
     private List<Long> userIdList;
 
     @NotNull(message = "topic은 Null일 수 없습니다.")
-    private NotificationType type;
+    private String type;
 
 }
