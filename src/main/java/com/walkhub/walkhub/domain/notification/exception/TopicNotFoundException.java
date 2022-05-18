@@ -8,7 +8,7 @@ public class TopicNotFoundException extends WalkhubException {
     public static final WalkhubException EXCEPTION =
             new TopicNotFoundException();
 
-    public TopicNotFoundException() {
+    private TopicNotFoundException() {
         super(ErrorCode.TOPIC_NOT_FOUND);
     }
 }

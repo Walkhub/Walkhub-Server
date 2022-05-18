@@ -38,15 +38,15 @@ public class NotificationEntity extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_id", nullable = false)
-    private Topic type;
+    private Topic topic;
 
     @Builder
-    public NotificationEntity(String title, String content, String data, UserScope userScope, Topic type) {
+    public NotificationEntity(String title, String content, String data, UserScope userScope, Topic topic) {
         this.title = title;
         this.content = content;
         this.data = data;
         this.userScope = userScope;
-        this.type = type;
+        this.topic = topic;
     }
 
 }

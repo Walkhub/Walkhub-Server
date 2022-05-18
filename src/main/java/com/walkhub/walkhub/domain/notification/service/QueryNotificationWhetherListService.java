@@ -22,7 +22,7 @@ public class QueryNotificationWhetherListService {
     public NotificationWhetherResponse execute() {
         User user = userFacade.getCurrentUser();
 
-        List<WhetherResponse> whetherList = topicRepository.findByUser(user)
+        List<WhetherResponse> whetherList = topicRepository.findAllByUser(user)
                 .stream()
                 .map(this::topicWhetherBuilder)
                 .collect(Collectors.toList());
