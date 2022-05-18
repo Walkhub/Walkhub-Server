@@ -2,10 +2,7 @@ package com.walkhub.walkhub.domain.notification.service;
 
 import com.walkhub.walkhub.domain.notification.domain.NotificationEntity;
 import com.walkhub.walkhub.domain.notification.domain.NotificationList;
-import com.walkhub.walkhub.domain.notification.domain.Topic;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationListRepository;
-import com.walkhub.walkhub.domain.notification.domain.repository.TopicRepository;
-import com.walkhub.walkhub.domain.notification.facade.TopicFacade;
 import com.walkhub.walkhub.domain.notification.presentation.dto.response.QueryNotificationListResponse;
 import com.walkhub.walkhub.domain.notification.presentation.dto.response.QueryNotificationListResponse.NotificationResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
