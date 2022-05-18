@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TopicRepository extends CrudRepository<Topic, Long> {
-    List<Topic> findByUser(User user);
+    List<Topic> findAllByUser(User user);
 
     Optional<Topic> findByTitle(String title);
 
