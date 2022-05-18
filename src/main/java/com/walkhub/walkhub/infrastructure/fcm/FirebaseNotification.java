@@ -73,7 +73,7 @@ public class FirebaseNotification implements FcmUtil {
                 NotificationEntity.builder()
                         .title(request.getTitle())
                         .content(request.getContent())
-                        .type(request.getType())
+                        .topic(request.getTopic())
                         .data(request.getData())
                         .userScope(request.getUserScope())
                         .build()
