@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.notification.presentation.dto.response;
 
+import com.walkhub.walkhub.domain.notification.domain.type.NotificationType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,13 +11,13 @@ import java.util.List;
 @AllArgsConstructor
 public class NotificationStatusResponse {
 
-    private final List<WhetherResponse> whetherResponseList;
+    private final List<StatusResponse> statusResponseList;
 
     @Getter
     @Builder
-    public static class WhetherResponse {
+    public static class StatusResponse {
         private final Long id;
-        private final String title;
+        private final NotificationType type;
         private final Boolean isSubscribe;
     }
 

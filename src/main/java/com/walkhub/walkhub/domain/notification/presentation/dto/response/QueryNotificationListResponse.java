@@ -1,5 +1,6 @@
 package com.walkhub.walkhub.domain.notification.presentation.dto.response;
 
+import com.walkhub.walkhub.domain.notification.domain.type.NotificationType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +20,7 @@ public class QueryNotificationListResponse {
         private final Long id;
         private final String title;
         private final String content;
-        private final String type;
+        private final NotificationType type;
         private final String data;
         private final Boolean isRead;
         private final Writer writer;
