@@ -65,7 +65,7 @@ public class ExerciseAnalysisCacheRepositoryImpl implements ExerciseAnalysisCach
             for (TypedTuple<Object> tuple : rankUserIds) {
                 ExerciseAnalysisDto exerciseAnalysisDto = ExerciseAnalysisDto.builder()
                         .walkCount(Objects.requireNonNull(tuple.getScore()).intValue())
-                        .userId(Long.parseLong(Objects.requireNonNull(tuple.getValue()).toString()))
+                        .userId(Long.valueOf(String.valueOf(tuple.getValue())))
                         .ranking(rank)
                         .build();
                 exerciseAnalysisDtos.add(exerciseAnalysisDto);
