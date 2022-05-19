@@ -68,7 +68,7 @@ public class QueryUserRankListByMySchoolService {
 
         UserRankResponse myRank = buildWeekOrMonthMyRank(user.getId(), grade, classNum, dateType, date);
         List<UserRankVO> usersWeekOrMonthRank =
-                userRankRepository.getUserRankListBySchoolId(user.getSchool().getId(), grade, classNum, dateType, date);
+                userRankRepository.getUserRankListBySchoolId(user.getUserSchoolId(), grade, classNum, dateType, date);
         List<UserRankResponse> userRankList =
                 userRankFacade.buildWeekOrMonthUsersRankResponseWithIsMeasuring(usersWeekOrMonthRank);
 
