@@ -13,7 +13,7 @@ public class TopicFacade {
 
     private final TopicRepository topicRepository;
 
-    public Topic getTopicByTitle(NotificationType type) {
+    public Topic getTopicByType(NotificationType type) {
         return topicRepository.findByType(type)
                 .orElseThrow(() -> TopicNotFoundException.EXCEPTION);
     }

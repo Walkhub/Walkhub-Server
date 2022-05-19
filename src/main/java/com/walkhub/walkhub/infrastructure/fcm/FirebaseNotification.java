@@ -102,7 +102,7 @@ public class FirebaseNotification implements FcmUtil {
     @Override
     public void subscribeTopic(SubscribeRequest request) {
         List<User> userList = userRepository.findAllByIdIn(request.getUserIdList());
-        Topic topic = topicFacade.getTopicByTitle(request.getType());
+        Topic topic = topicFacade.getTopicByType(request.getType());
 
         try {
             for (int i = 0; i < userList.size() / 1000; i++) {
@@ -123,7 +123,7 @@ public class FirebaseNotification implements FcmUtil {
     @Override
     public void unSubscribeTopic(SubscribeRequest request) {
         List<User> userList = userRepository.findAllByIdIn(request.getUserIdList());
-        Topic topic = topicFacade.getTopicByTitle(request.getType());
+        Topic topic = topicFacade.getTopicByType(request.getType());
 
         try {
             for (int i = 0; i < userList.size() / 1000; i++) {
