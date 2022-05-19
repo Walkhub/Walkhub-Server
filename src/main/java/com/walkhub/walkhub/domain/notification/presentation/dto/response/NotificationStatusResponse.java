@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class NotificationWhetherResponse {
+public class NotificationStatusResponse {
 
     private final List<WhetherResponse> whetherResponseList;
 
