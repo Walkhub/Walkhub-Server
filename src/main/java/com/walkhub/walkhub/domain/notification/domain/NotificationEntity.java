@@ -1,6 +1,5 @@
 package com.walkhub.walkhub.domain.notification.domain;
 
-import com.walkhub.walkhub.domain.notification.domain.type.NotificationType;
 import com.walkhub.walkhub.global.entity.BaseTimeEntity;
 import com.walkhub.walkhub.global.enums.UserScope;
 import lombok.AccessLevel;
@@ -30,11 +29,6 @@ public class NotificationEntity extends BaseTimeEntity {
     private String content;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(length = 9)
-    private NotificationType type;
-
-    @NotNull
     private String data;
 
     @NotNull
@@ -42,13 +36,17 @@ public class NotificationEntity extends BaseTimeEntity {
     @Column(length = 6)
     private UserScope userScope;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "topic_id", nullable = false)
+    private Topic topic;
+
     @Builder
-    public NotificationEntity(String title, String content, NotificationType type, String data, UserScope userScope) {
+    public NotificationEntity(String title, String content, String data, UserScope userScope, Topic topic) {
         this.title = title;
         this.content = content;
-        this.type = type;
         this.data = data;
         this.userScope = userScope;
+        this.topic = topic;
     }
 
 }

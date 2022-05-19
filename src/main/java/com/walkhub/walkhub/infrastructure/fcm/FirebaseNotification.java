@@ -10,7 +10,9 @@ import com.walkhub.walkhub.domain.challenge.exception.ChallengeNotSuccessExcepti
 import com.walkhub.walkhub.domain.exercise.domain.Exercise;
 import com.walkhub.walkhub.domain.notice.domain.Notice;
 import com.walkhub.walkhub.domain.notification.domain.NotificationEntity;
+import com.walkhub.walkhub.domain.notification.domain.Topic;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationRepository;
+import com.walkhub.walkhub.domain.notification.facade.TopicFacade;
 import com.walkhub.walkhub.domain.notification.presentation.dto.request.SubscribeRequest;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
@@ -38,6 +40,7 @@ public class FirebaseNotification implements FcmUtil {
 
     private final UserRepository userRepository;
     private final NotificationRepository notificationRepository;
+    private final TopicFacade topicFacade;
 
     @Value("${firebase.path}")
     private String path;
@@ -70,7 +73,7 @@ public class FirebaseNotification implements FcmUtil {
                 NotificationEntity.builder()
                         .title(request.getTitle())
                         .content(request.getContent())
-                        .type(request.getType())
+                        .topic(request.getTopic())
                         .data(request.getData())
                         .userScope(request.getUserScope())
                         .build()
@@ -91,7 +94,7 @@ public class FirebaseNotification implements FcmUtil {
                                 .setSound("default")
                                 .build())
                         .build())
-                .setTopic((request.getType().toString()))
+                .setTopic((request.getTopic().toString()))
                 .build();
         FirebaseMessaging.getInstance().sendAsync(message);
     }
@@ -99,6 +102,7 @@ public class FirebaseNotification implements FcmUtil {
     @Override
     public void subscribeTopic(SubscribeRequest request) {
         List<User> userList = userRepository.findAllByIdIn(request.getUserIdList());
+        Topic topic = topicFacade.getTopicByType(request.getType());
 
         try {
             for (int i = 0; i < userList.size() / 1000; i++) {
@@ -108,7 +112,7 @@ public class FirebaseNotification implements FcmUtil {
 
                 FirebaseMessaging.getInstance(FirebaseApp.getInstance())
                         .subscribeToTopic(
-                                deviceTokenListToSubscribe, request.getType().toString()
+                                deviceTokenListToSubscribe, topic.toString()
                         );
             }
         } catch (FirebaseMessagingException e) {
@@ -119,6 +123,7 @@ public class FirebaseNotification implements FcmUtil {
     @Override
     public void unSubscribeTopic(SubscribeRequest request) {
         List<User> userList = userRepository.findAllByIdIn(request.getUserIdList());
+        Topic topic = topicFacade.getTopicByType(request.getType());
 
         try {
             for (int i = 0; i < userList.size() / 1000; i++) {
@@ -128,7 +133,7 @@ public class FirebaseNotification implements FcmUtil {
 
                 FirebaseMessaging.getInstance(FirebaseApp.getInstance())
                         .unsubscribeFromTopic(
-                                deviceTokenListToSubscribe, request.getType().toString()
+                                deviceTokenListToSubscribe, topic.toString()
                         );
             }
         } catch (FirebaseMessagingException e) {
