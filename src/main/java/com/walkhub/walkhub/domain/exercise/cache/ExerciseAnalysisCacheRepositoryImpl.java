@@ -3,10 +3,16 @@ package com.walkhub.walkhub.domain.exercise.cache;
 import com.walkhub.walkhub.domain.exercise.exception.RedisTransactionException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Repository
@@ -36,7 +42,7 @@ public class ExerciseAnalysisCacheRepositoryImpl implements ExerciseAnalysisCach
         try {
             return ExerciseAnalysisDto.builder()
                     .walkCount(walkCount)
-                    .ranking(Objects.requireNonNull(ranking).intValue())
+                    .ranking(ranking == null ? 0 : Math.toIntExact(ranking) + 1)
                     .userId(userId)
                     .build();
         } catch (NullPointerException e) {
@@ -46,7 +52,7 @@ public class ExerciseAnalysisCacheRepositoryImpl implements ExerciseAnalysisCach
 
     @Override
     public List<ExerciseAnalysisDto> getUserIdsByRankTop100(Long schoolId) {
-        Set<ZSetOperations.TypedTuple<Object>> rankUserIds =
+        Set<TypedTuple<Object>> rankUserIds =
                 zSetOperations.reverseRangeWithScores(getExerciseAnalysisKey(schoolId), 0, 99);
         int rank = 1;
         if (rankUserIds == null) {
@@ -56,10 +62,10 @@ public class ExerciseAnalysisCacheRepositoryImpl implements ExerciseAnalysisCach
         List<ExerciseAnalysisDto> exerciseAnalysisDtos = new ArrayList<>(rankUserIds.size());
 
         try {
-            for (ZSetOperations.TypedTuple<Object> tuple : rankUserIds) {
+            for (TypedTuple<Object> tuple : rankUserIds) {
                 ExerciseAnalysisDto exerciseAnalysisDto = ExerciseAnalysisDto.builder()
                         .walkCount(Objects.requireNonNull(tuple.getScore()).intValue())
-                        .userId((Long) tuple.getValue())
+                        .userId(Long.parseLong(Objects.requireNonNull(tuple.getValue()).toString()))
                         .ranking(rank)
                         .build();
                 exerciseAnalysisDtos.add(exerciseAnalysisDto);
