@@ -46,7 +46,6 @@ public class QueryUserRankListByMySchoolService {
     }
 
     private UserRankListByMySchoolResponse buildDayRankResponse(User user) {
-
         UserRankResponse myRank = buildDayMyRank(user);
         List<UserRankResponse> userRankList = new ArrayList<>();
         List<ExerciseAnalysisDto> usersDayRank =
@@ -83,7 +82,10 @@ public class QueryUserRankListByMySchoolService {
         ExerciseAnalysisDto exerciseAnalysisDto =
                 exerciseAnalysisCacheRepository.getUserTodayRank(user.getUserSchoolId(), user.getId());
         if (exerciseAnalysisDto == null) {
-            return null;
+            exerciseAnalysisDto = ExerciseAnalysisDto.builder()
+                    .ranking(0)
+                    .walkCount(0)
+                    .build();
         }
 
         return UserRankResponse.builder()
