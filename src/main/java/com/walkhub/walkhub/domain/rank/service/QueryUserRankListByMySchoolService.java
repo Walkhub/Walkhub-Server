@@ -10,6 +10,8 @@ import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListByM
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListByMySchoolResponse.UserRankResponse;
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
+import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
+import com.walkhub.walkhub.domain.user.exception.UserNotFoundException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import com.walkhub.walkhub.global.enums.DateType;
@@ -65,7 +67,7 @@ public class QueryUserRankListByMySchoolService {
     private UserRankListByMySchoolResponse buildWeekOrMonthRankResponse(User user, Integer grade, Integer classNum,
                                                                         DateType dateType, LocalDate date) {
 
-        UserRankResponse myRank = buildWeekOrMonthMyRank(user.getId(), grade, classNum, dateType, date);
+        UserRankResponse myRank = buildWeekOrMonthMyRank(user, grade, classNum, dateType, date);
         List<UserRankVO> usersWeekOrMonthRank =
                 userRankRepository.getUserRankListBySchoolId(user.getUserSchoolId(), grade, classNum, dateType, date);
         List<UserRankResponse> userRankList =
@@ -111,11 +113,19 @@ public class QueryUserRankListByMySchoolService {
                 .build();
     }
 
-    private UserRankResponse buildWeekOrMonthMyRank(Long userId, Integer grade, Integer classNum, DateType dateType,
+    private UserRankResponse buildWeekOrMonthMyRank(User user, Integer grade, Integer classNum, DateType dateType,
                                                     LocalDate date) {
-        UserRankVO myRank = userRankRepository.getMyRankByUserId(userId, grade, classNum, dateType, date);
+
+        UserRankVO myRank = userRankRepository.getMyRankByUserId(user.getId(), grade, classNum, dateType, date);
         if (myRank == null) {
-            return null;
+            return UserRankResponse.builder()
+                    .userId(user.getId())
+                    .name(user.getName())
+                    .ranking(0)
+                    .profileImageUrl(user.getProfileImageUrl())
+                    .walkCount(0)
+                    .isMeasuring(user.getIsMeasuring())
+                    .build();
         }
 
         return UserRankResponse.builder()
@@ -124,7 +134,7 @@ public class QueryUserRankListByMySchoolService {
                 .ranking(myRank.getRanking())
                 .profileImageUrl(myRank.getProfileImageUrl())
                 .walkCount(myRank.getWalkCount())
-                .isMeasuring(userRankFacade.isMeasuringByUserId(userId))
+                .isMeasuring(userRankFacade.isMeasuringByUserId(user.getId()))
                 .build();
     }
 
