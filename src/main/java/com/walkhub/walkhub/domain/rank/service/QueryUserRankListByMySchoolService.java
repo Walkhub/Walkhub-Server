@@ -10,8 +10,6 @@ import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListByM
 import com.walkhub.walkhub.domain.rank.presentation.dto.response.UserRankListByMySchoolResponse.UserRankResponse;
 import com.walkhub.walkhub.domain.user.domain.Section;
 import com.walkhub.walkhub.domain.user.domain.User;
-import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
-import com.walkhub.walkhub.domain.user.exception.UserNotFoundException;
 import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.global.annotation.ServiceWithTransactionalReadOnly;
 import com.walkhub.walkhub.global.enums.DateType;
