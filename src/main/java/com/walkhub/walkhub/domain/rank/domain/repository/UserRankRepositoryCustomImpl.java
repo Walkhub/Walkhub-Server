@@ -16,12 +16,12 @@ import static com.walkhub.walkhub.domain.rank.domain.QUserRank.userRank;
 @RequiredArgsConstructor
 public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
 
-    private final JPAQueryFactory queryFactory;
     private static final Long LIMIT = 100L;
+    private final JPAQueryFactory queryFactory;
 
     @Override
     public UserRankVO getMyRankByUserId(Long userId, Integer grade, Integer classNum, DateType dateType,
-                                        LocalDate date) {
+                                        LocalDate date, UserRankScope scope) {
         return queryFactory
                 .select(new QUserRankVO(
                         userRank.userId,
@@ -35,21 +35,23 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
                         userIdEq(userId),
                         classNumEq(classNum),
                         dateTypeEq(dateType),
-                        createdAtEq(date)
+                        createdAtEq(date),
+                        scopeTypeEq(scope)
                 )
                 .fetchOne();
     }
 
     @Override
     public List<UserRankVO> getUserRankListBySchoolId(Long schoolId, Integer grade, Integer classNum,
-                                                      DateType dateType, LocalDate date) {
+                                                      DateType dateType, LocalDate date, UserRankScope scope) {
+
         return queryFactory
                 .select(new QUserRankVO(
                         userRank.userId,
                         userRank.name,
                         userRank.ranking,
                         userRank.profileImageUrl,
-                        userRank.walkCount
+                        userRank.walkCount가
                 ))
                 .from(userRank)
                 .where(
@@ -57,7 +59,8 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
                         gradeEq(grade),
                         classNumEq(classNum),
                         dateTypeEq(dateType),
-                        createdAtEq(date)
+                        createdAtEq(date),
+                        scopeTypeEq(scope)
                 )
                 .limit(LIMIT)
                 .orderBy(userRank.ranking.asc())
@@ -77,8 +80,7 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
     }
 
     private BooleanExpression classNumEq(Integer classNum) {
-        return classNum != null ? userRank.scopeType.eq(UserRankScope.CLASS).and(userRank.classNum.eq(classNum)) :
-                userRank.scopeType.eq(UserRankScope.SCHOOL);
+        return classNum != null ? userRank.scopeType.eq(UserRankScope.CLASS).and(userRank.classNum.eq(classNum)) : null;
     }
 
     private BooleanExpression dateTypeEq(DateType dateType) {
@@ -94,5 +96,9 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
 
     private BooleanExpression createdAtEq(LocalDate date) {
         return date != null ? userRank.createdAt.eq(date) : null;
+    }
+
+    private BooleanExpression scopeTypeEq(UserRankScope scope) {
+        return scope != null ? userRank.scopeType.eq(scope) : null;
     }
 }

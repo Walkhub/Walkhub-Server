@@ -35,11 +35,12 @@ public class QueryUserRankListByMySchoolService {
         if (DateType.DAY.equals(dateType)) {
             userRankListResponse = buildDayRankResponse(user);
         } else if (UserRankScope.SCHOOL.equals(scope)) {
-            userRankListResponse = buildWeekOrMonthRankResponse(user, null, null, dateType, date);
+            userRankListResponse =
+                    buildWeekOrMonthRankResponse(user, null, null, dateType, date, scope);
         } else if (UserRankScope.CLASS.equals(scope)) {
             Section userSection = user.hasSection() ? user.getSection() : Section.builder().build();
-            userRankListResponse = buildWeekOrMonthRankResponse(user, userSection.getGrade(),
-                    userSection.getClassNum(), dateType, date);
+            userRankListResponse =
+                    buildWeekOrMonthRankResponse(user, userSection.getGrade(), userSection.getClassNum(), dateType, date, scope);
         }
 
         return userRankListResponse;
@@ -48,11 +49,14 @@ public class QueryUserRankListByMySchoolService {
     private UserRankListByMySchoolResponse buildDayRankResponse(User user) {
         UserRankResponse myRank = buildDayMyRank(user);
         List<UserRankResponse> userRankList = new ArrayList<>();
-        List<ExerciseAnalysisDto> usersDayRank =
-                exerciseAnalysisCacheRepository.getUserIdsByRankTop100(user.getUserSchoolId());
+        List<ExerciseAnalysisDto> usersDayRank;
 
-        for (ExerciseAnalysisDto dayRank : usersDayRank) {
-            userRankList.add(buildDayUsersRank(dayRank));
+        if (user.hasSection()) {
+            usersDayRank = exerciseAnalysisCacheRepository.getUserIdsByRankTop100(user.getUserSchoolId());
+
+            for (ExerciseAnalysisDto dayRank : usersDayRank) {
+                userRankList.add(buildDayUsersRank(dayRank));
+            }
         }
 
         return UserRankListByMySchoolResponse.builder()
@@ -63,19 +67,35 @@ public class QueryUserRankListByMySchoolService {
     }
 
     private UserRankListByMySchoolResponse buildWeekOrMonthRankResponse(User user, Integer grade, Integer classNum,
-                                                                        DateType dateType, LocalDate date) {
+                                                                        DateType dateType, LocalDate date, UserRankScope scope) {
 
-        UserRankResponse myRank = buildWeekOrMonthMyRank(user, grade, classNum, dateType, date);
-        List<UserRankVO> usersWeekOrMonthRank =
-                userRankRepository.getUserRankListBySchoolId(user.getUserSchoolId(), grade, classNum, dateType, date);
-        List<UserRankResponse> userRankList =
-                userRankFacade.buildWeekOrMonthUsersRankResponseWithIsMeasuring(usersWeekOrMonthRank);
+        UserRankResponse myRank = buildWeekOrMonthMyRank(user, grade, classNum, dateType, scope, date);
+
+        List<UserRankResponse> userRankList = new ArrayList<>();
+
+        if (UserRankScope.CLASS != scope) {
+            userRankList = userRankList(user, grade, classNum, dateType, date, scope);
+        } else {
+            if (grade != null || classNum != null) {
+                userRankList = userRankList(user, grade, classNum, dateType, date, scope);
+            }
+        }
+
 
         return UserRankListByMySchoolResponse.builder()
                 .isJoinedClass(user.hasSection())
                 .myRanking(myRank)
                 .rankList(userRankList)
                 .build();
+    }
+
+    private List<UserRankResponse> userRankList(User user, Integer grade, Integer classNum, DateType dateType,
+                                                LocalDate date, UserRankScope scope) {
+
+        List<UserRankVO> usersWeekOrMonthRank =
+                userRankRepository.getUserRankListBySchoolId(user.getUserSchoolId(), grade, classNum, dateType, date, scope);
+
+        return userRankFacade.buildWeekOrMonthUsersRankResponseWithIsMeasuring(usersWeekOrMonthRank);
     }
 
     private UserRankResponse buildDayMyRank(User user) {
@@ -112,9 +132,9 @@ public class QueryUserRankListByMySchoolService {
     }
 
     private UserRankResponse buildWeekOrMonthMyRank(User user, Integer grade, Integer classNum, DateType dateType,
-                                                    LocalDate date) {
+                                                    UserRankScope scope, LocalDate date) {
 
-        UserRankVO myRank = userRankRepository.getMyRankByUserId(user.getId(), grade, classNum, dateType, date);
+        UserRankVO myRank = userRankRepository.getMyRankByUserId(user.getId(), grade, classNum, dateType, date, scope);
         if (myRank == null) {
             return UserRankResponse.builder()
                     .userId(user.getId())
