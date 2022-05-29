@@ -51,7 +51,7 @@ public class UserRankRepositoryCustomImpl implements UserRankRepositoryCustom {
                         userRank.name,
                         userRank.ranking,
                         userRank.profileImageUrl,
-                        userRank.walkCount가
+                        userRank.walkCount
                 ))
                 .from(userRank)
                 .where(
