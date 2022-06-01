@@ -21,7 +21,7 @@ public class UserAuthCodeService {
     @Async
     public void execute(UserAuthCodeRequest request) {
         String phoneNumber = request.getPhoneNumber();
-        String code = RandomCodeUtil.make(5);
+        String code = RandomCodeUtil.makeString(5);
 
         coolSms.sendCode(phoneNumber, code);
 
