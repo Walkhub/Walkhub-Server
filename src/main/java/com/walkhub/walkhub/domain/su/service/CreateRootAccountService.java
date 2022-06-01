@@ -24,7 +24,7 @@ public class CreateRootAccountService {
 
     @Transactional
     public RootAccountResponse execute(Long schoolId) {
-        String password = RandomCodeUtil.make(8);
+        String password = RandomCodeUtil.makeString(8);
         School school = schoolFacade.getSchoolById(schoolId);
         String suAccount = school.getName() + "_admin";
 

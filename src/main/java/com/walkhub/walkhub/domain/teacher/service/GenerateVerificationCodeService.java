@@ -18,7 +18,7 @@ public class GenerateVerificationCodeService {
     public CodeResponse execute() {
         User user = userFacade.getCurrentUser();
 
-        String verificationCode = RandomCodeUtil.make(7);
+        String verificationCode = RandomCodeUtil.makeString(7);
 
         user.getSchool().setAuthCode(verificationCode);
 

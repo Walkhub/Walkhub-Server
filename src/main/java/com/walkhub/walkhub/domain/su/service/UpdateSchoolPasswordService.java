@@ -28,7 +28,7 @@ public class UpdateSchoolPasswordService {
         User user = userRepository.findBySchoolAndAuthority(school, Authority.ROOT)
                 .orElseThrow(() -> SchoolRootUserNotFoundException.EXCEPTION);
 
-        String updatedPassword = RandomCodeUtil.make(8);
+        String updatedPassword = RandomCodeUtil.makeString(8);
         user.updateRootUserPassword(passwordEncoder.encode(updatedPassword));
 
         return RootAccountResponse.builder()
