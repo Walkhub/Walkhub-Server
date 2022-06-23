@@ -25,13 +25,13 @@ public class QueryNotificationStatusListService {
 
         List<StatusResponse> whetherList = topicListRepository.findAllByIdUser(user)
                 .stream()
-                .map(this::topicWhetherBuilder)
+                .map(this::topicStatusBuilder)
                 .collect(Collectors.toList());
 
         return new NotificationStatusResponse(whetherList);
     }
 
-    private StatusResponse topicWhetherBuilder(TopicList topicList) {
+    private StatusResponse topicStatusBuilder(TopicList topicList) {
 
         Topic topic = topicList.getId().getTopic();
         return StatusResponse.builder()
