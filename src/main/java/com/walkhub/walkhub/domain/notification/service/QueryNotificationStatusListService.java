@@ -37,7 +37,7 @@ public class QueryNotificationStatusListService {
         return StatusResponse.builder()
                 .id(topic.getId())
                 .type(topic.getType())
-                .isSubscribe(topic.getIsSubscribe())
+                .isSubscribe(topicList.getId().getIsSubscribe())
                 .build();
     }
 

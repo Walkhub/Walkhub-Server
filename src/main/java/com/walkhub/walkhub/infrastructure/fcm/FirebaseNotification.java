@@ -11,11 +11,18 @@ import com.walkhub.walkhub.domain.exercise.domain.Exercise;
 import com.walkhub.walkhub.domain.notice.domain.Notice;
 import com.walkhub.walkhub.domain.notification.domain.NotificationEntity;
 import com.walkhub.walkhub.domain.notification.domain.Topic;
+import com.walkhub.walkhub.domain.notification.domain.TopicList;
+import com.walkhub.walkhub.domain.notification.domain.TopicListId;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationRepository;
+import com.walkhub.walkhub.domain.notification.domain.repository.TopicListRepository;
+import com.walkhub.walkhub.domain.notification.domain.repository.TopicRepository;
+import com.walkhub.walkhub.domain.notification.domain.type.NotificationType;
+import com.walkhub.walkhub.domain.notification.exception.TopicNotFoundException;
 import com.walkhub.walkhub.domain.notification.facade.TopicFacade;
 import com.walkhub.walkhub.domain.notification.presentation.dto.request.SubscribeRequest;
 import com.walkhub.walkhub.domain.user.domain.User;
 import com.walkhub.walkhub.domain.user.domain.repository.UserRepository;
+import com.walkhub.walkhub.domain.user.facade.UserFacade;
 import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationInformation;
 import com.walkhub.walkhub.infrastructure.fcm.dto.request.NotificationRequest;
 import com.walkhub.walkhub.infrastructure.fcm.type.ContentType;
@@ -40,7 +47,10 @@ public class FirebaseNotification implements FcmUtil {
 
     private final UserRepository userRepository;
     private final NotificationRepository notificationRepository;
+    private final TopicRepository topicRepository;
+    private final TopicListRepository topicListRepository;
     private final TopicFacade topicFacade;
+    private final UserFacade userFacade;
 
     @Value("${firebase.path}")
     private String path;
@@ -115,6 +125,9 @@ public class FirebaseNotification implements FcmUtil {
                                 deviceTokenListToSubscribe, topic.toString()
                         );
             }
+
+            isSubscribeTopic(request.getType());
+
         } catch (FirebaseMessagingException e) {
             log.error(e.getMessage());
         }
@@ -136,6 +149,9 @@ public class FirebaseNotification implements FcmUtil {
                                 deviceTokenListToSubscribe, topic.toString()
                         );
             }
+
+            isUnSubscribeTopic(request.getType());
+
         } catch (FirebaseMessagingException e) {
             log.error(e.getMessage());
         }
@@ -192,6 +208,36 @@ public class FirebaseNotification implements FcmUtil {
                 notificationBuilder(NotificationInformation.noticeNotificationInformation(notice),
                         " [ " + notice.getTitle() + " ] " + ContentType.CREATE_NOTICE.getContent())
         );
+    }
+
+    private void isSubscribeTopic(NotificationType type) {
+        User user = userFacade.getCurrentUser();
+        Topic topic = topicFacade.getTopicByType(type);
+
+        TopicListId topicListId = TopicListId.builder()
+                .topic(topic)
+                .user(user)
+                .build();
+
+        TopicList topicList = topicListRepository.findById(topicListId)
+                .orElseThrow(() -> TopicNotFoundException.EXCEPTION);
+
+        topicList.getId().isSubscribeTopic();
+    }
+
+    private void isUnSubscribeTopic(NotificationType type) {
+        User user = userFacade.getCurrentUser();
+        Topic topic = topicFacade.getTopicByType(type);
+
+        TopicListId topicListId = TopicListId.builder()
+                .topic(topic)
+                .user(user)
+                .build();
+
+        TopicList topicList = topicListRepository.findById(topicListId)
+                .orElseThrow(() -> TopicNotFoundException.EXCEPTION);
+
+        topicList.getId().isUnSubscribeTopic();
     }
 
 }
