@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.validator.constraints.Length;
 
@@ -27,12 +26,10 @@ public class Topic {
     @Length(max = 20)
     private NotificationType type;
 
-    @ColumnDefault("0")
-    private Boolean isSubscribe;
+
 
     @Builder
-    public Topic(NotificationType type, Boolean isSubscribe) {
+    public Topic(NotificationType type) {
         this.type = type;
-        this.isSubscribe = isSubscribe;
     }
 }

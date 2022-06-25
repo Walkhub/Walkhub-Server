@@ -2,11 +2,9 @@ package com.walkhub.walkhub.domain.notification.domain;
 
 import com.walkhub.walkhub.domain.user.domain.User;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.Embeddable;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Getter
@@ -23,9 +21,23 @@ public class TopicListId implements Serializable {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @ColumnDefault("0")
+    @Column(nullable = false)
+    private Boolean isSubscribe;
+
     @Builder
-    public TopicListId(Topic topic, User user) {
+    public TopicListId(Topic topic, User user, Boolean isSubscribe) {
         this.topic = topic;
         this.user = user;
+        this.isSubscribe = isSubscribe;
     }
+
+    public void isSubscribeTopic() {
+        this.isSubscribe = true;
+    }
+
+    public void isUnSubscribeTopic() {
+        this.isSubscribe = false;
+    }
+
 }
