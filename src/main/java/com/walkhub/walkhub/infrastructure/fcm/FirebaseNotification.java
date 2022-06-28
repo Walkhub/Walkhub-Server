@@ -15,7 +15,6 @@ import com.walkhub.walkhub.domain.notification.domain.TopicList;
 import com.walkhub.walkhub.domain.notification.domain.TopicListId;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationRepository;
 import com.walkhub.walkhub.domain.notification.domain.repository.TopicListRepository;
-import com.walkhub.walkhub.domain.notification.domain.repository.TopicRepository;
 import com.walkhub.walkhub.domain.notification.domain.type.NotificationType;
 import com.walkhub.walkhub.domain.notification.exception.TopicNotFoundException;
 import com.walkhub.walkhub.domain.notification.facade.TopicFacade;
@@ -33,6 +32,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -47,7 +47,6 @@ public class FirebaseNotification implements FcmUtil {
 
     private final UserRepository userRepository;
     private final NotificationRepository notificationRepository;
-    private final TopicRepository topicRepository;
     private final TopicListRepository topicListRepository;
     private final TopicFacade topicFacade;
     private final UserFacade userFacade;
@@ -108,52 +107,46 @@ public class FirebaseNotification implements FcmUtil {
                 .build();
         FirebaseMessaging.getInstance().sendAsync(message);
     }
-
+    @Transactional
     @Override
     public void subscribeTopic(SubscribeRequest request) {
-        List<User> userList = userRepository.findAllByIdIn(request.getUserIdList());
-        Topic topic = topicFacade.getTopicByType(request.getType());
-
-        try {
-            for (int i = 0; i < userList.size() / 1000; i++) {
-                List<String> deviceTokenListToSubscribe = userList.subList(i * 1000, 1000 * i + 1000)
-                        .stream().map(User::getDeviceToken)
-                        .collect(Collectors.toList());
-
-                FirebaseMessaging.getInstance(FirebaseApp.getInstance())
-                        .subscribeToTopic(
-                                deviceTokenListToSubscribe, topic.toString()
-                        );
-            }
-
-            isSubscribeTopic(request.getType());
-
-        } catch (FirebaseMessagingException e) {
-            log.error(e.getMessage());
-        }
+        topicEventDriven(request, true);
     }
 
+    @Transactional
     @Override
     public void unSubscribeTopic(SubscribeRequest request) {
+        topicEventDriven(request, false);
+    }
+
+    private void topicEventDriven(SubscribeRequest request, boolean isSubscribing) {
         List<User> userList = userRepository.findAllByIdIn(request.getUserIdList());
         Topic topic = topicFacade.getTopicByType(request.getType());
 
-        try {
-            for (int i = 0; i < userList.size() / 1000; i++) {
-                List<String> deviceTokenListToSubscribe = userList.subList(i * 1000, 1000 * i + 1000)
-                        .stream().map(User::getDeviceToken)
-                        .collect(Collectors.toList());
+        instanceTopic(userList, topic, isSubscribing);
+    }
 
-                FirebaseMessaging.getInstance(FirebaseApp.getInstance())
-                        .unsubscribeFromTopic(
-                                deviceTokenListToSubscribe, topic.toString()
-                        );
+    private void instanceTopic(List<User> userList, Topic topic, boolean isVisitor) {
+        for (int i = 0; i < userList.size() / 1000; i++) {
+            List<String> deviceTokenListToSubscribe = userList.subList(i * 1000, 1000 * i + 1000)
+                    .stream().map(User::getDeviceToken)
+                    .collect(Collectors.toList());
+
+            FirebaseMessaging instance = FirebaseMessaging.getInstance(FirebaseApp.getInstance());
+
+            try {
+                if (isVisitor) {
+                    instance.subscribeToTopic(deviceTokenListToSubscribe, topic.toString());
+                    isSubscribeEventDriven(topic, isVisitor);
+                } else {
+                    instance.unsubscribeFromTopic(deviceTokenListToSubscribe, topic.toString());
+                    isSubscribeEventDriven(topic, isVisitor);
+                }
+            } catch (FirebaseMessagingException e) {
+                log.error(e.getMessage());
             }
 
-            isUnSubscribeTopic(request.getType());
-
-        } catch (FirebaseMessagingException e) {
-            log.error(e.getMessage());
+//            test3(topic, xxx);
         }
     }
 
@@ -238,6 +231,24 @@ public class FirebaseNotification implements FcmUtil {
                 .orElseThrow(() -> TopicNotFoundException.EXCEPTION);
 
         topicList.getId().isUnSubscribeTopic();
+    }
+
+    private void isSubscribeEventDriven(Topic topic, boolean xxx) {
+        User user = userFacade.getCurrentUser();
+
+        TopicListId topicListId = TopicListId.builder()
+                .topic(topic)
+                .user(user)
+                .build();
+
+        topicListRepository.findById(topicListId)
+                .orElseThrow(() -> TopicNotFoundException.EXCEPTION);
+
+        if (xxx) {
+            topicListId.isSubscribeTopic();
+        } else {
+            topicListId.isUnSubscribeTopic();
+        }
     }
 
 }
