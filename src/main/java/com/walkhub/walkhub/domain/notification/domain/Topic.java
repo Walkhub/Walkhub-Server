@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@DynamicInsert
 @Entity
 public class Topic {
 
@@ -25,8 +24,6 @@ public class Topic {
     @Enumerated(EnumType.STRING)
     @Length(max = 20)
     private NotificationType type;
-
-
 
     @Builder
     public Topic(NotificationType type) {
