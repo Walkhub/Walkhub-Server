@@ -3,6 +3,7 @@ package com.walkhub.walkhub.domain.notification.domain;
 import com.walkhub.walkhub.domain.user.domain.User;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.io.Serializable;
 @Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicInsert
 @EqualsAndHashCode
 public class TopicListId implements Serializable {
 
