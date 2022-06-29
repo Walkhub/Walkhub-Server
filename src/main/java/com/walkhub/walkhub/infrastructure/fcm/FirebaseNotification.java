@@ -203,36 +203,6 @@ public class FirebaseNotification implements FcmUtil {
         );
     }
 
-    private void isSubscribeTopic(NotificationType type) {
-        User user = userFacade.getCurrentUser();
-        Topic topic = topicFacade.getTopicByType(type);
-
-        TopicListId topicListId = TopicListId.builder()
-                .topic(topic)
-                .user(user)
-                .build();
-
-        TopicList topicList = topicListRepository.findById(topicListId)
-                .orElseThrow(() -> TopicNotFoundException.EXCEPTION);
-
-        topicList.getId().isSubscribeTopic();
-    }
-
-    private void isUnSubscribeTopic(NotificationType type) {
-        User user = userFacade.getCurrentUser();
-        Topic topic = topicFacade.getTopicByType(type);
-
-        TopicListId topicListId = TopicListId.builder()
-                .topic(topic)
-                .user(user)
-                .build();
-
-        TopicList topicList = topicListRepository.findById(topicListId)
-                .orElseThrow(() -> TopicNotFoundException.EXCEPTION);
-
-        topicList.getId().isUnSubscribeTopic();
-    }
-
     private void isSubscribeEventDriven(Topic topic, boolean xxx) {
         User user = userFacade.getCurrentUser();
 
