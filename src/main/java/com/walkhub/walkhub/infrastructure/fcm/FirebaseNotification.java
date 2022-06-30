@@ -11,6 +11,7 @@ import com.walkhub.walkhub.domain.exercise.domain.Exercise;
 import com.walkhub.walkhub.domain.notice.domain.Notice;
 import com.walkhub.walkhub.domain.notification.domain.NotificationEntity;
 import com.walkhub.walkhub.domain.notification.domain.Topic;
+import com.walkhub.walkhub.domain.notification.domain.TopicList;
 import com.walkhub.walkhub.domain.notification.domain.TopicListId;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationRepository;
 import com.walkhub.walkhub.domain.notification.domain.repository.TopicListRepository;
@@ -156,13 +157,13 @@ public class FirebaseNotification implements FcmUtil {
                 .user(user)
                 .build();
 
-        topicListRepository.findById(topicListId)
+        TopicList topicList = topicListRepository.findById(topicListId)
                 .orElseThrow(() -> TopicNotFoundException.EXCEPTION);
 
         if (isSubscribing) {
-            topicListId.subscribeTopic();
+            topicList.getId().subscribeTopic();
         } else {
-            topicListId.snSubscribeTopic();
+            topicList.getId().snSubscribeTopic();
         }
     }
 
