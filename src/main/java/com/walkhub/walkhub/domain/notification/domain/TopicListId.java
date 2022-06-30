@@ -34,11 +34,11 @@ public class TopicListId implements Serializable {
         this.isSubscribe = isSubscribe;
     }
 
-    public void SubscribeTopic() {
+    public void subscribeTopic() {
         this.isSubscribe = true;
     }
 
-    public void UnSubscribeTopic() {
+    public void snSubscribeTopic() {
         this.isSubscribe = false;
     }
 

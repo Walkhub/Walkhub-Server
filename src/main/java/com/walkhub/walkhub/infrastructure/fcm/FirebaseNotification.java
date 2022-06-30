@@ -160,9 +160,9 @@ public class FirebaseNotification implements FcmUtil {
                 .orElseThrow(() -> TopicNotFoundException.EXCEPTION);
 
         if (isSubscribing) {
-            topicListId.SubscribeTopic();
+            topicListId.subscribeTopic();
         } else {
-            topicListId.UnSubscribeTopic();
+            topicListId.snSubscribeTopic();
         }
     }
 
