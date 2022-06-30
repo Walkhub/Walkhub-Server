@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Getter
+@Builder
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
@@ -27,18 +28,17 @@ public class TopicListId implements Serializable {
     @Column(nullable = false)
     private Boolean isSubscribe;
 
-    @Builder
     public TopicListId(Topic topic, User user, Boolean isSubscribe) {
         this.topic = topic;
         this.user = user;
         this.isSubscribe = isSubscribe;
     }
 
-    public void isSubscribeTopic() {
+    public void SubscribeTopic() {
         this.isSubscribe = true;
     }
 
-    public void isUnSubscribeTopic() {
+    public void UnSubscribeTopic() {
         this.isSubscribe = false;
     }
 
