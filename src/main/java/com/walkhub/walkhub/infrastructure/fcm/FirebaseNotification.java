@@ -11,11 +11,9 @@ import com.walkhub.walkhub.domain.exercise.domain.Exercise;
 import com.walkhub.walkhub.domain.notice.domain.Notice;
 import com.walkhub.walkhub.domain.notification.domain.NotificationEntity;
 import com.walkhub.walkhub.domain.notification.domain.Topic;
-import com.walkhub.walkhub.domain.notification.domain.TopicList;
 import com.walkhub.walkhub.domain.notification.domain.TopicListId;
 import com.walkhub.walkhub.domain.notification.domain.repository.NotificationRepository;
 import com.walkhub.walkhub.domain.notification.domain.repository.TopicListRepository;
-import com.walkhub.walkhub.domain.notification.domain.type.NotificationType;
 import com.walkhub.walkhub.domain.notification.exception.TopicNotFoundException;
 import com.walkhub.walkhub.domain.notification.facade.TopicFacade;
 import com.walkhub.walkhub.domain.notification.presentation.dto.request.SubscribeRequest;
@@ -107,26 +105,27 @@ public class FirebaseNotification implements FcmUtil {
                 .build();
         FirebaseMessaging.getInstance().sendAsync(message);
     }
+
     @Transactional
     @Override
     public void subscribeTopic(SubscribeRequest request) {
-        topicEventDriven(request, true);
+        subscribeToQueriedTopics(request, true);
     }
 
     @Transactional
     @Override
     public void unSubscribeTopic(SubscribeRequest request) {
-        topicEventDriven(request, false);
+        subscribeToQueriedTopics(request, false);
     }
 
-    private void topicEventDriven(SubscribeRequest request, boolean isSubscribing) {
+    private void subscribeToQueriedTopics(SubscribeRequest request, boolean isSubscribing) {
         List<User> userList = userRepository.findAllByIdIn(request.getUserIdList());
         Topic topic = topicFacade.getTopicByType(request.getType());
 
-        instanceTopic(userList, topic, isSubscribing);
+        subscribeTopicInFirebase(userList, topic, isSubscribing);
     }
 
-    private void instanceTopic(List<User> userList, Topic topic, boolean isVisitor) {
+    private void subscribeTopicInFirebase(List<User> userList, Topic topic, boolean isSubscribing) {
         for (int i = 0; i < userList.size() / 1000; i++) {
             List<String> deviceTokenListToSubscribe = userList.subList(i * 1000, 1000 * i + 1000)
                     .stream().map(User::getDeviceToken)
@@ -135,18 +134,35 @@ public class FirebaseNotification implements FcmUtil {
             FirebaseMessaging instance = FirebaseMessaging.getInstance(FirebaseApp.getInstance());
 
             try {
-                if (isVisitor) {
+                if (isSubscribing) {
                     instance.subscribeToTopic(deviceTokenListToSubscribe, topic.toString());
-                    isSubscribeEventDriven(topic, isVisitor);
+                    subscribeTopicEntity(topic, isSubscribing);
                 } else {
                     instance.unsubscribeFromTopic(deviceTokenListToSubscribe, topic.toString());
-                    isSubscribeEventDriven(topic, isVisitor);
+                    subscribeTopicEntity(topic, isSubscribing);
                 }
             } catch (FirebaseMessagingException e) {
                 log.error(e.getMessage());
             }
 
-//            test3(topic, xxx);
+        }
+    }
+
+    private void subscribeTopicEntity(Topic topic, boolean isSubscribing) {
+        User user = userFacade.getCurrentUser();
+
+        TopicListId topicListId = TopicListId.builder()
+                .topic(topic)
+                .user(user)
+                .build();
+
+        topicListRepository.findById(topicListId)
+                .orElseThrow(() -> TopicNotFoundException.EXCEPTION);
+
+        if (isSubscribing) {
+            topicListId.SubscribeTopic();
+        } else {
+            topicListId.UnSubscribeTopic();
         }
     }
 
@@ -201,24 +217,6 @@ public class FirebaseNotification implements FcmUtil {
                 notificationBuilder(NotificationInformation.noticeNotificationInformation(notice),
                         " [ " + notice.getTitle() + " ] " + ContentType.CREATE_NOTICE.getContent())
         );
-    }
-
-    private void isSubscribeEventDriven(Topic topic, boolean xxx) {
-        User user = userFacade.getCurrentUser();
-
-        TopicListId topicListId = TopicListId.builder()
-                .topic(topic)
-                .user(user)
-                .build();
-
-        topicListRepository.findById(topicListId)
-                .orElseThrow(() -> TopicNotFoundException.EXCEPTION);
-
-        if (xxx) {
-            topicListId.isSubscribeTopic();
-        } else {
-            topicListId.isUnSubscribeTopic();
-        }
     }
 
 }
