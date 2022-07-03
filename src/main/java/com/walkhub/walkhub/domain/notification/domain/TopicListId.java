@@ -12,6 +12,7 @@ import java.io.Serializable;
 @Builder
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @DynamicInsert
 @EqualsAndHashCode
 public class TopicListId implements Serializable {
@@ -27,12 +28,6 @@ public class TopicListId implements Serializable {
     @ColumnDefault("0")
     @Column(nullable = false)
     private Boolean isSubscribe;
-
-    public TopicListId(Topic topic, User user, Boolean isSubscribe) {
-        this.topic = topic;
-        this.user = user;
-        this.isSubscribe = isSubscribe;
-    }
 
     public void subscribeTopic() {
         this.isSubscribe = true;
