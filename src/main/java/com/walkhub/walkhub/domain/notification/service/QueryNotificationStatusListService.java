@@ -1,7 +1,8 @@
 package com.walkhub.walkhub.domain.notification.service;
 
 import com.walkhub.walkhub.domain.notification.domain.Topic;
-import com.walkhub.walkhub.domain.notification.domain.repository.TopicRepository;
+import com.walkhub.walkhub.domain.notification.domain.TopicList;
+import com.walkhub.walkhub.domain.notification.domain.repository.TopicListRepository;
 import com.walkhub.walkhub.domain.notification.presentation.dto.response.NotificationStatusResponse;
 import com.walkhub.walkhub.domain.notification.presentation.dto.response.NotificationStatusResponse.StatusResponse;
 import com.walkhub.walkhub.domain.user.domain.User;
@@ -17,24 +18,26 @@ import java.util.stream.Collectors;
 public class QueryNotificationStatusListService {
 
     private final UserFacade userFacade;
-    private final TopicRepository topicRepository;
+    private final TopicListRepository topicListRepository;
 
     public NotificationStatusResponse execute() {
         User user = userFacade.getCurrentUser();
 
-        List<StatusResponse> whetherList = topicRepository.findAllByUser(user)
+        List<StatusResponse> whetherList = topicListRepository.findAllByIdUser(user)
                 .stream()
-                .map(this::topicWhetherBuilder)
+                .map(this::topicStatusBuilder)
                 .collect(Collectors.toList());
 
         return new NotificationStatusResponse(whetherList);
     }
 
-    private StatusResponse topicWhetherBuilder(Topic topic) {
+    private StatusResponse topicStatusBuilder(TopicList topicList) {
+
+        Topic topic = topicList.getId().getTopic();
         return StatusResponse.builder()
                 .id(topic.getId())
                 .type(topic.getType())
-                .isSubscribe(topic.getIsSubscribe())
+                .isSubscribe(topicList.getId().getIsSubscribe())
                 .build();
     }
 

@@ -36,7 +36,7 @@ public class NotificationController {
     }
 
     @PatchMapping
-    public void unSubscribeTopic(@RequestBody @Valid  SubscribeRequest request) {
+    public void unSubscribeTopic(@RequestBody @Valid SubscribeRequest request) {
         fcmUtil.unSubscribeTopic(request);
     }
 
